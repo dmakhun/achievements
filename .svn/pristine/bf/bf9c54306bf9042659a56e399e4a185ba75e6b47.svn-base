@@ -1,0 +1,103 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="menu.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Groups</title>
+<link rel="stylesheet"
+    href="<c:url value="/resources/css/addAchiv.css" />" type="text/css" />
+</head>
+<body>
+    <div class="container"><br />
+        <c:choose>
+            <c:when test="${status eq 'date' }">
+            <div class="row">
+                <div class="col-md-12"><div class="alert alert-danger">Хибне значення дати.</div></div>
+            </div>
+            </c:when>
+            
+            <c:when test="${status eq 'name' }">
+            <div class="row">
+                <div class="col-md-12"><div class="alert alert-danger">Тре’ ввести назву групи.</div></div>
+            </div>
+            </c:when>
+            
+            <c:when test="${status eq 'inversed' }">
+            <div class="row">
+                <div class="col-md-12"><div class="alert alert-danger">Група закінчиться пізніше ніж почнеться. Часові викривлення і подорожі у чорні діри ще не відкриті.</div></div>
+            </div>
+            </c:when>
+            
+            <c:when test="${status eq 'competence' }">
+            <div class="row">
+                <div class="col-md-12"><div class="alert alert-danger">Галузі ще чи вже не існує.</div></div>
+            </div>
+            </c:when>
+        </c:choose>
+    
+        <p>Списки груп</p>
+        <c:forEach var="mapItem" items="${groups}">
+            <c:if test="${not empty mapItem.value}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">${mapItem.key}</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <c:forEach var="item" items="${mapItem.value}">
+                                <div class="col-md-8">${item.name }</div>
+                                <div class="col-md-2">${item.opened }</div>
+                                <div class="col-md-2">${item.closed }</div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+        </c:forEach>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Створити нову групу</div>
+            <div class="panel-body">
+                <div class="row">
+                    <form method="POST">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="group_name"
+                                    placeholder="Назва групи" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <select class="form-control" name="competence">
+                                    <c:forEach var="item" items="${competences}">
+                                        <option value="${item.id}">${item.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <input class="form-control" name="dateStart"
+                                    placeholder="Дата старту" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <input class="form-control" name="dateEnd"
+                                    placeholder="Дата закінчення" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button class="btn btn-default form-control" type="submit">Створити</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

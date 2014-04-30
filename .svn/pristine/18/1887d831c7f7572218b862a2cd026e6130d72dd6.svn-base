@@ -1,0 +1,46 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="menu.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="resources/css/login.css" rel="stylesheet" type="text/css" />
+<title><spring:message code="menu.3tab"/></title>
+</head>
+<body>
+	<div class="container">
+		<section id="content">
+		<form method="post" action="createaccount">
+			<h1><spring:message code="menu.3tab"/></h1>
+			<div>
+			<h4>Your login</h4><input type="text" name="username" id="username" placeholder="<spring:message code="registration.login"/>"/>
+			</div>
+			<div>
+			<h4>Your name</h4><input type="text" name=firstname id="username" placeholder="<spring:message code="registration.firstname"/>"/>
+			</div>
+			
+			<div>
+			<h4>Your second name</h4><input type="text" name="lastName" id="username" placeholder="<spring:message code="registration.secondname"/>"/>
+			</div>
+			           
+			<div>
+			<h4>Your email</h4><input type="text" name="email" id="username" placeholder="<spring:message code="registration.email"/>"/>
+			</div>
+			
+			<div>
+			<h4>Your password</h4><input type="password" name="pass" id="pass" placeholder="<spring:message code="registration.password"/>"/>
+			</div>
+			
+			<%-- <div>
+			<h4>Please confirm your password</h4><input type="password" name="pass" id="c_pass" placeholder="<spring:message code="registration.password"/>"/>
+			</div>
+			 --%>
+			<div>
+				<input type="submit" value="<spring:message code="registration.done"/>" />
+			</div>
+		<form>
+		</section>
+	</div>
+</body>
+</html>

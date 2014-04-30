@@ -1,0 +1,51 @@
+package com.softserve.edu.manager;
+
+import java.util.List;
+
+import com.softserve.edu.entity.AchievementType;
+
+public interface AchievementTypeManager {
+
+    /**
+     * Create new achievement type.
+     * 
+     * @param name
+     * @param points
+     * @param competence_id
+     */
+    public AchievementType create(final String name, final int points,
+            final long competenceId);
+    
+    /**
+     * Create new achievement type.
+     * 
+     * @param name
+     * @param points
+     * @param competenceUuid
+     */
+    public AchievementType create(final String name, final int points,
+			final String competenceUuid);
+
+    /**
+     * Delete existing achievement type by its id.
+     * 
+     * @param achievementTypeId
+     *            Achievement type id.
+     */
+    public boolean deleteById(final long achievementTypeId);
+    
+    /**
+     * Deletes achievement type by its uuid.
+     * @param uuid
+     */
+    public void deleteByUuid(final String uuid);
+
+    /**
+     * Get all achievement types.
+     * @return
+     * FIXME: some shit that need to be deleted.
+     */
+    
+    public List<AchievementType> achievementTypeList();
+    public List<AchievementType> list(Long idCompetence);
+}

@@ -1,0 +1,39 @@
+package com.softserve.edu.dao;
+
+import java.io.File;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.softserve.edu.entity.Achievement;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Schedule;
+import com.softserve.edu.entity.ScheduleTable;
+import com.softserve.edu.entity.User;
+import com.softserve.edu.util.CsvParser;
+import com.softserve.edu.util.ScheduleMapping;
+
+@Repository("scheduleDao")
+public class ScheduleDaoImplementation extends
+		GenericDaoImplementation<ScheduleTable> implements ScheduleDao {
+
+	public ScheduleDaoImplementation() {
+		super(ScheduleTable.class);
+	}
+	
+	
+
+	private List<Schedule> listSchedules;
+
+	public void fillDBfromCSV(File file) {
+		listSchedules = new CsvParser().mapToCSV(file);
+
+		for (Object object : listSchedules) {
+			Schedule schedule = (Schedule) object;
+			Group group=(Group) entityManager
+					.createQuery("from Group where name like :groupname")
+					.setParameter("groupname", schedule.getGroup()).getSingleResult();
+			}
+	}
+}

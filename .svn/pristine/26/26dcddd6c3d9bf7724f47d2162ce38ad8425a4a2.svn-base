@@ -1,0 +1,66 @@
+package com.softserve.edu.manager;
+
+import java.util.List;
+
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+
+public interface CompetenceManager {
+
+	/**
+	 * returns all groups in a certain competence.
+	 * 
+	 * @param CompetenceId
+	 * @return
+	 */
+	public List<Group> getGroups(int CompetenceId);
+
+	/**
+	 * 
+	 * @return all list of competenceies.
+	 */
+	public List<Competence> list();
+
+	/**
+	 * return all type of achievements in some competence.
+	 * 
+	 * @param idCompetence
+	 * @return List<AchievementType>
+	 */
+	public List<AchievementType> getTypesOfAchievements(Long idCompetence);
+
+	/**
+	 * Get list of competences but those, that are given.
+	 * 
+	 * @param buts
+	 * @return
+	 */
+	public List<Competence> listWithout(List<Competence> buts);
+
+	/**
+	 * Get list of competences, that user want attend to.
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<Competence> findByUser(final Long userId);
+
+	/**
+	 * Creates a new competence with current name.
+	 * 
+	 * @param name
+	 *            of competence
+	 * @return competence
+	 */
+	public Competence create(String name);
+
+	/**
+	 * Deletes competence.
+	 * 
+	 * @param id
+	 *            of competence
+	 * @return boolean delete
+	 */
+	public boolean delete(Long id);
+}

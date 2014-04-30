@@ -1,0 +1,36 @@
+package com.softserve.edu.manager;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.softserve.edu.dao.RoleDao;
+import com.softserve.edu.entity.User;
+
+@Service("roleManager")
+public class RoleManagerImplementation implements RoleManager {
+	@Autowired
+	RoleDao roleDao;
+
+	/**
+	 * Find users with specified role id.
+	 * 
+	 * @param roleId
+	 *            Role id.
+	 * @return List of users with current role.
+	 */
+	public List<User> findUsers(int roleId) {
+
+		return roleDao.findUsers(roleId);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Long findRole(String roleName) {
+
+		return roleDao.findRole(roleName);
+	}
+
+}

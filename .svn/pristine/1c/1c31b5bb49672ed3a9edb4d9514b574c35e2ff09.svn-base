@@ -1,0 +1,43 @@
+<%@ include file="../libs/libs.jsp" %>
+<style>
+   p {
+    text-indent: 40px;
+   }
+  </style>
+<body>
+<br /><br />
+
+<div class="reg_section password">
+     	 ${mess}
+			  <h4><p>
+			  <spring:message code="pass.password" /> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+			  &nbsp &nbsp &nbsp &nbsp &nbsp
+			  <input type="password" name="oldPassword" value="" placeholder=<spring:message code="pass.old.password" />>
+			  </p><br />
+			  </h4>							
+      
+		      <h4><p>
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+		      <input type="password" name="newPassword" value="" placeholder=<spring:message code="pass.new.password" />>
+		      </p><br />
+		      </h4>
+      
+		      <h4><p>
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+		      <input type="password" name="confirmPassword" value="" placeholder=<spring:message code="pass.confirm.password" />>
+		      </p><br />
+		      </h4>
+       		  
+       		  <h4><p>
+		      <p  class="submit"><input type="submit" name="commit" value="Save"></p>
+		      </p></h4>
+		      
+		      <h4><p>
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+		      <p></h4>
+		      
+      </div>
+</body>

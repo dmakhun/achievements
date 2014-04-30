@@ -1,0 +1,25 @@
+<%@ include file="../libs/libs.jsp" %>
+<body>
+	<div class="container" style="background-color: white">
+		<div class="row">
+			<div class="col-md-2">Speciality:</div>
+			<div class="col-md-10">
+				<c:forEach var="item" items="${competences}">
+					<div class="badge">${item.name}</div>
+				</c:forEach>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-12">
+				<c:forEach var="list" items="${groups_lists}">
+					<c:forEach var="item" items="${list}">
+						<p>Group: ${item.name}, openned: ${item.opened}</p>
+					</c:forEach>
+				</c:forEach>
+			</div>
+		</div>
+	</div>
+	<br>
+</body>

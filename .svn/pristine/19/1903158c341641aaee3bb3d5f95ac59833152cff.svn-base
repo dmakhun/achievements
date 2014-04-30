@@ -1,0 +1,101 @@
+package com.softserve.edu.rest;
+
+import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.manager.CompetenceManager;
+
+@Component
+@Path("/competence")
+public class CompetenceRest {
+	@Autowired
+	CompetenceManager competenceManager;
+
+	/**
+	 * This method returns marshaled list of groups of some specific competence
+	 * http://localhost:8080/Achievements/rest/competence/find/groups/SOME_COMPETENCE_ID
+	 * 
+	 * @param id
+	 *            some specific id of the competence
+	 * @return xml representation of the list of groups
+	 */
+	@Path("find/groups/{competenceId}")
+	// maybe it's better to change to some more logical URL
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public Response findAllGroupsByCompetenceId(
+			@PathParam("competenceId") final int id) {
+
+		List<Group> groups = competenceManager.getGroups(id);
+
+		// TEST
+		for (Group g : groups) {
+			System.out.println(g.getName());
+		}
+
+		return Response.ok(new JaxbList<Group>(groups)).build();
+	}
+
+	/**
+	 * This method returns all competences of the project
+	 * http://localhost:8080/Achievements/rest/competence/find/competences/all
+	 * 
+	 * @return xml representation of all existing competences
+	 */
+	@Path("find/competences/all")
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public Response findAllCompetences() {
+		List<Competence> competences = competenceManager.list();
+		return Response.ok(new JaxbList<Competence>(competences)).build();
+	}
+
+	/**
+	 * This method returns all achievement types of some specific competence
+	 * http://localhost:8080/Achievements/rest/competence/find/achievement_types/SOME_COMPETENCE_ID
+	 * 
+	 * @param id
+	 *            specific competence id
+	 * @return xml representation of all achievement types of some competence
+	 */
+	@Path("find/achievement_types/{competenceId}")
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public Response findAllAchievementTypeByCompetenceId(
+			@PathParam("competenceId") final long id) {
+		List<AchievementType> achievementTypes = competenceManager
+				.getTypesOfAchievements(id);
+		return Response.ok(new JaxbList<AchievementType>(achievementTypes))
+				.build();
+	}
+
+	/**
+	 * This method returns all competences of some specific user
+	 * http://localhost:8080/Achievements/rest/competence/find/competences/by_user/SOME_USER_ID
+	 * 
+	 * @param userId
+	 *            specific user id
+	 * @return xml representation of the competences of some user
+	 */
+	@Path("/find/competences/by_user/{userId}")
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public Response findCompetencesByUserId(
+			@PathParam("userId") final long userId) {
+		List<Competence> competences = competenceManager.findByUser(userId);
+		return Response.ok(new JaxbList<Competence>(competences)).build();
+	}
+
+}

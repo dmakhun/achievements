@@ -1,0 +1,94 @@
+menu.1tab=Home
+menu.2tab=Sign In
+menu.3tab=Registration
+menu.3tab1=Competencies
+menu.3tab2=All Competence
+menu.3tab3=Top 10
+menu.4tab1=Achievements
+menu.4tab2=All Achievements
+menu.4tab3=Top Ten
+menu.4tab4=Add Achievement Type
+menu.4tab5=Remove Achievement Type 
+menu.5tab1=Language
+menu.5tab2=english
+menu.5tab3=spanish
+menu.5tab4=\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430
+menu.6tab1=About
+menu.6tab2=Project
+menu.6tab3=Designers
+menu.6tab4=Development tools
+menu.6tab5=Other info
+menu.7tab=Contact
+menu.8tab=Schedule Table
+menu.9tab=Admin
+menu.9tab1=Add manager
+menu.9tab2 =Registration Manager
+menu.9tab3=Remove manager
+menu.9tab4=Add competence
+menu.9tab5=Remove competence
+menu.10tab=Manager
+
+registration.firstname=First name
+registration.secondname=Second name
+registration.login=Login
+
+registration.age=Age
+registration.email=Email
+registration.done=Done
+registration.reset=reset
+registration.password=Password
+registration.confirm=Confirm Password
+registration.userMessage = please enter your username and password
+registration.rememberMe = Remember me
+registration.registration = registration
+registration.lostPassword = Lost your password?
+registration.singIn = Sign In
+registration.logout = Logout
+registration.error =  Caused : <br />Your login attempt was not successful, try again.
+
+week.monday=Monday
+week.tuesday=Tuesday
+week.wednesday=Wednesday
+week.thursday=Thursday
+week.friday=Friday
+week.saturday=Saturday
+week.sunday=Sunday
+
+table.hours=Hours
+
+achievement.name= name
+achievement.points= points
+
+user.username= User Name
+user.id= id
+
+select.branch = Select competence
+select.group = Select group
+select.user = Select user
+select.role = Select role
+select.manager = Select manager
+select.achievmentType = Select type
+
+competence.name = name
+competence=Competencies
+group.name = name
+add = add
+remove = remove
+assignUser = assign
+cancelUser = cancel
+update = update
+date = Data
+Size.user.name=Name must be between 2 and 15 characters.
+Size.user.surname=Surname must be between 2 and 20 characters.
+Size.user.username = Username must be between 4 and 25 characters long.
+Pattern.user.username = Username can only consist of numbers, letters and the underscore character.
+DuplicateKey.user.username = This username already exists!!!!
+DuplicateKey.user.email = This email already exists!!!!
+Size.user.password = Password must be between 4 and 30 characters long.
+Pattern.user.password = Password cannot contain spaces.
+MatchedPasswords.user.password = Passwords match.
+UnmatchedPasswords.user.password = Passwords do not match.
+ValidEmail.user.email = This does not appear to be a valid email address.
+NotBlank.user.username = Username cannot be blank.
+NotBlank.user.password = Password cannot be blank.
+NotBlank.user.name=Please enter your name.

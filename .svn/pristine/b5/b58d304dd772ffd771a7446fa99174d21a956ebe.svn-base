@@ -1,0 +1,231 @@
+package com.softserve.edu.manager;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import com.softserve.edu.dao.RoleDao;
+import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.User;
+
+/**
+ * 
+ * @author dmakhtc
+ *
+ */
+@RunWith(MockitoJUnitRunner.class)
+public class RoleManagerImplementationTest {
+
+	@Mock private RoleDao roleDao;
+	
+	@InjectMocks private RoleManager roleManager = 
+							new RoleManagerImplementation();
+	
+	private Role role;
+	private int idMock = 1;
+	private Long idMockLong = 1L;
+	private String uuIdMock = "cf2ab144fcd12e5b685ae6c6f930eda7c6b3e4576c217e7d9885682fbfca6582376988553b303d04";
+	private List<User> expectedList;
+	
+	@Before
+	public void setUp() throws Exception {
+		role = new Role();
+		expectedList = new ArrayList<User>();
+	}
+
+	@Test
+	public final void testFindUsers() {
+		role.setName("ROLE_ADMIN" );
+		User user = new User();
+		user.setRole(role);
+		expectedList.add(user);
+		List<User> actual = new ArrayList<User>();
+		when(roleDao.findUsers(idMock)).thenReturn(expectedList);
+		actual = roleManager.findUsers(idMock);
+		verify(roleDao).findUsers(idMock);
+		assertEquals(expectedList, actual);
+	}
+
+	@Test
+	public final void testFindRoleUser() {
+		when(roleDao.findRole("ROLE_USER")).thenReturn(3L);
+		Long actual = roleManager.findRole("ROLE_USER");
+		verify(roleDao).findRole("ROLE_USER");
+		Long l = 3L;
+		assertEquals(l, actual);
+	}
+
+	@Test
+	public final void testFindRoleUserNotNull() {
+		when(roleDao.findRole("ROLE_USER")).thenReturn(3L);
+		Long actual = roleManager.findRole("ROLE_USER");
+		verify(roleDao).findRole("ROLE_USER");
+		assertNotNull(actual);
+	}
+
+	@Test
+	public final void testFindRoleManager() {
+		when(roleDao.findRole("ROLE_MANAGER")).thenReturn(2L);
+		Long actual = roleManager.findRole("ROLE_MANAGER");
+		Long l = 2L;
+		verify(roleDao).findRole("ROLE_MANAGER");
+		assertEquals(l, actual);
+	}
+
+	@Test
+	public final void testFindRoleManagerNotNull() {
+		when(roleDao.findRole("ROLE_MANAGER")).thenReturn(2L);
+		Long actual = roleManager.findRole("ROLE_MANAGER");
+		verify(roleDao).findRole("ROLE_MANAGER");
+		assertNotNull(actual);
+	}
+	
+	@Test
+	public final void testFindRoleAdmin() {
+		when(roleDao.findRole("ROLE_ADMIN")).thenReturn(1L);
+		Long actual = roleManager.findRole("ROLE_ADMIN");
+		verify(roleDao).findRole("ROLE_ADMIN");
+		Long l = 1L;
+		assertEquals(l, actual);
+	}
+	
+	@Test
+	public final void testFindRoleAdminNotNull() {
+		when(roleDao.findRole("ROLE_ADMIN")).thenReturn(1L);
+		Long actual = roleManager.findRole("ROLE_ADMIN");
+		verify(roleDao).findRole("ROLE_ADMIN");
+		assertNotNull(actual);
+	}
+	
+	@Test
+	public final void testFindRoleByRolenameUser() {
+		role.setName("ROLE_USER");
+		when(roleDao.findRoleByRolename("ROLE_USER")).thenReturn(role);
+		Role actual = roleManager.findRoleByRolename("ROLE_USER");
+		verify(roleDao).findRoleByRolename("ROLE_USER");
+		assertEquals(role, actual);
+	}
+	
+	@Test
+	public final void testFindRoleByRolenameUserNotNull() {
+		when(roleDao.findRoleByRolename("ROLE_USER")).thenReturn(role);
+		Role actual = roleManager.findRoleByRolename("ROLE_USER");
+		verify(roleDao).findRoleByRolename("ROLE_USER");
+		assertNotNull(actual);
+	}
+	
+	@Test
+	public final void testFindRoleByRolenameManager() {
+		role.setName("ROLE_MANAGER");
+		when(roleDao.findRoleByRolename("ROLE_MANAGER")).thenReturn(role);
+		Role actual = roleManager.findRoleByRolename("ROLE_MANAGER");
+		verify(roleDao).findRoleByRolename("ROLE_MANAGER");
+		assertEquals(role, actual);
+	}
+	
+	@Test
+	public final void testFindRoleByRolenameManagerNotNull() {
+		when(roleDao.findRoleByRolename("ROLE_MANAGER")).thenReturn(role);
+		Role actual = roleManager.findRoleByRolename("ROLE_MANAGER");
+		verify(roleDao).findRoleByRolename("ROLE_MANAGER");
+		assertNotNull(actual);
+	}
+	
+	@Test
+	public final void testFindRoleByRolenameAdmin() {
+		role.setName("ROLE_ADMIN");
+		when(roleDao.findRoleByRolename("ROLE_ADMIN")).thenReturn(role);
+		Role actual = roleManager.findRoleByRolename("ROLE_ADMIN");
+		verify(roleDao).findRoleByRolename("ROLE_ADMIN");
+		assertEquals(role, actual);
+	}
+
+	@Test
+	public final void testFindRoleByRolenameAdminNotNull() {
+		when(roleDao.findRoleByRolename("ROLE_ADMIN")).thenReturn(role);
+		Role actual = roleManager.findRoleByRolename("ROLE_ADMIN");
+		verify(roleDao).findRoleByRolename("ROLE_ADMIN");
+		assertNotNull(actual);
+	}
+	
+	@Test
+	public final void testFindUsersByRoleUuid() {
+		role.setName("ROLE_ADMIN" );
+		User user = new User();
+		user.setRole(role);
+		expectedList.add(user);
+		List<User> actual = new ArrayList<User>();
+		when(roleDao.findUsersByRoleUuid(uuIdMock)).thenReturn(expectedList);
+		actual = roleManager.findUsersByRoleUuid(uuIdMock);
+		verify(roleDao).findUsersByRoleUuid(uuIdMock);
+		assertEquals(expectedList, actual);
+	}
+
+	@Test
+	public final void testFindUsersByRoleUuidNotNull() {
+		List<User> actual = new ArrayList<User>();
+		actual = roleManager.findUsersByRoleUuid(uuIdMock);
+		verify(roleDao).findUsersByRoleUuid(uuIdMock);
+		assertNotNull(actual);
+	}
+	
+	@Test
+	public final void testGetById() {
+		role.setName("ROLE_ADMIN");
+		when(roleDao.findById(Role.class, idMockLong)).thenReturn(role);
+		Role actual = roleManager.findById(idMockLong);
+		verify(roleDao).findById(Role.class, idMockLong);
+		assertEquals(role, actual);
+	}
+
+	@Test
+	public final void testGetByIdNotNull() {
+		when(roleDao.findById(Role.class, idMockLong)).thenReturn(role);
+		Role expected = new Role();
+		expected = roleManager.findById(idMockLong);
+		verify(roleDao).findById(Role.class, idMockLong);
+		assertNotNull(expected);
+	}
+	
+	@Test
+	public final void testFindRoleByUuid() {
+		role.setName("ROLE_ADMIN");
+		when(roleDao.findByUuid(Role.class, uuIdMock)).thenReturn(role);
+		Role expected = roleManager.findRoleByUuid(uuIdMock);
+		verify(roleDao).findByUuid(Role.class, uuIdMock);
+		assertEquals(role, expected);
+	}
+
+	@Test
+	public final void testFindRoleByUuidNotNull() {
+		when(roleDao.findByUuid(Role.class, uuIdMock)).thenReturn(role);
+		Role expected = roleManager.findRoleByUuid(uuIdMock);
+		verify(roleDao).findByUuid(Role.class, uuIdMock);
+		assertNotNull(expected);
+	}
+	
+	@Test
+	public final void testFindAll() {
+		List<Role> expected = new ArrayList<>();
+		role.setName("ROLE_USER");
+		expected.add(new Role("ROLE_USER"));
+		role.setName("ROLE_MANAGER");
+		expected.add(new Role("ROLE_MANAGER"));
+		role.setName("ROLE_ADMIN");
+		expected.add(new Role("ROLE_ADMIN"));
+		when(roleDao.findAll(Role.class)).thenReturn(expected);
+		List<Role> actual = roleManager.findAll();
+		assertEquals(expected, actual);
+	}
+}

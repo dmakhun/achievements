@@ -1,0 +1,16 @@
+package com.softserve.edu.manager;
+
+import org.junit.Test;
+
+public class AchievementTypeManagerImplTest {
+
+	public AchievementTypeManagerImplTest() {
+	}
+
+	@Test
+	public void testCreate() {
+		AchievementTypeManagerImplementation achTypeManager = new AchievementTypeManagerImplementation();
+		org.junit.Assert.assertNotNull("should not be null",
+				achTypeManager.create("name", 15, 12));
+	}
+}

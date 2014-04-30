@@ -1,0 +1,47 @@
+package com.softserve.edu.util;
+
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
+import com.softserve.edu.entity.Achievement;
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Right;
+import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.User;
+
+public class HibernateHelper {
+
+    private static SessionFactory factory = null;  
+    private static ServiceRegistry registry;
+    static {
+        try {           
+            Configuration configuration = new Configuration().configure();
+           registry=new StandardServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties()).build();
+   
+            factory = configuration.addPackage("com.softserve.edu.entity")
+                    .addAnnotatedClass(User.class)
+                    .addAnnotatedClass(Role.class)
+                    .addAnnotatedClass(Achievement.class)
+                    .addAnnotatedClass(AchievementType.class)
+                    .addAnnotatedClass(Competence.class)
+                    .addAnnotatedClass(Group.class)
+                    .addAnnotatedClass(Right.class)
+                    .buildSessionFactory(registry);
+        } catch (HibernateException he) {
+            System.err.println("Error creating Session: " + he);
+            throw new ExceptionInInitializerError(he);
+        }
+    }
+public static void destroy(){
+    StandardServiceRegistryBuilder.destroy(registry);
+}
+    public static SessionFactory getSessionFactory() {
+        return factory;
+    }
+}

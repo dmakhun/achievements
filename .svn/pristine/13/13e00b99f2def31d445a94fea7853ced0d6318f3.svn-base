@@ -1,0 +1,75 @@
+package com.softserve.edu.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.exception.CompetenceManagerException;
+import com.softserve.edu.manager.AchievementManager;
+import com.softserve.edu.manager.AchievementTypeManager;
+import com.softserve.edu.manager.CompetenceManager;
+
+@Controller
+public class AchievementController {
+	
+	@Autowired
+	AchievementManager achievementManager;
+	@Autowired
+	CompetenceManager competenceManager;
+	@Autowired
+	AchievementTypeManager achievementTypeManager;
+
+	@RequestMapping(value = "/manager/user/award/{id}", method = RequestMethod.GET)
+	public String awardConcreteUser(
+			@PathVariable(value = "id") Long userId,
+			@RequestParam(value = "status", required = false, defaultValue = "") String status,
+			Model model) {
+		List<AchievementType> achivList = achievementTypeManager.achievementTypeList();
+
+		model.addAttribute("achList", achivList);
+		model.addAttribute("status", status);
+		return "awardUser";
+	}
+
+	@RequestMapping(value = "/manager/user/award/{id}", method = RequestMethod.POST)
+	public String awardConcreteUserPost(
+			@RequestParam(value = "achievement_type_id") Long achievementTypeId,
+			@RequestParam(value = "comment") String comment,
+			@PathVariable(value = "id") Long userId, Model model) {
+		List<AchievementType> achList = achievementTypeManager.achievementTypeList();
+		model.addAttribute("achList", achList);
+		try {
+			achievementManager.giveAwardToUser(userId, achievementTypeId, comment);
+		} catch (CompetenceManagerException e) {
+			return "errorPage";
+		}
+
+		return "redirect:/manager/user/award/" + userId + "?status=success";
+	}
+
+	@RequestMapping(value = "achievemetns")
+	public String showAchievements(Model model) {
+
+		List<Competence> competences = competenceManager.list();
+		List<AchievementType> achiTypes = achievementTypeManager
+				.achievementTypeList();
+		for (AchievementType achievementType : achiTypes) {
+			System.out.println(achievementType.getCompetence());
+		}
+		model.addAttribute("competences", competences);
+		model.addAttribute("achiTypes", achiTypes);
+		model.addAttribute("achievements", achievementTypeManager);
+
+		return "showAchievements";
+	}
+
+}

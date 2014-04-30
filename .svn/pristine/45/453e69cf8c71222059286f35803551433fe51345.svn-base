@@ -1,0 +1,622 @@
+package com.softserve.edu.manager;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.NoResultException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.softserve.edu.dao.RoleDao;
+import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.User;
+import com.softserve.edu.exception.InvalidValueException;
+
+@Service("userManager")
+public class UserManagerImplementation implements UserManager {
+
+	@Autowired
+	UserDao userDao;
+	@Autowired
+	RoleDao roleDao;
+
+	static StandardPasswordEncoder encoder = new StandardPasswordEncoder();
+	/**
+	 * Pattern that covers almost all of valid emails.
+	 */
+	private static final String PATTERN_EMAIL = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
+
+	/**
+	 * Username pattern, that we pretend to define.
+	 */
+	private static final String PATTERN_USERNAME = "^[a-zA-Z0-9\\.\\-_]{3,50}$";
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	public User create(final String name, final String surname,
+			final String username, final String password, final String email,
+			final Long roleId) throws InvalidValueException {
+
+		User user = validateFields(false, null, name, surname, username,
+				password, email, roleId);
+
+		userDao.save(user);
+
+		return user;
+	}
+
+	@Transactional
+	public User create(final String name, final String surname,
+			final String username, final String password, final String email,
+			final String roleUuid) throws InvalidValueException,
+			IllegalArgumentException {
+
+		User user = validateFields(false, null, name, surname, username,
+				password, email, roleUuid);
+
+		userDao.save(user);
+
+		return user;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	public User update(final Long userId, final String name,
+			final String surname, final String username, final String password,
+			final String email, final Long roleId) throws InvalidValueException {
+
+		User user = userDao.getByID(userId);
+
+		if (user == null) {
+			throw new InvalidValueException("User with such id doesn't exist.");
+		}
+
+		user = validateFields(true, user, name, surname, username, password,
+				email, roleId);
+
+		userDao.update(user);
+
+		return user;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	public User update(final String userUuid, final String name,
+			final String surname, final String username, final String password,
+			final String email, final String roleUuid)
+			throws InvalidValueException {
+
+		User user = userDao.getByUuid(userUuid);
+
+		if (user == null) {
+			throw new InvalidValueException(
+					"User with such uuid doesn't exist.");
+		}
+
+		user = validateFields(true, user, name, surname, username, password,
+				email, roleUuid);
+
+		userDao.update(user);
+
+		return user;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	public User authorize(final Long userId, final String passHash) {
+		User user = findById(userId);
+		if (user == null) {
+			return null;
+		}
+
+		if (user.getPassword().equals(passHash)) {
+			return user;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	public boolean deleteById(final Long id) {
+
+		return userDao.deleteById(id);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	public User findById(final Long id) {
+
+		return userDao.getByID(id);
+	}
+
+	@Transactional
+	public User findByUuid(final String uuid) {
+		User user = userDao.getByUuid(uuid);
+
+		return user;
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	public User findByUsername(final String username) {
+
+		User user = userDao.findByUsername(username);
+
+		return user;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	public User findByEmail(final String email) {
+
+		User user = userDao.findByEmail(email);
+		return user;
+
+	}
+
+	/**
+	 * Superkaramba checks.
+	 * 
+	 * Throw exception with description if some value violate some rule. Some
+	 * check types can be disabled: we can disable, for example, empty string
+	 * check. This can be useful when we updating someone's profile.
+	 * 
+	 * „Nevermind“ parameter („true“) should be only used for editing
+	 * existing users.
+	 * 
+	 * @param nevermindEmpty
+	 *            Ignore empty values; can be useful for editing user.
+	 * @param currentUser
+	 *            Long Id of current user; null if there is no user in that
+	 *            context.
+	 * @param name
+	 *            First name.
+	 * @param surname
+	 *            Second name.
+	 * @param username
+	 *            Unique username.
+	 * @param password
+	 *            Password.
+	 * @param email
+	 *            Unique email.
+	 * @param roleId
+	 *            Role id.
+	 * @return User Parsed user.
+	 * @throws InvalidValueException
+	 * @throws NoSuchAlgorithmException
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	private User validateFields(final boolean nevermindEmpty,
+			final User currentUser, final String name, final String surname,
+			final String username, final String password, final String email,
+			final Long roleId) throws InvalidValueException {
+
+		User user = currentUser == null ? new User() : currentUser;
+		boolean validator;
+
+		validator = validateGeneric(user, name, "Name", nevermindEmpty);
+		if (validator) {
+			user.setName(name);
+		}
+
+		validator = validateGeneric(user, surname, "Surname", nevermindEmpty);
+		if (validator) {
+			user.setSurname(surname);
+		}
+
+		/**
+		 * Besides matching naming rules, such name should be unique. OtherUser
+		 * here is the user, that already can own same username.
+		 */
+		User otherUser = findByUsername(username);
+		validator = validateByPattern(user, otherUser, username,
+				PATTERN_USERNAME, "Username", nevermindEmpty);
+		if (validator) {
+			user.setUsername(username);
+		}
+
+		validator = validatePassword(password, nevermindEmpty);
+		if (validator) {
+			// user.setSalt(PasswordUtil.generatePassOrSalt(8));
+			user.setPassword(encoder.encode(password));
+		}
+
+		/**
+		 * Same logic as for username checks.
+		 */
+		otherUser = findByEmail(email);
+		validator = validateByPattern(user, otherUser, email, PATTERN_EMAIL,
+				"Email", nevermindEmpty);
+		if (validator) {
+			user.setEmail(email);
+		}
+
+		Role role = validateRole(roleId);
+		if (role != null) {
+			user.setRole(role);
+		}
+
+		return user;
+	}
+
+	// UUID
+	@Transactional
+	private User validateFields(final boolean nevermindEmpty,
+			final User currentUser, final String name, final String surname,
+			final String username, final String password, final String email,
+			final String roleUuid) throws InvalidValueException {
+
+		User user = currentUser == null ? new User() : currentUser;
+		boolean validator;
+
+		validator = validateGeneric(user, name, "Name", nevermindEmpty);
+		if (validator) {
+			user.setName(name);
+		}
+
+		validator = validateGeneric(user, surname, "Surname", nevermindEmpty);
+		if (validator) {
+			user.setSurname(surname);
+		}
+
+		/**
+		 * Besides matching naming rules, such name should be unique. OtherUser
+		 * here is the user, that can own already same username.
+		 */
+		User otherUser = null;
+		try {
+			otherUser = findByUsername(username);
+		} catch (IllegalArgumentException e) {
+		}
+		validator = validateByPattern(user, otherUser, username,
+				PATTERN_USERNAME, "Username", nevermindEmpty);
+		if (validator) {
+			user.setUsername(username);
+		}
+
+		validator = validatePassword(password, nevermindEmpty);
+		if (validator) {
+			// user.setSalt(PasswordUtil.generatePassOrSalt(8));
+			user.setPassword(encoder.encode(password));
+		}
+
+		/**
+		 * Same logic as for username checks.
+		 */
+
+		try {
+			otherUser = findByEmail(email);
+		} catch (IllegalArgumentException e) {
+		}
+
+		validator = validateByPattern(user, otherUser, email, PATTERN_EMAIL,
+				"Email", nevermindEmpty);
+		if (validator) {
+			user.setEmail(email);
+		}
+		Role role = null;
+		try {
+			role = validateRoleByUuid(roleUuid);
+		} catch (InvalidValueException e) {
+		}
+		;
+		if (role != null) {
+			user.setRole(role);
+		}
+
+		return user;
+	}
+
+	/**
+	 * Generic field validation.
+	 * 
+	 * This means, that field should meet general rules: not empty, less than 50
+	 * chars.
+	 * 
+	 * @param user
+	 *            User, that will get those field.
+	 * @param field
+	 *            Field, yep.
+	 * @param nevermindEmpty
+	 *            Flag, that says that we can ignore checks for emptiness.
+	 * @return String
+	 * @throws InvalidValueException
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	private boolean validateGeneric(final User user, final String field,
+			final String fieldName, final boolean nevermindEmpty)
+			throws InvalidValueException {
+
+		if (field != null && !field.isEmpty() && field.length() <= 50) {
+			return true;
+		} else {
+			if ((field == null || field.isEmpty()) && !nevermindEmpty) {
+				throw new InvalidValueException(fieldName + " cannot be empty.");
+			}
+
+			if (field != null && field.length() > 50) {
+				throw new InvalidValueException(fieldName
+						+ " should be less tnan 50 characters.");
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Validate field by pattern.
+	 * 
+	 * @param user
+	 * @param otherUser
+	 * @param field
+	 * @param pattern
+	 * @param nevermindEmpty
+	 * @return String
+	 * @throws InvalidValueException
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	private boolean validateByPattern(final User user, final User otherUser,
+			final String field, final String pattern, final String fieldName,
+			final boolean nevermindEmpty) throws InvalidValueException {
+
+		if (field != null && field.matches(pattern)
+				&& (otherUser == null || otherUser.getId() == user.getId())) {
+			return true;
+		} else {
+			if ((field == null || field.isEmpty()) && !nevermindEmpty) {
+				throw new InvalidValueException(fieldName + " cannot be empty.");
+			}
+
+			if (field != null && !field.isEmpty() && !field.matches(pattern)) {
+				throw new InvalidValueException(fieldName
+						+ " does not match pattern.");
+			}
+
+			if (otherUser != null && otherUser.getId() != user.getId()) {
+				throw new InvalidValueException(fieldName + " already exists.");
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Validate password.
+	 * 
+	 * Actually, it can be almost anything. The only requirement for now is that
+	 * it has to be non-empty.
+	 * 
+	 * 
+	 * @param user
+	 *            User.
+	 * @param password
+	 *            Password.
+	 * @param nevermindEmpty
+	 *            Flag to ignore checks for isEmpty.
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidValueException
+	 * 
+	 * @author vkudrtc
+	 */
+	@Transactional
+	private boolean validatePassword(final String password,
+			final boolean nevermindEmpty) throws InvalidValueException {
+
+		if (password != null && !password.isEmpty()) {
+			return true;
+		} else {
+			if ((password == null || password.isEmpty()) && !nevermindEmpty) {
+				throw new InvalidValueException("Password cannot be empty.");
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Validate role.
+	 * 
+	 * @param user
+	 * @param roleId
+	 * @return Role
+	 * @throws InvalidValueException
+	 */
+	@Transactional
+	private Role validateRole(final Long roleId) throws InvalidValueException {
+
+		Role role = null;
+		if (roleId != null) {
+			role = roleDao.getByID(roleId);
+
+			if (role == null) {
+				throw new InvalidValueException("Selected role does not exist.");
+			}
+		}
+
+		return role;
+	}
+
+	// UUID
+	@Transactional
+	private Role validateRoleByUuid(final String roleUuid)
+			throws InvalidValueException {
+
+		Role role = null;
+		if (roleUuid != null) {
+			role = roleDao.getByUuid(roleUuid);
+
+			if (role == null) {
+				throw new InvalidValueException(
+						"Selected role does not exist .");
+			}
+		}
+
+		return role;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public List<Group> findGroups(Long userId, boolean onlyOpened) {
+		List<Group> list = userDao.findGroups(userId, onlyOpened);
+
+		return list;
+	}
+
+	@Override
+	@Transactional
+	public void attendCompetence(Long userId, Long competenceId) {
+		userDao.attendUserToCompetence(userId, competenceId);
+	}
+
+	@Override
+	@Transactional
+	public void attendCompetence(String userUuid, String competenceUuid) {
+		try {
+			userDao.attendUserToCompetence(userUuid, competenceUuid);
+		} catch (NoResultException e) {
+			throw new NoResultException();
+		}
+
+	}
+
+	@Override
+	@Transactional
+	public void removeUserToCompetence(Long userId, Long competenceId) {
+		userDao.removeUserToCompetence(userId, competenceId);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.manager.UserManager#getActiveNameGroups(java.lang.String
+	 * )
+	 */
+	@Override
+	@Transactional
+	public Set<String> getActiveNameGroups(String username) {
+		Set<String> nameGroups = new HashSet<String>();
+		User user = userDao.findByUsername(username);
+		List<Group> listGroup = userDao.findGroups(user.getId(), true);
+		for (Group g : listGroup) {
+			nameGroups.add(g.getName());
+		}
+		return nameGroups;
+
+	}
+
+	@Override
+	@Transactional
+	public List<User> list() {
+		return userDao.getAll();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public boolean existUserName(String userName) {
+		if (userDao.findByUsername(userName) != null) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author nsosntc
+	 */
+	@Override
+	@Transactional
+	public void create(User user) {
+		user.setPassword(encoder.encode(user.getPassword()));
+		userDao.save(user);
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author nsosntc
+	 */
+	@Override
+	@Transactional
+	public boolean existEmail(String email) {
+		if (userDao.findByEmail(email) != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	@Transactional
+	public void deleteByUuid(String userUuid) throws IllegalArgumentException {
+
+		userDao.deleteByUuid(userUuid);
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author Myron Kurus
+	 */
+	@Override
+	@Transactional
+	public void update(User user) {
+		userDao.update(user);
+	}
+}

@@ -1,0 +1,44 @@
+package com.softserve.edu.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.softserve.edu.entity.AchievementType;
+
+@Repository("achievementTypeDao")
+public class AchievementTypeDaoImplementation extends
+		GenericDaoImplementation<AchievementType> implements AchievementTypeDao {
+
+	public AchievementTypeDaoImplementation() {
+		super(AchievementType.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AchievementType> list(Long idCompetence) {
+
+		List<AchievementType> list = entityManager
+				.createQuery("from AchievementType where competence_id = :cid")
+				.setParameter("cid", idCompetence).getResultList();
+
+		return list;
+	}
+
+	// UUID
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AchievementType> getAchievementTypesByCompetenceUuid(
+			String conpetenceUuid) {
+
+		List<AchievementType> list = entityManager
+				.createQuery(
+						"from AchievementType at INNER JOIN fetch at.competence c WHERE c.uuid = :cuuid")
+				.setParameter("cuuid", conpetenceUuid).getResultList();
+		return list;
+	}
+
+}

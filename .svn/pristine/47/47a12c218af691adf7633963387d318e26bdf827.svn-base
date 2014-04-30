@@ -1,0 +1,19 @@
+package com.softserve.edu.dao;
+
+import java.util.List;
+
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.User;
+
+public interface AchievementTypeDao extends GenericDao<AchievementType> {
+
+	/**
+	 * Return achievement types of specific competence.
+	 * 
+	 * @param competence
+	 *            id
+	 * @return list of achievement type
+	 */
+	public List<AchievementType> list(Long idCompetence);
+
+}
