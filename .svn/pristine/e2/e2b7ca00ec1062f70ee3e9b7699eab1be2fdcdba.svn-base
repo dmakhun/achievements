@@ -1,0 +1,162 @@
+package com.softserve.edu.manager;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.GroupDao;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.User;
+
+@Service("groupManager")
+public class GroupManagerImplementation implements GroupManager {
+
+	@Autowired
+	GroupDao groupDao;
+	@Autowired
+	CompetenceDao competenceDao;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional
+	public List<Group> inFuture() {
+		return groupDao.inFuture();
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public List<Group> inFuture(Long competenceId) {
+		return groupDao.inFuture(competenceId);
+	}
+
+	@Override
+	@Transactional
+	public List<Group> findByCompetence(Long competenceId, boolean onlyOpened) {
+
+		return groupDao.findByCompetence(competenceId, onlyOpened);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public List<Group> findByCompetenceUuid(String competenceUuid,
+			boolean onlyOpened) {
+
+		return groupDao.findByCompetenceUuid(competenceUuid, onlyOpened);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public Long create(String name, Date startDate, Date endDate,
+			Long competenceId) {
+
+		Competence competence = competenceDao.getByID(competenceId);
+
+		Group group = new Group();
+		group.setName(name);
+		group.setOpened(startDate);
+		group.setClosed(endDate);
+		group.setCompetence(competence);
+
+		groupDao.save(group);
+		return group.getId();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public void modify(final Long groupId, final String name, final Date start,
+			final Date end, final Long competenceId) {
+
+		Competence competence = competenceDao.getByID(competenceId);
+		Group group = groupDao.getByID(groupId);
+		group.setName(name);
+		group.setOpened(start);
+		group.setClosed(end);
+		group.setCompetence(competence);
+		
+		groupDao.update(group);
+	}
+
+	// UUID
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public void create(String name, Date startDate, Date endDate,
+			String competenceUuid) {
+
+		Competence competence = competenceDao.getByUuid(competenceUuid);
+		System.out.println(competence);
+		Group group = new Group();
+		group.setName(name);
+		group.setOpened(startDate);
+		group.setClosed(endDate);
+		group.setCompetence(competence);
+
+		groupDao.save(group);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public void addUser(Long userId, Long groupId) {
+
+		groupDao.addUser(userId, groupId);
+	}
+
+	// UUID
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public void addUser(String userUuid, String groupUuid) {
+
+		groupDao.addUser(userUuid, groupUuid);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public List<User> users(Long groupId) {
+
+		return groupDao.userList(groupId);
+	}
+
+	@Override
+	@Transactional
+	public List<User> findUsersByGroupUuid(String groupUuid) {
+
+		return groupDao.findUsersByGroupUuid(groupUuid);
+	}
+
+	@Transactional
+	public void deleteById(Long groupId) {
+		Group toDelete = groupDao.getByID(groupId);
+		groupDao.delete(toDelete);
+
+	}
+}

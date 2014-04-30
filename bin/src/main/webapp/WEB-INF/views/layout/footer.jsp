@@ -1,0 +1,1 @@
+<div style="height: 20px; background-color: #dddddd; text-align: center;">Developed by Lv-107 in 2014</div>

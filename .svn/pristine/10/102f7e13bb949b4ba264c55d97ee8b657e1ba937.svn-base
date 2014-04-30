@@ -1,0 +1,314 @@
+/*package com.softserve.edu.main;
+
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
+import com.softserve.edu.dao.AchievementDao;
+import com.softserve.edu.dao.AchievementDaoImplementation;
+import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.AchievementTypeDaoImplementation;
+import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.CompetenceDaoImplementation;
+import com.softserve.edu.dao.GroupDao;
+import com.softserve.edu.dao.GroupDaoImplementation;
+import com.softserve.edu.dao.RightDao;
+import com.softserve.edu.dao.RightDaoImplementation;
+import com.softserve.edu.dao.RoleDao;
+import com.softserve.edu.dao.RoleDaoImplementation;
+import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.dao.UserDaoImplementation;
+import com.softserve.edu.entity.Achievement;
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Right;
+import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.User;
+import com.softserve.edu.exception.InvalidValueException;
+import com.softserve.edu.manager.UserManager;
+import com.softserve.edu.manager.UserManagerImplementation;
+
+*//**
+ * 
+ * @author Nazar(:.
+ * 
+ *//*
+public class FillDatabase {
+	public final static String PASSWORD = "pass";
+
+	public static void main(String[] args) {
+
+		try {
+			try {
+				fillDateBase(100);
+			} catch (InvalidValueException e) {
+				e.printStackTrace();
+			}
+		} catch (ParseException e) {
+			System.out.println("error ");
+			e.printStackTrace();
+		}
+	}
+
+	public static int numberOfPeple = 0;
+
+	public static void fillDateBase(int size) throws ParseException,
+			InvalidValueException {
+
+		numberOfPeple = size - 1;
+		FillDatabase fillDatabase = new FillDatabase();
+
+		fillDatabase.addRoles();
+		fillDatabase.addRigths();
+		fillDatabase.addPeople(numberOfPeple);
+		fillDatabase.addRightToRole();
+		fillDatabase.addCompetence();
+		fillDatabase.addAchievementTypeDao();
+		fillDatabase.addGroup((numberOfPeple / 10));
+		fillDatabase.addAttendToCompetence();
+	}
+
+	void addPeople(int numberOfPeple) throws InvalidValueException {
+		Random r = new Random();
+		RoleDao roleDao = new RoleDaoImplementation();
+		UserManager userManager = new UserManagerImplementation();
+		String[] names = { "Ivan", "Andriy", "Oleg", "Julia", "Oleg", "Volodymyr",
+				"Ira", "Sergiy", "Ostap", "Bogdan", "Yura", "Stepan", "Igor",
+				"Myron", "Taras", "Olena", "Kateryna", "Solomiya",
+				"Ustyna", "Vitalik" };
+		String[] surnames = { "Pupkin", "Ivanov", "Bupkin", "Fupkin", "Jupkin",
+				"Cupkin", "Nol", "Gurin", "Ryron", "Mykon", "Chukin", "Lykin" };
+
+		String userName = "";
+		char[] letters = new char[52];
+		for (int i = 1, pos = 1; i < 58; i++) {
+			char v = (char) ('A' + i);
+			if ((v >= 'a' && v <= 'z') || (v >= 'A' && v <= 'Z')) {
+				letters[pos++] = v;
+			}
+			// if(i <= 9 && i >= 0){
+			// String number = i + "";
+			// letters[pos++] = number.toCharArray()[0] ;
+			// }
+		}
+
+		 int sizeRole = roleDao.getAll().size() - 1; 
+
+		userManager.create("Ivan", "Hitskaylo", "admin", PASSWORD,
+				"hitskaylo@gamil.com", 2L);
+		userManager.create("Viktoriya", "Vryazhska", "manager", PASSWORD, "vvryazhska@ukr.net",
+				2L);
+		
+		for (int i = 1; i <= numberOfPeple; i++) {
+			String surName = surnames[r.nextInt(surnames.length)];
+			String name = names[r.nextInt(names.length)];
+			String email = surName.toLowerCase() + userName.toLowerCase();
+			userName = name;
+
+			while (userManager.findByUsername(userName) != null) {
+				userName += letters[r.nextInt(52)];
+			}
+			userManager.create(name, surName, userName, PASSWORD, email
+					+ "@ukr.net", 3L);
+		}
+	}
+
+	void addRoles() {
+		RoleDao roleDao = new RoleDaoImplementation();
+		roleDao.save(new Role("ROLE_MANAGER"));
+		roleDao.save(new Role("ROLE_ADMIN"));
+		roleDao.save(new Role("ROLE_USER"));
+		
+		 * roleDao.save(new Role("ROLE_USER_2")); roleDao.save(new
+		 * Role("ROLE_USER_3")); roleDao.save(new Role("ROLE_USER_4"));
+		 * roleDao.save(new Role("ROLE_USER_5"));
+		 
+	}
+
+	void addRigths() {
+		RightDao rightDao = new RightDaoImplementation();
+		rightDao.save(new Right("ADD_MANAGER_1"));
+		rightDao.save(new Right("ADD_USER_2"));
+		rightDao.save(new Right("PROMOTE_USER_3"));
+		rightDao.save(new Right("GIVE_ACHIEVEMENT_4"));
+		rightDao.save(new Right("GIVE_ACHIEVEMENT_MANAGERS_5"));
+		rightDao.save(new Right("USING_DOCUMENTS_6"));
+		rightDao.save(new Right("CREATE_7"));
+		rightDao.save(new Right("NOTHING_8"));
+	}
+
+	void addCompetence() {
+		CompetenceDao competenceDao = new CompetenceDaoImplementation();
+		competenceDao.save(new Competence("Java", new Date()));
+		competenceDao.save(new Competence(" .Net", new Date()));
+		competenceDao.save(new Competence(" SQL", new Date()));
+		competenceDao.save(new Competence(" DevOps", new Date()));
+		competenceDao.save(new Competence(" UI", new Date()));
+		competenceDao.save(new Competence(" Lamp", new Date()));
+		competenceDao.save(new Competence(" DB", new Date()));
+		competenceDao.save(new Competence(" MQC", new Date()));
+		competenceDao.save(new Competence(" Web_Ui", new Date()));
+		competenceDao.save(new Competence(" ATQC", new Date()));
+		
+		
+
+	}
+
+	Set<User> luckyUsers() {
+		Random r = new Random();
+		UserDao userDao = new UserDaoImplementation();
+		int maxInGroup = 12;
+		Set<User> users = new HashSet<User>();
+		for (int i = 1; i <= (r.nextInt(maxInGroup) + 6); i++) {
+
+			long luckyUser = r.nextInt(numberOfPeple);
+			User user = userDao.getByID(luckyUser);
+			if (user != null) {
+				users.add(user);
+			}
+
+		}
+		return users;
+	}
+
+	void addGroup(int makeGroup) throws ParseException {
+
+		long startDate = Timestamp.valueOf("2012-09-01 00:00:00").getTime();
+		Date nextDate = new Timestamp(startDate);
+		Random r = new Random();
+		GroupDao groupDao = new GroupDaoImplementation();
+		CompetenceDao competenceDao = new CompetenceDaoImplementation();
+		int sizeCompetence = competenceDao.getAll().size() - 1; // how much
+																// competence
+
+		
+		
+		for (int i = 0; i < makeGroup; i++) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(nextDate);
+			calendar.add(Calendar.MONTH, 1);
+			nextDate = calendar.getTime();
+			calendar.add(Calendar.MONTH, 11);
+			calendar.add(Calendar.DAY_OF_MONTH, 10);
+			Date close = calendar.getTime();
+
+			int setCompetence = r.nextInt(sizeCompetence); // nabir grub
+			long thisCompetence = r.nextInt(sizeCompetence) + 1;
+			for (int j = 0; j < setCompetence; j++) { // made some groups
+				if (thisCompetence > sizeCompetence) {
+					thisCompetence = 1;
+				}
+				Set<User> setUsers = luckyUsers();
+				Competence competence = competenceDao.getByID(thisCompetence);
+				groupDao.save(new Group(competence, "Lv-0" + (60 + i)  
+													
+						+ competence.getName() + "", nextDate, close, setUsers));
+				thisCompetence++;
+			}
+			i += setCompetence;
+		}
+
+	}
+
+	void addAchievementTypeDao() {
+		Date date = new Date();
+		CompetenceDao competenceDao = new CompetenceDaoImplementation();
+		AchievementTypeDao achievementTypeDao = new AchievementTypeDaoImplementation();
+		AchievementDao achievementDao = new AchievementDaoImplementation();
+
+		achievementTypeDao.save(new AchievementType(competenceDao.getByID(1L),
+				"LOW_JAVA", 10, null));
+		achievementTypeDao.save(new AchievementType(competenceDao.getByID(1L),
+				"MIDDLE_JAVA", 30, null));
+		achievementTypeDao.save(new AchievementType(competenceDao.getByID(1L),
+				"ADVANCE_JAVA", 90, null));
+
+		achievementTypeDao.save(new AchievementType(competenceDao.getByID(2L),
+				"LOW_.net", 10, null));
+		achievementTypeDao.save(new AchievementType(competenceDao.getByID(2L),
+				"MIDDLE_.net", 30, null));
+		achievementTypeDao.save(new AchievementType(competenceDao.getByID(2L),
+				"ADVANCE_.net", 90, null));
+
+		achievementTypeDao.save(new AchievementType(competenceDao.getByID(3L),
+				"LOW_sql", 10, null));
+		achievementTypeDao.save(new AchievementType(competenceDao.getByID(3L),
+				"MIDDLE_sql", 20, null));
+		achievementTypeDao.save(new AchievementType(competenceDao.getByID(3L),
+				"ADVANCE_sql", 40, null));
+
+		achievementDao.save(new Achievement(achievementTypeDao.getByID(1L),
+				date, "for java low coure"));
+		achievementDao.save(new Achievement(achievementTypeDao.getByID(1L),
+				date, "for java middle coure"));
+		achievementDao.save(new Achievement(achievementTypeDao.getByID(1L),
+				date, "for java advance coure"));
+
+		achievementDao.save(new Achievement(achievementTypeDao.getByID(2L),
+				date, "for .net low coure"));
+		achievementDao.save(new Achievement(achievementTypeDao.getByID(2L),
+				date, "for .net middle coure"));
+		achievementDao.save(new Achievement(achievementTypeDao.getByID(2L),
+				date, "for .net advance coure"));
+
+		achievementDao.save(new Achievement(achievementTypeDao.getByID(3L),
+				date, "for .sql low coure"));
+		achievementDao.save(new Achievement(achievementTypeDao.getByID(3L),
+				date, "for .sql middle coure"));
+		achievementDao.save(new Achievement(achievementTypeDao.getByID(3L),
+				date, "for .sql advance coure"));
+
+	}
+
+	void addRightToRole() {
+		UserDao userDao = new UserDaoImplementation();
+		RightDao rightDao = new RightDaoImplementation();
+		System.out.println(userDao.getAll().size());
+		for (long i = 1; i < userDao.getAll().size(); i++) {
+
+			if (userDao.getByID(i).getRole().toString() == "ROLE_ADMIN") {
+				userDao.addRightToUser(userDao.getByID(i), rightDao.getByID(3L));
+				userDao.addRightToUser(userDao.getByID(i), rightDao.getByID(6L));
+			}
+
+			if (userDao.getByID(i).getRole().toString() == "ROLE_MANAGER") {
+				userDao.addRightToUser(userDao.getByID(i), rightDao.getByID(3L));
+				userDao.addRightToUser(userDao.getByID(i), rightDao.getByID(4L));
+				userDao.addRightToUser(userDao.getByID(i), rightDao.getByID(6L));
+			}
+
+			if (userDao.getByID(i).getRole().toString() == "ROLE_USER") {
+				userDao.addRightToUser(userDao.getByID(i), rightDao.getByID(2L));
+				userDao.addRightToUser(userDao.getByID(i), rightDao.getByID(3L));
+				userDao.addRightToUser(userDao.getByID(i), rightDao.getByID(4L));
+				userDao.addRightToUser(userDao.getByID(i), rightDao.getByID(6L));
+			}
+
+		
+		}
+	}
+
+	void addAttendToCompetence() {
+		UserManager userManager = new UserManagerImplementation();
+		CompetenceDao competenceDao = new CompetenceDaoImplementation();
+		Random r = new Random();
+
+		int sizeCompetence = competenceDao.getAll().size();
+
+		for (int i = 1; i < 50; i++) {
+
+			User user = userManager.findById((long) r.nextInt(numberOfPeple));
+
+			if (user.getId() != null) {
+				userManager.attendCompetence(user.getId(), (long) r.nextInt(sizeCompetence));
+			}
+		}
+	}
+
+}
+*/

@@ -1,0 +1,38 @@
+package com.softserve.edu.rest;
+
+import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.softserve.edu.entity.User;
+import com.softserve.edu.manager.RoleManager;
+
+@Component
+@Path("/role")
+public class RoleRest {
+	@Autowired
+	RoleManager roleManager;
+
+	/*
+	 * find users by their roleid. find by rest/role/getusers/{roleid}.
+	 * users List is wrapped by special JaxbList object.
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/getusers/{roleid}")
+	public Response getUsersByRoleId(@PathParam("roleid") int roleid) {
+		List<User> users = roleManager.findUsers(roleid);
+		JaxbList<User> jaxbList = new JaxbList<User>();
+		jaxbList.setList(users);
+		return Response.ok(jaxbList).build();
+	}
+
+}

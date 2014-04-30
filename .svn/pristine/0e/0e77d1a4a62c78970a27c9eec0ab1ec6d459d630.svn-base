@@ -1,0 +1,129 @@
+package com.softserve.edu.manager;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+
+@Service("competenceManager")
+public class CompetenceManagerImplementation implements CompetenceManager {
+
+	@Autowired
+	CompetenceDao competenceDao;
+	@Autowired
+	AchievementTypeDao achievementTypeDao;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional
+	public List<Group> getGroups(int CompetenceId) {
+
+		return competenceDao.showGroups(CompetenceId);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional
+	public List<Competence> list() {
+
+		return competenceDao.listWithUsers();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional
+	public List<AchievementType> getTypesOfAchievements(Long idCompetence) {
+
+		List<AchievementType> achievementTypes = achievementTypeDao
+				.list(idCompetence);
+
+		return achievementTypes;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional
+	public Competence create(String name) {
+
+		Competence competence = new Competence();
+		competence.setName(name);
+
+		competenceDao.save(competence);
+		return competence;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional
+	public boolean delete(Long id) {
+
+		Competence competence = competenceDao.getByID(id);
+		return competenceDao.delete(competence);
+	}
+
+	// FIXME
+	@Transactional
+	public boolean delete(String name) {
+
+		Competence competence = competenceDao.findByName(name);
+		return competenceDao.delete(competence);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional
+	@Override
+	public List<Competence> listWithout(List<Competence> buts) {
+
+		Set<Competence> but = new HashSet<>();
+		but.addAll(buts);
+
+		Set<Competence> set = new HashSet<>();
+		set.addAll(competenceDao.getAll());
+		set.removeAll(but);
+		return new ArrayList<>(set);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public List<Competence> findByUser(Long userId) {
+
+		return competenceDao.findByUser(userId);
+	}
+
+	@Override
+	@Transactional
+	public Competence getByID(Long objectId) {
+		return competenceDao.getByID(objectId);
+	}
+
+	//UUID
+	@Override
+	public List<AchievementType> getAchievementTypesByCompetenceUuid(
+			String conpetenceUuid) {
+		
+		List<AchievementType> achievementTypes = achievementTypeDao
+				.getAchievementTypesByCompetenceUuid(conpetenceUuid);
+
+		return achievementTypes;
+	}
+}

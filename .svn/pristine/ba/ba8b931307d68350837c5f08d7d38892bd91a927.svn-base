@@ -1,0 +1,155 @@
+package com.softserve.edu.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class GenericDaoImplementation<T> implements GenericDao<T> {
+
+	@PersistenceContext
+	EntityManager entityManager;
+
+	private Class<T> objectClass;
+
+	public GenericDaoImplementation() {
+		super();
+	}
+
+	/**
+	 * This is the place where generic magically becomes a concrete object, in
+	 * some cases.
+	 * 
+	 * @param objectClass
+	 *            Class type, that will be returned in some cases.
+	 */
+	public GenericDaoImplementation(Class<T> objectClass) {
+		this.objectClass = objectClass;
+	}
+
+	@Override
+	public boolean save(T entity) {
+		boolean status = false;
+		entityManager.persist(entity);
+		status = true;
+		return status;
+	}
+
+	@Override
+	public boolean update(T entity) {
+		boolean status = false;
+		entityManager.merge(entity);
+		status = true;
+
+		return status;
+	}
+
+	@Override
+	public boolean delete(T entity) {
+		boolean status = false;
+		T mergedEntity = entityManager.merge(entity);
+		entityManager.remove(mergedEntity);
+		status = true;
+		return status;
+	}
+
+	@Override
+	public T getById(Long id) {
+		return entityManager.find(objectClass, id);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public T getByUuid(String uuid) {
+		try {
+			T foundEntity = (T) entityManager
+					.createQuery(
+							"from " + objectClass.getName()
+									+ " where uuid like :uuid")
+					.setParameter("uuid", uuid).getSingleResult();
+			return foundEntity;
+		} catch (NoResultException exc) {
+			// TODO: Add logging
+			return null;
+		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public T findSingleEntity(String singleQuery,  String... params) {
+		try {
+			Query query = entityManager.createQuery(singleQuery);
+
+			for (int i = 0; i < params.length; i++) {
+				query.setParameter(i + 1, params[i]);
+			}
+			return (T) query.getSingleResult();
+		} catch (NoResultException exc) {
+			// TODO: Add logging
+			return null;
+		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<T> getAll() {
+		return entityManager.createQuery("from " + objectClass.getName())
+				.getResultList();
+	}
+
+	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<T> dynamicSearchTwoCriterias(int startPosition, int maxResult,
+			String parameter1, String resultString, boolean findCriteria,
+			Long resultLong, String parameter2) {
+		String additionFind = "";
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<T> criteriaQuery = criteriaBuilder
+				.createQuery(objectClass);
+		Root<T> root = criteriaQuery.from(objectClass);
+
+		criteriaQuery.select(root);
+
+		if (findCriteria == false) {
+			additionFind = "%";
+		}
+
+		criteriaQuery.where(criteriaBuilder.like(root.<String> get(parameter1),
+				additionFind + resultString + "%"));
+		if (resultLong != null) {
+			criteriaQuery.where(criteriaBuilder.like(
+					root.<String> get(parameter1), additionFind + resultString
+							+ "%"), criteriaBuilder.equal(root.get(parameter2),
+					resultLong));
+		}
+		TypedQuery typedQuery = entityManager.createQuery(criteriaQuery);
+		typedQuery.setFirstResult(startPosition);
+		typedQuery.setMaxResults(maxResult);
+		List<T> resultList = typedQuery.getResultList();
+
+		return resultList;
+	}
+
+	@Override
+	public Integer count() {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = criteriaBuilder
+				.createQuery(Long.class);
+		criteriaQuery.multiselect(criteriaBuilder.count(criteriaQuery
+				.from(objectClass)));
+		TypedQuery<Long> countQuery = entityManager.createQuery(criteriaQuery);
+		int totalObjectsNumber = countQuery.getSingleResult().intValue();
+
+		return totalObjectsNumber;
+	}
+
+}

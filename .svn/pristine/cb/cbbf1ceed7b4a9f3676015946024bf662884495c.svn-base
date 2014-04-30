@@ -1,0 +1,35 @@
+package com.softserve.edu.dao;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
+
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.util.HibernateHelper;
+
+@Repository("achievementTypeDao")
+public class AchievementTypeDaoImplementation extends
+		GenericDaoImplementation<AchievementType> implements AchievementTypeDao {
+
+	public AchievementTypeDaoImplementation() {
+		super(AchievementType.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AchievementType> list(Long idCompetence) {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+
+		List<AchievementType> list = session
+				.createQuery("from AchievementType where competence_id = :cid")
+				.setParameter("cid", idCompetence).list();
+		session.close();
+
+		return list;
+	}
+
+}

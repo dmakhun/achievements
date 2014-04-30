@@ -1,0 +1,131 @@
+package com.softserve.edu.manager;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import com.softserve.edu.dao.RoleDao;
+import com.softserve.edu.dao.RoleDaoImplementation;
+import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.dao.UserDaoImplementation;
+import com.softserve.edu.entity.User;
+import com.softserve.edu.exception.InvalidValueException;
+
+@RunWith(MockitoJUnitRunner.class)
+public class UserManagerImplTest {
+
+	@Mock
+	private UserDao userDao = new UserDaoImplementation();
+	@Mock
+	private RoleDao roleDao;
+
+	@InjectMocks
+	UserManager userManager = new UserManagerImplementation();
+
+	@Before
+	public void setUp() throws Exception {
+		testUserOne = userManager.create("Name", "Surname", "testUserOne",
+				"pass", "e@mail.com", null);
+		testUserTwo = userManager.create("Name", "Surname", "testUserTwo",
+				"pass", "e2@mail.com", null);
+	}
+
+	/**
+	 * Lots of versions that method of adding user can take.
+	 * 
+	 * @throws InvalidValueException
+	 */
+
+	@Test(expected = InvalidValueException.class)
+	public void createTestNullStrings() throws InvalidValueException {
+		userManager.create(null, null, null, null, null, null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void createTestMaxLength50() throws InvalidValueException {
+		userManager
+				.create("slfkjdslkfjdslkfjsdlkfjsldkjflsdkjflsdkjflsdkjfldskjflsdkjfsldkjflsdk",
+						"", "", "", "", null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void createTestEmptyStrings() throws InvalidValueException {
+		userManager.create("", "", "", "", "", null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void createTestUsernameMinLength() throws InvalidValueException {
+		userManager.create("Name", "Surname", "u", "password", "email", null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void createTestUsername() throws InvalidValueException {
+		userManager.create("Name", "Surname", "u$$ern3m#", "password", "email",
+				null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void createTestSomeUserName() throws InvalidValueException {
+		userManager.create("Name", "Surname", "someUserName", "password",
+				"email", null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void createTestEmail() throws InvalidValueException {
+		userManager.create("Name", "Surname", "someUserName", "password",
+				"email@email", null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void createTestRoleID() throws InvalidValueException {
+		userManager.create("Name", "Surname", "someUserName", "password",
+				"email@email.email", 2l);
+	}
+	
+	/**
+	 * Lots of versions that method of user modifying can take.
+	 */
+
+	@Mock
+	User testUserOne = null;
+
+	@Mock
+	User testUserTwo = null;
+
+	// @Mock
+	// User auth = null;
+
+	@Test(expected = InvalidValueException.class)
+	public void testModifyValid() throws InvalidValueException {
+		userManager.update(testUserOne.getId(), "", "", "", "", "", null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void testModifyNameLength() throws InvalidValueException {
+		userManager
+				.update(testUserOne.getId(),
+						"sldfjsdlkfjsdl;fkjsdfdsfsfsdsda;lfkjsd;flkjsd;lfkjds;lfkjsda;lfkjsd;lfkj",
+						"", "", "", "", null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void testModifyNothingChanged() throws InvalidValueException {
+		userManager.update(testUserOne.getId(), "name", "surname",
+				"TestoniniOne", "", "", null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void testModifyDuplicateUsername() throws InvalidValueException {
+		userManager.update(testUserOne.getId(), "name", "surname",
+				"TestoniniTwo", "", "", null);
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void testModifyDuplicateEmail() throws InvalidValueException {
+		userManager.update(testUserOne.getId(), "name", "surname", "", "",
+				"e2@mail.com", null);
+	}
+}

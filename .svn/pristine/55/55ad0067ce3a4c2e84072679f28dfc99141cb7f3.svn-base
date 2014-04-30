@@ -1,0 +1,47 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="menu.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/addAchiv.css" />" type="text/css" />
+<title>My sweet home</title>
+
+</head>
+
+<body background="red">
+ 
+	<center><b>Home sweet home</b></center>
+	<div class="container">
+		<p>Списки груп</p>
+		<div class="panel panel-default">
+			<table class="table">
+				<c:forEach var="item" items="${groups}">
+					<tr>
+						<td>${item.name}</td>
+						<td>${item.opened}</td>
+						<td>${item.closed}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
+	<div class="container">
+		<p>Список нагород</p>
+		<div class="panel panel-default">
+			<table class="table">
+				<c:forEach var="item" items="${achievements}">
+					<tr>
+						<td>${item.achievementType.name}</td>
+						<td>${item.achievementType.points}</td>
+						<td>${item.comment}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+package com.softserve.edu.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.softserve.edu.entity.Right;
+@Repository("rightDao")
+public class RightDaoImplementation extends GenericDaoImplementation<Right>
+		implements RightDao {
+
+}

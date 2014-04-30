@@ -1,0 +1,104 @@
+package com.softserve.edu.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Right;
+import com.softserve.edu.entity.User;
+
+@Component
+public interface UserDao extends GenericDao<User> {
+
+	/**
+	 * Adds user and competence to the attending table.
+	 * 
+	 * @param user
+	 *            - user you want to attend
+	 * @param competence
+	 *            - competence you want to attend user
+	 */
+	public void attendUserToCompetence(Long userId, Long competenceId);
+
+	/**
+	 * Removes user from attending to some competence
+	 * 
+	 * @param user
+	 *            - user you want to remove
+	 * @param competence
+	 *            - competence from which you want to remove user\'s attend
+	 */
+
+	public void removeUserToCompetence(final Long userId,
+			final Long competenceId);
+
+	/**
+	 * Method for filling out database.
+	 * 
+	 * @param user
+	 * @param right
+	 */
+
+	public void addRightToUser(User user, Right right);
+
+	/**
+	 * Find concrete user by his full username.
+	 * 
+	 * @param username
+	 *            Username.
+	 * @return User or null.
+	 * 
+	 * @author vkudrtc
+	 */
+	public User findByUsername(final String username);
+
+	/**
+	 * Find concrete user by his email.
+	 * 
+	 * @param email
+	 *            Email.
+	 * @return User or null.
+	 * 
+	 * @author vkudrtc
+	 */
+	public User findByEmail(final String email);
+
+	/**
+	 * Delete user by specified Id.
+	 * 
+	 * @param id
+	 *            Id.
+	 * @return Status, if the deletion was successful.
+	 */
+	public boolean deleteById(final Long id);
+
+	/**
+	 * Delete user by specified username.
+	 * 
+	 * @param username
+	 *            Username.
+	 * @return Status.
+	 */
+	public boolean deleteByUsername(final String username);
+
+	/**
+	 * Find all groups, that user is attending.
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<Group> findGroups(Long userId, boolean onlyOpened);
+
+	public void deleteByUuid(String userUuid);
+
+	public void attendUserToCompetence(String userUuid, String competenceUuid);
+
+/**
+ * Method for counting all managers in DB.
+ * @return number of managers
+ */
+	public Integer countManagers();
+        
+
+}

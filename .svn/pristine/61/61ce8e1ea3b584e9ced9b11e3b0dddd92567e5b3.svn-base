@@ -1,0 +1,92 @@
+package com.softserve.edu.manager;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
+import static org.mockito.Mockito.*;
+
+import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.GenericDaoImplementation;
+import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+
+/**
+ * 
+ * @author dmakhtc
+ * 
+ */
+@RunWith(MockitoJUnitRunner.class)
+public class AchievementTypeManagerImplTest {
+
+	@Mock
+	private CompetenceDao competenceDao;
+	@Mock
+	private AchievementTypeDao achievementTypeDao;
+	@Mock
+	private AchievementType achievementType;
+	@Mock
+	private GenericDaoImplementation<AchievementType> genericDaoImplementation;
+	@Mock
+	private UserDao userDao;
+	@Mock
+	private Competence competence;
+
+	@InjectMocks
+	private AchievementTypeManager achievementTypeManager = new AchievementTypeManagerImplementation();
+
+	private long IdMock = 1;
+
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@Test
+	public void testCreate0() {
+		when(competenceDao.findByID(IdMock)).thenReturn(competence);
+		AchievementType achievementTypeExpected = new AchievementType().setName("Java")
+				.setPoints(12).setCompetence(competence);
+		achievementTypeDao.save(achievementTypeExpected);
+		AchievementType achievementTypeActual = achievementTypeManager.create(
+				"Java", 12, IdMock);
+		assertEquals(achievementTypeExpected, achievementTypeActual);
+	}
+
+	@Test
+	public void testCreate() {
+		when(competenceDao.findByID(IdMock)).thenReturn(competence);
+		AchievementType achievementTypeExpected = new AchievementType()
+				.setName("Java").setPoints(15).setCompetence(competence);
+		AchievementType achievementTypeActual = achievementTypeManager.create(
+				"Java", 15, IdMock);
+		assertEquals("failure - not equal", achievementTypeExpected,
+				achievementTypeActual); // assertNotNull("failure - should not be null",
+		// competenceDao.getByID(postIdMock));
+	}
+	 
+
+
+/*	@Test
+	public void testList() {
+		fail("Not yet implemented");
+		AchievementTypeManagerImplementation achTypeManager = new AchievementTypeManagerImplementation();
+		org.junit.Assert.assertNotNull("should not be null",
+				achTypeManager.create("name", 15, 12));
+	}*/
+	
+	@Test
+	public void testAchievementTypeList() {
+		achievementTypeManager.achievementTypeList();
+	}
+
+	@Test
+	public void testList() {
+		achievementTypeManager.list(IdMock);
+	}
+}

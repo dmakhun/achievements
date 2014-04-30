@@ -1,0 +1,73 @@
+package com.softserve.edu.rest;
+
+import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.User;
+import com.softserve.edu.manager.RoleManager;
+
+@Component
+@Path("/role")
+public class RoleRest {
+	@Autowired
+	RoleManager roleManager;
+
+	/*
+	 * find users by their roleid. find by rest/role/getusers/{roleid}. users
+	 * List is wrapped by special JaxbList object.
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/getusersbyroleuuid/{roleuuid}")
+	public Response getUsersByRoleId(@PathParam("roleuuid") String roleUuid) {
+		List<User> users = roleManager.findUsersByRoleUuid(roleUuid);
+		JaxbList<User> jaxbList = new JaxbList<User>();
+		jaxbList.setList(users);
+		return Response.ok(jaxbList).build();
+	}
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/getAll")
+	public Response getAll() {
+		List<Role> roles = roleManager.findAll();
+		JaxbList<Role> jaxbList = new JaxbList<Role>();
+		jaxbList.setList(roles);
+		return Response.ok(jaxbList).build();
+	}
+	/*
+	 * find role by rolename. find by rest/role/getrolebyrolename/{rolename}.
+	 * 
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/getrolebyrolename/{rolename}")
+	public Response getRoleByRolename(@PathParam("rolename") String roleName) {
+		Role role = roleManager.findRoleByRolename(roleName);
+		
+		return Response.ok(role).build();
+	}
+
+	/*
+	 * find role by roleuuid. find by rest/role/getrolebyuuid/{roleuuid}.
+	 * 
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/getrolebyuuid/{roleuuid}")
+	public Response getRoleByRoleUuid(@PathParam("roleuuid") String roleUuid) {
+		Role role = roleManager.findRoleByUuid(roleUuid);
+		
+		return Response.ok(role).build();
+	}
+
+}

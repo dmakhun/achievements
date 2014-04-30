@@ -1,0 +1,232 @@
+package com.softserve.edu.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
+
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Right;
+import com.softserve.edu.entity.User;
+import com.softserve.edu.util.HibernateHelper;
+
+@Repository("userDao")
+public class UserDaoImplementation extends GenericDaoImplementation<User>
+		implements UserDao {
+
+	public UserDaoImplementation() {
+		super(User.class);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void attendUserToCompetence(Long userId, Long competenceId) {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+
+		User user = (User) session.load(User.class, userId);
+		Competence competence = (Competence) session.get(Competence.class,
+				competenceId);
+
+		if (competence == null) {
+			return;
+		}
+
+		user.getCompetences().add(competence);
+
+		session.flush();
+		session.close();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void removeUserToCompetence(final Long userId,
+			final Long competenceId) {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+
+		Competence competence = (Competence) session.load(Competence.class,
+				competenceId);
+		User user = (User) session.get(User.class, userId);
+		competence.getUsers().remove(user);
+
+		session.flush();
+		session.close();
+	}
+
+	/*
+	 * Get all user's achievements. Author Volodymyr.
+	 */
+	@SuppressWarnings("unchecked")
+	public List<AchievementType> getUserAchievementList(long id) {
+
+		List<AchievementType> achievementList = new ArrayList<AchievementType>();
+		Session session = HibernateHelper.getSessionFactory().openSession();
+
+		achievementList = session
+				.createQuery(
+						"from AchievementType at INNER JOIN fetch at.achievement a "
+								+ "INNER JOIN fetch a.user u WHERE u.id = :userID")
+				.setParameter("userID", id).list();
+		session.close();
+
+		return achievementList;
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void addRightToUser(User user, Right right) {
+		user.getRights().add(right);
+		right.getUsers().add(user);
+		update(user);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> groupsList() {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+		Transaction transaction = null;
+		String s = "SELECT name FROM ach_Group WHERE id IN(SELECT group_id FROM ach_UserToGroup WHERE user_id = 1)";
+		List<String> list = new ArrayList<String>();
+		try {
+			transaction = session.beginTransaction();
+			list = session.createSQLQuery(s).list();
+			transaction.commit();
+		} catch (HibernateException e) {
+			transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Override
+	public User findByUsername(String username) {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+
+		if (username == null || username.isEmpty()) {
+			return null;
+		}
+
+		User user = (User) session
+				.createQuery("from User where username like :username")
+				.setParameter("username", username).uniqueResult();
+
+		session.close();
+
+		return user;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	@Override
+	public User findByEmail(String email) {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+
+		if (email == null || email.isEmpty()) {
+			return null;
+		}
+
+		User user = (User) session
+				.createQuery("from User where email like :email")
+				.setParameter("email", email).uniqueResult();
+
+		session.close();
+
+		return user;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @author vkudrtc
+	 */
+	public boolean deleteById(final Long id) {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+		Transaction transaction = null;
+		boolean status = false;
+
+		try {
+			transaction = session.beginTransaction();
+			session.createQuery("delete from User where id = :id")
+					.setParameter("id", id).executeUpdate();
+			transaction.commit();
+			status = true;
+		} catch (HibernateException e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			session.close();
+		}
+
+		return status;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 */
+	public boolean deleteByUsername(final String username) {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+		Transaction transaction = null;
+		boolean status = false;
+
+		try {
+			transaction = session.beginTransaction();
+			session.createQuery(
+					"delete from User where username like :username")
+					.setParameter("username", username).executeUpdate();
+			transaction.commit();
+			status = true;
+		} catch (HibernateException e) {
+			transaction.rollback();
+
+		} finally {
+			session.close();
+		}
+
+		return status;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Group> findGroups(Long userId, boolean onlyOpened) {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+		String closed = "";
+		if (onlyOpened) {
+		Date date = new Date();
+		SimpleDateFormat formatter=new SimpleDateFormat("YYYY-MM-DD");			
+			closed = "and closed >" + formatter.format(date);
+		}
+		List<Group> list = session.createQuery(
+				"from Group g inner join fetch g.users u where u.id = :id "
+						+ closed).setParameter("id", userId).list();		
+	
+		session.close();
+
+		return list;
+	}
+
+}

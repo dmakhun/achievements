@@ -1,0 +1,68 @@
+package com.softserve.edu.dao;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
+
+import com.softserve.edu.entity.Achievement;
+import com.softserve.edu.entity.User;
+import com.softserve.edu.util.HibernateHelper;
+@Repository("cchievementDao")
+public class AchievementDaoImplementation extends
+		GenericDaoImplementation<Achievement> implements AchievementDao {
+
+	public AchievementDaoImplementation() {
+		super(Achievement.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Achievement> findByAchievementTypeAndUser(final long achTid,
+			final long uId) {
+
+		Session session = HibernateHelper.getSessionFactory().openSession();
+		Transaction transaction = null;
+		List<Achievement> achievements = null;
+
+		try {
+			transaction = session.beginTransaction();
+			achievements = (List<Achievement>) session
+					.createQuery(
+							"from Achievement where achievement_type_id = :atid and user_id = :uid")
+					.setParameter("atid", achTid).setParameter("uid", uId)
+					.list();
+			transaction.commit();
+		} catch (HibernateException e) {
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
+
+		return achievements;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Achievement> userAchievements(Long userId) {
+		Session session = HibernateHelper.getSessionFactory().openSession();
+
+		User user = (User) session.get(User.class, userId);
+		List<Achievement> achievements = new ArrayList<>(user.getAchievements());
+		for (Achievement achievement : achievements) {
+			achievement.getAchievementType();
+		}
+
+		session.close();
+
+		return achievements;
+	}
+}

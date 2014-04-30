@@ -1,0 +1,119 @@
+package com.softserve.edu.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.User;
+
+@Repository("competenceDao")
+public class CompetenceDaoImplementation extends
+		GenericDaoImplementation<Competence> implements CompetenceDao {
+
+	public CompetenceDaoImplementation() {
+		super(Competence.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Group> showGroups(int groupId) {
+
+		Query query = entityManager
+				.createQuery("from Group where competence_id = :id");
+		query.setParameter("id", groupId);
+		List<Group> groups = query.getResultList();
+
+		return groups;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Group> findGroupsByCompetenceUuid(String competenceUuid) {
+		return (List<Group>) entityManager
+				.createQuery(
+						"FROM Group g INNER JOIN fetch g.competence c WHERE c.uuid like :competenceUuid")
+				.setParameter("competenceUuid", competenceUuid).getResultList();
+	}
+
+	public void create(String name) {
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Competence findByName(String name) {
+
+		try {
+			Competence competence = (Competence) entityManager
+					.createQuery("from Competence where name like :name")
+					.setParameter("name", name).getSingleResult();
+
+			return competence;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Competence> findByUser(Long userId) {
+
+		User user = (User) entityManager.find(User.class, userId);
+		List<Competence> list = new ArrayList<>(user.getCompetences());
+
+		return list;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Competence> findByUserUuid(String userUuid) {
+		return (List<Competence>) entityManager
+				.createQuery(
+						"FROM Competence c INNER JOIN fetch c.groups g INNER JOIN fetch g.users u WHERE u.uuid LIKE :userUuid")
+				.setParameter("userUuid", userUuid).getResultList();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Competence> listWithUsers() {
+
+		@SuppressWarnings("unchecked")
+		List<Competence> list = entityManager.createQuery("from Competence")
+				.getResultList();
+		for (Competence competence : list) {
+			competence.getUsers().size();
+		}
+
+		return list;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deleteByUuid(String uuid) {
+
+		entityManager.createQuery("delete from Competence WHERE uuid like :uuid")
+				.setParameter("uuid", uuid).executeUpdate();
+
+	}
+}

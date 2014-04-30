@@ -1,0 +1,82 @@
+package com.softserve.edu.rest;
+
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.User;
+import com.softserve.edu.manager.GroupManager;
+
+@Component
+@Path("/group")
+public class GroupRest {
+	@Autowired
+	private GroupManager groupManager;
+
+	/*
+	 * find all group by user uuid from database. find by
+	 * rest/group/findusersbygroupuuid/{groupuuid}. listOfUsers is wrapped by
+	 * special JaxbList object. Method produces xml file.
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/findusersbygroupuuid/{groupuuid}")
+	public Response findUsersByGroupUuid(
+			@PathParam("groupuuid") final String groupUuid) {
+		List<User> listUsersInGroup = groupManager
+				.findUsersByGroupUuid(groupUuid);
+		JaxbList<User> jaxbList = new JaxbList<User>(listUsersInGroup);
+
+		return Response.ok(jaxbList).build();
+	}
+
+	/*
+	 * Select Groups, where opening date>current Date.
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/findgroupsinfuture")
+	public Response findGroupsInFuture() {
+		List<Group> listGroupsInFuture = null;
+		listGroupsInFuture = groupManager.inFuture();
+		JaxbList<Group> jaxbList = new JaxbList<Group>();
+		jaxbList.setList(listGroupsInFuture);
+		return Response.ok(jaxbList).build();
+
+	}
+
+	// UUID do not work
+	@POST
+	@Consumes(MediaType.APPLICATION_XML)
+	@Path("/creategroup")
+	public Response createGroup(Group group) {
+
+		groupManager.create(group.getName(), group.getOpened(),
+				group.getClosed(), group.getCompetence().getUuid());
+
+		return Response.status(200).build();
+	}
+
+	@PUT
+	@Path("/addusertogroup/{useruuid}/{groupuuid}")
+	public Response addUserToGroup(@PathParam("useruuid") String userUuid,
+			@PathParam("groupuuid") String groupUuid) {
+
+		groupManager.addUser(userUuid, groupUuid);
+
+		return Response.status(200).build();
+	}
+
+}

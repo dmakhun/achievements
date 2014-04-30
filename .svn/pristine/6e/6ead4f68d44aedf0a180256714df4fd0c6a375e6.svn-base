@@ -1,0 +1,116 @@
+package com.softserve.edu.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.manager.AchievementTypeManager;
+import com.softserve.edu.manager.CompetenceManager;
+
+@Controller
+public class AchievementTypeController {
+	@Autowired
+	CompetenceManager competenceManager;
+	@Autowired
+	CompetenceDao competenceDao;
+	@Autowired
+	AchievementTypeDao achievementTypeDao;
+	@Autowired
+	AchievementTypeManager achievementTypeManager;
+
+	@RequestMapping(value = "/admin/achievementtype/add", method = RequestMethod.GET)
+	public String addAchievementTypeAllCompetences(Model model) {
+		List<Competence> competencelist = competenceManager.list();
+
+		model.addAttribute("competencelist", competencelist);
+
+		return "Competencies/AllCompetencies";
+	}
+
+	@RequestMapping(value = "/admin/achievementtype/add/{id}", method = RequestMethod.GET)
+	public String addAchievementType(
+			@RequestParam(value = "status", required = false, defaultValue = "") String status,
+			@PathVariable(value = "id") Long competenceId, Model model) {
+
+		Competence competence = competenceDao.getByID((long) competenceId);
+
+		List<AchievementType> achievements = achievementTypeDao
+				.list(competenceId);
+		model.addAttribute("achievements", achievements);
+		model.addAttribute("competence", competence);
+		model.addAttribute("status", status);
+
+		return "addAchievementType";
+	}
+
+	@RequestMapping(value = "/admin/achievementtype/add/{id}", method = RequestMethod.POST)
+	public String addAchievementTypePost(
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "points") String points,
+			@PathVariable(value = "id") int competenceId, Model model) {
+		try {
+			int achPoints = Integer.parseInt(points);
+
+			achievementTypeManager.create(name, achPoints, competenceId);
+		} catch (NumberFormatException ex) {
+			return "redirect:/admin/achievementtype/add/{id}?status=fail";
+		}
+
+		return "redirect:/admin/achievementtype/add/{id}";
+	}
+
+	@RequestMapping(value = "/removeAchievementType", method = RequestMethod.GET)
+	public String removeAchievementType(
+			@RequestParam(value = "status", defaultValue = "", required = false) String status,
+			Model model) {
+
+		List<AchievementType> achievementTypeList = achievementTypeManager
+				.achievementTypeList();
+		model.addAttribute("achievementTypeList", achievementTypeList);
+		model.addAttribute("status", status);
+
+		return "removeAchievementType";
+	}
+
+	@RequestMapping(value = "/admin/achievementtype/allAchievements", method = RequestMethod.GET)
+	public String addAchievementTypeAll(
+			@RequestParam(value = "status", required = false, defaultValue = "") String status,
+			Model model) {
+
+		List<AchievementType> achievementTypeList = achievementTypeManager
+				.achievementTypeList();
+		model.addAttribute("achievementTypeList", achievementTypeList);
+		model.addAttribute("status", status);
+
+		return "achievements/allAchievements";
+	}
+
+	@RequestMapping(value = "admin/removeAchievementType/{id}", method = RequestMethod.GET)
+	public String removeAchievementTypeById(
+			@PathVariable(value = "id") Long achievementTypeId) {
+
+		achievementTypeManager.deleteById(achievementTypeId);
+		return "redirect:/admin/achievementtype/allAchievements?status=success";
+	}
+
+	@RequestMapping(value = "/removeAchievementType", method = RequestMethod.POST)
+	public String removeAchievementTypePost(
+			Model model,
+			@RequestParam(value = "AchievmentTypeList", required = false, defaultValue = "") Long atid) {
+
+		achievementTypeManager.deleteById(atid);
+
+		return "redirect:/removeAchievementType?status=success";
+	}
+
+}

@@ -1,0 +1,74 @@
+package com.softserve.edu.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.NoResultException;
+
+import org.springframework.stereotype.Repository;
+
+import com.softserve.edu.entity.Achievement;
+import com.softserve.edu.entity.User;
+
+@Repository("cchievementDao")
+public class AchievementDaoImplementation extends
+		GenericDaoImplementation<Achievement> implements AchievementDao {
+
+	public AchievementDaoImplementation() {
+		super(Achievement.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Achievement> findByAchievementTypeAndUser(final long achTid,
+			final long uId) {
+
+		return (List<Achievement>) entityManager
+				.createQuery(
+						"from Achievement where achievement_type_id = :atid and user_id = :uid")
+				.setParameter("atid", achTid).setParameter("uid", uId)
+				.getResultList();
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Achievement> userAchievements(Long userId) {
+		User user = (User) entityManager.find(User.class, userId);
+		List<Achievement> achievements = new ArrayList<>(user.getAchievements());
+		for (Achievement achievement : achievements) {
+			achievement.getAchievementType();
+		}
+
+		return achievements;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Achievement> getAchievementsByUserUuid(String userUuid) {
+		
+			
+		User user  = (User) entityManager
+				.createQuery("from User WHERE uuid like :userUuid")
+				.setParameter("userUuid", userUuid).getSingleResult();
+		List<Achievement> achievements =null;
+		try{
+		achievements = (List<Achievement>) entityManager.createQuery(
+				"from Achievement WHERE user_id like :id").setParameter("id",
+				user.getId()).getResultList();
+		}catch(NullPointerException e){
+			System.out.println("///////////////////////////");
+		}
+
+		System.out.println(achievements);
+		
+		return achievements;
+	}
+}

@@ -1,0 +1,37 @@
+<style>
+   p {
+    text-indent: 40px;
+   }
+  </style>
+<body>
+
+<div class="reg_section password">
+     	<%-- 		 ${mess} --%>
+			  <h4><p>Password: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+			  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+			  <input type="password" name="oldPassword" value="" placeholder="Password">
+			  </p></h4>							
+      
+		      <h4><p>
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+		      <input type="password" name="newPassword" value="" placeholder="New Password">
+		      </p></h4>
+      
+		      <h4><p>
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+		      <input type="password" name="confirmPassword" value="" placeholder="Confirm Password">
+		      </p></h4>
+       		  
+       		  <h4><p>
+		      <p  class="submit"><input type="submit" name="commit" value="Save"></p>
+		      </p></h4>
+		      
+		      <h4><p>
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+		      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+		      <p></h4>
+		      
+      </div>
+</body>

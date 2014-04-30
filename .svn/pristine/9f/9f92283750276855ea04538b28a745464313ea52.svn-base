@@ -1,0 +1,103 @@
+package com.softserve.edu.manager;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+
+@Service("competenceManager")
+public class CompetenceManagerImplementation implements CompetenceManager {
+
+	@Autowired
+	CompetenceDao competenceDao;
+	@Autowired
+	AchievementTypeDao achievementTypeDao;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Group> getGroups(int CompetenceId) {
+
+		return competenceDao.showGroups(CompetenceId);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Competence> list() {
+
+		return competenceDao.listWithUsers();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<AchievementType> getTypesOfAchievements(Long idCompetence) {
+
+		List<AchievementType> achievementTypes = achievementTypeDao
+				.list(idCompetence);
+
+		return achievementTypes;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Competence create(String name) {
+
+		Competence competence = new Competence();
+		competence.setName(name);
+
+		competenceDao.save(competence);
+		return competence;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean delete(Long id) {
+
+		Competence competence = competenceDao.getByID(id);
+		return competenceDao.delete(competence);
+	}
+
+	//FIXME
+	public boolean delete(String name) {
+
+		Competence competence = competenceDao.findByName(name);
+		return competenceDao.delete(competence);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Competence> listWithout(List<Competence> buts) {
+
+		Set<Competence> but = new HashSet<>();
+		but.addAll(buts);
+
+		Set<Competence> set = new HashSet<>();
+		set.addAll(competenceDao.getAll());
+		set.removeAll(but);
+		return new ArrayList<>(set);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Competence> findByUser(Long userId) {
+
+		return competenceDao.findByUser(userId);
+	}
+}

@@ -1,0 +1,50 @@
+package com.softserve.edu.dao;
+
+import java.util.List;
+
+public interface GenericDao<T> {
+
+    /**
+     * Save new value.
+     * 
+     * @param item
+     *            Item.
+     * @return true if saved successfully, false otherwise.
+     */
+    public boolean save(T item);
+
+    /**
+     * Update existing item.
+     * 
+     * @param item
+     *            Item.
+     * @return true if saved successfully, false otherwise.
+     */
+    public boolean update(T item);
+
+    /**
+     * Get existing object by its id.
+     * 
+     * @param objectId
+     *            Id of object.
+     * @return Object is returned; null, if not found.
+     */
+    public T getByID(Long objectId);
+
+    /**
+     * Get all objects from table.
+     * 
+     * @return List of objects.
+     */
+    public List<T> getAll();
+
+    /**
+     * Delete existing item.
+     * 
+     * @param item
+     *            Item.
+     * @return true if deleted; false otherwise.
+     */
+    public boolean delete(T item);
+
+}
