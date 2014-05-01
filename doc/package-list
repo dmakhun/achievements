@@ -1,9 +1,0 @@
-com.softserve.edu.controller
-com.softserve.edu.dao
-com.softserve.edu.entity
-com.softserve.edu.exception
-com.softserve.edu.main
-com.softserve.edu.manager
-com.softserve.edu.rest
-com.softserve.edu.util
-com.softserve.edu.validation
