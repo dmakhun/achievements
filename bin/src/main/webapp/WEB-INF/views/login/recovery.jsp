@@ -1,1 +1,0 @@
-<%@ include file="../libs/libs.jsp" %>
