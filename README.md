@@ -1,1 +1,1 @@
-Training web project for tracking students achievements
+Web-project for awarding points and achievements to participants.
