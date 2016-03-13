@@ -1,39 +1,38 @@
 package com.softserve.edu.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.softserve.edu.entity.Achievement;
+import com.softserve.edu.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.softserve.edu.entity.Achievement;
-import com.softserve.edu.entity.User;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository("achievementDao")
 public class AchievementDaoImplementation extends
-		GenericDaoImplementation<Achievement> implements AchievementDao {
+        GenericDaoImplementation<Achievement> implements AchievementDao {
 
-	@Autowired
-	UserDao userDao;
+    @Autowired
+    UserDao userDao;
 
-	@Override
-	public List<Achievement> findByUserId(Long userId) {
-		User user = (User) entityManager.find(User.class, userId);
-		List<Achievement> achievements = new ArrayList<>(user.getAchievements());
-		for (Achievement achievement : achievements) {
-			achievement.getAchievementType();
-		}
+    @Override
+    public List<Achievement> findByUserId(Long userId) {
+        User user = (User) entityManager.find(User.class, userId);
+        List<Achievement> achievements = new ArrayList<>(user.getAchievements());
+        for (Achievement achievement : achievements) {
+            achievement.getAchievementType();
+        }
 
-		return achievements;
-	}
+        return achievements;
+    }
 
-	@Override
-	public List<Achievement> findByUserUuid(String userUuid) {
-		User user = userDao.findEntity(Achievement.GET_ACHIEVEMENT_FROM_USER,
-				userUuid);
+    @Override
+    public List<Achievement> findByUserUuid(String userUuid) {
+        User user = userDao.findEntity(Achievement.GET_ACHIEVEMENT_FROM_USER,
+                userUuid);
 
-		return findEntityList(
-				Achievement.GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT, user.getId());
-	}
-	
+        return findEntityList(
+                Achievement.GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT, user.getId());
+    }
+
 }
