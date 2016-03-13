@@ -1,142 +1,130 @@
 package com.softserve.edu.entity;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
  * Represents bean class for Competence entity.
- * 
+ *
  * @author Nazar.
- * 
  */
 @Entity
 @Table(name = "ach_Competence")
 @XmlRootElement
-@NamedQueries({ 
-	@NamedQuery(name = Competence.SHOW_GROUPS, query = Competence.SHOW_GROUPS_QUERY),
-	@NamedQuery(name = Competence.FIND_GROUPS_BY_COMPETENCE_UUID, query = Competence.FIND_GROUPS_BY_COMPETENCE_UUID_QUERY),
-	@NamedQuery(name = Competence.FIND_COMPETENCE_BY_NAME, query = Competence.FIND_COMPETENCE_BY_NAME_QUERY),
-	@NamedQuery(name = Competence.FIND_BY_USER_UUID, query = Competence.FIND_BY_USER_UUID_QUERY),
+@NamedQueries({
+        @NamedQuery(name = Competence.SHOW_GROUPS, query = Competence.SHOW_GROUPS_QUERY),
+        @NamedQuery(name = Competence.FIND_GROUPS_BY_COMPETENCE_UUID, query = Competence.FIND_GROUPS_BY_COMPETENCE_UUID_QUERY),
+        @NamedQuery(name = Competence.FIND_COMPETENCE_BY_NAME, query = Competence.FIND_COMPETENCE_BY_NAME_QUERY),
+        @NamedQuery(name = Competence.FIND_BY_USER_UUID, query = Competence.FIND_BY_USER_UUID_QUERY),
 })
-public class Competence extends AbstractEntity{
-	
-	public static final String SHOW_GROUPS = "Competence.showGroups";
-	public static final String SHOW_GROUPS_QUERY = "from Group where competence_id = ?1";
-	
-	public static final String FIND_GROUPS_BY_COMPETENCE_UUID = "Competence.findGroupsByCompetenceId";
-	public static final String FIND_GROUPS_BY_COMPETENCE_UUID_QUERY = "FROM Group g INNER JOIN fetch g.competence c WHERE c.uuid like ?1";
-	
-	public static final String FIND_COMPETENCE_BY_NAME = "Competence.findByName";
-	public static final String FIND_COMPETENCE_BY_NAME_QUERY = "from Competence where name like ?1";
-	
-	public static final String FIND_BY_USER_UUID = "Competence.findByUserUuid";
-	public static final String FIND_BY_USER_UUID_QUERY = "FROM Competence c INNER JOIN fetch c.groups g INNER JOIN fetch g.users u WHERE u.uuid LIKE ?1"; 
+public class Competence extends AbstractEntity {
+
+    public static final String SHOW_GROUPS = "Competence.showGroups";
+    public static final String SHOW_GROUPS_QUERY = "from Group where competence_id = ?1";
+
+    public static final String FIND_GROUPS_BY_COMPETENCE_UUID = "Competence.findGroupsByCompetenceId";
+    public static final String FIND_GROUPS_BY_COMPETENCE_UUID_QUERY = "FROM Group g INNER JOIN fetch g.competence c WHERE c.uuid like ?1";
+
+    public static final String FIND_COMPETENCE_BY_NAME = "Competence.findByName";
+    public static final String FIND_COMPETENCE_BY_NAME_QUERY = "from Competence where name like ?1";
+
+    public static final String FIND_BY_USER_UUID = "Competence.findByUserUuid";
+    public static final String FIND_BY_USER_UUID_QUERY = "FROM Competence c INNER JOIN fetch c.groups g INNER JOIN fetch g.users u WHERE u.uuid LIKE ?1";
 
 
-	/**
-	 * @return the id
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Long id;
+    /**
+     * @return the id
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-	/**
-	 * @return the name
-	 */
-	@Column(name = "name", length = 50)
-	private String name;
-	
-	@Column(name = "created")
-	private Date date;
+    /**
+     * @return the name
+     */
+    @Column(name = "name", length = 50)
+    private String name;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "ach_UserToCompetence", joinColumns = { @JoinColumn(name = "competence_id") }, 
-												inverseJoinColumns = { @JoinColumn(name = "user_id") })
-	private Set<User> users;
+    @Column(name = "created")
+    private Date date;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
-	private Set<Group> groups;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "ach_UserToCompetence", joinColumns = {@JoinColumn(name = "competence_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private Set<User> users;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
-	private Set<AchievementType> achievementTypes;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
+    private Set<Group> groups;
 
-	public Competence() {
-	}
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
+    private Set<AchievementType> achievementTypes;
 
-	public Competence(String name, Date date) {
-		super();
-		this.name = name;
-		this.date = date;
-	}
+    public Competence() {
+    }
 
-	@XmlTransient
-	public Set<Group> getGroups() {
-		return groups;
-	}
+    public Competence(String name, Date date) {
+        super();
+        this.name = name;
+        this.date = date;
+    }
 
-	public void setGroups(Set<Group> groups) {
-		this.groups = groups;
-	}
-	@XmlTransient
-	public Set<AchievementType> getAchievementTypes() {
-		return achievementTypes;
-	}
+    @XmlTransient
+    public Set<Group> getGroups() {
+        return groups;
+    }
 
-	public void setAchievementTypes(Set<AchievementType> achievementTypes) {
-		this.achievementTypes = achievementTypes;
-	}
-	@XmlTransient
-	public Set<User> getUsers() {
-		return users;
-	}
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
+    }
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-	@XmlTransient
-	public Long getId() {
-		return id;
-	}
+    @XmlTransient
+    public Set<AchievementType> getAchievementTypes() {
+        return achievementTypes;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setAchievementTypes(Set<AchievementType> achievementTypes) {
+        this.achievementTypes = achievementTypes;
+    }
 
-	public String getName() {
-		return name;
-	}
+    @XmlTransient
+    public Set<User> getUsers() {
+        return users;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    @XmlTransient
+    public Long getId() {
+        return id;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -160,6 +148,6 @@ public class Competence extends AbstractEntity{
             return false;
         return true;
     }
-	
+
 
 }
