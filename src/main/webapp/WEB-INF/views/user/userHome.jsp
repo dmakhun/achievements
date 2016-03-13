@@ -4,42 +4,42 @@
 <html>
 <body background="red">
 <br>
-	<center><b>User Home</b></center>
-	<br>
-	<div class="container">
-		<p>Groups</p>
-		<div class="panel panel-default">
-			<table class="table">
-				<c:forEach var="item" items="${groups}">
-					<tr>
-						<td>${item.name}</td>
-						<td>${item.opened}</td>
-						<td>${item.closed}</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-	</div>
-	<div class="container">
-		<p>Achievements</p>
-		<p></p>
-		<div class="panel panel-default">
-			<table class="table">
-				<c:forEach var="item" items="${achievements}">
-					<tr>
-						<td>${item.achievementType.name}</td>
-						<td>${item.achievementType.points}</td>
-						<td>${item.comment}</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-	</div>
-	<br>
-	<div class="container">
-	 <sec:authorize ifAnyGranted='ROLE_USER'>
-		<%@ include file="simpleUserProfile.jsp"%>
-	</sec:authorize>
-	</div>
+<center><b>User Home</b></center>
+<br>
+<div class="container">
+    <p>Groups</p>
+    <div class="panel panel-default">
+        <table class="table">
+            <c:forEach var="item" items="${groups}">
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.opened}</td>
+                    <td>${item.closed}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+</div>
+<div class="container">
+    <p>Achievements</p>
+    <p></p>
+    <div class="panel panel-default">
+        <table class="table">
+            <c:forEach var="item" items="${achievements}">
+                <tr>
+                    <td>${item.achievementType.name}</td>
+                    <td>${item.achievementType.points}</td>
+                    <td>${item.comment}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+</div>
+<br>
+<div class="container">
+    <sec:authorize ifAnyGranted='ROLE_USER'>
+        <%@ include file="simpleUserProfile.jsp" %>
+    </sec:authorize>
+</div>
 </body>
 </html>

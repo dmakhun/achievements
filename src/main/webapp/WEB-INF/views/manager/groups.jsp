@@ -1,7 +1,7 @@
-<%@ include file="../libs/libs.jsp"%>
+<%@ include file="../libs/libs.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <script src="<c:url value="/resources/script/jquery-2.1.0.js" />"></script>
 <script src="<c:url value="/resources/script/jquery-ui.js" />"></script>
 <script id="group-row" language="text">
@@ -25,6 +25,8 @@
 	</div>
 </div>
 <hr />
+
+
 </script>
 
 <script id="group-panel" language="text">
@@ -50,6 +52,8 @@
 	{{row}}
 </div>
 </div>
+
+
 </script>
 <script>
 	$(function() {
@@ -112,7 +116,7 @@
 			$("input[name=type]").val("create");
 
 			$.ajax({
-				url : "<c:url value="/manager/groups/manage/" />",
+				url : "<c:url value="/manager/groups/manage/"/>",
 				type : "post",
 				data : data,
 				statusCode : {
@@ -187,7 +191,7 @@
 				}
 
 				$.ajax({
-					url : "<c:url value="/manager/groups/manage/" />",
+					url : "<c:url value="/manager/groups/manage/"/>",
 					type : "post",
 					data : $("form").serialize(),
 					statusCode : {
@@ -207,110 +211,112 @@
 				});
 			});
 	});
+
+
 </script>
 <div class="container">
-	<div id="message-box" class="alert alert-danger text-center"
-		style="width: 400px; position: fixed; left: 50%; top: 50%; margin-left: -200px; z-index: 10; display: none"></div>
+    <div id="message-box" class="alert alert-danger text-center"
+         style="width: 400px; position: fixed; left: 50%; top: 50%; margin-left: -200px; z-index: 10; display: none"></div>
 
-	<c:forEach var="mapItem" items="${groups}">
-		<c:if test="${not empty mapItem.value}">
-			<div id="${mapItem.key}" class="panel panel-default">
-				<div class="panel-heading">${mapItem.key}</div>
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-md-6">
-							<strong>Group name</strong>
-						</div>
-						<div class="col-md-2">
-							<strong>Opening date</strong>
-						</div>
-						<div class="col-md-2">
-							<strong>Closing date</strong>
-						</div>
-						<div class="col-md-2">
-							<strong>Actions</strong>
-						</div>
-					</div>
-					<hr />
-					<c:forEach var="item" items="${mapItem.value}">
-						<div class="row">
-							<div class="col-md-6 group-name">${item.name }</div>
-							<div class="col-md-2 group-opened">${item.opened }</div>
-							<div class="col-md-2 group-closed">${item.closed }</div>
-							<div class="col-md-2 text-center">
-								<div class="btn-group btn-group-lg">
-									<button type="button" class="modifiable btn btn-warning">
-										<span class="glyphicon glyphicon-pencil"></span>
-									</button>
-									<button type="button" class="deleteable btn btn-danger">
-										<span class="glyphicon glyphicon-remove"></span>
-									</button>
-								</div>
-								<input type="hidden" name="delete" value="${item.id}" />
-								<input type="hidden" name="modify" value="${item.id}" />
-								<input type="hidden" name="competence-id" value="${item.competence.id}" />
-							</div>
-						</div>
-						<hr />
-					</c:forEach>
-				</div>
-			</div>
-		</c:if>
-	</c:forEach>
+    <c:forEach var="mapItem" items="${groups}">
+        <c:if test="${not empty mapItem.value}">
+            <div id="${mapItem.key}" class="panel panel-default">
+                <div class="panel-heading">${mapItem.key}</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Group name</strong>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Opening date</strong>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Closing date</strong>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Actions</strong>
+                        </div>
+                    </div>
+                    <hr/>
+                    <c:forEach var="item" items="${mapItem.value}">
+                        <div class="row">
+                            <div class="col-md-6 group-name">${item.name }</div>
+                            <div class="col-md-2 group-opened">${item.opened }</div>
+                            <div class="col-md-2 group-closed">${item.closed }</div>
+                            <div class="col-md-2 text-center">
+                                <div class="btn-group btn-group-lg">
+                                    <button type="button" class="modifiable btn btn-warning">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <button type="button" class="deleteable btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </div>
+                                <input type="hidden" name="delete" value="${item.id}"/>
+                                <input type="hidden" name="modify" value="${item.id}"/>
+                                <input type="hidden" name="competence-id" value="${item.competence.id}"/>
+                            </div>
+                        </div>
+                        <hr/>
+                    </c:forEach>
+                </div>
+            </div>
+        </c:if>
+    </c:forEach>
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<a href="#grouplink"></a> <span class="create-new-group">Створити
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="#grouplink"></a> <span class="create-new-group">Створити
 				нову групу</span> <span class="modify-existing-group" style="display: none">Редагувати
 				групу</span> <span id="cancel-modify" class="modify-existing-group"
-				style="display: none; float: right"><span
-				class="glyphicon glyphicon-remove-circle"></span></span>
-		</div>
-		<div class="panel-body">
-			<div class="row">
-				<form method="POST">
-					<input type="hidden" name="type" value="create" /> <input
-						type="hidden" name="id" value="" />
-					<div class="col-md-4">
-						<div class="form-group">
-							<input class="form-control" type="text" name="group_name"
-								placeholder="Назва групи" />
-						</div>
-					</div>
+                                   style="display: none; float: right"><span
+                class="glyphicon glyphicon-remove-circle"></span></span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <form method="POST">
+                    <input type="hidden" name="type" value="create"/> <input
+                        type="hidden" name="id" value=""/>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="group_name"
+                                   placeholder="Назва групи"/>
+                        </div>
+                    </div>
 
-					<div class="col-md-2">
-						<div class="form-group">
-							<select class="form-control" name="competence">
-								<c:forEach var="item" items="${competences}">
-									<option value="${item.id}">${item.name}</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <select class="form-control" name="competence">
+                                <c:forEach var="item" items="${competences}">
+                                    <option value="${item.id}">${item.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
 
-					<div class="col-md-2">
-						<div class="form-group">
-							<input id="date-from" class="form-control" name="dateStart"
-								placeholder="Дата старту" />
-						</div>
-					</div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input id="date-from" class="form-control" name="dateStart"
+                                   placeholder="Дата старту"/>
+                        </div>
+                    </div>
 
-					<div class="col-md-2">
-						<div class="form-group">
-							<input id="date-to" class="form-control" name="dateEnd"
-								placeholder="Дата закінчення" />
-						</div>
-					</div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input id="date-to" class="form-control" name="dateEnd"
+                                   placeholder="Дата закінчення"/>
+                        </div>
+                    </div>
 
-					<div class="col-md-2">
-						<button id="form-submit" class="btn btn-default form-control"
-							type="button">
-							<span class="create-new-group">Створити</span> <span
-								class="modify-existing-group" style="display: none">Редагувати</span>
-						</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                    <div class="col-md-2">
+                        <button id="form-submit" class="btn btn-default form-control"
+                                type="button">
+                            <span class="create-new-group">Створити</span> <span
+                                class="modify-existing-group" style="display: none">Редагувати</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
