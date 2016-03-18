@@ -93,7 +93,7 @@ public class UserDaoImplementation extends GenericDaoImplementation<User>
                                 + "from Achievement ac WHERE user_id like :user_id)")
                 .setParameter("user_id", user.getId()).getSingleResult();
         if (points == null) {
-            return 0l;
+            return 0L;
         }
         return points;
     }
