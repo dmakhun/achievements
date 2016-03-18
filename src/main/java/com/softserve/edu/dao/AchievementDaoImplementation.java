@@ -19,10 +19,7 @@ public class AchievementDaoImplementation extends
     public List<Achievement> findByUserId(Long userId) {
         User user = entityManager.find(User.class, userId);
         List<Achievement> achievements = new ArrayList<>(user.getAchievements());
-        for (Achievement achievement : achievements) {
-            achievement.getAchievementType();
-        }
-
+        achievements.forEach(Achievement::getAchievementType);
         return achievements;
     }
 
