@@ -1,3 +1,4 @@
+<!--
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE hibernate-configuration PUBLIC
@@ -11,11 +12,11 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <!-- Echo all executed SQL to stdout -->
+        &lt;!&ndash; Echo all executed SQL to stdout &ndash;&gt;
         <property name="show_sql">true</property>
 
         <property name="hbm2ddl.auto">create</property>
 
 
     </session-factory>
-</hibernate-configuration>
+</hibernate-configuration>-->

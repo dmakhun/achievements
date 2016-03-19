@@ -34,12 +34,11 @@ public class CompetenceDaoImplementation extends
     }
 
     @Override
-    public List<Competence> findByUser(Long userId) {
+    public List<Competence> findCompetencesByUserId(Long userId) {
 
-        User user = (User) entityManager.find(User.class, userId);
-        List<Competence> list = new ArrayList<>(user.getCompetences());
+        User user = entityManager.find(User.class, userId);
 
-        return list;
+        return new ArrayList<>(user.getCompetences());
     }
 
     @Override
@@ -48,13 +47,8 @@ public class CompetenceDaoImplementation extends
     }
 
     @Override
-    public List<Competence> listWithUsers() {
-
-        List<Competence> list = findAll(Competence.class);
-        for (Competence competence : list) {
-            competence.getUsers().size();
-        }
-        return list;
+    public List<Competence> findAllCompetences() {
+        return findAll(Competence.class);
     }
 
 }

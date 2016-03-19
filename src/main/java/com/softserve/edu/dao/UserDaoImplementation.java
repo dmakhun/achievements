@@ -6,16 +6,16 @@ import com.softserve.edu.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.Date;
 import java.util.List;
 
 @Repository("userDao")
 public class UserDaoImplementation extends GenericDaoImplementation<User>
         implements UserDao {
+
+    public static final String SUM_OF_POINTS = "select sum(atype.points) from AchievementType atype where atype in(select ac.achievementType  "
+            + "from Achievement ac WHERE user_id like :user_id)";
+    public static final String COUNT_ALL_MANAGERS = "select count(*) FROM User u inner join fetch u.role r WHERE r.id = ?1";
 
     @Autowired
     RoleDao roleDao;
@@ -70,37 +70,21 @@ public class UserDaoImplementation extends GenericDaoImplementation<User>
 
     @Override
     public Long countManagers() {
-
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> criteriaQuery = criteriaBuilder
-                .createQuery(Long.class);
-        Root<User> root = criteriaQuery.from(User.class);
-        criteriaQuery.select(criteriaBuilder.count(root));
-
-        criteriaQuery.where(criteriaBuilder.equal(root.get("role"),
-                roleDao.findRole("ROLE_MANAGER")));
-
-        TypedQuery<Long> countQuery = entityManager.createQuery(criteriaQuery);
-        Long totalObjectsNumber = countQuery.getSingleResult();
-
-        return totalObjectsNumber;
-    }
-
-    public Long sumOfPoints(User user) {
-        Long points = (Long) entityManager
-                .createQuery(
-                        "select sum(at.points) from AchievementType at where at in(select ac.achievementType  "
-                                + "from Achievement ac WHERE user_id like :user_id)")
-                .setParameter("user_id", user.getId()).getSingleResult();
-        if (points == null) {
-            return 0L;
-        }
-        return points;
+        return (Long) entityManager
+                .createQuery(COUNT_ALL_MANAGERS)
+                .setParameter("user_id", roleDao.findRole("ROLE_MANAGER")).getSingleResult();
     }
 
     @Override
     public List<User> findAllManagers() {
-        return findEntityList(User.FIND_ALL_BY_ROLE,
+        return findEntityList(User.FIND_ALL_USERS_BY_ROLE,
                 roleDao.findRole("ROLE_MANAGER"));
+    }
+
+    public Long sumOfPoints(User user) {
+        return (Long) entityManager
+                .createQuery(
+                        SUM_OF_POINTS)
+                .setParameter("user_id", user.getId()).getSingleResult();
     }
 }

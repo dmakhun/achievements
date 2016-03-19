@@ -46,7 +46,7 @@ public class ScheduleMapping {
      * @return List<Schedule>.
      */
     public static List<Schedule> mapToCSV() {
-        ColumnPositionMappingStrategy<Schedule> strat = new ColumnPositionMappingStrategy<Schedule>();
+        ColumnPositionMappingStrategy<Schedule> strat = new ColumnPositionMappingStrategy<>();
         strat.setType(Schedule.class);
         String[] columns = new String[]{"subject", "startDateStr",
                 "startTime", "endDateStr", "endTime", "description", "location"};

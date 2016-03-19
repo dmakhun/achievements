@@ -29,7 +29,7 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         com.softserve.edu.entity.User user = userManager.findByUsername(username);
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
         Role role = user.getRole();
         authorities.add(new SimpleGrantedAuthority(role.getName()));
         return new User(user.getUsername(), user.getPassword(), true, true,
