@@ -12,7 +12,7 @@ public interface AchievementDao extends GenericDao<Achievement> {
      * @param userId
      * @return list of users
      */
-    public List<Achievement> findByUserId(Long userId);
+    public List<Achievement> findAchievementsByUserId(Long userId);
 
     /**
      * @param userUuiId

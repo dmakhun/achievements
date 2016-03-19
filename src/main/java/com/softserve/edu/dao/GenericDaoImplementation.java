@@ -44,7 +44,6 @@ public class GenericDaoImplementation<T> implements GenericDao<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public T findByUuid(Class<T> objectClass, String uuid) {
         try {
             T foundEntity = (T) entityManager
@@ -60,7 +59,6 @@ public class GenericDaoImplementation<T> implements GenericDao<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public T findEntity(String singleQuery, Object... params) {
         try {
             Query query = entityManager.createNamedQuery(singleQuery);
@@ -77,7 +75,6 @@ public class GenericDaoImplementation<T> implements GenericDao<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<T> findEntityList(String singleQuery, Object... params) {
         Query query = entityManager.createNamedQuery(singleQuery);
 
@@ -89,14 +86,12 @@ public class GenericDaoImplementation<T> implements GenericDao<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<T> findAll(Class<T> objectClass) {
         return entityManager.createQuery("from " + objectClass.getName())
                 .getResultList();
     }
 
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public List<T> dynamicSearchTwoCriterias(int startPosition, int maxResult,
                                              String parameter1, String resultString, boolean findCriteria,
                                              Long resultLong, String parameter2, Class<T> objectClass) {

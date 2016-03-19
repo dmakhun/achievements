@@ -16,11 +16,9 @@ public class AchievementDaoImplementation extends
     UserDao userDao;
 
     @Override
-    public List<Achievement> findByUserId(Long userId) {
+    public List<Achievement> findAchievementsByUserId(Long userId) {
         User user = entityManager.find(User.class, userId);
-        List<Achievement> achievements = new ArrayList<>(user.getAchievements());
-        achievements.forEach(Achievement::getAchievementType);
-        return achievements;
+        return new ArrayList<>(user.getAchievements());
     }
 
     @Override

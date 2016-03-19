@@ -38,7 +38,7 @@ public interface CompetenceDao extends GenericDao<Competence> {
      * @param userId
      * @return
      */
-    public List<Competence> findByUser(final Long userId);
+    public List<Competence> findCompetencesByUserId(final Long userId);
 
     /**
      * Finds the list of the competences of the specific user by user's UUID.
@@ -53,6 +53,6 @@ public interface CompetenceDao extends GenericDao<Competence> {
      *
      * @return list of competences
      */
-    public List<Competence> listWithUsers();
+    public List<Competence> findAllCompetences();
 
 }
