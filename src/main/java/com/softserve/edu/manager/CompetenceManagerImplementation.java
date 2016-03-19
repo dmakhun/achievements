@@ -43,7 +43,7 @@ public class CompetenceManagerImplementation implements CompetenceManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findAllCompetences() {
-        return competenceDao.listWithUsers();
+        return competenceDao.findAllCompetences();
     }
 
     @Override
@@ -131,7 +131,7 @@ public class CompetenceManagerImplementation implements CompetenceManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findByUser(Long userId) {
-        return competenceDao.findByUser(userId);
+        return competenceDao.findCompetencesByUserId(userId);
     }
 
     @Override

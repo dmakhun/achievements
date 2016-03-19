@@ -74,7 +74,7 @@ public class CompetenceManagerImplTest {
 
     @Test
     public void testfindAllCompetence() {
-        when(competenceDao.listWithUsers()).thenReturn(listCompetences);
+        when(competenceDao.findAllCompetences()).thenReturn(listCompetences);
         List<Competence> listActual = competenceManager.findAllCompetences();
         assertEquals(listCompetences, listActual);
     }
@@ -129,7 +129,7 @@ public class CompetenceManagerImplTest {
 
     @Test
     public void testFindByUser() {
-        when(competenceDao.findByUser(idMockLong)).thenReturn(listCompetences);
+        when(competenceDao.findCompetencesByUserId(idMockLong)).thenReturn(listCompetences);
         List<Competence> expected = competenceManager.findByUser(idMockLong);
         assertEquals(expected, listCompetences);
     }

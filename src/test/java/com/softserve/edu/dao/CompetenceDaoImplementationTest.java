@@ -45,7 +45,7 @@ public class CompetenceDaoImplementationTest {
 
     @Test
     public void testFindByUser() {
-        List<Competence> competencies = competenceDao.findByUser(7L);
+        List<Competence> competencies = competenceDao.findCompetencesByUserId(7L);
         for (Iterator<Competence> comp = competencies.iterator(); comp
                 .hasNext(); ) {
             System.out.println(comp.next().getName());
@@ -65,8 +65,8 @@ public class CompetenceDaoImplementationTest {
     @Test
     public void testListWithUsers() {
         System.out.println("Competence size: "
-                + competenceDao.listWithUsers().size());
-        assertNotNull(competenceDao.listWithUsers());
+                + competenceDao.findAllCompetences().size());
+        assertNotNull(competenceDao.findAllCompetences());
     }
 
 }

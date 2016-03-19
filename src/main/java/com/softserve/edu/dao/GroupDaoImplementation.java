@@ -5,7 +5,6 @@ import com.softserve.edu.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -18,23 +17,21 @@ public class GroupDaoImplementation extends GenericDaoImplementation<Group>
 
     public List<Group> inFuture() {
         Date today = new Date();
-        return this.findEntityList(Group.SHOW_GROUPS_OPENED_IN_FUTURE, today);
+        return findEntityList(Group.SHOW_GROUPS_OPENED_IN_FUTURE, today);
 
     }
 
     @Override
     public List<Group> inFuture(Long competenceId) {
-        return this.findEntityList(
+        return findEntityList(
                 Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, new Date(),
                 competenceId);
     }
 
     @Override
     public List<Group> findByCompetence(Long competenceId, boolean onlyOpened) {
-
-
         if (onlyOpened) {
-            findEntityList(Group.FIND_ONLY_OPENED_GROUPS,
+            return findEntityList(Group.FIND_ONLY_OPENED_GROUPS,
                     competenceId, new Date());
         }
 
@@ -42,29 +39,21 @@ public class GroupDaoImplementation extends GenericDaoImplementation<Group>
     }
 
     @Override
-    @SuppressWarnings("unused")
     public List<Group> findByCompetenceUuid(String competenceUuid,
                                             boolean onlyOpened) {
-
-        String closed = "";
         if (onlyOpened) {
-            Date date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
-            closed = "and closed >" + dateFormat.format(date);
+            return findEntityList(Group.FIND_ONLY_OPENED_GROUPS_UUID,
+                    competenceUuid, new Date());
         }
-
-        return this.findEntityList(Group.FIND_LIST_GROUPS_BY_COMPETENCE_UUID,
+        return findEntityList(Group.FIND_LIST_GROUPS_BY_COMPETENCE_UUID,
                 competenceUuid);
-
     }
 
     @Override
     public void addUser(Long userId, Long groupId) {
-
-        User user = (User) entityManager.find(User.class, userId);
-        Group group = (Group) entityManager.find(Group.class, groupId);
+        User user = entityManager.find(User.class, userId);
+        Group group = entityManager.find(Group.class, groupId);
         group.getUsers().add(user);
-
     }
 
     @Override

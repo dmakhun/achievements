@@ -17,7 +17,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Groups will be opened recently
+                Groups that will be opened soon
             </div>
             <table class="table table-hover">
                 <tr>

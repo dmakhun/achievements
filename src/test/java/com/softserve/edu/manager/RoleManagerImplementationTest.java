@@ -142,8 +142,8 @@ public class RoleManagerImplementationTest {
 
     @Test
     public final void testFindUsersByRoleUuid() {
-        List<User> expected = new ArrayList<User>();
-        List<User> actual = new ArrayList<User>();
+        List<User> expected = new ArrayList<>();
+        List<User> actual;
         actual = roleManager.findUsersByRoleUuid(uuIdMock);
         assertEquals(expected, actual);
     }

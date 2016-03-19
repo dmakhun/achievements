@@ -43,7 +43,6 @@ public class GroupManagerImplementation implements GroupManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> findByCompetence(Long competenceId, boolean onlyOpened) {
-
         return groupDao.findByCompetence(competenceId, onlyOpened);
     }
 
@@ -51,7 +50,6 @@ public class GroupManagerImplementation implements GroupManager {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> findByCompetenceUuid(String competenceUuid,
                                             boolean onlyOpened) {
-
         return groupDao.findByCompetenceUuid(competenceUuid, onlyOpened);
     }
 

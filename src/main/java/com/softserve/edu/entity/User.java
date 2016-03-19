@@ -24,7 +24,7 @@ import java.util.Set;
         @NamedQuery(name = User.FIND_USER_BY_EMAIL, query = User.FIND_USER_BY_EMAIL_QUERY),
         @NamedQuery(name = User.FIND_ONLY_OPENED_GROUPS, query = User.FIND_ONLY_OPENED_GROUPS_QUERY),
         @NamedQuery(name = User.FIND_GROUPS, query = User.FIND_GROUPS_QUERY),
-        @NamedQuery(name = User.FIND_ALL_BY_ROLE, query = User.FIND_BY_ROLE_ALL)
+        @NamedQuery(name = User.FIND_ALL_USERS_BY_ROLE, query = User.FIND_ALL_BY_ROLE_QUERY)
 
 })
 public class User extends AbstractEntity {
@@ -41,8 +41,9 @@ public class User extends AbstractEntity {
     public static final String FIND_ONLY_OPENED_GROUPS = "User.openedGroups";
     public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.users u WHERE u.id = ?1 and g.closed > ?2";
 
-    public static final String FIND_ALL_BY_ROLE = "User.managers";
-    public static final String FIND_BY_ROLE_ALL = "FROM User u inner join fetch u.role r WHERE r.id = ?1";
+    public static final String FIND_ALL_USERS_BY_ROLE = "User.all";
+    public static final String FIND_ALL_BY_ROLE_QUERY = "FROM User u inner join fetch u.role r WHERE r.id = ?1";
+
     /**
      * Id field. It's PK and must be generated value. Mapped on column id.
      */
@@ -117,7 +118,7 @@ public class User extends AbstractEntity {
     /**
      * Parameterized constructor.
      *
-     * @param roles    value for roles field
+     * @param role    value for roles field
      * @param name     value for name field
      * @param surname  value for surname field
      * @param username value for username field

@@ -44,15 +44,14 @@ public class ScheduleGroupDao {
      * @return listScheduleForGroup.
      */
     private List<Schedule> listScheduleForThisGroup() {
-        List<Schedule> l = new ArrayList<Schedule>();
+        List<Schedule> schedules = new ArrayList<>();
         for (Object object : list) {
             Schedule schedule = (Schedule) object;
 
             if (schedule.getGroup().equals(groupName)) {
-                l.add(schedule);
+                schedules.add(schedule);
             }
         }
-        return l;
-
+        return schedules;
     }
 }
