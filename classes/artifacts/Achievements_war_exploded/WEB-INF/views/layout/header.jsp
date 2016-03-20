@@ -1,1 +1,0 @@
-<%@ include file="../menu.jsp" %>
