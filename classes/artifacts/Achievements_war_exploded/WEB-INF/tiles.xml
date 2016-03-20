@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  tiles-definitions  PUBLIC  "-//Apache  Software  Foundation//DTD  Tiles
+Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+    <definition name="baseLayout" template="/WEB-INF/views/layout/layout.jsp">
+        <put-attribute name="title" value="Achievements"/>
+        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"/>
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
+
+    </definition>
+    <definition name="jqeryLayout" template="/WEB-INF/views/layout/layout2.jsp">
+        <put-attribute name="body" value=""/>
+    </definition>
+
+    <!-- achievement folder -->
+    <definition name="allAchievements" extends="baseLayout">
+        <put-attribute name="title" value="all Achievements"/>
+        <put-attribute name="body" value="/WEB-INF/views/achievement/allAchievements.jsp"/>
+    </definition>
+
+    <definition name="awardUser" extends="baseLayout">
+        <put-attribute name="title" value="award User"/>
+        <put-attribute name="body" value="/WEB-INF/views/achievement/awardUser.jsp"/>
+    </definition>
+
+    <!-- achievementType folder -->
+    <definition name="addAchievementType" extends="baseLayout">
+        <put-attribute name="title" value="add Achievement Type"/>
+        <put-attribute name="body" value="/WEB-INF/views/achievementType/addAchievementType.jsp"/>
+    </definition>
+
+    <definition name="removeAchievementType" extends="baseLayout">
+        <put-attribute name="title" value="remove Achievement Type"/>
+        <put-attribute name="body" value="/WEB-INF/views/achievementType/removeAchievementType.jsp"/>
+    </definition>
+
+    <!-- competencies folder -->
+    <definition name="addCompetence" extends="baseLayout">
+        <put-attribute name="title" value="add Competence"/>
+        <put-attribute name="body" value="/WEB-INF/views/competencies/addCompetence.jsp"/>
+    </definition>
+
+    <definition name="AllCompetencies" extends="baseLayout">
+        <put-attribute name="title" value="All Competencies"/>
+        <put-attribute name="body" value="/WEB-INF/views/competencies/AllCompetencies.jsp"/>
+    </definition>
+
+    <definition name="forDeleteOrAddCompetence" extends="baseLayout">
+        <put-attribute name="title" value="for Delete Or Add Competence"/>
+        <put-attribute name="body" value="/WEB-INF/views/competencies/forDeleteOrAddCompetence.jsp"/>
+    </definition>
+
+    <definition name="groupsAndCompetence" extends="baseLayout">
+        <put-attribute name="title" value="groups And Competence"/>
+        <put-attribute name="body" value="/WEB-INF/views/competencies/groupsAndCompetence.jsp"/>
+    </definition>
+
+    <definition name="removeCompetence" extends="baseLayout">
+        <put-attribute name="title" value="remove Competence"/>
+        <put-attribute name="body" value="/WEB-INF/views/competencies/removeCompetence.jsp"/>
+    </definition>
+
+    <definition name="showCompetence" extends="baseLayout">
+        <put-attribute name="title" value="show Competence"/>
+        <put-attribute name="body" value="/WEB-INF/views/competencies/showCompetence.jsp"/>
+    </definition>
+
+    <!-- deleteJSP folder -->
+    <definition name="competence" extends="baseLayout">
+        <put-attribute name="title" value="competence page"/>
+        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/competence.jsp"/>
+    </definition>
+
+    <definition name="test" extends="baseLayout">
+        <put-attribute name="title" value="test page"/>
+        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/test.jsp"/>
+    </definition>
+
+    <definition name="topList_last" extends="baseLayout">
+        <put-attribute name="title" value="topList_last page"/>
+        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/topList_last.jsp"/>
+    </definition>
+
+    <definition name="topList" extends="baseLayout">
+        <put-attribute name="title" value="top List page"/>
+        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/topList.jsp"/>
+    </definition>
+
+    <!-- error folder -->
+    <definition name="errorPage" extends="baseLayout">
+        <put-attribute name="title" value="error page"/>
+        <put-attribute name="body" value="/WEB-INF/views/error/errorPage.jsp"/>
+    </definition>
+
+    <!-- group folder -->
+    <definition name="userlist" extends="baseLayout">
+        <put-attribute name="title" value="user list page"/>
+        <put-attribute name="body" value="/WEB-INF/views/group/userlist.jsp"/>
+    </definition>
+
+    <!-- login folder -->
+    <definition name="index" extends="baseLayout">
+        <put-attribute name="title" value="home page"/>
+        <put-attribute name="body" value="/WEB-INF/views/login/index.jsp"/>
+    </definition>
+
+    <definition name="login" extends="baseLayout">
+        <put-attribute name="title" value="login page"/>
+        <put-attribute name="body" value="/WEB-INF/views/login/login.jsp"/>
+    </definition>
+
+
+    <definition name="passwordchanging" extends="baseLayout">
+        <put-attribute name="title" value="password changing"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/passwordChanging.jsp"/>
+    </definition>
+
+    <definition name="recovery" extends="baseLayout">
+        <put-attribute name="title" value="recovery page"/>
+        <put-attribute name="body" value="/WEB-INF/views/login/recovery.jsp"/>
+    </definition>
+
+    <definition name="registration" extends="baseLayout">
+        <put-attribute name="title" value="registration page"/>
+        <put-attribute name="body" value="/WEB-INF/views/login/registration.jsp"/>
+    </definition>
+
+    <definition name="schedule" extends="baseLayout">
+        <put-attribute name="title" value="schedule page"/>
+        <put-attribute name="body" value="/WEB-INF/views/login/schedule.jsp"/>
+    </definition>
+
+    <definition name="userprofile" extends="baseLayout">
+        <put-attribute name="title" value="user profile page"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/userProfile.jsp"/>
+    </definition>
+
+    <!-- manager folder -->
+    <definition name="addManager" extends="baseLayout">
+        <put-attribute name="title" value="add Manager"/>
+        <put-attribute name="body" value="/WEB-INF/views/manager/addManager.jsp"/>
+    </definition>
+
+    <definition name="allManagers" extends="baseLayout">
+        <put-attribute name="title" value="all Managers"/>
+        <put-attribute name="body" value="/WEB-INF/views/manager/allManagers.jsp"/>
+    </definition>
+
+    <definition name="attendees" extends="baseLayout">
+        <put-attribute name="title" value="attendees page"/>
+        <put-attribute name="body" value="/WEB-INF/views/manager/attendees.jsp"/>
+    </definition>
+
+    <definition name="groups" extends="baseLayout">
+        <put-attribute name="title" value="groups page"/>
+        <put-attribute name="body" value="/WEB-INF/views/manager/groups.jsp"/>
+    </definition>
+
+    <definition name="removeManager" extends="baseLayout">
+        <put-attribute name="title" value="remove Manager"/>
+        <put-attribute name="body" value="/WEB-INF/views/manager/removeManager.jsp"/>
+    </definition>
+
+    <!-- scheduleTable folder -->
+    <definition name="schedule" extends="baseLayout">
+        <put-attribute name="title" value="schedule page"/>
+        <put-attribute name="body" value="/WEB-INF/views/scheduleTable/schedule.jsp"/>
+    </definition>
+
+    <definition name="scheduleTable" extends="baseLayout">
+        <put-attribute name="title" value="schedule Table page"/>
+        <put-attribute name="body" value="/WEB-INF/views/scheduleTable/scheduleTable.jsp"/>
+    </definition>
+
+    <definition name="addSchedule" extends="baseLayout">
+        <put-attribute name="title" value="schedule Table page"/>
+
+        <put-attribute name="body" value="/WEB-INF/views/scheduleTable/addSchedule.jsp"/>
+    </definition>
+
+    <!-- user folder -->
+    <definition name="simpleUserProfile" extends="baseLayout">
+        <put-attribute name="title" value="simple User Profile"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/simpleUserProfile.jsp"/>
+    </definition>
+
+    <definition name="userAccount" extends="baseLayout">
+        <put-attribute name="title" value="user Account"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/userAccount.jsp"/>
+    </definition>
+
+    <definition name="userHome" extends="baseLayout">
+        <put-attribute name="title" value="user Home page"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/userHome.jsp"/>
+    </definition>
+
+    <definition name="userProfile" extends="baseLayout">
+        <put-attribute name="title" value="user Profile page"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/userProfile.jsp"/>
+    </definition>
+
+    <definition name="achievementTypeList" extends="jqeryLayout">
+        <put-attribute name="body" value="/WEB-INF/views/achievementType/achievementTypeList.jsp"/>
+    </definition>
+
+    <definition name="SearchByCriteria" extends="jqeryLayout">
+        <put-attribute name="body" value="/WEB-INF/views/manager/SearchByCriteria.jsp"/>
+
+    </definition>
+
+    <definition name="mainProfile" extends="baseLayout">
+        <put-attribute name="title" value="user Home page"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/mainProfile.jsp"/>
+    </definition>
+    <definition name="image" extends="baseLayout">
+        <put-attribute name="title" value="user Home page"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/image.jsp"/>
+    </definition>
+    <definition name="ratings" extends="baseLayout">
+        <put-attribute name="title" value="Ratings"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/ratings.jsp"/>
+    </definition>
+</tiles-definitions>

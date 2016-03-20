@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - Achievements@localhost" uuid="88781939-af8d-4268-bd69-91762aaef605">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>achievements.*</schema-pattern>
+      <default-schemas>achievements.*</default-schemas>
+    </data-source>
+  </component>
+</project>

@@ -39,21 +39,7 @@ public class AchievementTypeManagerImplementation implements
             throw new AchievementTypeManagerException(
                     "Could not create achievement type. No competence with such ID");
         }
-
-        AchievementType achievementType;
-        try {
-            achievementType = new AchievementType().setName(name)
-                    .setPoints(points).setCompetence(competence);
-
-            achievementTypeDao.save(achievementType);
-            LOGGER.info("Achievemnt type successfully created");
-            return achievementType;
-        } catch (Exception e) {
-            LOGGER.error("Could not create achievement type");
-            throw new AchievementTypeManagerException(
-                    "Could not create achievement type", e);
-        }
-
+        return createAchievementType(name, points, competence);
     }
 
     @Override
@@ -68,14 +54,17 @@ public class AchievementTypeManagerImplementation implements
             throw new AchievementTypeManagerException(
                     "Could not create achievement type. No competence with such UUID");
         }
+        return createAchievementType(name, points, competence);
+    }
 
+    private AchievementType createAchievementType(String name, int points, Competence competence) throws AchievementTypeManagerException {
         AchievementType achievementType;
         try {
             achievementType = new AchievementType().setName(name)
                     .setPoints(points).setCompetence(competence);
 
             achievementTypeDao.save(achievementType);
-            LOGGER.info("Achievemnt type successfully created");
+            LOGGER.info("Achievement type successfully created");
             return achievementType;
         } catch (Exception e) {
             LOGGER.error("Could not create achievement type");

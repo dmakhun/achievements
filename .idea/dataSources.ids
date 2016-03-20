@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - Achievements@localhost" uuid="88781939-af8d-4268-bd69-91762aaef605">
+    <database-info product="MySQL" version="5.5.48-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.5">
+      <schema id="1" name="achievements"/>
+      <table id="2" parent="1" name="ach_achievement"/>
+      <table id="3" parent="1" name="ach_achievementtype"/>
+      <table id="4" parent="1" name="ach_competence"/>
+      <table id="5" parent="1" name="ach_group"/>
+      <table id="6" parent="1" name="ach_role"/>
+      <table id="7" parent="1" name="ach_schedule"/>
+      <table id="8" parent="1" name="ach_user"/>
+      <table id="9" parent="1" name="ach_usertocompetence"/>
+      <table id="10" parent="1" name="ach_usertogroup"/>
+      <table id="11" parent="1" name="hibernate_sequence"/>
+      <column id="12" parent="2" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="13" parent="2" name="LastModifiedDate">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="14" parent="2" name="uuid">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="15" parent="2" name="comment">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="16" parent="2" name="created">
+        <data-type>date</data-type>
+      </column>
+      <column id="17" parent="2" name="achievement_type_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="18" parent="2" name="user_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="19" parent="2" name="FKhlpadfqv9xb6ofd625tvdhj0i">
+        <columns>achievement_type_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="20" parent="2" name="FKisv81ycqe1rek727nyichv75c">
+        <columns>user_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="21" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="22" parent="2" name="FKhlpadfqv9xb6ofd625tvdhj0i">
+        <columns>achievement_type_id</columns>
+        <ref-key>~.ach_achievementtype.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="23" parent="2" name="FKisv81ycqe1rek727nyichv75c">
+        <columns>user_id</columns>
+        <ref-key>~.ach_user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="24" parent="2" name="FK_6rdqxmi6vykl7elnffit7ri3c">
+        <columns>user_id</columns>
+        <ref-key>~.ach_user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="25" parent="2" name="FK_7ist772fevuxsi68xj2f6sl3v">
+        <columns>achievement_type_id</columns>
+        <ref-key>~.ach_achievementtype.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="26" parent="3" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="27" parent="3" name="LastModifiedDate">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="28" parent="3" name="uuid">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="29" parent="3" name="name">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="30" parent="3" name="points">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="31" parent="3" name="competence_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="32" parent="3" name="FKkix7apbmb7yr8f7rlrv8p553i">
+        <columns>competence_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="33" parent="3" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="34" parent="3" name="FKkix7apbmb7yr8f7rlrv8p553i">
+        <columns>competence_id</columns>
+        <ref-key>~.ach_competence.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="35" parent="3" name="FK_9w55hnql08e5re4mi6lbqr2ns">
+        <columns>competence_id</columns>
+        <ref-key>~.ach_competence.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="36" parent="4" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="37" parent="4" name="LastModifiedDate">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="38" parent="4" name="uuid">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="39" parent="4" name="created">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="40" parent="4" name="name">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <key id="41" parent="4" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="42" parent="5" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="43" parent="5" name="LastModifiedDate">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="44" parent="5" name="uuid">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="45" parent="5" name="closed">
+        <data-type>date</data-type>
+      </column>
+      <column id="46" parent="5" name="name">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="47" parent="5" name="opened">
+        <data-type>date</data-type>
+      </column>
+      <column id="48" parent="5" name="competence_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="49" parent="5" name="FK7bhm3ti9twk7pbrjdgmnc4ix4">
+        <columns>competence_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="50" parent="5" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="51" parent="5" name="FK7bhm3ti9twk7pbrjdgmnc4ix4">
+        <columns>competence_id</columns>
+        <ref-key>~.ach_competence.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="52" parent="5" name="FK_g3f73951fk24bprggrukml8bd">
+        <columns>competence_id</columns>
+        <ref-key>~.ach_competence.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="53" parent="6" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="54" parent="6" name="LastModifiedDate">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="55" parent="6" name="uuid">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="56" parent="6" name="name">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <key id="57" parent="6" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="58" parent="7" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="59" parent="7" name="begin_time">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="60" parent="7" name="description">
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="61" parent="7" name="end_time">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="62" parent="7" name="location">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="63" parent="7" name="meetingType">
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="64" parent="7" name="group_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="65" parent="7" name="FK6f2yyajhk29tek28i23r27vko">
+        <columns>group_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="66" parent="7" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="67" parent="7" name="FK6f2yyajhk29tek28i23r27vko">
+        <columns>group_id</columns>
+        <ref-key>~.ach_group.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="68" parent="7" name="FK_sjux6hju1uvuj41wmlnoh9uw7">
+        <columns>group_id</columns>
+        <ref-key>~.ach_group.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="69" parent="8" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="70" parent="8" name="LastModifiedDate">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="71" parent="8" name="uuid">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="72" parent="8" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="73" parent="8" name="name">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="74" parent="8" name="password">
+        <data-type>varchar(80)</data-type>
+      </column>
+      <column id="75" parent="8" name="picture">
+        <data-type>longblob</data-type>
+      </column>
+      <column id="76" parent="8" name="surname">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="77" parent="8" name="username">
+        <data-type>varchar(25)</data-type>
+      </column>
+      <column id="78" parent="8" name="role_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="79" parent="8" name="FKf95akgjanhjmo0drxrvswvnhr">
+        <columns>role_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="80" parent="8" name="UK_ktrrugaapt6q296fjy9c583y3">
+        <columns>username</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="81" parent="8" name="UK_m9f9d3929wy6y7vxd4esnxmlj">
+        <columns>email</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="82" parent="8" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <key id="83" parent="8" name="UK_ktrrugaapt6q296fjy9c583y3">
+        <columns>username</columns>
+        <underlying-index>UK_ktrrugaapt6q296fjy9c583y3</underlying-index>
+      </key>
+      <key id="84" parent="8" name="UK_m9f9d3929wy6y7vxd4esnxmlj">
+        <columns>email</columns>
+        <underlying-index>UK_m9f9d3929wy6y7vxd4esnxmlj</underlying-index>
+      </key>
+      <foreign-key id="85" parent="8" name="FKf95akgjanhjmo0drxrvswvnhr">
+        <columns>role_id</columns>
+        <ref-key>~.ach_role.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="86" parent="8" name="FK_49p95tv6b7pg5yg4bp2oqrl7m">
+        <columns>role_id</columns>
+        <ref-key>~.ach_role.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="87" parent="9" name="competence_id">
+        <mandatory>1</mandatory>
+        <data-type>decimal(19)</data-type>
+      </column>
+      <column id="88" parent="9" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>decimal(19)</data-type>
+      </column>
+      <key id="89" parent="9" name="PRIMARY">
+        <columns>user_id
+competence_id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="90" parent="10" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>decimal(19)</data-type>
+      </column>
+      <column id="91" parent="10" name="group_id">
+        <mandatory>1</mandatory>
+        <data-type>decimal(19)</data-type>
+      </column>
+      <key id="92" parent="10" name="PRIMARY">
+        <columns>group_id
+user_id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="93" parent="11" name="next_val">
+        <data-type>bigint(20)</data-type>
+      </column>
+    </database-model>
+  </data-source>
+</component>
