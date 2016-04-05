@@ -12,10 +12,10 @@ public interface AchievementTypeManager {
      *
      * @param name
      * @param points
-     * @param competence_id
+     * @param competenceId
      * @throws AchievementTypeManagerException
      */
-    public AchievementType create(String name, int points, long competenceId)
+    AchievementType create(String name, int points, long competenceId)
             throws AchievementTypeManagerException;
 
     /**
@@ -26,8 +26,7 @@ public interface AchievementTypeManager {
      * @param competenceUuid
      * @throws AchievementTypeManagerException
      */
-    public AchievementType create(final String name, final int points,
-                                  final String competenceUuid) throws AchievementTypeManagerException;
+    AchievementType create(final String name, final int points, final String competenceUuid) throws AchievementTypeManagerException;
 
     /**
      * Delete existing achievement type by its id.
@@ -35,7 +34,7 @@ public interface AchievementTypeManager {
      * @param achievementTypeId Achievement type id.
      * @throws AchievementTypeManagerException
      */
-    public boolean deleteById(final long achievementTypeId)
+    boolean deleteById(final long achievementTypeId)
             throws AchievementTypeManagerException;
 
     /**
@@ -45,24 +44,18 @@ public interface AchievementTypeManager {
      * @return
      * @throws AchievementTypeManagerException
      */
-    public boolean deleteByUuid(final String uuid)
+    boolean deleteByUuid(final String uuid)
             throws AchievementTypeManagerException;
-
-    /**
-     * Get all achievement types.
-     *
-     * @return FIXME: some shit that need to be deleted.
-     */
 
     /**
      * @return
      */
-    public List<AchievementType> achievementTypeList();
+    List<AchievementType> achievementTypeList();
 
     /**
      * @param idCompetence
      * @return
      */
-    public List<AchievementType> findAchievements(Long idCompetence);
+    List<AchievementType> findAchievements(Long idCompetence);
 
 }
