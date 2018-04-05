@@ -2,10 +2,10 @@ package com.softserve.edu.manager;
 
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
-import com.softserve.edu.dao.UserDaoImplementation;
+import com.softserve.edu.dao.impl.UserDaoImplementation;
 import com.softserve.edu.entity.User;
-import com.softserve.edu.exception.InvalidValueException;
 import com.softserve.edu.exception.UserManagerException;
+import com.softserve.edu.manager.impl.UserManagerImplementation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,6 @@ public class UserManagerImplTest {
     private UserDao userDao;
     @Mock
     private RoleDao roleDao;
-    ;
     @InjectMocks
     private UserManager userManager =
             new UserManagerImplementation();
@@ -36,48 +35,48 @@ public class UserManagerImplTest {
      */
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         userDao = new UserDaoImplementation();
     }
 
     @Test(expected = UserManagerException.class)
     public void createTestNullStrings() throws Exception {
-        userManager.create(null, null, null, null, null, (Long) null);
+        userManager.create(null, null, null, null, null, null);
     }
 
     @Test(expected = UserManagerException.class)
     public void createTestMaxLength50() throws Exception {
         userManager
                 .create("slfkjdslkfjdslkfjsdlkfjsldkjflsdkjflsdkjflsdkjfldskjflsdkjfsldkjflsdk",
-                        "", "", "", "", (Long) null);
+                        "", "", "", "", null);
     }
 
     @Test(expected = UserManagerException.class)
     public void createTestEmptyStrings() throws Exception {
-        userManager.create("", "", "", "", "", (Long) null);
+        userManager.create("", "", "", "", "", null);
     }
 
     @Test(expected = UserManagerException.class)
     public void createTestUsernameMinLength() throws Exception {
-        userManager.create("Name", "Surname", "u", "password", "email", (Long) null);
+        userManager.create("Name", "Surname", "u", "password", "email", null);
     }
 
     @Test(expected = UserManagerException.class)
     public void createTestUsername() throws Exception {
         userManager.create("Name", "Surname", "u$$ern3m#", "password", "email",
-                (Long) null);
+                null);
     }
 
     @Test(expected = UserManagerException.class)
     public void createTestSomeUserName() throws Exception {
         userManager.create("Name", "Surname", "someUserName", "password",
-                "email", (Long) null);
+                "email", null);
     }
 
     @Test(expected = UserManagerException.class)
     public void createTestEmail() throws Exception {
         userManager.create("Name", "Surname", "someUserName", "password",
-                "email@email", (Long) null);
+                "email@email", null);
     }
 
     @Test(expected = UserManagerException.class)
@@ -93,17 +92,17 @@ public class UserManagerImplTest {
      */
 
     @Test(expected = UserManagerException.class)
-    public void testModifyValid() throws UserManagerException, InvalidValueException {
+    public void testModifyValid() throws UserManagerException {
         testUser = userManager.create("Name", "Surname", "testUserOne",
-                "pass", "e@mail.com", (Long) null);
+                "pass", "e@mail.com", null);
 
         userManager.update(testUser.getId(), "", "", "", "", "", null);
     }
 
     @Test(expected = UserManagerException.class)
-    public void testModifyNameLength() throws UserManagerException, InvalidValueException {
+    public void testModifyNameLength() throws UserManagerException {
         testUser = userManager.create("Name", "Surname", "testUserOne",
-                "pass", "e@mail.com", (Long) null);
+                "pass", "e@mail.com", null);
         userManager
                 .update(testUser.getId(),
                         "sldfjsdlkfjsdl;fkjsdfdsfsfsdsda;lfkjsd;flkjsd;lfkjds;lfkjsda;lfkjsd;lfkj",
@@ -111,25 +110,25 @@ public class UserManagerImplTest {
     }
 
     @Test(expected = UserManagerException.class)
-    public void testModifyNothingChanged() throws InvalidValueException, UserManagerException {
+    public void testModifyNothingChanged() throws UserManagerException {
         testUser = userManager.create("Name", "Surname", "testUserOne",
-                "pass", "e@mail.com", (Long) null);
+                "pass", "e@mail.com", null);
         userManager.update(testUser.getId(), "name", "surname",
                 "TestoniniOne", "", "", null);
     }
 
     @Test(expected = UserManagerException.class)
-    public void testModifyDuplicateUsername() throws InvalidValueException, UserManagerException {
+    public void testModifyDuplicateUsername() throws UserManagerException {
         testUser = userManager.create("Name", "Surname", "testUserOne",
-                "pass", "e@mail.com", (Long) null);
+                "pass", "e@mail.com", null);
         userManager.update(testUser.getId(), "name", "surname",
                 "TestoniniTwo", "", "", null);
     }
 
     @Test(expected = UserManagerException.class)
-    public void testModifyDuplicateEmail() throws InvalidValueException, UserManagerException {
+    public void testModifyDuplicateEmail() throws UserManagerException {
         testUser = userManager.create("Name", "Surname", "testUserOne",
-                "pass", "e@mail.com", (Long) null);
+                "pass", "e@mail.com", null);
         userManager.update(testUser.getId(), "name", "surname", "", "",
                 "e2@mail.com", null);
     }

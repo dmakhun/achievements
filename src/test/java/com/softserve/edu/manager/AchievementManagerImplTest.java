@@ -5,6 +5,7 @@ import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.exception.CompetenceManagerException;
+import com.softserve.edu.manager.impl.AchievementManagerImplementation;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
@@ -37,7 +38,7 @@ public class AchievementManagerImplTest {
             new AchievementManagerImplementation();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 

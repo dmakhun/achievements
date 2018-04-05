@@ -6,6 +6,7 @@ import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
+import com.softserve.edu.manager.impl.CompetenceManagerImplementation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +48,7 @@ public class CompetenceManagerImplTest {
     private Class<Competence> competenceClass;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         achievementType = new AchievementType();
         group = new Group();
         competence = new Competence();
@@ -111,7 +112,7 @@ public class CompetenceManagerImplTest {
 
     @Test(expected = CompetenceManagerException.class)
     public void testDeleteByUuidNullException() throws CompetenceManagerException {
-        competenceManager.deleteByUuid((String) null);
+        competenceManager.deleteByUuid(null);
     }
 
     @Test

@@ -1,5 +1,7 @@
-package com.softserve.edu.dao;
+package com.softserve.edu.dao.impl;
 
+import com.softserve.edu.dao.GroupDao;
+import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;

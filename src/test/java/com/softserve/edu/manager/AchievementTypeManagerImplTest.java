@@ -2,11 +2,12 @@ package com.softserve.edu.manager;
 
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.CompetenceDao;
-import com.softserve.edu.dao.GenericDaoImplementation;
 import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.dao.impl.GenericDaoImplementation;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
+import com.softserve.edu.manager.impl.AchievementTypeManagerImplementation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +46,7 @@ public class AchievementTypeManagerImplTest {
     private List<AchievementType> expectedList;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         competence = new Competence();
         expectedList = new ArrayList<AchievementType>();
     }

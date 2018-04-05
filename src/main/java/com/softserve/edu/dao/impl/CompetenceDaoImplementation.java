@@ -1,5 +1,7 @@
-package com.softserve.edu.dao;
+package com.softserve.edu.dao.impl;
 
+import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;

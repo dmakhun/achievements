@@ -1,4 +1,4 @@
-package com.softserve.edu.manager;
+package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.AchievementDao;
 import com.softserve.edu.dao.AchievementTypeDao;
@@ -7,6 +7,7 @@ import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.CompetenceManagerException;
+import com.softserve.edu.manager.AchievementManager;
 import com.softserve.edu.util.AngryThrower;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.softserve.edu.dao;
+package com.softserve.edu.dao.impl;
 
 import com.softserve.edu.entity.Schedule;
 import com.softserve.edu.util.ScheduleMapping;
