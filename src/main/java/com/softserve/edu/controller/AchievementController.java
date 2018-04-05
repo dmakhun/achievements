@@ -37,7 +37,7 @@ public class AchievementController {
             Model model) {
         try {
             List<AchievementType> achivList = achievementTypeManager
-                    .achievementTypeList();
+                    .achievementTypesList();
 
             model.addAttribute("achList", achivList);
             model.addAttribute("status", status);
@@ -56,7 +56,7 @@ public class AchievementController {
             @PathVariable(value = "id") Long userId, Model model) {
         try {
             List<AchievementType> achList = achievementTypeManager
-                    .achievementTypeList();
+                    .achievementTypesList();
 
             model.addAttribute("achList", achList);
 
@@ -76,7 +76,7 @@ public class AchievementController {
                     .findAllCompetences();
 
             List<AchievementType> achiTypes = achievementTypeManager
-                    .achievementTypeList();
+                    .achievementTypesList();
 
             model.addAttribute("competences", competences);
             model.addAttribute("achiTypes", achiTypes);

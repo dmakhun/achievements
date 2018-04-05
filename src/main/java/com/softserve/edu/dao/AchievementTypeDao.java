@@ -9,10 +9,10 @@ public interface AchievementTypeDao extends GenericDao<AchievementType> {
     /**
      * Return achievement types of specific competence.
      *
-     * @param competence id
+     * @param competenceId id
      * @return list of achievement type
      */
-    List<AchievementType> findByCompetenceId(Long idCompetence);
+    List<AchievementType> findByCompetenceId(Long competenceId);
 
     /**
      * @param competenceUuid
