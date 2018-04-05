@@ -1,11 +1,14 @@
 package com.softserve.edu.manager;
 
 import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 
 import java.util.List;
 
 public interface AchievementTypeManager {
+
+    AchievementType create(final Competence competence, final String name, final int points) throws AchievementTypeManagerException;
 
     /**
      * Create new achievement type.
@@ -34,7 +37,7 @@ public interface AchievementTypeManager {
      * @param achievementTypeId Achievement type id.
      * @throws AchievementTypeManagerException
      */
-    boolean deleteById(final long achievementTypeId)
+    boolean delete(final long achievementTypeId)
             throws AchievementTypeManagerException;
 
     /**
@@ -44,18 +47,11 @@ public interface AchievementTypeManager {
      * @return
      * @throws AchievementTypeManagerException
      */
-    boolean deleteByUuid(final String uuid)
+    boolean delete(final String uuid)
             throws AchievementTypeManagerException;
 
-    /**
-     * @return
-     */
-    List<AchievementType> achievementTypeList();
+    List<AchievementType> achievementTypesList();
 
-    /**
-     * @param idCompetence
-     * @return
-     */
-    List<AchievementType> findAchievements(Long idCompetence);
+    List<AchievementType> findAchievements(final long idCompetence);
 
 }

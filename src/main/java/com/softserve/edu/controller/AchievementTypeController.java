@@ -38,7 +38,7 @@ public class AchievementTypeController {
             Model model) {
         try {
             List<AchievementType> achievementTypeList = achievementTypeManager
-                    .achievementTypeList();
+                    .achievementTypesList();
 
             model.addAttribute("achievementTypeList", achievementTypeList);
             model.addAttribute("status", status);
@@ -106,7 +106,7 @@ public class AchievementTypeController {
             @PathVariable(value = "id") Long achievementTypeId) {
 
         try {
-            achievementTypeManager.deleteById(achievementTypeId);
+            achievementTypeManager.delete(achievementTypeId);
 
             return "redirect:/admin/achievementtype/allAchievements?status=success";
         } catch (AchievementTypeManagerException e) {
