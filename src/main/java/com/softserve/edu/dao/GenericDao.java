@@ -23,7 +23,7 @@ public interface GenericDao<T> {
     /**
      * Get existing object by its id.
      *
-     * @param objectId Id of object.
+     * @param objectClass Id of object.
      * @return Object is returned; null, if not found.
      */
     T findById(Class<T> objectClass, Long id);
@@ -44,7 +44,7 @@ public interface GenericDao<T> {
     void delete(T item);
 
     /**
-     * @param uuid
+     * @param objectClass
      * @return
      */
     T findByUuid(Class<T> objectClass, String uuid);
@@ -61,9 +61,9 @@ public interface GenericDao<T> {
      * @param parameter2    some parameter to find, Long
      * @return list of objects
      */
-    public List<T> dynamicSearchTwoCriterias(int startPosition, int maxResult,
-                                             String parameter1, String resultString, boolean findCriteria,
-                                             Long resultLong, String parameter2, Class<T> entity);
+    List<T> dynamicSearchTwoCriterias(int startPosition, int maxResult,
+                                      String parameter1, String resultString, boolean findCriteria,
+                                      Long resultLong, String parameter2, Class<T> entity);
 
     /**
      * @param singleQuery

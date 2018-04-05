@@ -1,6 +1,7 @@
-package com.softserve.edu.manager;
+package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.entity.Role;
+import com.softserve.edu.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,9 +1,9 @@
 package com.softserve.edu.controller;
 
 import com.softserve.edu.manager.ScheduleManager;
-import com.softserve.edu.manager.ScheduleManagerImplementation;
-import com.softserve.edu.manager.ScheduleRowsManagerImplementation;
 import com.softserve.edu.manager.UserManager;
+import com.softserve.edu.manager.impl.ScheduleManagerImplementation;
+import com.softserve.edu.manager.impl.ScheduleRowsManagerImplementation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -88,7 +87,7 @@ public class ScheduleController {
 
     @RequestMapping(value = "/addSchedule", method = RequestMethod.POST)
     String uploadFileHandler(@RequestParam("file") MultipartFile file,
-                             Model model) throws IllegalStateException, IOException {
+                             Model model) throws IllegalStateException {
 
         try {
             File serverFile = new ScheduleManagerImplementation()

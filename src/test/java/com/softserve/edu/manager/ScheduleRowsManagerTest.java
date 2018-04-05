@@ -1,5 +1,6 @@
 package com.softserve.edu.manager;
 
+import com.softserve.edu.manager.impl.ScheduleRowsManagerImplementation;
 import org.junit.Test;
 
 import java.util.Calendar;

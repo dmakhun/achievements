@@ -1,4 +1,6 @@
-package com.softserve.edu.manager;
+package com.softserve.edu.manager.impl;
+
+import com.softserve.edu.manager.ScheduleRowsManager;
 
 import java.util.*;
 

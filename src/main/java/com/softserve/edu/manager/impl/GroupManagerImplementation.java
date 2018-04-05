@@ -1,4 +1,4 @@
-package com.softserve.edu.manager;
+package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.GroupDao;
@@ -6,6 +6,7 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
+import com.softserve.edu.manager.GroupManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

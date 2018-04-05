@@ -3,6 +3,7 @@ package com.softserve.edu.manager;
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
+import com.softserve.edu.manager.impl.RoleManagerImplementation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +40,7 @@ public class RoleManagerImplementationTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         classRole = Role.class;
         role = new Role();
     }

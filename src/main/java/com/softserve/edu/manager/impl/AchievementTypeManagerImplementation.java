@@ -1,10 +1,11 @@
-package com.softserve.edu.manager;
+package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
+import com.softserve.edu.manager.AchievementTypeManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
