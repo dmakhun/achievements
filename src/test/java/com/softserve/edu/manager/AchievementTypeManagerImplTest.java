@@ -7,7 +7,7 @@ import com.softserve.edu.dao.impl.GenericDaoImplementation;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
-import com.softserve.edu.manager.impl.AchievementTypeManagerImplementation;
+import com.softserve.edu.manager.impl.AchievementTypeManagerImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +39,7 @@ public class AchievementTypeManagerImplTest {
 
     @InjectMocks
     private AchievementTypeManager achievementTypeManager =
-            new AchievementTypeManagerImplementation();
+            new AchievementTypeManagerImpl();
 
     private Competence competence;
     private long IdMock = 1;
@@ -76,14 +76,14 @@ public class AchievementTypeManagerImplTest {
     @Test
     public void testAchievementTypeListEquals() {
         when(achievementTypeDao.findAll(AchievementType.class)).thenReturn(expectedList);
-        List<AchievementType> actualList = achievementTypeManager.achievementTypeList();
+        List<AchievementType> actualList = achievementTypeManager.achievementTypesList();
         assertEquals(expectedList, actualList);
     }
 
     @Test
     public void testAchievementTypeListNotNull() {
         when(achievementTypeDao.findAll(AchievementType.class)).thenReturn(expectedList);
-        List<AchievementType> actualList = achievementTypeManager.achievementTypeList();
+        List<AchievementType> actualList = achievementTypeManager.achievementTypesList();
         assertNotNull(actualList);
     }
 }

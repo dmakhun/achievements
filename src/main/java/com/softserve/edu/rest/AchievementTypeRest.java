@@ -34,7 +34,7 @@ public class AchievementTypeRest {
         List<AchievementType> achievementTypes;
 
         try {
-            achievementTypes = achievementTypeManager.achievementTypeList();
+            achievementTypes = achievementTypeManager.achievementTypesList();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
@@ -84,7 +84,7 @@ public class AchievementTypeRest {
             @PathParam("uuid") final String uuid) {
 
         try {
-            achievementTypeManager.deleteByUuid(uuid);
+            achievementTypeManager.delete(uuid);
         } catch (AchievementTypeManagerException e) {
             LOGGER.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
