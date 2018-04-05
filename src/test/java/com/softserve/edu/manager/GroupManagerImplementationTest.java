@@ -7,6 +7,7 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
+import com.softserve.edu.manager.impl.GroupManagerImplementation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +47,7 @@ public class GroupManagerImplementationTest {
     private String uuIdMock = "8a3e8480-d2d5-4b49-9c49-0ace2b718441";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         competence = new Competence();
         group = new Group();
         listGroups = new ArrayList<>();

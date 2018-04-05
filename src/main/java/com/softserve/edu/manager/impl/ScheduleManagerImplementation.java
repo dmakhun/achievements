@@ -1,11 +1,12 @@
-package com.softserve.edu.manager;
+package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.ScheduleDao;
-import com.softserve.edu.dao.ScheduleGroupDao;
+import com.softserve.edu.dao.impl.ScheduleGroupDao;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.Schedule;
 import com.softserve.edu.entity.ScheduleTable;
+import com.softserve.edu.manager.ScheduleManager;
 import com.softserve.edu.util.CsvParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;

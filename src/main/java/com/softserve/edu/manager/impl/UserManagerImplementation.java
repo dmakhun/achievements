@@ -1,4 +1,4 @@
-package com.softserve.edu.manager;
+package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.AchievementDao;
 import com.softserve.edu.dao.CompetenceDao;
@@ -7,6 +7,7 @@ import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.exception.InvalidValueException;
 import com.softserve.edu.exception.UserManagerException;
+import com.softserve.edu.manager.UserManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
@@ -610,13 +611,13 @@ public class UserManagerImplementation implements UserManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public boolean existUserName(String userName) {
-        return userDao.findByUsername(userName) != null ? true : false;
+        return userDao.findByUsername(userName) != null;
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public boolean existEmail(String email) {
-        return userDao.findByEmail(email) != null ? true : false;
+        return userDao.findByEmail(email) != null;
     }
 
     @Override

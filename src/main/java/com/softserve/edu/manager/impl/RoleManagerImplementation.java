@@ -1,8 +1,9 @@
-package com.softserve.edu.manager;
+package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
+import com.softserve.edu.manager.RoleManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

@@ -1,4 +1,4 @@
-package com.softserve.edu.manager;
+package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.CompetenceDao;
@@ -6,6 +6,7 @@ import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
+import com.softserve.edu.manager.CompetenceManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -185,20 +186,14 @@ public class CompetenceManagerImplementation implements CompetenceManager {
         } else if (!achievementTypeDao.equals(other.achievementTypeDao))
             return false;
         if (competenceDao == null) {
-            if (other.competenceDao != null)
-                return false;
-        } else if (!competenceDao.equals(other.competenceDao))
-            return false;
-        return true;
+            return other.competenceDao == null;
+        } else return competenceDao.equals(other.competenceDao);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public boolean validateCompetenceName(String name) {
-        if (competenceDao.findByName(name) != null) {
-            return false;
-        }
-        return true;
+        return competenceDao.findByName(name) == null;
     }
 
 }
