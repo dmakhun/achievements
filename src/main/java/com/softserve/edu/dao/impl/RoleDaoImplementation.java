@@ -27,7 +27,7 @@ public class RoleDaoImplementation extends GenericDaoImplementation<Role>
     }
 
     @Override
-    public Role findRoleByRolename(String roleName) {
+    public Role findRoleByName(String roleName) {
         return this.findEntity(Role.FIND_ROLE_BY_ROLE_NAME, roleName);
     }
 

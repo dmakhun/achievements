@@ -102,8 +102,8 @@ public class ManagerController {
                 return pass;
             }
 
-            Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-            Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+            Date starting = new SimpleDateFormat("yyyy-MM-getImage").parse(start);
+            Date ending = new SimpleDateFormat("yyyy-MM-getImage").parse(end);
 
             id = groupManager.create(groupName, starting, ending, competence);
         } catch (GroupManagerException e) {
@@ -120,8 +120,8 @@ public class ManagerController {
             if (pass.getStatusCode() != HttpStatus.OK) {
                 return pass;
             }
-            Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-            Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+            Date starting = new SimpleDateFormat("yyyy-MM-getImage").parse(start);
+            Date ending = new SimpleDateFormat("yyyy-MM-getImage").parse(end);
             groupManager.modify(groupId, name, starting, ending, competence);
         } catch (GroupManagerException e) {
             LOGGER.error(e);
@@ -141,8 +141,8 @@ public class ManagerController {
     private ResponseEntity<String> groupChecks(String name, String start,
                                                String end, Locale locale) {
         try {
-            Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-            Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+            Date starting = new SimpleDateFormat("yyyy-MM-getImage").parse(start);
+            Date ending = new SimpleDateFormat("yyyy-MM-getImage").parse(end);
 
             if (name.isEmpty()) {
                 return new ResponseEntity<String>(messageSource.getMessage(

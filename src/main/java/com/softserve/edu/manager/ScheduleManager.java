@@ -6,9 +6,6 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Map;
 
-/**
- * @author edgar
- */
 public interface ScheduleManager {
 
     /**
@@ -18,18 +15,18 @@ public interface ScheduleManager {
      * @param group    .
      * @return Map.
      */
-    public Map<Long, String> table(Calendar calendar, String group);
+    Map<Long, String> table(Calendar calendar, String group);
 
     /**
      * @param file
      * @return
      * @throws Exception
      */
-    public File saveFileOnServer(MultipartFile file) throws Exception;
+    File saveFileOnServer(MultipartFile file) throws Exception;
 
     /**
      * @param file
      * @throws Exception
      */
-    public void fillDBfromCSV(File file) throws Exception;
+    void fillDBfromCSV(File file) throws Exception;
 }

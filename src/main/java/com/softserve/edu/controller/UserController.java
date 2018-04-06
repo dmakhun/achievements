@@ -28,34 +28,35 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 
 @Controller
 public class UserController {
-    private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger LOGGER = Logger.getLogger(UserController.class);
+    private static final Logger logger = Logger.getLogger(UserController.class);
 
     @Autowired
-    UserManager userManager;
+    private UserManager userManager;
     @Autowired
-    CompetenceManager competenceManager;
+    private CompetenceManager competenceManager;
     @Autowired
-    AchievementManager achievementManager;
+    private AchievementManager achievementManager;
     @Autowired
-    RoleManager roleManager;
+    private RoleManager roleManager;
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
     @Autowired
-    StandardPasswordEncoder encoder;
+    private StandardPasswordEncoder encoder;
 
     @RequestMapping(value = "/userHome", method = RequestMethod.GET)
-    public String userHome(Model model, Principal pr) {
+    public String userHome(Model model, Principal principal) {
         try {
             Authentication auth = SecurityContextHolder.getContext()
                     .getAuthentication();
@@ -69,46 +70,43 @@ public class UserController {
 
             model.addAttribute("achievements", achievements);
 
-            List<Group> list = userManager.findGroups(userManager
+            List<Group> groupslist = userManager.findGroups(userManager
                     .findByUsername(auth.getName()).getId(), true);
-            List<Competence> buts = new ArrayList<>();
+            List<Competence> exceptOfList = new ArrayList<>();
             List<Competence> wantToAttend = competenceManager
                     .findByUser(userManager.findByUsername(auth.getName())
                             .getId());
 
-            for (Group group : list) {
-                buts.add(group.getCompetence());
+            for (Group group : groupslist) {
+                exceptOfList.add(group.getCompetence());
             }
-            buts.addAll(wantToAttend);
+            exceptOfList.addAll(wantToAttend);
 
-            List<Competence> competences = competenceManager.listWithout(buts);
+            List<Competence> competences = competenceManager.listWithout(exceptOfList);
 
             model.addAttribute("competences", competences);
             model.addAttribute("waiting_attend", wantToAttend);
 
             return "userHome";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
     @RequestMapping(value = "/userHome", method = RequestMethod.POST)
     public String attend(
-            @RequestParam(value = "competence", required = true) Long competenceId,
-            Principal pr) {
-        Authentication auth = SecurityContextHolder.getContext()
-                .getAuthentication();
+            @RequestParam(value = "competence") long competenceId,
+            Principal principal) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         try {
-            userManager.attendCompetence(
-                    userManager.findByUsername(auth.getName()).getId(),
-                    competenceId);
+            userManager.attendCompetence(userManager.findByUsername(auth.getName()).getId(), competenceId);
 
             return "redirect:/user/userHome";
         } catch (UserManagerException e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
 
     }
@@ -122,8 +120,8 @@ public class UserController {
 
             return "redirect:/admin/removeManager?status=success";
         } catch (UserManagerException e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -148,8 +146,8 @@ public class UserController {
                     roleManager.findRole("ROLE_MANAGER"));
             return user.getId().toString();
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -163,15 +161,15 @@ public class UserController {
             model.addAttribute("total", total);
             model.addAttribute("user", new User());
             Map<String, String> searchBy = new FieldForSearchContrroller<>(
-                    User.class).findAnnot();
+                    User.class).findAnnotation();
             model.addAttribute("searchBy", searchBy);
 
             model.addAttribute("userlist", managers);
             model.addAttribute("status", status);
 
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
         return "allManagers";
     }
@@ -186,10 +184,9 @@ public class UserController {
             @PathVariable(value = "pattern") String pattern, Model model) {
         try {
             int start = max * (paging - 1);
-            int end = max;
 
             List<User> dynamicUsers = userDao.dynamicSearchTwoCriterias(start,
-                    end, criteria, pattern, additionFind,
+                    max, criteria, pattern, additionFind,
                     roleManager.findRole("ROLE_MANAGER"), "role", User.class);
 
             List<User> allByCriteria = userDao.dynamicSearchTwoCriterias(0,
@@ -202,8 +199,8 @@ public class UserController {
 
             return "SearchByCriteria";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
 
     }
@@ -220,7 +217,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/image", method = RequestMethod.GET)
-    String dd(Model model) {
+    String getImage(Model model) {
         try {
             Authentication auth = SecurityContextHolder.getContext()
                     .getAuthentication();
@@ -228,8 +225,8 @@ public class UserController {
 
             return "image";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -248,25 +245,24 @@ public class UserController {
             }
             return "redirect:/image";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
 
     }
 
     @RequestMapping(value = "/showImage/{username}")
     public ResponseEntity<byte[]> showImage(
-            @PathVariable(value = "username") String username)
-            throws IOException {
+            @PathVariable(value = "username") String username) {
         try {
             User user = userManager.findByUsername(username);
-            byte[] image = null;
+            byte[] image;
             if (user != null && user.getPicture() != null) {
                 image = user.getPicture();
             } else {
                 URL url = Thread.currentThread().getContextClassLoader()
                         .getResource("defaultPicture.png");
-                File file = new File(url.getPath().replaceAll("%20", " "));
+                File file = new File(Objects.requireNonNull(url).getPath().replaceAll("%20", " "));
                 image = Files.readAllBytes(file.toPath());
             }
             HttpHeaders headers = new HttpHeaders();
@@ -274,7 +270,7 @@ public class UserController {
 
             return new ResponseEntity<byte[]>(image, headers, HttpStatus.OK);
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e);
             return null;
         }
     }
@@ -290,8 +286,8 @@ public class UserController {
 
             return "mainProfile";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -309,8 +305,8 @@ public class UserController {
 
             return "userProfile";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -334,7 +330,7 @@ public class UserController {
             return "mainProfile";
         } catch (UserManagerException e) {
             model.addAttribute("mess", "email already exist!!!");
-            LOGGER.error(e);
+            logger.error(e);
             return "userProfile";
         }
 
@@ -366,13 +362,10 @@ public class UserController {
                 return "mainProfile";
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e);
             model.addAttribute("error", true);
         }
         return "passwordchanging";
 
     }
-
-    //public String rating()
-
 }

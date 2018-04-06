@@ -101,42 +101,42 @@ public class RoleManagerImplementationTest {
 
     @Test
     public final void testFindRoleByRolenameUser() {
-        when(roleDao.findRoleByRolename("ROLE_USER")).thenReturn(role);
+        when(roleDao.findRoleByName("ROLE_USER")).thenReturn(role);
         Role actual = roleManager.findRoleByRolename("ROLE_USER");
         assertEquals(role, actual);
     }
 
     @Test
     public final void testFindRoleByRolenameManager() {
-        when(roleDao.findRoleByRolename("ROLE_MANAGER")).thenReturn(role);
+        when(roleDao.findRoleByName("ROLE_MANAGER")).thenReturn(role);
         Role actual = roleManager.findRoleByRolename("ROLE_MANAGER");
         assertEquals(role, actual);
     }
 
     @Test
     public final void testFindRoleByRolenameAdmin() {
-        when(roleDao.findRoleByRolename("ROLE_ADMIN")).thenReturn(role);
+        when(roleDao.findRoleByName("ROLE_ADMIN")).thenReturn(role);
         Role actual = roleManager.findRoleByRolename("ROLE_ADMIN");
         assertEquals(role, actual);
     }
 
     @Test
     public final void testFindRoleByRolenameUserNotNull() {
-        when(roleDao.findRoleByRolename("ROLE_USER")).thenReturn(role);
+        when(roleDao.findRoleByName("ROLE_USER")).thenReturn(role);
         Role actual = roleManager.findRoleByRolename("ROLE_USER");
         assertNotNull(actual);
     }
 
     @Test
     public final void testFindRoleByRolenameManagerNotNull() {
-        when(roleDao.findRoleByRolename("ROLE_MANAGER")).thenReturn(role);
+        when(roleDao.findRoleByName("ROLE_MANAGER")).thenReturn(role);
         Role actual = roleManager.findRoleByRolename("ROLE_MANAGER");
         assertNotNull(actual);
     }
 
     @Test
     public final void testFindRoleByRolenameAdminNotNull() {
-        when(roleDao.findRoleByRolename("ROLE_ADMIN")).thenReturn(role);
+        when(roleDao.findRoleByName("ROLE_ADMIN")).thenReturn(role);
         Role actual = roleManager.findRoleByRolename("ROLE_ADMIN");
         assertNotNull(actual);
     }

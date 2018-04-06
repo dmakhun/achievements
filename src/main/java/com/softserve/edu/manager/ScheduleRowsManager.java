@@ -6,8 +6,6 @@ import java.util.Map;
 
 /**
  * Generates the current week.
- *
- * @author edgar.
  */
 public interface ScheduleRowsManager {
 
@@ -16,19 +14,19 @@ public interface ScheduleRowsManager {
      *
      * @return Calendar.
      */
-    public Calendar findMonday();
+    Calendar findMonday();
 
     /**
      * Generates the current week.
      *
      * @return List<Calendar>.
      */
-    public List<Calendar> getWeek();
+    List<Calendar> getWeek();
 
     /**
      * Determines the value of the head of the week.
      *
      * @return Map<Long, String>.
      */
-    public Map<Long, String> getWeekHead();
+    Map<Long, String> getWeekHead();
 }

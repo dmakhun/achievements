@@ -8,8 +8,8 @@ import java.util.Properties;
 
 public class EmailUtil {
     public static void sendMail(String newUsername, String newPassword) {
-        final String username = "mulo";
-        final String password = "pass";
+        final String username = "username@gmail.com";
+        final String password = "password";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -27,7 +27,7 @@ public class EmailUtil {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("edgar.vahitov@gmail.com"));
+            message.setFrom(new InternetAddress("username@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(newUsername));
             message.setSubject("Achievement credentials");
@@ -46,10 +46,9 @@ public class EmailUtil {
     public static boolean isValidEmailAddress(String email) {
         boolean result = true;
         try {
-            InternetAddress emailAddr = new InternetAddress(email);
-            emailAddr.validate();
+            InternetAddress internetAddress = new InternetAddress(email);
+            internetAddress.validate();
         } catch (AddressException ex) {
-            System.out.println("invalid mail");
             result = false;
         }
         return result;

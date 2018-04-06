@@ -7,7 +7,7 @@ import java.util.Random;
 public class PasswordUtil {
 
     public static String generatePassOrSalt(final int length) {
-        String pass = "";
+        StringBuilder pass = new StringBuilder();
         Random r = new Random();
 
         for (int i = 0; i < length; ++i) {
@@ -32,10 +32,10 @@ public class PasswordUtil {
                 break;
             }
 
-            pass += (char) ((r.nextInt(range)) + next);
+            pass.append((char) ((r.nextInt(range)) + next));
         }
 
-        return pass;
+        return pass.toString();
     }
 
     public static String hash(final String password, final String salt) {
@@ -50,15 +50,14 @@ public class PasswordUtil {
         StringBuilder stringBuilder = new StringBuilder();
         String hex;
 
-        for (int i = 0; i < passHash.length; i++) {
-            hex = Integer.toHexString(0xff & passHash[i]);
+        for (byte aPassHash : passHash) {
+            hex = Integer.toHexString(0xff & aPassHash);
             if (hex.length() == 1) {
                 stringBuilder.append('0');
             }
             stringBuilder.append(hex);
         }
         return stringBuilder.toString();
-        /*return password;*/
     }
 
 }

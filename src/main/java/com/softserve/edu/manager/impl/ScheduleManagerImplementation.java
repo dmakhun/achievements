@@ -18,9 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.*;
 
-/**
- * @author edgar
- */
 @Service("scheduleManager")
 public class ScheduleManagerImplementation implements ScheduleManager {
 
@@ -173,7 +170,7 @@ public class ScheduleManagerImplementation implements ScheduleManager {
             }
         } catch (Exception e) {
             file.delete();
-            throw new Exception("invalid value in colum " + count);
+            throw new Exception("invalid value in column " + count);
         }
     }
 }
