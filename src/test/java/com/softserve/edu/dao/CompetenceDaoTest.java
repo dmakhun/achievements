@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -18,10 +17,10 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class CompetenceDaoImplementationTest {
+public class CompetenceDaoTest {
 
     @Autowired
-    CompetenceDao competenceDao;
+    private CompetenceDao competenceDao;
 
     @Test
     public void testShowGroups() {
@@ -32,8 +31,8 @@ public class CompetenceDaoImplementationTest {
     @Test
     public void testFindGroupsByCompetenceUuid() {
         List<Group> groups = competenceDao.findGroupsByCompetenceUuid("i1");
-        for (Iterator<Group> gr = groups.iterator(); gr.hasNext(); ) {
-            System.out.println(gr.next().getName());
+        for (Group group : groups) {
+            System.out.println(group.getName());
         }
         assertEquals(2, groups.size());
     }
@@ -46,20 +45,19 @@ public class CompetenceDaoImplementationTest {
     @Test
     public void testFindByUser() {
         List<Competence> competencies = competenceDao.findCompetencesByUserId(7L);
-        for (Iterator<Competence> comp = competencies.iterator(); comp
-                .hasNext(); ) {
-            System.out.println(comp.next().getName());
+        for (Competence competency : competencies) {
+            System.out.println(competency.getName());
         }
         assertEquals(1, competencies.size());
     }
 
     @Test
     public void testFindByUserUuid() {
-        List<Competence> competencies = competenceDao.findByUserUuid("i1");
-        for (Iterator<Competence> comp = competencies.iterator(); comp.hasNext(); ) {
-            System.out.println(comp.next().getName());
+        List<Competence> competences = competenceDao.findByUserUuid("i1");
+        for (Competence competency : competences) {
+            System.out.println(competency.getName());
         }
-        assertEquals(2, competencies.size());
+        assertEquals(2, competences.size());
     }
 
     @Test

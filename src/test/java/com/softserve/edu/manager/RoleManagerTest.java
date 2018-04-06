@@ -19,11 +19,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * @author dmakhtc
- */
 @RunWith(MockitoJUnitRunner.class)
-public class RoleManagerImplementationTest {
+public class RoleManagerTest {
 
     @Mock
     private RoleDao roleDao;
@@ -49,9 +46,8 @@ public class RoleManagerImplementationTest {
     public final void testFindUsers() {
         List<User> expected = new ArrayList<>();
         when(roleDao.findUsers(idMock)).thenReturn(expected);
-        List<User> actual = new ArrayList<User>();
-        actual = roleManager.findUsers(idMock);
-        assertEquals(expected, actual);
+        List<User> actualUsersList = roleManager.findUsers(idMock);
+        assertEquals(expected, actualUsersList);
     }
 
     @Test
@@ -168,24 +164,21 @@ public class RoleManagerImplementationTest {
     @Test
     public final void testGetByIdNotNull() {
         when(roleDao.findById(classRole, idMockLong)).thenReturn(role);
-        Role expected = new Role();
-        expected = roleManager.findById(idMockLong);
+        Role expected = roleManager.findById(idMockLong);
         assertNotNull(expected);
     }
 
     @Test
     public final void testFindRoleByUuid() {
         when(roleDao.findByUuid(classRole, uuIdMock)).thenReturn(role);
-        Role expected = new Role();
-        expected = roleManager.findRoleByUuid(uuIdMock);
+        Role expected = roleManager.findRoleByUuid(uuIdMock);
         assertEquals(role, expected);
     }
 
     @Test
     public final void testFindRoleByUuidNotNull() {
         when(roleDao.findByUuid(classRole, uuIdMock)).thenReturn(role);
-        Role expected = new Role();
-        expected = roleManager.findRoleByUuid(uuIdMock);
-        assertNotNull(expected);
+        Role expectedRole = roleManager.findRoleByUuid(uuIdMock);
+        assertNotNull(expectedRole);
     }
 }

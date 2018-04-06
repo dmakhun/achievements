@@ -12,10 +12,10 @@ public class ScheduleRowsManagerTest {
     @Test
     public void findMonday() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2014, 2, 20);
+        calendar.set(2014, Calendar.MARCH, 20);
         ScheduleRowsManagerImplementation srm = new ScheduleRowsManagerImplementation(calendar);
         Calendar calendarTrue = Calendar.getInstance();
-        calendarTrue.set(2014, 2, 17, 8, 0);
+        calendarTrue.set(2014, Calendar.MARCH, 17, 8, 0);
         calendar = srm.findMonday();
         assertTrue(calendarTrue.get(Calendar.MONTH) == calendar
                 .get(Calendar.MONTH)

@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository("userDao")
-public class UserDaoImplementation extends GenericDaoImplementation<User>
+public class UserDaoImpl extends GenericDaoImpl<User>
         implements UserDao {
 
     public static final String SUM_OF_POINTS = "select sum(atype.points) from AchievementType atype where atype in(select ac.achievementType  "

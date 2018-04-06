@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("roleDao")
-public class RoleDaoImplementation extends GenericDaoImplementation<Role>
+public class RoleDaoImpl extends GenericDaoImpl<Role>
         implements RoleDao {
 
     @Autowired

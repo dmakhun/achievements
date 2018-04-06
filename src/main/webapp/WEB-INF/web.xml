@@ -77,18 +77,10 @@
         <error-code>503</error-code>
         <location>/myerror/503</location>
     </error-page>
-    <!-- <error-page>
-        <exception-type>java.lang.Throwable</exception-type>
-        <location>/myerror/1</location>
-    </error-page>
-    <error-page>
-        <exception-type>java.lang.Exception</exception-type>
-        <location>/myerror/2</location>
-    </error-page> -->
 
     <filter>
         <filter-name>DefaultEncodingFiltter</filter-name>
-        <filter-class>com.softserve.edu.util.DefaultEncodingFiltter</filter-class>
+        <filter-class>com.softserve.edu.util.DefaultEncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>

@@ -22,11 +22,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-/**
- * @author dmakhtc
- */
+
 @RunWith(MockitoJUnitRunner.class)
-public class GroupManagerImplementationTest {
+public class GroupManagerTest {
 
     @Mock
     private GroupDao groupDao;

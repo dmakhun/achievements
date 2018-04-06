@@ -22,15 +22,12 @@ import java.util.Set;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-/**
- * @author dmakhtc
- */
+
 @RunWith(MockitoJUnitRunner.class)
-public class CompetenceManagerImplTest {
+public class CompetenceManagerTest {
 
     @InjectMocks
-    CompetenceManager competenceManager =
-            new CompetenceManagerImplementation();
+    private CompetenceManager competenceManager = new CompetenceManagerImplementation();
     @Mock
     private CompetenceDao competenceDao;
     @Mock
