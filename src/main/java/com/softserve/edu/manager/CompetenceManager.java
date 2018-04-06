@@ -15,7 +15,7 @@ public interface CompetenceManager {
      * @param CompetenceId
      * @return
      */
-    public List<Group> findGroups(int CompetenceId);
+    List<Group> findGroups(int CompetenceId);
 
     /**
      * Finds all groups of a specific competence by its uuid
@@ -23,12 +23,12 @@ public interface CompetenceManager {
      * @param competenceUuid
      * @return
      */
-    public List<Group> findGroupsByCompetenceUuid(final String competenceUuid);
+    List<Group> findGroupsByCompetenceUuid(final String competenceUuid);
 
     /**
      * @return all list of competenceies.
      */
-    public List<Competence> findAllCompetences();
+    List<Competence> findAllCompetences();
 
     /**
      * return all type of achievements in some competence.
@@ -36,13 +36,13 @@ public interface CompetenceManager {
      * @param idCompetence
      * @return List<AchievementType>
      */
-    public List<AchievementType> findTypesOfAchievements(Long idCompetence);
+    List<AchievementType> findTypesOfAchievements(Long idCompetence);
 
     /**
      * @param conpetenceUuid
      * @return
      */
-    public List<AchievementType> findAchievementTypesByCompetenceUuid(
+    List<AchievementType> findAchievementTypesByCompetenceUuid(
             String conpetenceUuid);
 
     /**
@@ -51,7 +51,7 @@ public interface CompetenceManager {
      * @param buts
      * @return
      */
-    public List<Competence> listWithout(List<Competence> buts);
+    List<Competence> listWithout(List<Competence> buts);
 
     /**
      * Get list of competences, that user want attend to.
@@ -59,7 +59,7 @@ public interface CompetenceManager {
      * @param userId
      * @return
      */
-    public List<Competence> findByUser(final Long userId);
+    List<Competence> findByUser(final Long userId);
 
     /**
      * Finds the list of the competences of the specific user by user's UUID.
@@ -67,7 +67,7 @@ public interface CompetenceManager {
      * @param userUuid
      * @return list of competences
      */
-    public List<Competence> findByUserUuid(final String userUuid);
+    List<Competence> findByUserUuid(final String userUuid);
 
     /**
      * Creates a new competence with current name.
@@ -76,36 +76,36 @@ public interface CompetenceManager {
      * @return competence
      * @throws CompetenceManagerException
      */
-    public Competence create(String name) throws CompetenceManagerException;
+    Competence create(String name) throws CompetenceManagerException;
 
     /**
      * Deletes competence.
      *
      * @param id of competence
-     * @return boolean delete
+     * @return boolean deleteAchievementType
      * @throws CompetenceManagerException
      */
-    public boolean delete(Long id) throws CompetenceManagerException;
+    boolean delete(Long id) throws CompetenceManagerException;
 
     /**
      * Deletes competence.
      *
      * @param uuid of competence
-     * @return boolean delete
+     * @return boolean deleteAchievementType
      * @throws CompetenceManagerException
      */
-    public boolean deleteByUuid(String uuid) throws CompetenceManagerException;
+    boolean deleteByUuid(String uuid) throws CompetenceManagerException;
 
     /**
      * @param objectId
      * @return
      */
-    public Competence findByID(Long objectId);
+    Competence findByID(Long objectId);
 
     /**
      * @param name
      * @return
      */
-    public boolean validateCompetenceName(String name);
+    boolean validateCompetenceName(String name);
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AchievementTypeManager {
 
-    AchievementType create(final Competence competence, final String name, final int points) throws AchievementTypeManagerException;
+    AchievementType createAchievementType(final Competence competence, final String name, final int points) throws AchievementTypeManagerException;
 
     /**
      * Create new achievement type.
@@ -18,7 +18,7 @@ public interface AchievementTypeManager {
      * @param competenceId
      * @throws AchievementTypeManagerException
      */
-    AchievementType create(String name, int points, long competenceId)
+    AchievementType createAchievementType(String name, int points, long competenceId)
             throws AchievementTypeManagerException;
 
     /**
@@ -29,7 +29,9 @@ public interface AchievementTypeManager {
      * @param competenceUuid
      * @throws AchievementTypeManagerException
      */
-    AchievementType create(final String name, final int points, final String competenceUuid) throws AchievementTypeManagerException;
+    AchievementType createAchievementTypeByUuid(final String name, final int points, final String competenceUuid) throws AchievementTypeManagerException;
+
+    boolean deleteAchievementType(AchievementType achievementType) throws AchievementTypeManagerException;
 
     /**
      * Delete existing achievement type by its id.
@@ -37,7 +39,7 @@ public interface AchievementTypeManager {
      * @param achievementTypeId Achievement type id.
      * @throws AchievementTypeManagerException
      */
-    boolean delete(final long achievementTypeId)
+    boolean deleteAchievementType(final long achievementTypeId)
             throws AchievementTypeManagerException;
 
     /**
@@ -47,7 +49,7 @@ public interface AchievementTypeManager {
      * @return
      * @throws AchievementTypeManagerException
      */
-    boolean delete(final String uuid)
+    boolean deleteAchievementType(final String uuid)
             throws AchievementTypeManagerException;
 
     List<AchievementType> achievementTypesList();

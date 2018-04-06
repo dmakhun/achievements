@@ -27,54 +27,68 @@ public class AchievementTypeManagerImpl implements
     @Autowired
     private AchievementTypeDao achievementTypeDao;
 
-
-    public AchievementType create(final Competence competence, final String name, final int points) throws AchievementTypeManagerException {
+    @Override
+    public AchievementType createAchievementType(final Competence competence, final String name, final int points) throws AchievementTypeManagerException {
         AchievementType achievementType;
         try {
             achievementType = new AchievementType().setName(name)
                     .setPoints(points).setCompetence(competence);
 
             achievementTypeDao.save(achievementType);
-            LOGGER.info("Achievemnt type successfully created");
+            LOGGER.info("Achievement type successfully created");
             return achievementType;
         } catch (Exception e) {
-            LOGGER.error("Could not create achievement type");
+            LOGGER.error("Could not createAchievementType achievement type");
             throw new AchievementTypeManagerException(
-                    "Could not create achievement type", e);
+                    "Could not createAchievementType achievement type", e);
         }
     }
 
     @Override
     @Transactional
-    public AchievementType create(final String name, final int points,
-                                  final long competenceId) throws AchievementTypeManagerException {
+    public AchievementType createAchievementType(final String name, final int points,
+                                                 final long competenceId) throws AchievementTypeManagerException {
         Competence competence = competenceDao.findById(Competence.class,
                 competenceId);
         if (competence == null) {
-            LOGGER.error("Could not create achievement type. No competence with such ID");
+            LOGGER.error("Could not createAchievementType achievement type. No competence with such ID");
             throw new AchievementTypeManagerException(
-                    "Could not create achievement type. No competence with such ID");
+                    "Could not createAchievementType achievement type. No competence with such ID");
         }
-        return create(competence, name, points);
+        return createAchievementType(competence, name, points);
     }
 
     @Override
     @Transactional
-    public AchievementType create(final String name, final int points,
-                                  final String competenceUuid) throws AchievementTypeManagerException {
+    public AchievementType createAchievementTypeByUuid(final String name, final int points,
+                                                       final String competenceUuid) throws AchievementTypeManagerException {
         Competence competence = competenceDao.findByUuid(Competence.class,
                 competenceUuid);
         if (competence == null) {
-            LOGGER.error("Could not create achievement type. No competence with such UUID");
+            LOGGER.error("Could not createAchievementType achievement type. No competence with such UUID");
             throw new AchievementTypeManagerException(
-                    "Could not create achievement type. No competence with such UUID");
+                    "Could not createAchievementType achievement type. No competence with such UUID");
         }
-        return create(competence, name, points);
+        return createAchievementType(competence, name, points);
+    }
+
+    @Override
+    public boolean deleteAchievementType(AchievementType achievementType) throws AchievementTypeManagerException {
+        try {
+            achievementTypeDao.delete(achievementType);
+            LOGGER.info("Achievement type successfully deleted");
+
+            return true;
+        } catch (Exception e) {
+            LOGGER.error("Could not deleteAchievementType achievement type");
+            throw new AchievementTypeManagerException(
+                    "Could not deleteAchievementType achievement type", e);
+        }
     }
 
     @Override
     @Transactional
-    public boolean delete(final long achievementTypeId)
+    public boolean deleteAchievementType(final long achievementTypeId)
             throws AchievementTypeManagerException {
 
         AchievementType achievementType = achievementTypeDao.findById(
@@ -86,20 +100,12 @@ public class AchievementTypeManagerImpl implements
                     "Could not find achievement type with such ID");
         }
 
-        try {
-            achievementTypeDao.delete(achievementType);
-            LOGGER.info("Achievement type successfully deleted");
-            return true;
-        } catch (Exception e) {
-            LOGGER.error("Could not delete achievement type");
-            throw new AchievementTypeManagerException(
-                    "Could not delete achievement type", e);
-        }
+        return deleteAchievementType(achievementType);
     }
 
     @Override
     @Transactional
-    public boolean delete(final String uuid)
+    public boolean deleteAchievementType(final String uuid)
             throws AchievementTypeManagerException {
         AchievementType achievementType = achievementTypeDao.findByUuid(
                 AchievementType.class, uuid);
@@ -110,16 +116,7 @@ public class AchievementTypeManagerImpl implements
                     "Could not find achievement type with such UUID");
         }
 
-        try {
-            achievementTypeDao.delete(achievementType);
-            LOGGER.info("Achievemnt type successfully deleted");
-
-            return true;
-        } catch (Exception e) {
-            LOGGER.error("Could not delete achievement type");
-            throw new AchievementTypeManagerException(
-                    "Could not delete achievement type", e);
-        }
+        return deleteAchievementType(achievementType);
     }
 
     @Override

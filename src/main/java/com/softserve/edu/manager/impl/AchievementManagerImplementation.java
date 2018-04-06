@@ -53,9 +53,9 @@ public class AchievementManagerImplementation implements AchievementManager {
         try {
             achievementDao.save(achievement);
         } catch (Exception e) {
-            LOGGER.error("Could not create achievement", e);
+            LOGGER.error("Could not createAchievementType achievement", e);
             throw new CompetenceManagerException(
-                    "Could not create achievement", e);
+                    "Could not createAchievementType achievement", e);
         }
     }
 

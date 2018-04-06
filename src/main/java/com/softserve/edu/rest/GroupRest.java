@@ -89,7 +89,7 @@ public class GroupRest {
     }
 
     /**
-     * create group (save in database). create by
+     * createAchievementType group (save in database). createAchievementType by
      * rest/group/creategroup/{competenceuuid} competenceuuid - appropriate uuid
      * of some group's competence. Consumes application/xml file and save in
      * database. return response status 201 if group creation process was
@@ -133,7 +133,7 @@ public class GroupRest {
     }
 
     /**
-     * delete user by user's uuid. find by
+     * deleteAchievementType user by user's uuid. find by
      * rest/user/deleteuserbyuseruuid/{useruuid}.If some trouble occurred,
      * return response status 500 with appropriate message. If groups was found
      * and removed from database - return response status 200 with appropriate
