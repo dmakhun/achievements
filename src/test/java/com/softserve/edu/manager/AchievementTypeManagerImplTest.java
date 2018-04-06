@@ -57,7 +57,7 @@ public class AchievementTypeManagerImplTest {
         AchievementType achievementTypeExpected = new AchievementType().setName("Java")
                 .setPoints(12).setCompetence(competence);
         achievementTypeDao.save(achievementTypeExpected);
-        AchievementType achievementTypeActual = achievementTypeManager.create(
+        AchievementType achievementTypeActual = achievementTypeManager.createAchievementType(
                 "Java", 12, IdMock);
         assertEquals(achievementTypeExpected, achievementTypeActual);
     }
@@ -67,7 +67,7 @@ public class AchievementTypeManagerImplTest {
         when(competenceDao.findById(Competence.class, IdMock)).thenReturn(competence);
         AchievementType achievementTypeExpected = new AchievementType()
                 .setName("Android").setPoints(15).setCompetence(competence);
-        AchievementType achievementTypeActual = achievementTypeManager.create(
+        AchievementType achievementTypeActual = achievementTypeManager.createAchievementType(
                 "Android", 15, IdMock);
         assertEquals("failure - not equal", achievementTypeExpected,
                 achievementTypeActual);

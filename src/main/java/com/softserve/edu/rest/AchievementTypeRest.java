@@ -58,7 +58,7 @@ public class AchievementTypeRest {
     public Response createAchievementType(AchievementType achievementType) {
 
         try {
-            achievementTypeManager.create(achievementType.getName(),
+            achievementTypeManager.createAchievementTypeByUuid(achievementType.getName(),
                     achievementType.getPoints(), achievementType
                             .getCompetence().getUuid());
 
@@ -84,7 +84,7 @@ public class AchievementTypeRest {
             @PathParam("uuid") final String uuid) {
 
         try {
-            achievementTypeManager.delete(uuid);
+            achievementTypeManager.deleteAchievementType(uuid);
         } catch (AchievementTypeManagerException e) {
             LOGGER.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();

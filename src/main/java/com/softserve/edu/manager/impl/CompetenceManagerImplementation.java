@@ -68,8 +68,8 @@ public class CompetenceManagerImplementation implements CompetenceManager {
             LOGGER.info("Competence created successfully");
             return competence;
         } catch (Exception e) {
-            LOGGER.error("Could not create competence", e);
-            throw new CompetenceManagerException("Could not create competence",
+            LOGGER.error("Could not createAchievementType competence", e);
+            throw new CompetenceManagerException("Could not createAchievementType competence",
                     e);
 
         }
@@ -90,8 +90,8 @@ public class CompetenceManagerImplementation implements CompetenceManager {
             LOGGER.info("Competence removed successfully");
             return true;
         } catch (Exception e) {
-            LOGGER.error("Could not delete competence", e);
-            throw new CompetenceManagerException("Could not delete competence",
+            LOGGER.error("Could not deleteAchievementType competence", e);
+            throw new CompetenceManagerException("Could not deleteAchievementType competence",
                     e);
         }
     }
@@ -112,8 +112,8 @@ public class CompetenceManagerImplementation implements CompetenceManager {
             LOGGER.info("Competence removed successfully");
             return true;
         } catch (Exception e) {
-            LOGGER.error("Could not delete competence", e);
-            throw new CompetenceManagerException("Could not delete competence",
+            LOGGER.error("Could not deleteAchievementType competence", e);
+            throw new CompetenceManagerException("Could not deleteAchievementType competence",
                     e);
         }
     }

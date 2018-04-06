@@ -59,7 +59,7 @@
 	$(function() {
 		cancelModify = function() {
 			$(".modify-existing-group").css("display", "none");
-			$(".create-new-group").css("display", false);
+            $(".createAchievementType-new-group").css("display", false);
 			$("input[name=type]").val("create");
 			$("input[name=id]").val("");
 			$("input[name=group_name]").val("");
@@ -89,11 +89,11 @@
 
 		$("#message-box").on("click", function() {
 			$(this).fadeOut();
-		})
+        });
 
 		$("body").on("click", ".modifiable", function() {
 				row = $(this).parent().parent().parent();
-				$(".create-new-group").css("display", "none");
+            $(".createAchievementType-new-group").css("display", "none");
 				$(".modify-existing-group").css("display", false);
 				$("input[name=type]").val("modify");
 				$("input[name=id]").val($(row).find("input[name=modify]").val());
@@ -110,7 +110,7 @@
 		$("body").on("click", ".deleteable", function() {
 			var row = $(this).parent().parent().parent();
 			$("input[name=type]").val("delete");
-			$("input[name=id]").val($(row).find("input[name=delete]").val());
+            $("input[name=id]").val($(row).find("input[name=deleteAchievementType]").val());
 			var data = $("form").serialize();
 
 			$("input[name=type]").val("create");
@@ -150,8 +150,8 @@
 				$(button).attr("disabled", true);
 				var ok = function () {};
 				var someError = function() {
-					
-				}
+
+                };
 				var rowRenamer = function(id) {
 					return $("#group-row").html()
 							.replace(/{{name}}/g, $("input[name=group_name]").val())

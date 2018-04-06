@@ -70,11 +70,10 @@ public class ManagerController {
             @RequestParam(value = "group_name") String groupName,
             @RequestParam(value = "competence") Long competenceId,
             @RequestParam(value = "dateStart") String dateStart,
-            @RequestParam(value = "dateEnd") String dateEnd, Locale locale)
-            throws ParseException {
+            @RequestParam(value = "dateEnd") String dateEnd, Locale locale) {
         try {
             switch (type.toLowerCase()) {
-                case "create":
+                case "createAchievementType":
                     return createGroup(groupName, competenceId, dateStart, dateEnd,
                             locale);
 
@@ -82,7 +81,7 @@ public class ManagerController {
                     return modifyGroup(id, groupName, competenceId, dateStart,
                             dateEnd, locale);
 
-                case "delete":
+                case "deleteAchievementType":
                     return deleteGroup(id);
             }
         } catch (Exception e) {
