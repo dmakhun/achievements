@@ -5,9 +5,6 @@ import com.softserve.edu.exception.CompetenceManagerException;
 
 import java.util.List;
 
-/**
- * @author Nazar
- */
 public interface AchievementManager {
 
     /**
@@ -18,18 +15,18 @@ public interface AchievementManager {
      * @param comment
      * @throws CompetenceManagerException
      */
-    public void awardUser(long userId, long achievementTypeId,
-                          String comment) throws CompetenceManagerException;
+    void awardUser(long userId, long achievementTypeId,
+                   String comment) throws CompetenceManagerException;
 
     /**
      * @param userId
      * @return
      */
-    public List<Achievement> findUserAchievements(Long userId);
+    List<Achievement> findUserAchievements(Long userId);
 
     /**
      * @param achievementUuid
      * @return
      */
-    public List<Achievement> findAchievementsByUserUuid(String achievementUuid);
+    List<Achievement> findAchievementsByUserUuid(String achievementUuid);
 }

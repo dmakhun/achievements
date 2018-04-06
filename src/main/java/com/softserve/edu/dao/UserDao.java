@@ -23,7 +23,6 @@ public interface UserDao extends GenericDao<User> {
      *
      * @param username Username.
      * @return User or null.
-     * @author vkudrtc
      */
     User findByUsername(final String username);
 
@@ -32,7 +31,6 @@ public interface UserDao extends GenericDao<User> {
      *
      * @param email Email.
      * @return User or null.
-     * @author vkudrtc
      */
     User findByEmail(final String email);
 

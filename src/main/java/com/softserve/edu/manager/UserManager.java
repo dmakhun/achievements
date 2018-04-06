@@ -23,11 +23,10 @@ public interface UserManager {
      * @throws NoSuchAlgorithmException - unhandled in hash exception.
      * @throws UserManagerException
      * @throws Exception
-     * @author vkudrtc
      */
-    public User create(final String name, final String surname,
-                       final String username, final String password, final String email,
-                       final Long roleId) throws UserManagerException;
+    User create(final String name, final String surname,
+                final String username, final String password, final String email,
+                final Long roleId) throws UserManagerException;
 
 
     /**
@@ -45,11 +44,10 @@ public interface UserManager {
      * @throws InvalidValueException
      * @throws NoSuchAlgorithmException
      * @throws UserManagerException
-     * @author vkudrtc
      */
-    public User update(final Long userId, final String name,
-                       final String surname, final String username, final String password,
-                       final String email, final Long roleId) throws UserManagerException;
+    User update(final Long userId, final String name,
+                final String surname, final String username, final String password,
+                final String email, final Long roleId) throws UserManagerException;
 
     /**
      * Modify existing user.
@@ -60,9 +58,8 @@ public interface UserManager {
      * @throws InvalidValueException
      * @throws NoSuchAlgorithmException
      * @throws UserManagerException
-     * @author vkudrtc
      */
-    public void update(User user) throws UserManagerException;
+    void update(User user) throws UserManagerException;
 
     /**
      * Modify existing user.
@@ -79,11 +76,10 @@ public interface UserManager {
      * @throws InvalidValueException
      * @throws NoSuchAlgorithmException
      * @throws UserManagerException
-     * @author vkudrtc
      */
-    public User update(final String userUuid, final String name,
-                       final String surname, final String username, final String password,
-                       final String email, final String roleUuid) throws UserManagerException;
+    User update(final String userUuid, final String name,
+                final String surname, final String username, final String password,
+                final String email, final String roleUuid) throws UserManagerException;
 
     /**
      * Delete user by given Id.
@@ -91,9 +87,8 @@ public interface UserManager {
      * @param id User id.
      * @return result.
      * @throws UserManagerException
-     * @author vkudrtc
      */
-    public void deleteById(final Long id) throws UserManagerException;
+    void deleteById(final Long id) throws UserManagerException;
 
     /**
      * Find user by his ID.
@@ -101,18 +96,16 @@ public interface UserManager {
      * @param id User id.
      * @return User or null.
      * @throws UserManagerException
-     * @author vkudrtc
      */
-    public User findById(final Long id) throws UserManagerException;
+    User findById(final Long id) throws UserManagerException;
 
     /**
      * Find user by his ID.
      *
-     * @param id User id.
+     * @param uuid
      * @return User or null.
-     * @author vkrettc
      */
-    public User findByUuid(final String uuid);
+    User findByUuid(final String uuid);
 
     /**
      * Find user by his full username.
@@ -120,18 +113,16 @@ public interface UserManager {
      * @param username Username.
      * @return User or null.
      * @throws UserManagerException
-     * @author vkudrtc
      */
-    public User findByUsername(final String username);
+    User findByUsername(final String username);
 
     /**
      * Find user by his email.
      *
      * @param email Email.
      * @return User or null.
-     * @author vkudrtc
      */
-    public User findByEmail(final String email);
+    User findByEmail(final String email);
 
     /**
      * Find all groups user attending to.
@@ -141,7 +132,7 @@ public interface UserManager {
      *                   the current moment.
      * @return
      */
-    public List<Group> findGroups(final Long userId, final boolean onlyOpened);
+    List<Group> findGroups(final Long userId, final boolean onlyOpened);
 
     /**
      * Attend user to specific competence.
@@ -150,7 +141,7 @@ public interface UserManager {
      * @param competenceId
      * @throws UserManagerException
      */
-    public void attendCompetence(final Long userId, final Long competenceId) throws UserManagerException;
+    void attendCompetence(final Long userId, final Long competenceId) throws UserManagerException;
 
     /**
      * Removes user from attending to some competence
@@ -159,19 +150,19 @@ public interface UserManager {
      * @param competence - competence from which you want to remove user\'s attend
      * @throws UserManagerException
      */
-    public void removeUserToCompetence(final Long userId,
-                                       final Long competenceId) throws UserManagerException;
+    void removeUserToCompetence(final Long userId,
+                                final Long competenceId) throws UserManagerException;
 
     /**
      * @param username
      * @return Set of name of all active groups for user with username
      */
-    public Set<String> findActiveNameGroups(String username);
+    Set<String> findActiveNameGroups(String username);
 
     /**
      * @return list of all users
      */
-    public List<User> findAllUsers();
+    List<User> findAllUsers();
 
     /**
      * check if user exists in database
@@ -180,7 +171,7 @@ public interface UserManager {
      * @return boolean;
      * @nsosntc
      */
-    public boolean existUserName(String userName);
+    boolean existUserName(String userName);
 
     /**
      * Create new user
@@ -189,9 +180,8 @@ public interface UserManager {
      * @throws InvalidValueException    - (some of) passed parameters are broken.
      * @throws NoSuchAlgorithmException - unhandled in hash exception.
      * @throws UserManagerException
-     * @author nsosntc
      */
-    public void create(User user) throws UserManagerException;
+    void create(User user) throws UserManagerException;
 
     /**
      * check if email exists in database
@@ -200,20 +190,20 @@ public interface UserManager {
      * @return boolean;
      * @nsosntc
      */
-    public boolean existEmail(String email);
+    boolean existEmail(String email);
 
     /**
      * @param userUuid
      * @throws UserManagerException
      */
-    public void deleteByUuid(String userUuid) throws UserManagerException;
+    void deleteByUuid(String userUuid) throws UserManagerException;
 
     /**
      * @param userUuid
      * @param competenceUuid
      * @throws UserManagerException
      */
-    public void attendCompetence(String userUuid, String competenceUuid) throws UserManagerException;
+    void attendCompetence(String userUuid, String competenceUuid) throws UserManagerException;
 
 
     /**
@@ -230,7 +220,7 @@ public interface UserManager {
     void removeAssociation(User user);
 
 
-    public Long sumOfPoints(User user);
+    Long sumOfPoints(User user);
 
 
     List<User> findAllManagers();

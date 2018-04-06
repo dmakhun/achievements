@@ -5,11 +5,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
 
-/**
- * Represents bean class for Competence entity.
- *
- * @author MyronKurus.
- */
 @XmlRootElement
 @Entity
 @Table(name = "ach_Achievement")

@@ -6,11 +6,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
 import java.util.Set;
 
-/**
- * Represents bean class for Competence entity.
- *
- * @author Nazar.
- */
 @Entity
 @Table(name = "ach_Competence")
 @XmlRootElement

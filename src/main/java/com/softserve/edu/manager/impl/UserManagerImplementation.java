@@ -221,7 +221,6 @@ public class UserManagerImplementation implements UserManager {
      * @throws InvalidValueException
      * @throws NoSuchAlgorithmException
      * @throws UserManagerException
-     * @author vkudrtc
      */
     @Transactional
     private User validateFields(final boolean nevermindEmpty,
@@ -364,7 +363,6 @@ public class UserManagerImplementation implements UserManager {
      * @return String
      * @throws InvalidValueException
      * @throws UserManagerException
-     * @author vkudrtc
      */
     @Transactional
     private boolean validateGeneric(final User user, final String field,
@@ -401,7 +399,6 @@ public class UserManagerImplementation implements UserManager {
      * @return String
      * @throws InvalidValueException
      * @throws UserManagerException
-     * @author vkudrtc
      */
     @Transactional
     private boolean validateByPattern(final User user, final User otherUser,
@@ -445,7 +442,6 @@ public class UserManagerImplementation implements UserManager {
      * @throws NoSuchAlgorithmException
      * @throws InvalidValueException
      * @throws UserManagerException
-     * @author vkudrtc
      */
     @Transactional
     private boolean validatePassword(final String password,

@@ -1,13 +1,6 @@
 package com.softserve.edu.exception;
 
-/**
- * class UsersManagerExeption
- *
- * @author nsosntc
- */
 public class UserManagerException extends Exception {
-
-    private static final long serialVersionUID = -5340409645019171436L;
 
     /**
      * The default constructor.
