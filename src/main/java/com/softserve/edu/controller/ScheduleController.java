@@ -22,8 +22,6 @@ import java.util.Map;
 
 /**
  * Controller serves a request to schedule.
- *
- * @author edgar.
  */
 @Controller
 public class ScheduleController {

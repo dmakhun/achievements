@@ -60,12 +60,10 @@ public interface UserDao extends GenericDao<User> {
     /**
      * Find all points for user
      *
-     * @param User
+     * @param user
      * @return Long
-     * @author dmakhtc
      */
     Long sumOfPoints(User user);
-
 
     List<User> findAllManagers();
 

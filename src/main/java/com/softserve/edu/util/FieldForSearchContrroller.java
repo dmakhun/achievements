@@ -6,21 +6,21 @@ import java.util.Map;
 
 public class FieldForSearchContrroller<T> {
 
-    Class<T> clazz;
-    Map<String, String> map = new HashMap<String, String>();
+    private Class<T> clazz;
+    private Map<String, String> map = new HashMap<String, String>();
 
     public FieldForSearchContrroller(Class<T> clazz) {
         this.clazz = clazz;
     }
 
-    public Map<String, String> findAnnot() {
+    public Map<String, String> findAnnotation() {
 
         Field[] fields = clazz.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            if (fields[i].isAnnotationPresent(FieldForSearch.class)) {
-                FieldForSearch searchField = fields[i]
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(FieldForSearch.class)) {
+                FieldForSearch searchField = field
                         .getAnnotation(FieldForSearch.class);
-                map.put(fields[i].getName(), searchField.nameForView());
+                map.put(field.getName(), searchField.nameForView());
 
             }
         }

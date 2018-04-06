@@ -12,30 +12,32 @@ public interface GroupDao extends GenericDao<Group> {
      *
      * @return list of groups
      */
-    public List<Group> inFuture();
+    List<Group> inFuture();
 
     /**
-     * @param Find all group with certain competence what will be opened.
+     * Find all group with certain competence what will be opened.
+     *
+     * @param competenceId
      * @return list of group
      */
-    public List<Group> inFuture(Long competenceId);
+    List<Group> inFuture(Long competenceId);
 
     /**
      * All users in some group.
      *
-     * @return List<User>
+     * @return List of users
      */
-    public List<User> userList(Long groupId);
+    List<User> userList(Long groupId);
 
     /**
      * Get groups connected to given competence.
      *
-     * @param competenceId
+     * @param competenceUuid
      * @param onlyOpened
      * @return
      */
-    public List<Group> findByCompetenceUuid(final String competenceUuid,
-                                            final boolean onlyOpened);
+    List<Group> findByCompetenceUuid(final String competenceUuid,
+                                     final boolean onlyOpened);
 
     /**
      * Add user to group.
@@ -43,32 +45,32 @@ public interface GroupDao extends GenericDao<Group> {
      * @param userId
      * @param groupId
      */
-    public void addUser(final Long userId, final Long groupId);
+    void addUser(final Long userId, final Long groupId);
 
     /**
      * @param groupUuid
      * @return
      */
-    public List<User> findUsersByGroupUuid(String groupUuid);
+    List<User> findUsersByGroupUuid(String groupUuid);
 
     /**
      * @param competenceId
      * @param onlyOpened
      * @return
      */
-    public List<Group> findByCompetence(Long competenceId, boolean onlyOpened);
+    List<Group> findByCompetence(Long competenceId, boolean onlyOpened);
 
     /**
      * @param name
      * @return
      */
-    public Group findGroupByName(String name);
+    Group findGroupByName(String name);
 
     /**
      * @param userUuid
      * @param groupUuid
      */
-    public void addUser(String userUuid, String groupUuid);
+    void addUser(String userUuid, String groupUuid);
 
 
 }

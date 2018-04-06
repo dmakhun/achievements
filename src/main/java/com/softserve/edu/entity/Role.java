@@ -8,7 +8,6 @@ import java.util.Set;
 /**
  * Represents bean class for Roles entity. Mapped on table roles.
  *
- * @author Edgar
  */
 @XmlRootElement
 @Entity
@@ -27,7 +26,7 @@ public class Role extends AbstractEntity {
     public static final String FIND_ROLE_BY_NAME = "Role.findRole";
     public static final String FIND_ROLE_BY_NAME_QUERY = "from Role where name like ?1";
 
-    public static final String FIND_ROLE_BY_ROLE_NAME = "Role.findRoleByRolename";
+    public static final String FIND_ROLE_BY_ROLE_NAME = "Role.findRoleByName";
     public static final String FIND_ROLE_BY_ROLE_NAME_QUERY = "from Role where name like ?1";
 
     public static final String FIND_USERS_BY_ROLE_UUID = "ROLE";

@@ -22,11 +22,11 @@ public class UserDaoImplementation extends GenericDaoImplementation<User>
     public static final String COUNT_ALL_MANAGERS = "select count(*) FROM User u inner join fetch u.role r WHERE r.id = ?1";
 
     @Autowired
-    RoleDao roleDao;
+    private RoleDao roleDao;
     @Autowired
-    CompetenceDao competenceDao;
+    private CompetenceDao competenceDao;
     @Autowired
-    GroupDao groupDao;
+    private GroupDao groupDao;
 
     @Override
     public void attendUserToCompetence(User user, Competence competence) {

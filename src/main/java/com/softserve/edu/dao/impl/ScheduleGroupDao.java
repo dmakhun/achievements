@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * class ScheduleGroupDao parse csv file in List of Schedule for specific group.
  *
- * @author edgar.
  */
 public class ScheduleGroupDao {
 
