@@ -2,7 +2,7 @@ package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.ScheduleDao;
-import com.softserve.edu.dao.impl.ScheduleGroupDao;
+import com.softserve.edu.dao.impl.ScheduleGroupDaoImpl;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.Schedule;
 import com.softserve.edu.entity.ScheduleTable;
@@ -22,10 +22,10 @@ import java.util.*;
 public class ScheduleManagerImplementation implements ScheduleManager {
 
     @Autowired
-    ScheduleDao scheduleDao;
+    private ScheduleDao scheduleDao;
 
     @Autowired
-    GroupDao groupDao;
+    private GroupDao groupDao;
 
     @Override
     public Map<Long, String> table(Calendar calendar, String group) {
@@ -34,7 +34,7 @@ public class ScheduleManagerImplementation implements ScheduleManager {
         ScheduleRowsManagerImplementation sr = new ScheduleRowsManagerImplementation(
                 calendar);
         List<Calendar> calen = sr.getWeek();
-        ScheduleGroupDao sgd = new ScheduleGroupDao(group);
+        ScheduleGroupDaoImpl sgd = new ScheduleGroupDaoImpl(group);
         List<Schedule> schList = sgd.listScheduleForGroup;
         for (Calendar c : calen) {
             ++placeOfText;

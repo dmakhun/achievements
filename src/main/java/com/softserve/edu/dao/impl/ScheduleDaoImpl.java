@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository("scheduleDao")
-public class ScheduleDaoImplementation extends
-        GenericDaoImplementation<ScheduleTable> implements ScheduleDao {
+public class ScheduleDaoImpl extends
+        GenericDaoImpl<ScheduleTable> implements ScheduleDao {
 
 }

@@ -11,13 +11,13 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
-public class GenericDaoImplementation<T> implements GenericDao<T> {
+public class GenericDaoImpl<T> implements GenericDao<T> {
 
-    private static final Logger logger = Logger.getLogger(GenericDaoImplementation.class);
+    private static final Logger logger = Logger.getLogger(GenericDaoImpl.class);
     @PersistenceContext
     EntityManager entityManager;
 
-    GenericDaoImplementation() {
+    GenericDaoImpl() {
         super();
     }
 

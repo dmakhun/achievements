@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository("competenceDao")
-public class CompetenceDaoImplementation extends
-        GenericDaoImplementation<Competence> implements CompetenceDao {
+public class CompetenceDaoImpl extends
+        GenericDaoImpl<Competence> implements CompetenceDao {
 
     @Autowired
     private GroupDao groupDao;

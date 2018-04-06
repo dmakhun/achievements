@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository("groupDao")
-public class GroupDaoImplementation extends GenericDaoImplementation<Group>
+public class GroupDaoImpl extends GenericDaoImpl<Group>
         implements GroupDao {
 
     @Autowired

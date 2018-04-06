@@ -2,7 +2,7 @@ package com.softserve.edu.manager;
 
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
-import com.softserve.edu.dao.impl.UserDaoImplementation;
+import com.softserve.edu.dao.impl.UserDaoImpl;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.impl.UserManagerImplementation;
@@ -13,13 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-/**
- * @author dmakhtc
- */
 @RunWith(MockitoJUnitRunner.class)
-public class UserManagerImplTest {
+public class UserManagerTest {
 
-    User testUser = null;
+    private User testUser = null;
     @Mock
     private UserDao userDao;
     @Mock
@@ -28,15 +25,9 @@ public class UserManagerImplTest {
     private UserManager userManager =
             new UserManagerImplementation();
 
-    /**
-     * Lots of versions that method of creating user can take.
-     *
-     * @throws UserManagerException
-     */
-
     @Before
     public void setUp() {
-        userDao = new UserDaoImplementation();
+        userDao = new UserDaoImpl();
     }
 
     @Test(expected = UserManagerException.class)
@@ -82,14 +73,8 @@ public class UserManagerImplTest {
     @Test(expected = UserManagerException.class)
     public void createTestRoleID() throws Exception {
         userManager.create("Name", "Surname", "someUserName", "password",
-                "email@email.email", 2l);
+                "email@email.email", 2L);
     }
-
-    /**
-     * Lots of versions that method of user modifying can take.
-     *
-     * @throws UserManagerException
-     */
 
     @Test(expected = UserManagerException.class)
     public void testModifyValid() throws UserManagerException {

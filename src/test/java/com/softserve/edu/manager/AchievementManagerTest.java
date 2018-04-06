@@ -20,11 +20,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-/**
- * @author dmakhtc
- */
+
 @RunWith(JUnitParamsRunner.class)
-public class AchievementManagerImplTest {
+public class AchievementManagerTest {
 
     @Mock
     private AchievementDao achievementDao;
@@ -59,7 +57,7 @@ public class AchievementManagerImplTest {
     @Test
     public void testFindUserAchievementsNotNull() {
         List<Achievement> actual = new ArrayList<Achievement>();
-        actual = achievementManager.findUserAchievements(0l);
+        actual = achievementManager.findUserAchievements(0L);
         assertNotNull(actual);
     }
 

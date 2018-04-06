@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("achievementTypeDao")
-public class AchievementTypeDaoImplementation extends
-        GenericDaoImplementation<AchievementType> implements AchievementTypeDao {
+public class AchievementTypeDaoImpl extends
+        GenericDaoImpl<AchievementType> implements AchievementTypeDao {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     @Override
     public List<AchievementType> findByCompetenceId(Long competenceId) {
