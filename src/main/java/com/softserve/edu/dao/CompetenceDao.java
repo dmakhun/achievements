@@ -10,10 +10,10 @@ public interface CompetenceDao extends GenericDao<Competence> {
     /**
      * Returns all groups in a certain competence.
      *
-     * @param id of group
-     * @return list of groups,
+     * @param groupId
+     * @return list of groups
      */
-    public List<Group> showGroups(int groupId);
+    List<Group> showGroups(int groupId);
 
     /**
      * Finds all groups of a specific competence
@@ -21,7 +21,7 @@ public interface CompetenceDao extends GenericDao<Competence> {
      * @param competenceUuid
      * @return
      */
-    public List<Group> findGroupsByCompetenceUuid(final String competenceUuid);
+    List<Group> findGroupsByCompetenceUuid(final String competenceUuid);
 
     /**
      * Find competence with certain name.
@@ -30,7 +30,7 @@ public interface CompetenceDao extends GenericDao<Competence> {
      * @return competence
      */
 
-    public Competence findByName(String name);
+    Competence findByName(String name);
 
     /**
      * Get list of competences, that user want attend to.
@@ -38,7 +38,7 @@ public interface CompetenceDao extends GenericDao<Competence> {
      * @param userId
      * @return
      */
-    public List<Competence> findCompetencesByUserId(final Long userId);
+    List<Competence> findCompetencesByUserId(final Long userId);
 
     /**
      * Finds the list of the competences of the specific user by user's UUID.
@@ -46,13 +46,13 @@ public interface CompetenceDao extends GenericDao<Competence> {
      * @param userUuid
      * @return
      */
-    public List<Competence> findByUserUuid(final String userUuid);
+    List<Competence> findByUserUuid(final String userUuid);
 
     /**
      * Get competences with loaded users to them.
      *
      * @return list of competences
      */
-    public List<Competence> findAllCompetences();
+    List<Competence> findAllCompetences();
 
 }

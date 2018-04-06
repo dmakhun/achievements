@@ -34,7 +34,7 @@ public class RoleManagerImplementation implements RoleManager {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Role findRoleByRolename(String roleName) {
 
-        return roleDao.findRoleByRolename(roleName);
+        return roleDao.findRoleByName(roleName);
     }
 
     @Override

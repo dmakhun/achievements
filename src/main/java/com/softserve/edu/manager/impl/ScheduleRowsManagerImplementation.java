@@ -6,8 +6,6 @@ import java.util.*;
 
 /**
  * Generates the current week.
- *
- * @author edgar
  */
 public class ScheduleRowsManagerImplementation implements ScheduleRowsManager {
 

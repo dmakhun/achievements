@@ -7,8 +7,6 @@ import java.util.Calendar;
 /**
  * The <code>Schedule</code> class is entity of file csv in Java. One object of
  * class include one line in file csv.
- *
- * @author Edgar.
  */
 
 public class Schedule {
@@ -158,7 +156,6 @@ public class Schedule {
         try {
             startDateAndTime.setTime(sdf.parse(startDateStr + startTime));
         } catch (ParseException e) {
-
             e.printStackTrace();
         }
 

@@ -12,8 +12,6 @@ import java.util.List;
 
 /**
  * Util class for parsing csv.
- *
- * @author edgar.
  */
 public class CsvParser {
 
