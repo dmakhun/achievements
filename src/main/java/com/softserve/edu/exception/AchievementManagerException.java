@@ -3,11 +3,6 @@ package com.softserve.edu.exception;
 public class AchievementManagerException extends Exception {
 
     /**
-     * AchievementManagerException
-     */
-    private static final long serialVersionUID = 1L;
-
-    /**
      * The default constructor.
      */
     public AchievementManagerException() {

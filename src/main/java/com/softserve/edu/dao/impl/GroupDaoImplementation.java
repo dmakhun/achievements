@@ -15,7 +15,7 @@ public class GroupDaoImplementation extends GenericDaoImplementation<Group>
         implements GroupDao {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     public List<Group> inFuture() {
         Date today = new Date();

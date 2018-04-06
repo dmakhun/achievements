@@ -16,7 +16,7 @@ public class CompetenceDaoImplementation extends
         GenericDaoImplementation<Competence> implements CompetenceDao {
 
     @Autowired
-    GroupDao groupDao;
+    private GroupDao groupDao;
 
     @Override
     public List<Group> showGroups(int groupId) {

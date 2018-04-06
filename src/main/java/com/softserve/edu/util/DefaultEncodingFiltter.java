@@ -3,9 +3,6 @@ package com.softserve.edu.util;
 import javax.servlet.*;
 import java.io.IOException;
 
-/**
- * @author Oleg Baranovsky
- */
 public class DefaultEncodingFiltter implements Filter {
 
     private static final String FILTERABLE_CONTENT_TYPE = "application/x-www-form-urlencoded";
@@ -28,7 +25,7 @@ public class DefaultEncodingFiltter implements Filter {
         chain.doFilter(req, resp);
     }
 
-    public void init(FilterConfig config) throws ServletException {
+    public void init(FilterConfig config) {
         encoding = config.getInitParameter(ENCODING_INIT_PARAM_NAME);
         if (encoding == null)
             encoding = ENCODING_DEFAULT;

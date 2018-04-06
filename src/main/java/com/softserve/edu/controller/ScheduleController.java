@@ -20,24 +20,24 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Map;
 
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
+
 /**
  * Controller serves a request to schedule.
  */
 @Controller
 public class ScheduleController {
 
-    private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger LOGGER = Logger
+    private static final Logger logger = Logger
             .getLogger(ScheduleController.class);
 
     @Autowired
-    UserManager userManager;
+    private UserManager userManager;
 
     @Autowired
-    ScheduleManager scheduleManager;
+    private ScheduleManager scheduleManager;
 
     /**
-     * @param model
      * @return scheduleTable.jsp
      */
     @RequestMapping(value = "/schedule/{group:[a-zA-Z0-9\\.\\-_]+}/{dateAdd}")
@@ -58,8 +58,8 @@ public class ScheduleController {
             model.addAttribute("prev", dateAdd - 1);
             return "schedule";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -72,8 +72,8 @@ public class ScheduleController {
                     userManager.findActiveNameGroups(auth.getName()));
             return "scheduleTable";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
 
     }
@@ -94,7 +94,7 @@ public class ScheduleController {
             model.addAttribute("status", "file upload successfully");
             return "addSchedule";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e);
             model.addAttribute("status", e.getMessage());
             return "addSchedule";
         }

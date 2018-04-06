@@ -15,7 +15,7 @@ public class ScheduleGroupDao {
     /**
      * name of specific group.
      */
-    public String groupName;
+    private String groupName;
 
     /**
      * list of Schedule for specific group.
