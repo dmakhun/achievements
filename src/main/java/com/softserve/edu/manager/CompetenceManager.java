@@ -39,11 +39,11 @@ public interface CompetenceManager {
     List<AchievementType> findTypesOfAchievements(Long idCompetence);
 
     /**
-     * @param conpetenceUuid
+     * @param competenceUuid
      * @return
      */
     List<AchievementType> findAchievementTypesByCompetenceUuid(
-            String conpetenceUuid);
+            String competenceUuid);
 
     /**
      * Get list of competences but those, that are given.
