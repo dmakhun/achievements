@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository("achievementDao")
 public class AchievementDaoImpl extends
-        GenericDaoImplementation<Achievement> implements AchievementDao {
+        GenericDaoImpl<Achievement> implements AchievementDao {
 
     @Autowired
     private UserDao userDao;

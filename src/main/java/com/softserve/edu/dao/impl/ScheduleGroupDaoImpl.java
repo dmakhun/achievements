@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * class ScheduleGroupDao parse csv file in List of Schedule for specific group.
+ * Parse csv file in List of Schedule for specific group.
  *
  */
-public class ScheduleGroupDao {
+public class ScheduleGroupDaoImpl {
 
     /**
      * name of specific group.
@@ -31,7 +31,7 @@ public class ScheduleGroupDao {
      *
      * @param groupName .
      */
-    public ScheduleGroupDao(String groupName) {
+    public ScheduleGroupDaoImpl(String groupName) {
         this.groupName = groupName;
         this.listScheduleForGroup = this.listScheduleForThisGroup();
 

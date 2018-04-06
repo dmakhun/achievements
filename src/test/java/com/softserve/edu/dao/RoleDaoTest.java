@@ -18,10 +18,10 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class RoleDaoImplementationTest {
+public class RoleDaoTest {
 
     @Autowired
-    RoleDao roleDao;
+    private RoleDao roleDao;
 
     @Test
     public void testFindUsers() {
@@ -52,8 +52,8 @@ public class RoleDaoImplementationTest {
     public void testFindUsersByRoleUuid() {
         List<User> users = roleDao.findUsersByRoleUuid("i1");
         System.out.println("users with roleUuid 'i1':");
-        for (Iterator<User> i = users.iterator(); i.hasNext(); ) {
-            System.out.println(i.next().getName());
+        for (User user : users) {
+            System.out.println(user.getName());
         }
         assertEquals(2, users.size());
     }

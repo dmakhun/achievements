@@ -2,8 +2,6 @@ package com.softserve.edu.manager;
 
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.CompetenceDao;
-import com.softserve.edu.dao.UserDao;
-import com.softserve.edu.dao.impl.GenericDaoImplementation;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
@@ -22,20 +20,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
-/**
- * @author dmakhtc
- */
+
 @RunWith(MockitoJUnitRunner.class)
-public class AchievementTypeManagerImplTest {
+public class AchievementTypeManagerTest {
 
     @Mock
     private CompetenceDao competenceDao;
     @Mock
     private AchievementTypeDao achievementTypeDao;
-    @Mock
-    private GenericDaoImplementation<AchievementType> genericDaoImplementation;
-    @Mock
-    private UserDao userDao;
 
     @InjectMocks
     private AchievementTypeManager achievementTypeManager =
@@ -48,11 +40,11 @@ public class AchievementTypeManagerImplTest {
     @Before
     public void setUp() {
         competence = new Competence();
-        expectedList = new ArrayList<AchievementType>();
+        expectedList = new ArrayList<>();
     }
 
     @Test
-    public void testCreateJava() throws AchievementTypeManagerException {
+    public void testCreate() throws AchievementTypeManagerException {
         when(competenceDao.findById(Competence.class, IdMock)).thenReturn(competence);
         AchievementType achievementTypeExpected = new AchievementType().setName("Java")
                 .setPoints(12).setCompetence(competence);
@@ -63,7 +55,7 @@ public class AchievementTypeManagerImplTest {
     }
 
     @Test
-    public void testCreateAndroid() throws AchievementTypeManagerException {
+    public void testCreate2() throws AchievementTypeManagerException {
         when(competenceDao.findById(Competence.class, IdMock)).thenReturn(competence);
         AchievementType achievementTypeExpected = new AchievementType()
                 .setName("Android").setPoints(15).setCompetence(competence);

@@ -3,7 +3,7 @@ package com.softserve.edu.util;
 import javax.servlet.*;
 import java.io.IOException;
 
-public class DefaultEncodingFiltter implements Filter {
+public class DefaultEncodingFilter implements Filter {
 
     private static final String FILTERABLE_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
