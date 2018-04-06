@@ -22,7 +22,7 @@ public class AchievementDaoImplementationTest {
 
     @Test
     public void testGetAchievementsByUserUuid() {
-        assertEquals(1, achievementDao.findByUserUuid("i1").size());
+        assertEquals(1, achievementDao.findAchievementsByUserUuid("i1").size());
     }
 
 }

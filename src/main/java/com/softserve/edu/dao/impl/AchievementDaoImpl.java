@@ -11,20 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository("achievementDao")
-public class AchievementDaoImplementation extends
+public class AchievementDaoImpl extends
         GenericDaoImplementation<Achievement> implements AchievementDao {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     @Override
-    public List<Achievement> findAchievementsByUserId(Long userId) {
+    public List<Achievement> findAchievementsByUserId(long userId) {
         User user = entityManager.find(User.class, userId);
         return new ArrayList<>(user.getAchievements());
     }
 
     @Override
-    public List<Achievement> findByUserUuid(String userUuid) {
+    public List<Achievement> findAchievementsByUserUuid(String userUuid) {
         User user = userDao.findEntity(Achievement.GET_ACHIEVEMENT_FROM_USER,
                 userUuid);
 
