@@ -6,11 +6,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
 import java.util.Set;
 
-/**
- * Represents bean class for Group entity.
- *
- * @author Nazar.
- */
 @XmlRootElement
 @Entity
 @Table(name = "ach_Group")
@@ -176,11 +171,8 @@ public class Group extends AbstractEntity {
             return false;
         Group other = (Group) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+            return other.id == null;
+        } else return id.equals(other.id);
     }
 
 }

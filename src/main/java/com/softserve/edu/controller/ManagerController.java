@@ -27,16 +27,16 @@ import java.util.*;
 @Controller
 public class ManagerController {
 
-    private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger LOGGER = Logger
+    private static final String GENERAL_ERROR = "redirect:/myerror/10";
+    private static final Logger logger = Logger
             .getLogger(ManagerController.class);
 
     @Autowired
-    GroupManager groupManager;
+    private GroupManager groupManager;
     @Autowired
-    CompetenceManager competenceManager;
+    private CompetenceManager competenceManager;
     @Autowired
-    UserManager userManager;
+    private UserManager userManager;
     @Autowired
     private MessageSource messageSource;
 
@@ -58,8 +58,8 @@ public class ManagerController {
             model.addAttribute("competences", competenceList);
             return "groups";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -85,9 +85,9 @@ public class ManagerController {
                     return deleteGroup(id);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e);
         }
-        return new ResponseEntity<String>(HttpStatus.METHOD_NOT_ALLOWED);
+        return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     private ResponseEntity<String> createGroup(String groupName,
@@ -102,12 +102,12 @@ public class ManagerController {
                 return pass;
             }
 
-            Date starting = new SimpleDateFormat("yyyy-MM-getImage").parse(start);
-            Date ending = new SimpleDateFormat("yyyy-MM-getImage").parse(end);
+            Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+            Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 
             id = groupManager.create(groupName, starting, ending, competence);
         } catch (GroupManagerException e) {
-            LOGGER.error(e);
+            logger.error(e);
         }
         return new ResponseEntity<>(id.toString(), HttpStatus.OK);
     }
@@ -120,11 +120,11 @@ public class ManagerController {
             if (pass.getStatusCode() != HttpStatus.OK) {
                 return pass;
             }
-            Date starting = new SimpleDateFormat("yyyy-MM-getImage").parse(start);
-            Date ending = new SimpleDateFormat("yyyy-MM-getImage").parse(end);
+            Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+            Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
             groupManager.modify(groupId, name, starting, ending, competence);
         } catch (GroupManagerException e) {
-            LOGGER.error(e);
+            logger.error(e);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -133,7 +133,7 @@ public class ManagerController {
         try {
             groupManager.deleteById(groupId);
         } catch (GroupManagerException e) {
-            LOGGER.error(e);
+            logger.error(e);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -141,8 +141,8 @@ public class ManagerController {
     private ResponseEntity<String> groupChecks(String name, String start,
                                                String end, Locale locale) {
         try {
-            Date starting = new SimpleDateFormat("yyyy-MM-getImage").parse(start);
-            Date ending = new SimpleDateFormat("yyyy-MM-getImage").parse(end);
+            Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+            Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 
             if (name.isEmpty()) {
                 return new ResponseEntity<String>(messageSource.getMessage(
@@ -158,7 +158,7 @@ public class ManagerController {
 
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e);
         }
         return new ResponseEntity<String>(messageSource.getMessage(
                 "groups.error.datepattern", null, locale),
@@ -173,8 +173,8 @@ public class ManagerController {
             model.addAttribute("users", userList);
             return "userlist";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -194,8 +194,8 @@ public class ManagerController {
 
             return "attendees";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -206,10 +206,8 @@ public class ManagerController {
         try {
             groupManager.addUser(userId, groupId);
             userManager.removeUserToCompetence(userId, competenceId);
-        } catch (GroupManagerException e) {
-            LOGGER.error(e);
-        } catch (UserManagerException e) {
-            LOGGER.error(e);
+        } catch (GroupManagerException | UserManagerException e) {
+            logger.error(e);
         }
 
         return "redirect:/manager/attendees";
@@ -228,8 +226,8 @@ public class ManagerController {
 
             return "removeManager";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return GENERAL_ERROR;
         }
     }
 

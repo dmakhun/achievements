@@ -13,13 +13,13 @@ public interface RoleManager {
      * @param roleId Role id.
      * @return List of users with current role.
      */
-    public List<User> findUsers(int roleId);
+    List<User> findUsers(int roleId);
 
     /**
-     * @param name of role we need.
+     * @param roleName role we need.
      * @return id of current role
      */
-    public Long findRole(String roleName);
+    Long findRole(String roleName);
 
     /**
      * @param roleUuid
@@ -31,22 +31,22 @@ public interface RoleManager {
      * @param id
      * @return
      */
-    public Role findById(Long id);
+    Role findById(Long id);
 
     /**
      * @param roleName
      * @return
      */
-    public Role findRoleByRolename(String roleName);
+    Role findRoleByRolename(String roleName);
 
     /**
      * @param roleUuid
      * @return
      */
-    public Role findRoleByUuid(String roleUuid);
+    Role findRoleByUuid(String roleUuid);
 
     /**
      * @return
      */
-    public List<Role> findAll();
+    List<Role> findAll();
 }

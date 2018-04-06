@@ -14,7 +14,7 @@ public class RoleDaoImplementation extends GenericDaoImplementation<Role>
         implements RoleDao {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     @Override
     public List<User> findUsers(int roleId) {
