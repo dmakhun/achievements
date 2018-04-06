@@ -81,8 +81,7 @@ public class UserDaoImplementation extends GenericDaoImplementation<User>
 
     @Override
     public List<User> findAllManagers() {
-        return findEntityList(User.FIND_ALL_USERS_BY_ROLE,
-                roleDao.findRole("ROLE_MANAGER"));
+        return findEntityList(User.FIND_ALL_USERS_BY_ROLE, roleDao.findRole("ROLE_MANAGER"));
     }
 
     public Long sumOfPoints(User user) {

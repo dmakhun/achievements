@@ -8,7 +8,6 @@ import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.AchievementManager;
-import com.softserve.edu.util.AngryThrower;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,29 +20,25 @@ import java.util.List;
 @Service("achievementManager")
 public class AchievementManagerImplementation implements AchievementManager {
 
-    private static final Logger LOGGER = Logger
-            .getLogger(AchievementManagerImplementation.class);
+    private static final Logger logger = Logger.getLogger(AchievementManagerImplementation.class);
 
     @Autowired
-    AchievementTypeDao achievementTypeDao;
+    private AchievementTypeDao achievementTypeDao;
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     @Autowired
-    AchievementDao achievementDao;
+    private AchievementDao achievementDao;
 
     @Override
     @Transactional
-    public void awardUser(long userId, long achievementTypeId,
-                          String comment) throws CompetenceManagerException {
+    public void awardUser(long userId, long achievementTypeId, String comment) throws CompetenceManagerException {
 
-        AchievementType achievementType = achievementTypeDao.findById(
-                AchievementType.class, achievementTypeId);
-        AngryThrower.ifNull(achievementType, "No such achievement type id.");
-
+        AchievementType achievementType = achievementTypeDao.findById(AchievementType.class, achievementTypeId);
+        if (achievementType == null) throw new IllegalArgumentException("No such Achievement Type id.");
         User user = userDao.findById(User.class, userId);
-        AngryThrower.ifNull(user, "User with such id does not exist.");
+        if (user == null) throw new IllegalArgumentException("User with such id does not exist.");
 
         Achievement achievement = new Achievement();
         achievement.setComment(comment);
@@ -53,9 +48,8 @@ public class AchievementManagerImplementation implements AchievementManager {
         try {
             achievementDao.save(achievement);
         } catch (Exception e) {
-            LOGGER.error("Could not createAchievementType achievement", e);
-            throw new CompetenceManagerException(
-                    "Could not createAchievementType achievement", e);
+            logger.error("Could not award achievement to user", e);
+            throw new CompetenceManagerException("Could not award achievement to user", e);
         }
     }
 

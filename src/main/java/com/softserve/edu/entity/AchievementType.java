@@ -41,6 +41,13 @@ public class AchievementType extends AbstractEntity {
     public AchievementType() {
     }
 
+    public AchievementType(Competence competence, String name, Integer points) {
+        super();
+        this.competence = competence;
+        this.name = name;
+        this.points = points;
+    }
+
     public AchievementType(Competence competence, String name, Integer points,
                            Set<Achievement> achievement) {
         super();
@@ -144,10 +151,7 @@ public class AchievementType extends AbstractEntity {
         } else if (!name.equals(other.name))
             return false;
         if (points == null) {
-            if (other.points != null)
-                return false;
-        } else if (!points.equals(other.points))
-            return false;
-        return true;
+            return other.points == null;
+        } else return points.equals(other.points);
     }
 }

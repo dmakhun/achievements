@@ -18,7 +18,7 @@ import java.util.List;
 public class AchievementTypeManagerImpl implements
         AchievementTypeManager {
 
-    public static final Logger LOGGER = Logger
+    public static final Logger logger = Logger
             .getLogger(AchievementTypeManagerImpl.class);
 
     @Autowired
@@ -31,14 +31,12 @@ public class AchievementTypeManagerImpl implements
     public AchievementType createAchievementType(final Competence competence, final String name, final int points) throws AchievementTypeManagerException {
         AchievementType achievementType;
         try {
-            achievementType = new AchievementType().setName(name)
-                    .setPoints(points).setCompetence(competence);
-
+            achievementType = new AchievementType(competence, name, points);
             achievementTypeDao.save(achievementType);
-            LOGGER.info("Achievement type successfully created");
+            logger.info("Achievement type successfully created");
             return achievementType;
         } catch (Exception e) {
-            LOGGER.error("Could not createAchievementType achievement type");
+            logger.error("Could not createAchievementType achievement type");
             throw new AchievementTypeManagerException(
                     "Could not createAchievementType achievement type", e);
         }
@@ -51,7 +49,7 @@ public class AchievementTypeManagerImpl implements
         Competence competence = competenceDao.findById(Competence.class,
                 competenceId);
         if (competence == null) {
-            LOGGER.error("Could not createAchievementType achievement type. No competence with such ID");
+            logger.error("Could not createAchievementType achievement type. No competence with such ID");
             throw new AchievementTypeManagerException(
                     "Could not createAchievementType achievement type. No competence with such ID");
         }
@@ -65,7 +63,7 @@ public class AchievementTypeManagerImpl implements
         Competence competence = competenceDao.findByUuid(Competence.class,
                 competenceUuid);
         if (competence == null) {
-            LOGGER.error("Could not createAchievementType achievement type. No competence with such UUID");
+            logger.error("Could not createAchievementType achievement type. No competence with such UUID");
             throw new AchievementTypeManagerException(
                     "Could not createAchievementType achievement type. No competence with such UUID");
         }
@@ -76,11 +74,10 @@ public class AchievementTypeManagerImpl implements
     public boolean deleteAchievementType(AchievementType achievementType) throws AchievementTypeManagerException {
         try {
             achievementTypeDao.delete(achievementType);
-            LOGGER.info("Achievement type successfully deleted");
-
+            logger.info("Achievement type successfully deleted");
             return true;
         } catch (Exception e) {
-            LOGGER.error("Could not deleteAchievementType achievement type");
+            logger.error("Could not deleteAchievementType achievement type");
             throw new AchievementTypeManagerException(
                     "Could not deleteAchievementType achievement type", e);
         }
@@ -95,7 +92,7 @@ public class AchievementTypeManagerImpl implements
                 AchievementType.class, achievementTypeId);
 
         if (achievementType == null) {
-            LOGGER.error("Could not find achievement type with such ID");
+            logger.error("Could not find achievement type with such ID");
             throw new AchievementTypeManagerException(
                     "Could not find achievement type with such ID");
         }
@@ -109,13 +106,11 @@ public class AchievementTypeManagerImpl implements
             throws AchievementTypeManagerException {
         AchievementType achievementType = achievementTypeDao.findByUuid(
                 AchievementType.class, uuid);
-
         if (achievementType == null) {
-            LOGGER.error("Could not find achievement type with such UUID");
+            logger.error("Could not find achievement type with such UUID");
             throw new AchievementTypeManagerException(
                     "Could not find achievement type with such UUID");
         }
-
         return deleteAchievementType(achievementType);
     }
 
