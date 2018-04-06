@@ -24,9 +24,10 @@ public interface GenericDao<T> {
      * Get existing object by its id.
      *
      * @param objectClass Id of object.
+     * @param id
      * @return Object is returned; null, if not found.
      */
-    T findById(Class<T> objectClass, Long id);
+    T findById(Class<T> objectClass, long id);
 
     /**
      * Get all objects from table.

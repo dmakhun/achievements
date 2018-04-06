@@ -21,13 +21,13 @@ import java.util.Set;
 @Service("competenceManager")
 public class CompetenceManagerImplementation implements CompetenceManager {
 
-    private static final Logger LOGGER = Logger
+    private static final Logger logger = Logger
             .getLogger(CompetenceManagerImplementation.class);
 
     @Autowired
-    CompetenceDao competenceDao;
+    private CompetenceDao competenceDao;
     @Autowired
-    AchievementTypeDao achievementTypeDao;
+    private AchievementTypeDao achievementTypeDao;
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -51,10 +51,8 @@ public class CompetenceManagerImplementation implements CompetenceManager {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<AchievementType> findTypesOfAchievements(Long idCompetence) {
 
-        List<AchievementType> achievementTypes = achievementTypeDao
+        return achievementTypeDao
                 .findByCompetenceId(idCompetence);
-
-        return achievementTypes;
     }
 
     @Override
@@ -65,10 +63,10 @@ public class CompetenceManagerImplementation implements CompetenceManager {
             competence = new Competence();
             competence.setName(name);
             competenceDao.save(competence);
-            LOGGER.info("Competence created successfully");
+            logger.info("Competence created successfully");
             return competence;
         } catch (Exception e) {
-            LOGGER.error("Could not createAchievementType competence", e);
+            logger.error("Could not createAchievementType competence", e);
             throw new CompetenceManagerException("Could not createAchievementType competence",
                     e);
 
@@ -81,16 +79,16 @@ public class CompetenceManagerImplementation implements CompetenceManager {
 
         Competence competence = competenceDao.findById(Competence.class, id);
         if (competence == null) {
-            LOGGER.error("Competence with such ID does not exist");
+            logger.error("Competence with such ID does not exist");
             throw new CompetenceManagerException(
                     "Competence with such ID does not exist");
         }
         try {
             competenceDao.delete(competence);
-            LOGGER.info("Competence removed successfully");
+            logger.info("Competence removed successfully");
             return true;
         } catch (Exception e) {
-            LOGGER.error("Could not deleteAchievementType competence", e);
+            logger.error("Could not deleteAchievementType competence", e);
             throw new CompetenceManagerException("Could not deleteAchievementType competence",
                     e);
         }
@@ -103,16 +101,16 @@ public class CompetenceManagerImplementation implements CompetenceManager {
         Competence competence = competenceDao
                 .findByUuid(Competence.class, uuid);
         if (competence == null) {
-            LOGGER.error("Competence with such UUID does not exist");
+            logger.error("Competence with such UUID does not exist");
             throw new CompetenceManagerException(
                     "Competence with such UUID does not exist");
         }
         try {
             competenceDao.delete(competence);
-            LOGGER.info("Competence removed successfully");
+            logger.info("Competence removed successfully");
             return true;
         } catch (Exception e) {
-            LOGGER.error("Could not deleteAchievementType competence", e);
+            logger.error("Could not deleteAchievementType competence", e);
             throw new CompetenceManagerException("Could not deleteAchievementType competence",
                     e);
         }
@@ -120,11 +118,9 @@ public class CompetenceManagerImplementation implements CompetenceManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Competence> listWithout(List<Competence> buts) {
-        Set<Competence> but = new HashSet<>();
-        but.addAll(buts);
-        Set<Competence> set = new HashSet<>();
-        set.addAll(competenceDao.findAll(Competence.class));
+    public List<Competence> listWithout(List<Competence> withoutList) {
+        Set<Competence> but = new HashSet<>(withoutList);
+        Set<Competence> set = new HashSet<>(competenceDao.findAll(Competence.class));
         set.removeAll(but);
         return new ArrayList<>(set);
     }
@@ -150,12 +146,10 @@ public class CompetenceManagerImplementation implements CompetenceManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<AchievementType> findAchievementTypesByCompetenceUuid(
-            String conpetenceUuid) {
+            String competenceUuid) {
 
-        List<AchievementType> achievementTypes = achievementTypeDao
-                .findByCompetenceUuid(conpetenceUuid);
-
-        return achievementTypes;
+        return achievementTypeDao
+                .findByCompetenceUuid(competenceUuid);
     }
 
     @Override

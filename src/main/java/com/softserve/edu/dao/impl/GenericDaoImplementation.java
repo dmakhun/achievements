@@ -13,12 +13,11 @@ import java.util.List;
 @Repository
 public class GenericDaoImplementation<T> implements GenericDao<T> {
 
-    private static final Logger LOGGER = Logger
-            .getLogger(GenericDaoImplementation.class);
+    private static final Logger logger = Logger.getLogger(GenericDaoImplementation.class);
     @PersistenceContext
     EntityManager entityManager;
 
-    public GenericDaoImplementation() {
+    GenericDaoImplementation() {
         super();
     }
 
@@ -40,7 +39,7 @@ public class GenericDaoImplementation<T> implements GenericDao<T> {
     }
 
     @Override
-    public T findById(Class<T> objectClass, Long id) {
+    public T findById(Class<T> objectClass, long id) {
         return entityManager.find(objectClass, id);
     }
 
@@ -53,8 +52,8 @@ public class GenericDaoImplementation<T> implements GenericDao<T> {
                                     + " where uuid like :uuid")
                     .setParameter("uuid", uuid).getSingleResult();
             return foundEntity;
-        } catch (NoResultException exc) {
-            LOGGER.warn("cannot find by uuid", exc);
+        } catch (NoResultException ex) {
+            logger.warn("cannot find entity by uuid", ex);
             return null;
         }
     }
@@ -63,14 +62,12 @@ public class GenericDaoImplementation<T> implements GenericDao<T> {
     public T findEntity(String singleQuery, Object... params) {
         try {
             Query query = entityManager.createNamedQuery(singleQuery);
-
             for (int i = 0; i < params.length; i++) {
                 query.setParameter(i + 1, params[i]);
             }
-
             return (T) query.getSingleResult();
         } catch (NoResultException exc) {
-            LOGGER.warn("cannot find", exc);
+            logger.warn("cannot find", exc);
             return null;
         }
     }
@@ -104,15 +101,15 @@ public class GenericDaoImplementation<T> implements GenericDao<T> {
 
         criteriaQuery.select(root);
 
-        if (findCriteria == false) {
+        if (!findCriteria) {
             additionFind = "%";
         }
 
-        criteriaQuery.where(criteriaBuilder.like(root.<String>get(parameter1),
+        criteriaQuery.where(criteriaBuilder.like(root.get(parameter1),
                 additionFind + resultString + "%"));
         if (resultLong != null) {
             criteriaQuery.where(criteriaBuilder.like(
-                    root.<String>get(parameter1), additionFind + resultString
+                    root.get(parameter1), additionFind + resultString
                             + "%"), criteriaBuilder.equal(root.get(parameter2),
                     resultLong));
         }
