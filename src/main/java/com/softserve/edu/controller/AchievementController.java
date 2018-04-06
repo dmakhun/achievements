@@ -5,6 +5,7 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.manager.AchievementManager;
 import com.softserve.edu.manager.AchievementTypeManager;
 import com.softserve.edu.manager.CompetenceManager;
+import com.softserve.edu.util.Constants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,16 +20,15 @@ import java.util.List;
 @Controller
 public class AchievementController {
 
-    private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger LOGGER = Logger
+    private static final Logger logger = Logger
             .getLogger(AchievementController.class);
 
     @Autowired
-    AchievementManager achievementManager;
+    private AchievementManager achievementManager;
     @Autowired
-    CompetenceManager competenceManager;
+    private CompetenceManager competenceManager;
     @Autowired
-    AchievementTypeManager achievementTypeManager;
+    private AchievementTypeManager achievementTypeManager;
 
     @RequestMapping(value = "/manager/user/award/{id}", method = RequestMethod.GET)
     public String awardConcreteUser(
@@ -44,8 +44,8 @@ public class AchievementController {
 
             return "awardUser";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return Constants.GENERAL_ERROR;
         }
     }
 
@@ -62,8 +62,8 @@ public class AchievementController {
 
             achievementManager.awardUser(userId, achievementTypeId, comment);
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return Constants.GENERAL_ERROR;
         }
 
         return "redirect:/manager/user/award/" + userId + "?status=success";
@@ -75,15 +75,15 @@ public class AchievementController {
             List<Competence> competences = competenceManager
                     .findAllCompetences();
 
-            List<AchievementType> achiTypes = achievementTypeManager
+            List<AchievementType> achievementTypes = achievementTypeManager
                     .achievementTypesList();
 
             model.addAttribute("competences", competences);
-            model.addAttribute("achiTypes", achiTypes);
+            model.addAttribute("achievementTypes", achievementTypes);
             return "showAchievements";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e);
+            return Constants.GENERAL_ERROR;
         }
     }
 

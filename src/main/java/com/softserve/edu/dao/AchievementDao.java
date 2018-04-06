@@ -12,11 +12,11 @@ public interface AchievementDao extends GenericDao<Achievement> {
      * @param userId
      * @return list of users
      */
-    public List<Achievement> findAchievementsByUserId(Long userId);
+    List<Achievement> findAchievementsByUserId(long userId);
 
     /**
      * @param userUuiId
      * @return
      */
-    public List<Achievement> findByUserUuid(String userUuiId);
+    List<Achievement> findAchievementsByUserUuid(String userUuiId);
 }
