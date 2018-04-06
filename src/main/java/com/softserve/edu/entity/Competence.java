@@ -31,7 +31,7 @@ public class Competence extends AbstractEntity {
     public static final String FIND_COMPETENCE_BY_NAME = "Competence.findByName";
     public static final String FIND_COMPETENCE_BY_NAME_QUERY = "from Competence where name like ?1";
 
-    public static final String FIND_BY_USER_UUID = "Competence.findByUserUuid";
+    public static final String FIND_BY_USER_UUID = "Competence.findAchievementsByUserUuid";
     public static final String FIND_BY_USER_UUID_QUERY = "FROM Competence c INNER JOIN fetch c.groups g INNER JOIN fetch g.users u WHERE u.uuid LIKE ?1";
 
 
@@ -142,11 +142,8 @@ public class Competence extends AbstractEntity {
             return false;
         Competence other = (Competence) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+            return other.id == null;
+        } else return id.equals(other.id);
     }
 
 

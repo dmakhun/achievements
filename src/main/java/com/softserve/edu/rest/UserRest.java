@@ -14,7 +14,7 @@ import java.util.List;
 
 @Path("/user")
 public class UserRest {
-    private static final Logger LOGGER = Logger.getLogger(UserRest.class);
+    private static final Logger logger = Logger.getLogger(UserRest.class);
 
     @Autowired
     private UserManager userManager;
@@ -31,10 +31,10 @@ public class UserRest {
 
         try {
             List<User> users = userManager.findAllUsers();
-            JaxbList<User> listOfUsers = new JaxbList<User>(users);
+            JaxbList<User> listOfUsers = new JaxbList<>(users);
             return Response.ok(listOfUsers).status(200).build();
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
 
@@ -56,7 +56,7 @@ public class UserRest {
         try {
             user = userManager.findByUuid(uuid);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
 
@@ -78,12 +78,12 @@ public class UserRest {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     @Path("/finduserbyemail/{email}")
-    public Response findUserByemail(@PathParam("email") String email) {
+    public Response findUserByEmail(@PathParam("email") String email) {
         User user = null;
         try {
             user = userManager.findByEmail(email);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
 
@@ -106,8 +106,8 @@ public class UserRest {
     @Produces(MediaType.APPLICATION_XML)
     @Path("/findgroups/{username}")
     public Response findGroupsByUserName(@PathParam("username") String username) {
-        User user = null;
-        List<Group> groups = null;
+        User user;
+        List<Group> groups;
 
         try {
             user = userManager.findByUsername(username);
@@ -118,12 +118,12 @@ public class UserRest {
             groups = userManager.findGroups(user.getId(), false);
 
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500)
                     .entity(e.getMessage()).build();
         }
 
-        JaxbList<Group> groupList = new JaxbList<Group>(groups);
+        JaxbList<Group> groupList = new JaxbList<>(groups);
         return Response.ok(groupList).status(200).build();
     }
 
@@ -143,7 +143,7 @@ public class UserRest {
         try {
             user = userManager.findByUsername(username);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500)
                     .entity(e.getMessage()).build();
         }
@@ -172,7 +172,7 @@ public class UserRest {
             userManager.deleteByUuid(userUuid);
             return Response.status(200).entity("User was removed").build();
         } catch (UserManagerException e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
 
@@ -190,7 +190,7 @@ public class UserRest {
         try {
             userManager.create(user);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
         return Response.status(201).entity("User was created!").build();
@@ -212,7 +212,7 @@ public class UserRest {
                     user.getUsername(), user.getPassword(), user.getEmail(),
                     user.getUuid());
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity("User was not updated.").build();
         }
         return Response.status(200).entity("User was updated").build();
@@ -225,12 +225,12 @@ public class UserRest {
      */
     @PUT
     @Path("/attendcompetence/{useruuid}/{competenceuuid}")
-    public Response attendCompetence(@PathParam("useruuid") String userUuid,
+    public Response appendCompetence(@PathParam("useruuid") String userUuid,
                                      @PathParam("competenceuuid") String competenceUuid) {
         try {
             userManager.attendCompetence(userUuid, competenceUuid);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
         return Response.status(200).build();
@@ -248,7 +248,7 @@ public class UserRest {
         try {
             userManager.removeUserToCompetence(userUuid, competenceUuid);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
         return Response.status(200).build();
