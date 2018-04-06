@@ -105,7 +105,7 @@ public class User extends AbstractEntity {
     private Set<Achievement> achievements;
 
     /**
-     * Many to many and create table user_group
+     * Many to many and createAchievementType table user_group
      */
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "ach_UserToGroup", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})

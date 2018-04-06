@@ -112,8 +112,8 @@ public class GroupManagerImplementation implements GroupManager {
             groupDao.save(group);
             LOGGER.info("Group was created");
         } catch (Exception e) {
-            LOGGER.error("Cannot create group", e);
-            throw new GroupManagerException("Cannot create group", e);
+            LOGGER.error("Cannot createAchievementType group", e);
+            throw new GroupManagerException("Cannot createAchievementType group", e);
         }
     }
 
@@ -163,8 +163,8 @@ public class GroupManagerImplementation implements GroupManager {
             groupDao.delete(toDelete);
             LOGGER.info("Group was deleted by id");
         } catch (Exception e) {
-            LOGGER.error("cannot delete group", e);
-            throw new GroupManagerException("cannot delete group", e);
+            LOGGER.error("cannot deleteAchievementType group", e);
+            throw new GroupManagerException("cannot deleteAchievementType group", e);
         }
     }
 
@@ -177,8 +177,8 @@ public class GroupManagerImplementation implements GroupManager {
             groupDao.delete(group);
             LOGGER.info("Group was deleted by uuid");
         } catch (Exception e) {
-            LOGGER.error("cannot delete group", e);
-            throw new GroupManagerException("cannot delete group", e);
+            LOGGER.error("cannot deleteAchievementType group", e);
+            throw new GroupManagerException("cannot deleteAchievementType group", e);
         }
 
     }

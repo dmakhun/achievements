@@ -74,7 +74,7 @@ public class AchievementTypeController {
             @PathVariable(value = "id") int competenceId, Model model) {
         try {
             int achPoints = Integer.parseInt(points);
-            achievementTypeManager.create(name, achPoints, competenceId);
+            achievementTypeManager.createAchievementType(name, achPoints, competenceId);
 
             return "success";
         } catch (AchievementTypeManagerException e) {
@@ -106,7 +106,7 @@ public class AchievementTypeController {
             @PathVariable(value = "id") Long achievementTypeId) {
 
         try {
-            achievementTypeManager.delete(achievementTypeId);
+            achievementTypeManager.deleteAchievementType(achievementTypeId);
 
             return "redirect:/admin/achievementtype/allAchievements?status=success";
         } catch (AchievementTypeManagerException e) {

@@ -83,8 +83,8 @@ public class UserManagerImplementation implements UserManager {
             userDao.save(userToSave);
 
         } catch (Exception e) {
-            LOGGER.error("Could not create user", e);
-            throw new UserManagerException("Could not create user", e);
+            LOGGER.error("Could not createAchievementType user", e);
+            throw new UserManagerException("Could not createAchievementType user", e);
         }
 
     }
@@ -629,8 +629,8 @@ public class UserManagerImplementation implements UserManager {
             userDao.delete(user);
             LOGGER.info("User with uuid [" + userUuid + "] was removed");
         } catch (Exception e) {
-            LOGGER.error("Could not delete user by uuid", e);
-            throw new UserManagerException("Could not delete user by uuid", e);
+            LOGGER.error("Could not deleteAchievementType user by uuid", e);
+            throw new UserManagerException("Could not deleteAchievementType user by uuid", e);
         }
     }
 

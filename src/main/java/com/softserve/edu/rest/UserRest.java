@@ -158,7 +158,7 @@ public class UserRest {
     }
 
     /**
-     * delete user by user's uuid. find by
+     * deleteAchievementType user by user's uuid. find by
      * rest/user/deleteuserbyuseruuid/{useruuid}.If some trouble occurred,
      * return response status 500 with appropriate message. If groups was found
      * and removed from database - return response status 200 with appropriate
@@ -179,7 +179,7 @@ public class UserRest {
     }
 
     /**
-     * create user (save in database). Consumes application/xml file, validate
+     * createAchievementType user (save in database). Consumes application/xml file, validate
      * fields and save in database. return response status 201 if user creation
      * process was successful, otherwise return 500 response status.
      */
