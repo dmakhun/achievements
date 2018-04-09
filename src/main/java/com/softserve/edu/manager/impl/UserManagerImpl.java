@@ -23,8 +23,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.softserve.edu.util.Constants.FIELD_MAX_LENGTH;
+
 @Service("userManager")
-public class UserManagerImp implements UserManager {
+public class UserManagerImpl implements UserManager {
 
     @Autowired
     private UserDao userDao;
@@ -34,14 +36,14 @@ public class UserManagerImp implements UserManager {
     private AchievementDao achievementDao;
     @Autowired
     private CompetenceDao competenceDao;
+    @Autowired
+    private StandardPasswordEncoder passwordEncoder;
 
-    private static StandardPasswordEncoder encoder = new StandardPasswordEncoder();
-
-    private static final String COULD_NOT_UPDATE_USER = "Could not update User";
-    private static final String USER_COULD_NOT_BE_SAVED = "user cannot be created!";
-    private static final String FIELDS_VALIDATION_ERROR = "filds doesn't validated!";
-    private static final String ROLE_DOES_NOT_EXIST = "Role does not exist!";
-    private static final Logger logger = Logger.getLogger(UserManagerImp.class);
+    private static final String USER_UPDATE_ERROR = "Could not updateUser user";
+    private static final String USER_SAVE_ERROR = "User cannot be created.";
+    private static final String FIELDS_VALIDATION_ERROR = "Fields didn't validate.";
+    private static final String ROLE_DOES_NOT_EXIST = "Role does not exist.";
+    private static final Logger logger = Logger.getLogger(UserManagerImpl.class);
     /**
      * Pattern that covers almost all of valid emails.
      */
@@ -53,59 +55,40 @@ public class UserManagerImp implements UserManager {
 
     @Override
     @Transactional
-    public User create(final String name, final String surname,
-                       final String username, final String password, final String email,
-                       final Long roleId) throws UserManagerException {
-
-        User user;
+    public User createUser(User user) throws UserManagerException {
+        User newUser;
         try {
-            user = validateFields(false, null, name, surname, username,
-                    password, email, roleId);
+            newUser = validateUser(user);
         } catch (Exception e) {
-            logger.error("Fields didn't validate", e);
-            throw new UserManagerException("Fields didn't validate", e);
+            logger.error(FIELDS_VALIDATION_ERROR, e);
+            throw new UserManagerException(FIELDS_VALIDATION_ERROR, e);
         }
         try {
             userDao.save(user);
         } catch (Exception e) {
-            logger.error(USER_COULD_NOT_BE_SAVED, e);
-            throw new UserManagerException(USER_COULD_NOT_BE_SAVED, e);
+            logger.error(USER_SAVE_ERROR, e);
+            throw new UserManagerException(USER_SAVE_ERROR, e);
         }
-
-        return user;
+        return newUser;
     }
 
     @Override
     @Transactional
-    public void create(User user) throws UserManagerException {
-        try {
-            userDao.save(validateUser(user));
-        } catch (Exception e) {
-            logger.error("Could not create user", e);
-            throw new UserManagerException("Could not create user", e);
-        }
-    }
-
-    @Override
-    @Transactional
-    public User update(final Long userId, final String name,
-                       final String surname, final String username, final String password,
-                       final String email, final Long roleId) throws UserManagerException {
-
+    public User updateUser(final Long userId, final String name,
+                           final String surname, final String username, final String password,
+                           final String email, final Long roleId) throws UserManagerException {
         User user = userDao.findById(User.class, userId);
 
         if (user == null) {
-            logger.error("User does not exist!");
-            throw new UserManagerException("User does not exist!");
+            logger.error("User does not exist.");
+            throw new UserManagerException("User does not exist.");
         }
 
         try {
-            user = validateFields(true, user, name, surname, username,
-                    password, email, roleId);
-            userDao.update(user);
+            userDao.update(validateExistingUser(user));
         } catch (Exception e) {
-            logger.error(COULD_NOT_UPDATE_USER + e);
-            throw new UserManagerException(COULD_NOT_UPDATE_USER + e);
+            logger.error(USER_UPDATE_ERROR + e);
+            throw new UserManagerException(USER_UPDATE_ERROR + e);
         }
 
         return user;
@@ -113,9 +96,9 @@ public class UserManagerImp implements UserManager {
 
     @Override
     @Transactional
-    public User update(final String userUuid, final String name,
-                       final String surname, final String username, final String password,
-                       final String email, final String roleUuid)
+    public User updateUser(final String userUuid, final String name,
+                           final String surname, final String username, final String password,
+                           final String email, final String roleUuid)
             throws UserManagerException {
 
         User user = userDao.findByUuid(User.class, userUuid);
@@ -192,99 +175,22 @@ public class UserManagerImp implements UserManager {
 
     }
 
-    /**
-     * Superkaramba checks.
-     * <p>
-     * Throw exception with description if some value violate some rule. Some
-     * check types can be disabled: we can disable, for example, empty string
-     * check. This can be useful when we updating someone's profile.
-     * <p>
-     * „Nevermind“ parameter („true“) should be only used for editing
-     * existing users.
-     *
-     * @param nevermindEmpty Ignore empty values; can be useful for editing user.
-     * @param currentUser    Long Id of current user; null if there is no user in that
-     *                       context.
-     * @param name           First name.
-     * @param surname        Second name.
-     * @param username       Unique username.
-     * @param password       Password.
-     * @param email          Unique email.
-     * @param roleId         Role id.
-     * @return Parsed user.
-     * @throws UserManagerException
-     */
-    @Transactional
-    User validateFields(final boolean nevermindEmpty,
-                        final User currentUser, final String name, final String surname,
-                        final String username, final String password, final String email,
-                        final Long roleId) throws UserManagerException {
-
-        User user = currentUser == null ? new User() : currentUser;
-        boolean validator;
-
-        validator = genericValidation(user, name, "Name", nevermindEmpty);
-        if (validator) {
-            user.setName(name);
-        }
-
-        validator = genericValidation(user, surname, "Surname", nevermindEmpty);
-        if (validator) {
-            user.setSurname(surname);
-        }
-
-        /*
-          Besides matching naming rules, such name should be unique. OtherUser
-          here is the user, that already can own same username.
-         */
-        User otherUser = findByUsername(username);
-        validator = validateByPattern(user, otherUser, username,
-                PATTERN_USERNAME, "Username", nevermindEmpty);
-        if (validator) {
-            user.setUsername(username);
-        }
-
-        validator = validatePassword(password, nevermindEmpty);
-        if (validator) {
-            user.setPassword(encoder.encode(password));
-        }
-
-        /*
-          Same logic as for username checks.
-         */
-        otherUser = findByEmail(email);
-        validator = validateByPattern(user, otherUser, email, PATTERN_EMAIL,
-                "Email", nevermindEmpty);
-        if (validator) {
-            user.setEmail(email);
-        }
-
-        Role role = validateRole(roleId);
-        if (role != null) {
-            user.setRole(role);
-        }
-
-        return user;
-    }
-
     @Transactional
     User validateUser(User user) throws UserManagerException {
 
         boolean validated;
-        validated = genericValidation(user, user.getName(), "Name", false);
+        validated = genericValidation(user.getName(), "Name", false);
         if (!validated) {
             throw new ValidationException();
         }
 
-        validated = genericValidation(user, user.getSurname(), "Surname", false);
+        validated = genericValidation(user.getSurname(), "Surname", false);
         if (!validated) {
             throw new ValidationException();
         }
 
-        /*
-          Besides matching naming rules, such name should be unique. OtherUser
-          here is the user, that can own already same username.
-         */
+        // Besides matching naming rules, such name should be unique. OtherUser
+        // here is the user that can already have the same username.
         User otherUser = findByUsername(user.getUsername());
         validated = validateByPattern(user, otherUser, user.getUsername(),
                 PATTERN_USERNAME, "Username", false);
@@ -294,7 +200,7 @@ public class UserManagerImp implements UserManager {
 
         validated = validatePassword(user.getPassword(), false);
         if (validated) {
-            user.setPassword(encoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
         /*
@@ -307,7 +213,7 @@ public class UserManagerImp implements UserManager {
             throw new ValidationException();
         }
 
-        Role role = validateRoleByUuid(user.getRole().getUuid());
+        Role role = validateRole(user.getRole().getId());
         if (role == null) {
             throw new ValidationException();
         }
@@ -319,12 +225,12 @@ public class UserManagerImp implements UserManager {
     User validateExistingUser(User user) throws UserManagerException {
 
         boolean validated;
-        validated = genericValidation(user, user.getName(), "Name", true);
+        validated = genericValidation(user.getName(), "Name", true);
         if (!validated) {
             throw new ValidationException();
         }
 
-        validated = genericValidation(user, user.getSurname(), "Surname", true);
+        validated = genericValidation(user.getSurname(), "Surname", true);
         if (!validated) {
             throw new ValidationException();
         }
@@ -342,7 +248,7 @@ public class UserManagerImp implements UserManager {
 
         validated = validatePassword(user.getPassword(), true);
         if (validated) {
-            user.setPassword(encoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
         /*
@@ -355,7 +261,7 @@ public class UserManagerImp implements UserManager {
             throw new ValidationException();
         }
 
-        Role role = validateRoleByUuid(user.getRole().getUuid());
+        Role role = validateRole(user.getRole().getId());
         if (role == null) {
             throw new ValidationException();
         }
@@ -369,33 +275,30 @@ public class UserManagerImp implements UserManager {
      * This means, that field should meet general rules: not empty, less than 50
      * chars.
      *
-     * @param user           User, that will get those field.
      * @param field          Field, yep.
      * @param nevermindEmpty Flag, that says that we can ignore checks for emptiness.
      * @return String
      * @throws UserManagerException
      */
     @Transactional
-    boolean genericValidation(final User user, final String field,
+    boolean genericValidation(final String field,
                               final String fieldName, final boolean nevermindEmpty)
             throws UserManagerException {
-
-        if (field != null && !field.isEmpty() && field.length() <= 50) {
+        if (field != null && !field.isEmpty() && field.length() <= FIELD_MAX_LENGTH) {
             return true;
         } else {
             if ((field == null || field.isEmpty()) && !nevermindEmpty) {
-                logger.error(fieldName + "fild doesn't validated!");
+                logger.error(fieldName + "field was not validated.");
                 throw new UserManagerException(fieldName
-                        + "fild doesn't validated!");
+                        + "field was not validated.");
             }
 
-            if (field != null && field.length() > 50) {
-                logger.error(fieldName + "fild doesn't validated!");
+            if (field != null && field.length() > FIELD_MAX_LENGTH) {
+                logger.error(fieldName + " field was not validated.");
                 throw new UserManagerException(fieldName
-                        + "field doesn't validated!");
+                        + "field was not validated.");
             }
         }
-
         return false;
     }
 
@@ -637,12 +540,12 @@ public class UserManagerImp implements UserManager {
 
     @Override
     @Transactional
-    public void update(User user) throws UserManagerException {
+    public void updateUser(User user) throws UserManagerException {
         try {
             userDao.update(user);
         } catch (Exception e) {
-            logger.error(COULD_NOT_UPDATE_USER, e);
-            throw new UserManagerException(COULD_NOT_UPDATE_USER, e);
+            logger.error(USER_UPDATE_ERROR, e);
+            throw new UserManagerException(USER_UPDATE_ERROR, e);
         }
     }
 

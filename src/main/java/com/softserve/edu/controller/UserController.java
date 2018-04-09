@@ -1,15 +1,13 @@
 package com.softserve.edu.controller;
 
 import com.softserve.edu.dao.UserDao;
-import com.softserve.edu.entity.Achievement;
-import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
-import com.softserve.edu.entity.User;
+import com.softserve.edu.entity.*;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.AchievementManager;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.RoleManager;
 import com.softserve.edu.manager.UserManager;
+import com.softserve.edu.util.Constants;
 import com.softserve.edu.util.FieldForSearchContrroller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.softserve.edu.util.Constants.GENERAL_ERROR;
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
 @Controller
 public class UserController {
@@ -141,10 +140,9 @@ public class UserController {
             if (result.hasErrors()) {
                 return "redirect:/admin/allManagers?status=error";
             }
-            user = userManager.create(user.getName(), user.getSurname(),
-                    user.getUsername(), user.getPassword(), user.getEmail(),
-                    roleManager.findRole("ROLE_MANAGER"));
-            return user.getId().toString();
+            user.setRole(new Role(ROLE_MANAGER));
+            userManager.createUser(user);
+            return "admin/allManagers";
         } catch (Exception e) {
             logger.error(e);
             return GENERAL_ERROR;
@@ -163,7 +161,6 @@ public class UserController {
             Map<String, String> searchBy = new FieldForSearchContrroller<>(
                     User.class).findAnnotation();
             model.addAttribute("searchBy", searchBy);
-
             model.addAttribute("userlist", managers);
             model.addAttribute("status", status);
 
@@ -187,11 +184,11 @@ public class UserController {
 
             List<User> dynamicUsers = userDao.dynamicSearchTwoCriterias(start,
                     max, criteria, pattern, additionFind,
-                    roleManager.findRole("ROLE_MANAGER"), "role", User.class);
+                    roleManager.findRole(Constants.ROLE_MANAGER), "role", User.class);
 
             List<User> allByCriteria = userDao.dynamicSearchTwoCriterias(0,
                     userDao.countManagers().intValue(), criteria, pattern,
-                    additionFind, roleManager.findRole("ROLE_MANAGER"), "role",
+                    additionFind, roleManager.findRole(Constants.ROLE_MANAGER), "role",
                     User.class);
 
             model.addAttribute("userlist", dynamicUsers);
@@ -241,7 +238,7 @@ public class UserController {
                 byte[] imageInByte = file.getBytes();
                 User user = userManager.findByUsername(auth.getName());
                 user.setPicture(imageInByte);
-                userManager.update(user);
+                userManager.updateUser(user);
             }
             return "redirect:/image";
         } catch (Exception e) {
@@ -313,19 +310,18 @@ public class UserController {
     @RequestMapping(value = "/editprofile", method = RequestMethod.POST)
     public String editProfileUpdate(@Valid User user, BindingResult result,
                                     Model model, Principal principal) {
-
-        User currentUs = userManager.findByUsername(principal.getName());
+        User currentUser = userManager.findByUsername(principal.getName());
         model.addAttribute("name", user.getName());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("surname", user.getSurname());
-        model.addAttribute("username", currentUs.getUsername());
+        model.addAttribute("username", currentUser.getUsername());
 
         if (result.hasErrors()) {
             model.addAttribute("mess", "bad fill filds");
             return "userProfile";
         }
         try {
-            userManager.update(currentUs.getId(), user.getName(),
+            userManager.updateUser(currentUser.getId(), user.getName(),
                     user.getSurname(), null, null, user.getEmail(), null);
             return "mainProfile";
         } catch (UserManagerException e) {
@@ -333,7 +329,6 @@ public class UserController {
             logger.error(e);
             return "userProfile";
         }
-
     }
 
     @RequestMapping(value = "/passwordchanging", method = RequestMethod.GET)
@@ -353,7 +348,7 @@ public class UserController {
 
             if (encoder.matches(oldPassword, user.getPassword())
                     && newPassword.length() >= 4) {
-                userManager.update(user.getId(), null, null, null, newPassword,
+                userManager.updateUser(user.getId(), null, null, null, newPassword,
                         null, null);
                 model.addAttribute("name", user.getName());
                 model.addAttribute("email", user.getEmail());
