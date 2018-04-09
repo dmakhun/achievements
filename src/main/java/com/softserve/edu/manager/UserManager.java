@@ -4,7 +4,6 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Set;
 
@@ -19,8 +18,6 @@ public interface UserManager {
      * @param password Desired password.
      * @param email    Unique e-mail.
      * @param roleId   Role, null for no role.
-     * @throws InvalidValueException    - (some of) passed parameters are broken.
-     * @throws NoSuchAlgorithmException - unhandled in hash exception.
      * @throws UserManagerException
      * @throws Exception
      */
@@ -41,8 +38,6 @@ public interface UserManager {
      * @param password New password.
      * @param email    New email.
      * @param roleId   New role id.
-     * @throws InvalidValueException
-     * @throws NoSuchAlgorithmException
      * @throws UserManagerException
      */
     User update(final Long userId, final String name,
@@ -54,9 +49,7 @@ public interface UserManager {
      * <p>
      * If passed parameter is null or empty, that field will be not updated.
      *
-     * @param User New User.
-     * @throws InvalidValueException
-     * @throws NoSuchAlgorithmException
+     * @param user New User.
      * @throws UserManagerException
      */
     void update(User user) throws UserManagerException;
@@ -66,15 +59,13 @@ public interface UserManager {
      * <p>
      * If passed parameter is null or empty, that field will be not updated.
      *
-     * @param userId   User's uuid, that we want to modify.
+     * @param userUuid   User's uuid, that we want to modify.
      * @param name     New name.
      * @param surname  New surname.
      * @param username New username.
      * @param password New password.
      * @param email    New email.
-     * @param roleId   New role uuid.
-     * @throws InvalidValueException
-     * @throws NoSuchAlgorithmException
+     * @param roleUuid   New role uuid.
      * @throws UserManagerException
      */
     User update(final String userUuid, final String name,
@@ -141,13 +132,13 @@ public interface UserManager {
      * @param competenceId
      * @throws UserManagerException
      */
-    void attendCompetence(final Long userId, final Long competenceId) throws UserManagerException;
+    void appendCompetence(final Long userId, final Long competenceId) throws UserManagerException;
 
     /**
      * Removes user from attending to some competence
      *
-     * @param user       - user you want to remove
-     * @param competence - competence from which you want to remove user\'s attend
+     * @param userId       - user you want to remove
+     * @param competenceId - competence Id from which you want to remove user\'s attend
      * @throws UserManagerException
      */
     void removeUserToCompetence(final Long userId,
@@ -171,14 +162,12 @@ public interface UserManager {
      * @return boolean;
      * @nsosntc
      */
-    boolean existUserName(String userName);
+    boolean existUserName(String username);
 
     /**
      * Create new user
      *
-     * @param User
-     * @throws InvalidValueException    - (some of) passed parameters are broken.
-     * @throws NoSuchAlgorithmException - unhandled in hash exception.
+     * @param user
      * @throws UserManagerException
      */
     void create(User user) throws UserManagerException;
@@ -203,7 +192,7 @@ public interface UserManager {
      * @param competenceUuid
      * @throws UserManagerException
      */
-    void attendCompetence(String userUuid, String competenceUuid) throws UserManagerException;
+    void appendCompetence(String userUuid, String competenceUuid) throws UserManagerException;
 
 
     /**
@@ -217,7 +206,7 @@ public interface UserManager {
     /**
      * @param user
      */
-    void removeAssociation(User user);
+    void removeAssociations(User user);
 
 
     Long sumOfPoints(User user);

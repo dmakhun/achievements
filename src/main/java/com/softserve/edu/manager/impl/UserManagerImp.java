@@ -4,8 +4,10 @@ import com.softserve.edu.dao.AchievementDao;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
-import com.softserve.edu.entity.*;
-import com.softserve.edu.exception.InvalidValueException;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
 import org.apache.log4j.Logger;
@@ -15,7 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.NoSuchAlgorithmException;
+import javax.validation.ValidationException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,12 +26,22 @@ import java.util.Set;
 @Service("userManager")
 public class UserManagerImp implements UserManager {
 
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private RoleDao roleDao;
+    @Autowired
+    private AchievementDao achievementDao;
+    @Autowired
+    private CompetenceDao competenceDao;
+
+    private static StandardPasswordEncoder encoder = new StandardPasswordEncoder();
+
     private static final String COULD_NOT_UPDATE_USER = "Could not update User";
     private static final String USER_COULD_NOT_BE_SAVED = "user cannot be created!";
-    private static final String FILDS_DOES_NOT_VALIDATED = "filds doesn't validated!";
+    private static final String FIELDS_VALIDATION_ERROR = "filds doesn't validated!";
     private static final String ROLE_DOES_NOT_EXIST = "Role does not exist!";
-    private static final Logger logger = Logger
-            .getLogger(UserManagerImp.class);
+    private static final Logger logger = Logger.getLogger(UserManagerImp.class);
     /**
      * Pattern that covers almost all of valid emails.
      */
@@ -37,15 +50,6 @@ public class UserManagerImp implements UserManager {
      * Username pattern, that we pretend to define.
      */
     private static final String PATTERN_USERNAME = "^[a-zA-Z0-9\\.\\-_]{3,50}$";
-    private static StandardPasswordEncoder encoder = new StandardPasswordEncoder();
-    @Autowired
-    UserDao userDao;
-    @Autowired
-    RoleDao roleDao;
-    @Autowired
-    AchievementDao achievementDao;
-    @Autowired
-    CompetenceDao competenceDao;
 
     @Override
     @Transactional
@@ -53,7 +57,7 @@ public class UserManagerImp implements UserManager {
                        final String username, final String password, final String email,
                        final Long roleId) throws UserManagerException {
 
-        User user = null;
+        User user;
         try {
             user = validateFields(false, null, name, surname, username,
                     password, email, roleId);
@@ -74,19 +78,12 @@ public class UserManagerImp implements UserManager {
     @Override
     @Transactional
     public void create(User user) throws UserManagerException {
-
         try {
-            User userToSave = validateFields(false, null, user.getName(),
-                    user.getSurname(), user.getUsername(), user.getPassword(),
-                    user.getEmail(), user.getRole().getUuid());
-
-            userDao.save(userToSave);
-
+            userDao.save(validateUser(user));
         } catch (Exception e) {
-            logger.error("Could not createAchievementType user", e);
-            throw new UserManagerException("Could not createAchievementType user", e);
+            logger.error("Could not create user", e);
+            throw new UserManagerException("Could not create user", e);
         }
-
     }
 
     @Override
@@ -105,9 +102,7 @@ public class UserManagerImp implements UserManager {
         try {
             user = validateFields(true, user, name, surname, username,
                     password, email, roleId);
-
             userDao.update(user);
-
         } catch (Exception e) {
             logger.error(COULD_NOT_UPDATE_USER + e);
             throw new UserManagerException(COULD_NOT_UPDATE_USER + e);
@@ -131,11 +126,10 @@ public class UserManagerImp implements UserManager {
         }
 
         try {
-            user = validateFields(true, user, name, surname, username,
-                    password, email, roleUuid);
+            user = validateExistingUser(user);
         } catch (Exception e) {
-            logger.error(FILDS_DOES_NOT_VALIDATED, e);
-            throw new UserManagerException(FILDS_DOES_NOT_VALIDATED, e);
+            logger.error(FIELDS_VALIDATION_ERROR, e);
+            throw new UserManagerException(FIELDS_VALIDATION_ERROR, e);
         }
         try {
             userDao.update(user);
@@ -217,9 +211,7 @@ public class UserManagerImp implements UserManager {
      * @param password       Password.
      * @param email          Unique email.
      * @param roleId         Role id.
-     * @return User Parsed user.
-     * @throws InvalidValueException
-     * @throws NoSuchAlgorithmException
+     * @return Parsed user.
      * @throws UserManagerException
      */
     @Transactional
@@ -231,12 +223,12 @@ public class UserManagerImp implements UserManager {
         User user = currentUser == null ? new User() : currentUser;
         boolean validator;
 
-        validator = validateGeneric(user, name, "Name", nevermindEmpty);
+        validator = genericValidation(user, name, "Name", nevermindEmpty);
         if (validator) {
             user.setName(name);
         }
 
-        validator = validateGeneric(user, surname, "Surname", nevermindEmpty);
+        validator = genericValidation(user, surname, "Surname", nevermindEmpty);
         if (validator) {
             user.setSurname(surname);
         }
@@ -254,7 +246,6 @@ public class UserManagerImp implements UserManager {
 
         validator = validatePassword(password, nevermindEmpty);
         if (validator) {
-            // user.setSalt(PasswordUtil.generatePassOrSalt(8));
             user.setPassword(encoder.encode(password));
         }
 
@@ -276,75 +267,97 @@ public class UserManagerImp implements UserManager {
         return user;
     }
 
-    /**
-     * @param nevermindEmpty
-     * @param currentUser
-     * @param name
-     * @param surname
-     * @param username
-     * @param password
-     * @param email
-     * @param roleUuid
-     * @return
-     * @throws UserManagerException
-     */
     @Transactional
-    User validateFields(final boolean nevermindEmpty,
-                        final User currentUser, final String name, final String surname,
-                        final String username, final String password, final String email,
-                        final String roleUuid) throws UserManagerException {
+    User validateUser(User user) throws UserManagerException {
 
-        User user = currentUser == null ? new User() : currentUser;
-
-        boolean validator = validateGeneric(user, name, "Name", nevermindEmpty);
-        if (validator) {
-            user.setName(name);
+        boolean validated;
+        validated = genericValidation(user, user.getName(), "Name", false);
+        if (!validated) {
+            throw new ValidationException();
         }
 
-        validator = validateGeneric(user, surname, "Surname", nevermindEmpty);
-        if (validator) {
-            user.setSurname(surname);
+        validated = genericValidation(user, user.getSurname(), "Surname", false);
+        if (!validated) {
+            throw new ValidationException();
         }
 
         /*
           Besides matching naming rules, such name should be unique. OtherUser
           here is the user, that can own already same username.
          */
-        User otherUser = null;
-        try {
-            otherUser = findByUsername(username);
-        } catch (IllegalArgumentException e) {
-
-        }
-        validator = validateByPattern(user, otherUser, username,
-                PATTERN_USERNAME, "Username", nevermindEmpty);
-        if (validator) {
-            user.setUsername(username);
+        User otherUser = findByUsername(user.getUsername());
+        validated = validateByPattern(user, otherUser, user.getUsername(),
+                PATTERN_USERNAME, "Username", false);
+        if (!validated) {
+            throw new ValidationException();
         }
 
-        validator = validatePassword(password, nevermindEmpty);
-        if (validator) {
-            // user.setSalt(PasswordUtil.generatePassOrSalt(8));
-            user.setPassword(encoder.encode(password));
+        validated = validatePassword(user.getPassword(), false);
+        if (validated) {
+            user.setPassword(encoder.encode(user.getPassword()));
         }
 
         /*
          * Same logic as for username checks.
          */
-        try {
-            otherUser = findByEmail(email);
-        } catch (IllegalArgumentException e) {
+        otherUser = findByEmail(user.getEmail());
+        validated = validateByPattern(user, otherUser, user.getEmail(), PATTERN_EMAIL,
+                "Email", false);
+        if (!validated) {
+            throw new ValidationException();
         }
 
-        validator = validateByPattern(user, otherUser, email, PATTERN_EMAIL,
-                "Email", nevermindEmpty);
-        if (validator) {
-            user.setEmail(email);
+        Role role = validateRoleByUuid(user.getRole().getUuid());
+        if (role == null) {
+            throw new ValidationException();
         }
-        Role role = validateRoleByUuid(roleUuid);
 
-        if (role != null) {
-            user.setRole(role);
+        return user;
+    }
+
+    @Transactional
+    User validateExistingUser(User user) throws UserManagerException {
+
+        boolean validated;
+        validated = genericValidation(user, user.getName(), "Name", true);
+        if (!validated) {
+            throw new ValidationException();
+        }
+
+        validated = genericValidation(user, user.getSurname(), "Surname", true);
+        if (!validated) {
+            throw new ValidationException();
+        }
+
+        /*
+          Besides matching naming rules, such name should be unique. OtherUser
+          here is the user, that can own already same username.
+         */
+        User otherUser = findByUsername(user.getUsername());
+        validated = validateByPattern(user, otherUser, user.getUsername(),
+                PATTERN_USERNAME, "Username", true);
+        if (!validated) {
+            throw new ValidationException();
+        }
+
+        validated = validatePassword(user.getPassword(), true);
+        if (validated) {
+            user.setPassword(encoder.encode(user.getPassword()));
+        }
+
+        /*
+         * Same logic as for username checks.
+         */
+        otherUser = findByEmail(user.getEmail());
+        validated = validateByPattern(user, otherUser, user.getEmail(), PATTERN_EMAIL,
+                "Email", true);
+        if (!validated) {
+            throw new ValidationException();
+        }
+
+        Role role = validateRoleByUuid(user.getRole().getUuid());
+        if (role == null) {
+            throw new ValidationException();
         }
 
         return user;
@@ -360,12 +373,11 @@ public class UserManagerImp implements UserManager {
      * @param field          Field, yep.
      * @param nevermindEmpty Flag, that says that we can ignore checks for emptiness.
      * @return String
-     * @throws InvalidValueException
      * @throws UserManagerException
      */
     @Transactional
-    boolean validateGeneric(final User user, final String field,
-                            final String fieldName, final boolean nevermindEmpty)
+    boolean genericValidation(final User user, final String field,
+                              final String fieldName, final boolean nevermindEmpty)
             throws UserManagerException {
 
         if (field != null && !field.isEmpty() && field.length() <= 50) {
@@ -380,7 +392,7 @@ public class UserManagerImp implements UserManager {
             if (field != null && field.length() > 50) {
                 logger.error(fieldName + "fild doesn't validated!");
                 throw new UserManagerException(fieldName
-                        + "fild doesn't validated!");
+                        + "field doesn't validated!");
             }
         }
 
@@ -396,7 +408,6 @@ public class UserManagerImp implements UserManager {
      * @param pattern
      * @param nevermindEmpty
      * @return String
-     * @throws InvalidValueException
      * @throws UserManagerException
      */
     @Transactional
@@ -409,19 +420,19 @@ public class UserManagerImp implements UserManager {
             return true;
         } else {
             if ((field == null || field.isEmpty()) && !nevermindEmpty) {
-                logger.error(fieldName + FILDS_DOES_NOT_VALIDATED);
+                logger.error(fieldName + FIELDS_VALIDATION_ERROR);
                 throw new UserManagerException(fieldName
-                        + FILDS_DOES_NOT_VALIDATED);
+                        + FIELDS_VALIDATION_ERROR);
             }
 
             if (field != null && !field.isEmpty() && !field.matches(pattern)) {
-                logger.error(fieldName + FILDS_DOES_NOT_VALIDATED);
+                logger.error(fieldName + FIELDS_VALIDATION_ERROR);
                 throw new UserManagerException(fieldName
-                        + FILDS_DOES_NOT_VALIDATED);
+                        + FIELDS_VALIDATION_ERROR);
             }
 
             if (otherUser != null && otherUser.getId() != user.getId()) {
-                logger.error(fieldName + FILDS_DOES_NOT_VALIDATED);
+                logger.error(fieldName + FIELDS_VALIDATION_ERROR);
                 throw new UserManagerException(fieldName + "user exist!");
             }
         }
@@ -437,8 +448,6 @@ public class UserManagerImp implements UserManager {
      *
      * @param password       Password.
      * @param nevermindEmpty Flag to ignore checks for isEmpty.
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidValueException
      * @throws UserManagerException
      */
     @Transactional
@@ -507,7 +516,7 @@ public class UserManagerImp implements UserManager {
 
     @Override
     @Transactional
-    public void attendCompetence(Long userId, Long competenceId)
+    public void appendCompetence(Long userId, Long competenceId)
             throws UserManagerException {
         User user = userDao.findById(User.class, userId);
         Competence competence = competenceDao.findById(Competence.class,
@@ -523,7 +532,7 @@ public class UserManagerImp implements UserManager {
 
     @Override
     @Transactional
-    public void attendCompetence(String userUuid, String competenceUuid)
+    public void appendCompetence(String userUuid, String competenceUuid)
             throws UserManagerException {
 
         User user = userDao.findByUuid(User.class, userUuid);
@@ -584,7 +593,7 @@ public class UserManagerImp implements UserManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Set<String> findActiveNameGroups(String username) {
-        Set<String> nameGroups = new HashSet<String>();
+        Set<String> nameGroups = new HashSet<>();
         User user = userDao.findByUsername(username);
         List<Group> listGroup = userDao.findGroups(user.getId(), true);
         for (Group g : listGroup) {
@@ -602,8 +611,8 @@ public class UserManagerImp implements UserManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public boolean existUserName(String userName) {
-        return userDao.findByUsername(userName) != null;
+    public boolean existUserName(String username) {
+        return userDao.findByUsername(username) != null;
     }
 
     @Override
@@ -617,7 +626,7 @@ public class UserManagerImp implements UserManager {
     public void deleteByUuid(String userUuid) throws UserManagerException {
         try {
             User user = findByUuid(userUuid);
-            removeAssociation(user);
+            removeAssociations(user);
             userDao.delete(user);
             logger.info("User with uuid [" + userUuid + "] was removed");
         } catch (Exception e) {
@@ -639,27 +648,17 @@ public class UserManagerImp implements UserManager {
 
     @Override
     @Transactional
-    public void removeAssociation(User user) {
+    public void removeAssociations(User user) {
+        user.getGroups().forEach(group -> group.getUsers().remove(user));
+        user.getGroups().clear();
+        user.setGroups(Collections.emptySet());
 
-        Set<Group> groups = user.getGroups();
-        for (Group g : groups) {
-            g.getUsers().remove(user);
-        }
-        groups.clear();
-        user.setGroups(groups);
+        user.getCompetences().forEach(competence -> competence.getUsers().remove(user));
+        user.getCompetences().clear();
+        user.setCompetences(Collections.emptySet());
 
-        Set<Competence> competences = user.getCompetences();
-        for (Competence c : competences) {
-            c.getUsers().remove(user);
-        }
-        competences.clear();
-        user.setCompetences(competences);
-
-        Set<Achievement> achievements = user.getAchievements();
-        for (Achievement a : achievements) {
-            achievementDao.delete(a);
-        }
-        logger.info("User association was removed");
+        user.getAchievements().forEach(achievement -> achievementDao.delete(achievement));
+        logger.info("User associations had been removed");
     }
 
     @Override

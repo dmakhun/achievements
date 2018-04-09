@@ -228,7 +228,7 @@ public class UserRest {
     public Response appendCompetence(@PathParam("useruuid") String userUuid,
                                      @PathParam("competenceuuid") String competenceUuid) {
         try {
-            userManager.attendCompetence(userUuid, competenceUuid);
+            userManager.appendCompetence(userUuid, competenceUuid);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
