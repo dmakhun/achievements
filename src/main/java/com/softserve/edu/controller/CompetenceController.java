@@ -126,7 +126,7 @@ public class CompetenceController {
             @RequestParam(value = "userlist", required = false, defaultValue = "") Long userId,
             @RequestParam(value = "rolelist", required = false, defaultValue = "") Long roleId) {
         try {
-            userManager.update(userId, null, null, null, null, null, roleId);
+            userManager.updateUser(userId, null, null, null, null, null, roleId);
             return "redirect:/competencies/addManager?status=success";
         } catch (UserManagerException e) {
             LOGGER.error(e);

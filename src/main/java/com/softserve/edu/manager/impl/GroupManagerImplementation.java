@@ -95,8 +95,8 @@ public class GroupManagerImplementation implements GroupManager {
             groupDao.update(group);
             LOGGER.info("Group was updated");
         } catch (Exception e) {
-            LOGGER.error("cannot update group", e);
-            throw new GroupManagerException("cannot update group", e);
+            LOGGER.error("cannot updateUser group", e);
+            throw new GroupManagerException("cannot updateUser group", e);
         }
     }
 
