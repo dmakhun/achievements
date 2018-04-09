@@ -19,12 +19,10 @@ public class UserDaoImpl extends GenericDaoImpl<User>
 
     public static final String SUM_OF_POINTS = "select sum(atype.points) from AchievementType atype where atype in(select ac.achievementType  "
             + "from Achievement ac WHERE user_id like :user_id)";
-    public static final String COUNT_ALL_MANAGERS = "select count(*) FROM User u inner join fetch u.role r WHERE r.id = ?1";
+    public static final String COUNT_ALL_MANAGERS = "select count(*) FROM User u inner join u.role r WHERE r.id = :id";
 
     @Autowired
     private RoleDao roleDao;
-    @Autowired
-    private CompetenceDao competenceDao;
     @Autowired
     private GroupDao groupDao;
 
@@ -35,10 +33,8 @@ public class UserDaoImpl extends GenericDaoImpl<User>
 
     @Override
     public void removeUserToCompetence(User user, Competence competence) {
-
         user.getCompetences().remove(competence);
         competence.getUsers().remove(user);
-
     }
 
     @Override
@@ -76,7 +72,7 @@ public class UserDaoImpl extends GenericDaoImpl<User>
     public Long countManagers() {
         return (Long) entityManager
                 .createQuery(COUNT_ALL_MANAGERS)
-                .setParameter("user_id", roleDao.findRole("ROLE_MANAGER")).getSingleResult();
+                .setParameter("id", roleDao.findRole("ROLE_MANAGER")).getSingleResult();
     }
 
     @Override
