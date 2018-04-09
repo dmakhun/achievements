@@ -43,7 +43,7 @@ public interface UserDao extends GenericDao<User> {
     List<Group> findGroups(Long userId, boolean onlyOpened);
 
     /**
-     * Method for counting all managers in DB.
+     * Count all managers.
      *
      * @return number of managers
      */
