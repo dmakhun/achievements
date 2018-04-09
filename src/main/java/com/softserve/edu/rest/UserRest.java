@@ -188,7 +188,7 @@ public class UserRest {
     @Consumes(MediaType.APPLICATION_XML)
     public Response createUser(User user) {
         try {
-            userManager.create(user);
+            userManager.createUser(user);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
@@ -197,10 +197,10 @@ public class UserRest {
     }
 
     /**
-     * update user with appropriate uuid. Consumes application/xml file, find
+     * updateUser user with appropriate uuid. Consumes application/xml file, find
      * appropriate user by user uuid, validate fields from consumed xml file and
-     * update user in database if validation process was successful. return
-     * response status 200 if update process was successful, otherwise return
+     * updateUser user in database if validation process was successful. return
+     * response status 200 if updateUser process was successful, otherwise return
      * 500 response status.
      */
     @PUT
@@ -208,7 +208,7 @@ public class UserRest {
     @Consumes(MediaType.APPLICATION_XML)
     public Response updateUser(@PathParam("uuid") String UserUuid, User user) {
         try {
-            userManager.update(UserUuid, user.getName(), user.getSurname(),
+            userManager.updateUser(UserUuid, user.getName(), user.getSurname(),
                     user.getUsername(), user.getPassword(), user.getEmail(),
                     user.getUuid());
         } catch (Exception e) {

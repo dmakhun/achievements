@@ -12,18 +12,11 @@ public interface UserManager {
     /**
      * Create new user, filling in lots of data.
      *
-     * @param name     First name.
-     * @param surname  Second name.
-     * @param username User unique name.
-     * @param password Desired password.
-     * @param email    Unique e-mail.
-     * @param roleId   Role, null for no role.
-     * @throws UserManagerException
+     *
+     * @param user@throws UserManagerException
      * @throws Exception
      */
-    User create(final String name, final String surname,
-                final String username, final String password, final String email,
-                final Long roleId) throws UserManagerException;
+    User createUser(User user) throws UserManagerException;
 
 
     /**
@@ -40,9 +33,9 @@ public interface UserManager {
      * @param roleId   New role id.
      * @throws UserManagerException
      */
-    User update(final Long userId, final String name,
-                final String surname, final String username, final String password,
-                final String email, final Long roleId) throws UserManagerException;
+    User updateUser(final Long userId, final String name,
+                    final String surname, final String username, final String password,
+                    final String email, final Long roleId) throws UserManagerException;
 
     /**
      * Modify existing user.
@@ -52,7 +45,7 @@ public interface UserManager {
      * @param user New User.
      * @throws UserManagerException
      */
-    void update(User user) throws UserManagerException;
+    void updateUser(User user) throws UserManagerException;
 
     /**
      * Modify existing user.
@@ -68,9 +61,9 @@ public interface UserManager {
      * @param roleUuid   New role uuid.
      * @throws UserManagerException
      */
-    User update(final String userUuid, final String name,
-                final String surname, final String username, final String password,
-                final String email, final String roleUuid) throws UserManagerException;
+    User updateUser(final String userUuid, final String name,
+                    final String surname, final String username, final String password,
+                    final String email, final String roleUuid) throws UserManagerException;
 
     /**
      * Delete user by given Id.
@@ -164,13 +157,6 @@ public interface UserManager {
      */
     boolean existUserName(String username);
 
-    /**
-     * Create new user
-     *
-     * @param user
-     * @throws UserManagerException
-     */
-    void create(User user) throws UserManagerException;
 
     /**
      * check if email exists in database

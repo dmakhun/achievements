@@ -90,7 +90,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/createaccount", method = RequestMethod.POST)
-    public String createaccount(@Valid User user, BindingResult result, Model model) {
+    public String createAccount(@Valid User user, BindingResult result, Model model) {
         try {
             if (userManager.existEmail(user.getEmail())) {
                 result.rejectValue("email", "DuplicateKey.user.email");
@@ -105,7 +105,7 @@ public class LoginController {
             Long id = roleManager.findRole("ROLE_USER");
             user.setRole(roleManager.findById(id));
 
-            userManager.create(user);
+            userManager.createUser(user);
 
             String usernameSurname = user.getName() + " " + user.getSurname();
             model.addAttribute("usernameSurname", usernameSurname);

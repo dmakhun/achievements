@@ -37,8 +37,8 @@ public class AchievementTypeManagerImpl implements
             logger.info("Achievement type successfully created");
             return achievementType;
         } catch (Exception e) {
-            logger.error("Could not create Achievement Type");
-            throw new AchievementTypeManagerException("Could not create Achievement Type", e);
+            logger.error("Could not createUser Achievement Type");
+            throw new AchievementTypeManagerException("Could not createUser Achievement Type", e);
         }
     }
 
