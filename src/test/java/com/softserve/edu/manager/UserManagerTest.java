@@ -5,7 +5,7 @@ import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.dao.impl.UserDaoImpl;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
-import com.softserve.edu.manager.impl.UserManagerImplementation;
+import com.softserve.edu.manager.impl.UserManagerImp;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ public class UserManagerTest {
     private RoleDao roleDao;
     @InjectMocks
     private UserManager userManager =
-            new UserManagerImplementation();
+            new UserManagerImp();
 
     @Before
     public void setUp() {

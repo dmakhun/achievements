@@ -44,13 +44,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <!-- <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/> -->
-
-
-    <!-- <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"
-        /> -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-
 
     <import resource="security-context.xml"/>
 
