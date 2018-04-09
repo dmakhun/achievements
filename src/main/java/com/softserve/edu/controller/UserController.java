@@ -101,7 +101,7 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         try {
-            userManager.attendCompetence(userManager.findByUsername(auth.getName()).getId(), competenceId);
+            userManager.appendCompetence(userManager.findByUsername(auth.getName()).getId(), competenceId);
 
             return "redirect:/user/userHome";
         } catch (UserManagerException e) {
