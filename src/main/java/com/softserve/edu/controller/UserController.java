@@ -1,14 +1,16 @@
 package com.softserve.edu.controller;
 
 import com.softserve.edu.dao.UserDao;
-import com.softserve.edu.entity.*;
+import com.softserve.edu.entity.Achievement;
+import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.AchievementManager;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.RoleManager;
 import com.softserve.edu.manager.UserManager;
-import com.softserve.edu.util.Constants;
-import com.softserve.edu.util.FieldForSearchContrroller;
+import com.softserve.edu.util.FieldForSearchController;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -140,7 +142,7 @@ public class UserController {
             if (result.hasErrors()) {
                 return "redirect:/admin/allManagers?status=error";
             }
-            user.setRole(new Role(ROLE_MANAGER));
+            user.setRole(roleManager.findRoleByRolename(ROLE_MANAGER));
             userManager.createUser(user);
             return "admin/allManagers";
         } catch (Exception e) {
@@ -158,7 +160,7 @@ public class UserController {
             Long total = userDao.countManagers();
             model.addAttribute("total", total);
             model.addAttribute("user", new User());
-            Map<String, String> searchBy = new FieldForSearchContrroller<>(
+            Map<String, String> searchBy = new FieldForSearchController<>(
                     User.class).findAnnotation();
             model.addAttribute("searchBy", searchBy);
             model.addAttribute("userlist", managers);
@@ -184,11 +186,11 @@ public class UserController {
 
             List<User> dynamicUsers = userDao.dynamicSearchTwoCriterias(start,
                     max, criteria, pattern, additionFind,
-                    roleManager.findRole(Constants.ROLE_MANAGER), "role", User.class);
+                    roleManager.findRole(ROLE_MANAGER), "role", User.class);
 
             List<User> allByCriteria = userDao.dynamicSearchTwoCriterias(0,
                     userDao.countManagers().intValue(), criteria, pattern,
-                    additionFind, roleManager.findRole(Constants.ROLE_MANAGER), "role",
+                    additionFind, roleManager.findRole(ROLE_MANAGER), "role",
                     User.class);
 
             model.addAttribute("userlist", dynamicUsers);
