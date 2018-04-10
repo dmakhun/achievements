@@ -4,12 +4,12 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FieldForSearchContrroller<T> {
+public class FieldForSearchController<T> {
 
     private Class<T> clazz;
-    private Map<String, String> map = new HashMap<String, String>();
+    private Map<String, String> map = new HashMap<>();
 
-    public FieldForSearchContrroller(Class<T> clazz) {
+    public FieldForSearchController(Class<T> clazz) {
         this.clazz = clazz;
     }
 

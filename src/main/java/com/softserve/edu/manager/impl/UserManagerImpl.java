@@ -391,26 +391,6 @@ public class UserManagerImpl implements UserManager {
         return role;
     }
 
-    /**
-     * @param roleUuid
-     * @return
-     * @throws UserManagerException
-     */
-    private Role validateRoleByUuid(final String roleUuid)
-            throws UserManagerException {
-
-        Role role = null;
-        if (roleUuid != null) {
-            role = roleDao.findByUuid(Role.class, roleUuid);
-            if (role == null) {
-                logger.error(ROLE_DOES_NOT_EXIST);
-                throw new UserManagerException(ROLE_DOES_NOT_EXIST);
-            }
-        }
-
-        return role;
-    }
-
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> findGroups(Long userId, boolean onlyOpened) {
