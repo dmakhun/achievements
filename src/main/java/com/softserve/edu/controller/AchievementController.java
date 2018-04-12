@@ -5,7 +5,6 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.manager.AchievementManager;
 import com.softserve.edu.manager.AchievementTypeManager;
 import com.softserve.edu.manager.CompetenceManager;
-import com.softserve.edu.util.Constants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
+
 @Controller
 public class AchievementController {
 
@@ -26,9 +27,9 @@ public class AchievementController {
     @Autowired
     private AchievementManager achievementManager;
     @Autowired
-    private CompetenceManager competenceManager;
-    @Autowired
     private AchievementTypeManager achievementTypeManager;
+    @Autowired
+    private CompetenceManager competenceManager;
 
     @RequestMapping(value = "/manager/user/award/{id}", method = RequestMethod.GET)
     public String awardConcreteUser(
@@ -36,16 +37,16 @@ public class AchievementController {
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             Model model) {
         try {
-            List<AchievementType> achivList = achievementTypeManager
+            List<AchievementType> achievementTypes = achievementTypeManager
                     .achievementTypesList();
 
-            model.addAttribute("achList", achivList);
+            model.addAttribute("achList", achievementTypes);
             model.addAttribute("status", status);
 
             return "awardUser";
         } catch (Exception e) {
             logger.error(e);
-            return Constants.GENERAL_ERROR;
+            return GENERAL_ERROR;
         }
     }
 
@@ -63,7 +64,7 @@ public class AchievementController {
             achievementManager.awardUser(userId, achievementTypeId, comment);
         } catch (Exception e) {
             logger.error(e);
-            return Constants.GENERAL_ERROR;
+            return GENERAL_ERROR;
         }
 
         return "redirect:/manager/user/award/" + userId + "?status=success";
@@ -83,7 +84,7 @@ public class AchievementController {
             return "showAchievements";
         } catch (Exception e) {
             logger.error(e);
-            return Constants.GENERAL_ERROR;
+            return GENERAL_ERROR;
         }
     }
 
