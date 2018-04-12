@@ -15,10 +15,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service("userDetailsService")
-public class UserDetailsServiceImplementation implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserManager userManager;
+    private UserManager userManager;
 
     /**
      * check user data
