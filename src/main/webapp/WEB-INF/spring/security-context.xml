@@ -27,6 +27,6 @@
         </authentication-provider>
     </authentication-manager>
     <beans:bean
-            class="com.softserve.edu.manager.impl.UserDetailsServiceImplementation" id="userDetailsServiceImpl"/>
+            class="com.softserve.edu.manager.impl.UserDetailsServiceImpl" id="userDetailsServiceImpl"/>
 
 </beans:beans>
