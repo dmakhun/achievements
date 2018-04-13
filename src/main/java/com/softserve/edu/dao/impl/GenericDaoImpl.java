@@ -1,7 +1,8 @@
 package com.softserve.edu.dao.impl;
 
 import com.softserve.edu.dao.GenericDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @Repository
 public class GenericDaoImpl<T> implements GenericDao<T> {
 
-    private static final Logger logger = Logger.getLogger(GenericDaoImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(GenericDaoImpl.class);
     @PersistenceContext
     EntityManager entityManager;
 

@@ -20,7 +20,7 @@
             <h1>
                 <spring:message code="myprofile.title"/><br>
             </h1>
-            <h3>${mess}</h3>
+            <h3>${error}</h3>
             <br>
         </center>
 

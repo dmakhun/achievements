@@ -4,7 +4,8 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.manager.GroupManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Path("/group")
 public class GroupRest {
-    private static final Logger LOGGER = Logger.getLogger(GroupRest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupRest.class);
 
     @Autowired
     private GroupManager groupManager;

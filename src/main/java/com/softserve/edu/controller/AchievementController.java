@@ -5,7 +5,8 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.manager.AchievementManager;
 import com.softserve.edu.manager.AchievementTypeManager;
 import com.softserve.edu.manager.CompetenceManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 @Controller
 public class AchievementController {
 
-    private static final Logger logger = Logger
+    private static final Logger logger = LoggerFactory
             .getLogger(AchievementController.class);
 
     @Autowired
@@ -45,7 +46,7 @@ public class AchievementController {
 
             return "awardUser";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -63,7 +64,7 @@ public class AchievementController {
 
             achievementManager.awardUser(userId, achievementTypeId, comment);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
 
@@ -83,7 +84,7 @@ public class AchievementController {
             model.addAttribute("achievementTypes", achievementTypes);
             return "showAchievements";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }

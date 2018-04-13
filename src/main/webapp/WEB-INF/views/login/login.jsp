@@ -67,7 +67,7 @@
         <div class="col-md-offset-5 col-md-4">
             <hr/>
             <a href="<c:url value="/registration" />"> <spring:message code="registration.registration"/></a> |
-            <a href="https://www.google.com/accounts/recovery"> <spring:message code="registration.lostPassword"/></a>
+            <a href="TODO"> <spring:message code="registration.lostPassword"/></a>
         </div>
     </div>
 </form>
