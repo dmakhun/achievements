@@ -39,7 +39,7 @@ public class UserManagerImpl implements UserManager {
     @Autowired
     private StandardPasswordEncoder passwordEncoder;
 
-    private static final String USER_UPDATE_ERROR = "Could not updateUser user";
+    private static final String USER_UPDATE_ERROR = "Could not update User.";
     private static final String USER_SAVE_ERROR = "User cannot be created.";
     private static final String FIELDS_VALIDATION_ERROR = "Fields didn't validate.";
     private static final String ROLE_DOES_NOT_EXIST = "Role does not exist.";
@@ -58,7 +58,7 @@ public class UserManagerImpl implements UserManager {
     public User createUser(User user) throws UserManagerException {
         User newUser;
         try {
-            newUser = validateUser(user);
+            newUser = validateUser(user, false, null);
         } catch (Exception e) {
             logger.error(FIELDS_VALIDATION_ERROR, e);
             throw new UserManagerException(FIELDS_VALIDATION_ERROR, e);
@@ -85,7 +85,7 @@ public class UserManagerImpl implements UserManager {
         }
 
         try {
-            userDao.update(validateExistingUser(user));
+            userDao.update(validateUser(user, true, null));
         } catch (Exception e) {
             logger.error(USER_UPDATE_ERROR + e);
             throw new UserManagerException(USER_UPDATE_ERROR + e);
@@ -96,32 +96,10 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public User updateUser(final String userUuid, final String name,
-                           final String surname, final String username, final String password,
-                           final String email, final String roleUuid)
+    public User updateUser(final String userUuid, User user)
             throws UserManagerException {
-
-        User user = userDao.findByUuid(User.class, userUuid);
-
-        if (user == null) {
-            logger.error("User with such uuid doesn't exist.");
-            throw new UserManagerException("User with such uuid doesn't exist.");
-        }
-
-        try {
-            user = validateExistingUser(user);
-        } catch (Exception e) {
-            logger.error(FIELDS_VALIDATION_ERROR, e);
-            throw new UserManagerException(FIELDS_VALIDATION_ERROR, e);
-        }
-        try {
-            userDao.update(user);
-        } catch (Exception e) {
-            logger.error("The user was not updated");
-            throw new UserManagerException();
-        }
-
-        return user;
+        User user1 = userDao.findByUuid(User.class, userUuid);
+        return updateUser(user1.getId(), user.getName(), user.getSurname(), user.getUsername(), user.getPassword(), user.getEmail(), user.getRole().getId());
     }
 
     @Override
@@ -176,15 +154,15 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Transactional
-    User validateUser(User user) throws UserManagerException {
+    User validateUser(User user, boolean existing, String newPassword) throws UserManagerException {
 
         boolean validated;
-        validated = genericValidation(user.getName(), "Name", false);
+        validated = genericValidation(user.getName(), "Name", existing);
         if (!validated) {
             throw new ValidationException();
         }
 
-        validated = genericValidation(user.getSurname(), "Surname", false);
+        validated = genericValidation(user.getSurname(), "Surname", existing);
         if (!validated) {
             throw new ValidationException();
         }
@@ -193,14 +171,14 @@ public class UserManagerImpl implements UserManager {
         // here is the user that can already have the same username.
         User otherUser = findByUsername(user.getUsername());
         validated = validateByPattern(user, otherUser, user.getUsername(),
-                PATTERN_USERNAME, "Username", false);
+                PATTERN_USERNAME, "Username", existing);
         if (!validated) {
             throw new ValidationException();
         }
 
-        validated = validatePassword(user.getPassword(), false);
+        validated = validatePassword(user.getPassword(), existing);
         if (validated) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(newPassword));
         }
 
         /*
@@ -208,55 +186,7 @@ public class UserManagerImpl implements UserManager {
          */
         otherUser = findByEmail(user.getEmail());
         validated = validateByPattern(user, otherUser, user.getEmail(), PATTERN_EMAIL,
-                "Email", false);
-        if (!validated) {
-            throw new ValidationException();
-        }
-
-        Role role = validateRole(user.getRole().getId());
-        if (role == null) {
-            throw new ValidationException();
-        }
-
-        return user;
-    }
-
-    @Transactional
-    User validateExistingUser(User user) throws UserManagerException {
-
-        boolean validated;
-        validated = genericValidation(user.getName(), "Name", true);
-        if (!validated) {
-            throw new ValidationException();
-        }
-
-        validated = genericValidation(user.getSurname(), "Surname", true);
-        if (!validated) {
-            throw new ValidationException();
-        }
-
-        /*
-          Besides matching naming rules, such name should be unique. OtherUser
-          here is the user, that can own already same username.
-         */
-        User otherUser = findByUsername(user.getUsername());
-        validated = validateByPattern(user, otherUser, user.getUsername(),
-                PATTERN_USERNAME, "Username", true);
-        if (!validated) {
-            throw new ValidationException();
-        }
-
-        validated = validatePassword(user.getPassword(), true);
-        if (validated) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-
-        /*
-         * Same logic as for username checks.
-         */
-        otherUser = findByEmail(user.getEmail());
-        validated = validateByPattern(user, otherUser, user.getEmail(), PATTERN_EMAIL,
-                "Email", true);
+                "Email", existing);
         if (!validated) {
             throw new ValidationException();
         }
