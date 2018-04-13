@@ -53,17 +53,9 @@ public interface UserManager {
      * If passed parameter is null or empty, that field will be not updated.
      *
      * @param userUuid   User's uuid, that we want to modify.
-     * @param name     New name.
-     * @param surname  New surname.
-     * @param username New username.
-     * @param password New password.
-     * @param email    New email.
-     * @param roleUuid   New role uuid.
      * @throws UserManagerException
      */
-    User updateUser(final String userUuid, final String name,
-                    final String surname, final String username, final String password,
-                    final String email, final String roleUuid) throws UserManagerException;
+    User updateUser(final String userUuid, User user) throws UserManagerException;
 
     /**
      * Delete user by given Id.
