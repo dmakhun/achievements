@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -27,8 +26,8 @@ public class RoleDaoTest {
     public void testFindUsers() {
         List<User> users = roleDao.findUsers(1);
         System.out.println("Users with role id 1");
-        for (Iterator<User> i = users.iterator(); i.hasNext(); ) {
-            System.out.println(i.next().getName());
+        for (User user : users) {
+            System.out.println(user.getName());
         }
         assertEquals(2, users.size());
     }

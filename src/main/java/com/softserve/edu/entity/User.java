@@ -11,8 +11,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.util.Set;
 
 /**
- * Represents bean class for User entity. Mapped on table USERS.
- *
+ * Represents bean class for User entity.
  */
 @XmlRootElement
 @Entity
@@ -117,7 +116,7 @@ public class User extends AbstractEntity {
     /**
      * Parameterized constructor.
      *
-     * @param role    value for roles field
+     * @param role     value for roles field
      * @param name     value for name field
      * @param surname  value for surname field
      * @param username value for username field
@@ -134,9 +133,6 @@ public class User extends AbstractEntity {
         this.picture = picture;
     }
 
-    /**
-     * Default constructor.
-     */
 
     @XmlTransient
     public Long getId() {

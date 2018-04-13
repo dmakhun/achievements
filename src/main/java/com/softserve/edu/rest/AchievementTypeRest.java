@@ -3,7 +3,8 @@ package com.softserve.edu.rest;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.AchievementTypeManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Path("/achievement_type")
 public class AchievementTypeRest {
-    private static final Logger LOGGER = Logger
+    private static final Logger logger = LoggerFactory
             .getLogger(AchievementTypeRest.class);
 
     @Autowired
@@ -36,7 +37,7 @@ public class AchievementTypeRest {
         try {
             achievementTypes = achievementTypeManager.achievementTypesList();
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
         return Response.ok(new JaxbList<AchievementType>(achievementTypes))
@@ -63,7 +64,7 @@ public class AchievementTypeRest {
                             .getCompetence().getUuid());
 
         } catch (AchievementTypeManagerException e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
 
@@ -86,7 +87,7 @@ public class AchievementTypeRest {
         try {
             achievementTypeManager.deleteAchievementType(uuid);
         } catch (AchievementTypeManagerException e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
 

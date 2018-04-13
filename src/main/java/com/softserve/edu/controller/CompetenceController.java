@@ -7,7 +7,8 @@ import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ import java.util.List;
 public class CompetenceController {
 
     private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger LOGGER = Logger
+    private static final Logger logger = LoggerFactory
             .getLogger(CompetenceController.class);
 
     @Autowired
@@ -42,7 +43,7 @@ public class CompetenceController {
 
             return "showCompetence";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -60,7 +61,7 @@ public class CompetenceController {
 
             return "addCompetence";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -73,7 +74,7 @@ public class CompetenceController {
             competenceManager.create(name);
             return "redirect:/admin/competenceAll?statusAdd=success";
         } catch (CompetenceManagerException e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -86,7 +87,7 @@ public class CompetenceController {
 
             return "redirect:/addCompetence?status=success";
         } catch (CompetenceManagerException e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -103,7 +104,7 @@ public class CompetenceController {
 
             return GENERALERROR;
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -116,7 +117,7 @@ public class CompetenceController {
             competenceManager.delete(cid);
             return "redirect:/competencies/removeCompetence?status=success";
         } catch (CompetenceManagerException e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -129,7 +130,7 @@ public class CompetenceController {
             userManager.updateUser(userId, null, null, null, null, null, roleId);
             return "redirect:/competencies/addManager?status=success";
         } catch (UserManagerException e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
 
@@ -142,7 +143,7 @@ public class CompetenceController {
             model.addAttribute("list", list);
             return "groupsAndCompetence";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -159,7 +160,7 @@ public class CompetenceController {
 
             return "groupsAndCompetence";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -179,7 +180,7 @@ public class CompetenceController {
 
             return "forDeleteOrAddCompetence";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
 
@@ -192,7 +193,7 @@ public class CompetenceController {
             competenceManager.delete(competenceId);
             return "redirect:/admin/competenceAll?statusRemove=success";
         } catch (CompetenceManagerException e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }

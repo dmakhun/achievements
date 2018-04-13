@@ -9,7 +9,8 @@ import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.RoleManager;
 import com.softserve.edu.manager.UserManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,19 +34,19 @@ import java.util.List;
 public class LoginController {
 
     private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger LOGGER = Logger
+    private static final Logger logger = LoggerFactory
             .getLogger(LoginController.class);
 
     @Autowired
-    UserManager userManager;
+    private UserManager userManager;
     @Autowired
-    CompetenceManager competenceManager;
+    private CompetenceManager competenceManager;
     @Autowired
-    GroupManager groupManager;
+    private GroupManager groupManager;
     @Autowired
-    RoleManager roleManager;
+    private RoleManager roleManager;
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     /**
      * Simply selects the home view to render by returning its name.
@@ -70,7 +71,7 @@ public class LoginController {
 
             return "index";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -113,10 +114,10 @@ public class LoginController {
 
             return "login";
         } catch (UserManagerException e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return "registration";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
 

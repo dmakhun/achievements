@@ -6,7 +6,8 @@ import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.AchievementTypeManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,7 +19,7 @@ import java.util.List;
 public class AchievementTypeManagerImpl implements
         AchievementTypeManager {
 
-    public static final Logger logger = Logger
+    public static final Logger logger = LoggerFactory
             .getLogger(AchievementTypeManagerImpl.class);
 
     @Autowired

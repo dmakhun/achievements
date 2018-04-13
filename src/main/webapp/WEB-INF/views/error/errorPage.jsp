@@ -1,4 +1,3 @@
-<%-- <%@ page isErrorPage="true"%> --%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,8 +8,7 @@
 
 <br>
 <center>
-    <!-- <img src="/resources/images/error-code-18.jpeg" width="320" alt="error"> -->
-    <h1>Some error occurred!!!
+    <h1>ERROR
 
         <br></h1><img src="<%=request.getContextPath()%>/resources/images/${title}.png"/>
     <h2><br> ${description}</h2>

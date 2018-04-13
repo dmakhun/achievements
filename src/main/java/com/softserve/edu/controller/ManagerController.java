@@ -8,7 +8,8 @@ import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ import java.util.*;
 public class ManagerController {
 
     private static final String GENERAL_ERROR = "redirect:/myerror/10";
-    private static final Logger logger = Logger
+    private static final Logger logger = LoggerFactory
             .getLogger(ManagerController.class);
 
     @Autowired
@@ -58,7 +59,7 @@ public class ManagerController {
             model.addAttribute("competences", competenceList);
             return "groups";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -85,7 +86,7 @@ public class ManagerController {
                     return deleteGroup(id);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }
         return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
@@ -107,7 +108,7 @@ public class ManagerController {
 
             id = groupManager.create(groupName, starting, ending, competence);
         } catch (GroupManagerException e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }
         return new ResponseEntity<>(id.toString(), HttpStatus.OK);
     }
@@ -124,7 +125,7 @@ public class ManagerController {
             Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
             groupManager.modify(groupId, name, starting, ending, competence);
         } catch (GroupManagerException e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -133,7 +134,7 @@ public class ManagerController {
         try {
             groupManager.deleteById(groupId);
         } catch (GroupManagerException e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -158,7 +159,7 @@ public class ManagerController {
 
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }
         return new ResponseEntity<String>(messageSource.getMessage(
                 "groups.error.datepattern", null, locale),
@@ -173,7 +174,7 @@ public class ManagerController {
             model.addAttribute("users", userList);
             return "userlist";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -194,7 +195,7 @@ public class ManagerController {
 
             return "attendees";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -207,7 +208,7 @@ public class ManagerController {
             groupManager.addUser(userId, groupId);
             userManager.removeUserToCompetence(userId, competenceId);
         } catch (GroupManagerException | UserManagerException e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }
 
         return "redirect:/manager/attendees";
@@ -226,7 +227,7 @@ public class ManagerController {
 
             return "removeManager";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }

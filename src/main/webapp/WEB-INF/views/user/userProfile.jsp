@@ -18,7 +18,7 @@
                 <spring:message code="editprofile.title"/>
                 <br><br><br>
             </h1>
-            <h3>${mess}</h3>
+            <h3>${error}</h3>
         </center>
         <br>
         <br>

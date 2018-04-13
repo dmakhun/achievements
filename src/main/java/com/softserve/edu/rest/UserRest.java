@@ -4,7 +4,8 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Path("/user")
 public class UserRest {
-    private static final Logger logger = Logger.getLogger(UserRest.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserRest.class);
 
     @Autowired
     private UserManager userManager;
@@ -206,9 +207,9 @@ public class UserRest {
     @PUT
     @Path("/updateuser/{uuid}")
     @Consumes(MediaType.APPLICATION_XML)
-    public Response updateUser(@PathParam("uuid") String UserUuid, User user) {
+    public Response updateUser(@PathParam("uuid") String userUuid, User user) {
         try {
-            userManager.updateUser(UserUuid, user);
+            userManager.updateUser(userUuid, user);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Response.status(500).entity("User was not updated.").build();

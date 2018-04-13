@@ -5,7 +5,7 @@ import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.exception.CompetenceManagerException;
-import com.softserve.edu.manager.impl.AchievementManagerImplementation;
+import com.softserve.edu.manager.impl.AchievementManagerImpl;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -33,7 +32,7 @@ public class AchievementManagerTest {
 
     @InjectMocks
     private AchievementManager achievementManager =
-            new AchievementManagerImplementation();
+            new AchievementManagerImpl();
 
     @Before
     public void setUp() {
@@ -56,7 +55,7 @@ public class AchievementManagerTest {
 
     @Test
     public void testFindUserAchievementsNotNull() {
-        List<Achievement> actual = new ArrayList<Achievement>();
+        List<Achievement> actual;
         actual = achievementManager.findUserAchievements(0L);
         assertNotNull(actual);
     }
