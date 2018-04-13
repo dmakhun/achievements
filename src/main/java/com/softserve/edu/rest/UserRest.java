@@ -208,9 +208,7 @@ public class UserRest {
     @Consumes(MediaType.APPLICATION_XML)
     public Response updateUser(@PathParam("uuid") String UserUuid, User user) {
         try {
-            userManager.updateUser(UserUuid, user.getName(), user.getSurname(),
-                    user.getUsername(), user.getPassword(), user.getEmail(),
-                    user.getUuid());
+            userManager.updateUser(UserUuid, user);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Response.status(500).entity("User was not updated.").build();
