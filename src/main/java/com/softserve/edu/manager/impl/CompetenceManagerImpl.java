@@ -7,7 +7,8 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.CompetenceManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,10 +20,10 @@ import java.util.List;
 import java.util.Set;
 
 @Service("competenceManager")
-public class CompetenceManagerImplementation implements CompetenceManager {
+public class CompetenceManagerImpl implements CompetenceManager {
 
-    private static final Logger logger = Logger
-            .getLogger(CompetenceManagerImplementation.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(CompetenceManagerImpl.class);
 
     @Autowired
     private CompetenceDao competenceDao;
@@ -173,7 +174,7 @@ public class CompetenceManagerImplementation implements CompetenceManager {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CompetenceManagerImplementation other = (CompetenceManagerImplementation) obj;
+        CompetenceManagerImpl other = (CompetenceManagerImpl) obj;
         if (achievementTypeDao == null) {
             if (other.achievementTypeDao != null)
                 return false;
