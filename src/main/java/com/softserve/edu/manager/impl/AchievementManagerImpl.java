@@ -8,7 +8,8 @@ import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.AchievementManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,9 +19,9 @@ import java.util.Date;
 import java.util.List;
 
 @Service("achievementManager")
-public class AchievementManagerImplementation implements AchievementManager {
+public class AchievementManagerImpl implements AchievementManager {
 
-    private static final Logger logger = Logger.getLogger(AchievementManagerImplementation.class);
+    private static final Logger logger = LoggerFactory.getLogger(AchievementManagerImpl.class);
 
     @Autowired
     private AchievementTypeDao achievementTypeDao;
@@ -36,7 +37,8 @@ public class AchievementManagerImplementation implements AchievementManager {
     public void awardUser(long userId, long achievementTypeId, String comment) throws CompetenceManagerException {
 
         AchievementType achievementType = achievementTypeDao.findById(AchievementType.class, achievementTypeId);
-        if (achievementType == null) throw new IllegalArgumentException("No such Achievement Type id.");
+        if (achievementType == null)
+            throw new IllegalArgumentException("No such Achievement Type id.");
         User user = userDao.findById(User.class, userId);
         if (user == null) throw new IllegalArgumentException("User with such id does not exist.");
 

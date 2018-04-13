@@ -10,7 +10,8 @@ import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class UserManagerImpl implements UserManager {
     private static final String USER_SAVE_ERROR = "User cannot be created.";
     private static final String FIELDS_VALIDATION_ERROR = "Fields didn't validate.";
     private static final String ROLE_DOES_NOT_EXIST = "Role does not exist.";
-    private static final Logger logger = Logger.getLogger(UserManagerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserManagerImpl.class);
     /**
      * Pattern that covers almost all of valid emails.
      */
@@ -75,7 +76,7 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public User updateUser(final Long userId, final String name,
-                           final String surname, final String username, final String password,
+                           final String surname, final String username, final String newPassword,
                            final String email, final Long roleId) throws UserManagerException {
         User user = userDao.findById(User.class, userId);
 
@@ -85,7 +86,7 @@ public class UserManagerImpl implements UserManager {
         }
 
         try {
-            userDao.update(validateUser(user, true, null));
+            userDao.update(validateUser(user, true, newPassword));
         } catch (Exception e) {
             logger.error(USER_UPDATE_ERROR + e);
             throw new UserManagerException(USER_UPDATE_ERROR + e);
@@ -96,10 +97,21 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public User updateUser(final String userUuid, User user)
+    public User updateUser(final String userUuid, final User user)
             throws UserManagerException {
-        User user1 = userDao.findByUuid(User.class, userUuid);
-        return updateUser(user1.getId(), user.getName(), user.getSurname(), user.getUsername(), user.getPassword(), user.getEmail(), user.getRole().getId());
+        return updateUser(userDao.findByUuid(User.class, userUuid).getId(), user.getName(),
+                user.getSurname(), user.getUsername(), user.getPassword(), user.getEmail(), user.getRole().getId());
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) throws UserManagerException {
+        try {
+            userDao.update(user);
+        } catch (Exception e) {
+            logger.error(USER_UPDATE_ERROR, e);
+            throw new UserManagerException(USER_UPDATE_ERROR, e);
+        }
     }
 
     @Override
@@ -117,10 +129,8 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public User findById(final Long id) throws UserManagerException {
-
         try {
             return userDao.findById(User.class, id);
-
         } catch (RuntimeException e) {
             logger.error("Could not find user by id", e);
             throw new UserManagerException("Could not find user by id", e);
@@ -154,7 +164,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Transactional
-    User validateUser(User user, boolean existing, String newPassword) throws UserManagerException {
+    private User validateUser(User user, boolean existing, String newPassword) throws ValidationException {
 
         boolean validated;
         validated = genericValidation(user.getName(), "Name", existing);
@@ -205,27 +215,27 @@ public class UserManagerImpl implements UserManager {
      * This means, that field should meet general rules: not empty, less than 50
      * chars.
      *
-     * @param field          Field, yep.
+     * @param field
      * @param nevermindEmpty Flag, that says that we can ignore checks for emptiness.
      * @return String
-     * @throws UserManagerException
+     * @throws ValidationException
      */
     @Transactional
-    boolean genericValidation(final String field,
-                              final String fieldName, final boolean nevermindEmpty)
-            throws UserManagerException {
+    private boolean genericValidation(final String field,
+                                      final String fieldName, final boolean nevermindEmpty)
+            throws ValidationException {
         if (field != null && !field.isEmpty() && field.length() <= FIELD_MAX_LENGTH) {
             return true;
         } else {
             if ((field == null || field.isEmpty()) && !nevermindEmpty) {
                 logger.error(fieldName + "field was not validated.");
-                throw new UserManagerException(fieldName
+                throw new ValidationException(fieldName
                         + "field was not validated.");
             }
 
             if (field != null && field.length() > FIELD_MAX_LENGTH) {
                 logger.error(fieldName + " field was not validated.");
-                throw new UserManagerException(fieldName
+                throw new ValidationException(fieldName
                         + "field was not validated.");
             }
         }
@@ -244,9 +254,9 @@ public class UserManagerImpl implements UserManager {
      * @throws UserManagerException
      */
     @Transactional
-    boolean validateByPattern(final User user, final User otherUser,
-                              final String field, final String pattern, final String fieldName,
-                              final boolean nevermindEmpty) throws UserManagerException {
+    private boolean validateByPattern(final User user, final User otherUser,
+                                      final String field, final String pattern, final String fieldName,
+                                      final boolean nevermindEmpty) throws ValidationException {
 
         if (field != null && field.matches(pattern)
                 && (otherUser == null || otherUser.getId() == user.getId())) {
@@ -254,19 +264,19 @@ public class UserManagerImpl implements UserManager {
         } else {
             if ((field == null || field.isEmpty()) && !nevermindEmpty) {
                 logger.error(fieldName + FIELDS_VALIDATION_ERROR);
-                throw new UserManagerException(fieldName
+                throw new ValidationException(fieldName
                         + FIELDS_VALIDATION_ERROR);
             }
 
             if (field != null && !field.isEmpty() && !field.matches(pattern)) {
                 logger.error(fieldName + FIELDS_VALIDATION_ERROR);
-                throw new UserManagerException(fieldName
+                throw new ValidationException(fieldName
                         + FIELDS_VALIDATION_ERROR);
             }
 
             if (otherUser != null && otherUser.getId() != user.getId()) {
                 logger.error(fieldName + FIELDS_VALIDATION_ERROR);
-                throw new UserManagerException(fieldName + "user exist!");
+                throw new ValidationException(fieldName + "user exists!");
             }
         }
 
@@ -284,15 +294,15 @@ public class UserManagerImpl implements UserManager {
      * @throws UserManagerException
      */
     @Transactional
-    boolean validatePassword(final String password,
-                             final boolean nevermindEmpty) throws UserManagerException {
+    private boolean validatePassword(final String password,
+                                     final boolean nevermindEmpty) throws ValidationException {
 
         if (password != null && !password.isEmpty()) {
             return true;
         } else {
             if (!nevermindEmpty) {
                 logger.error("Password cannot be empty.");
-                throw new UserManagerException("Password cannot be empty.");
+                throw new ValidationException("Password cannot be empty.");
             }
         }
 
@@ -306,7 +316,7 @@ public class UserManagerImpl implements UserManager {
      * @return Role
      * @throws UserManagerException
      */
-    private Role validateRole(final Long roleId) throws UserManagerException {
+    private Role validateRole(final Long roleId) throws ValidationException {
 
         Role role = null;
         if (roleId != null) {
@@ -314,7 +324,7 @@ public class UserManagerImpl implements UserManager {
 
             if (role == null) {
                 logger.error(ROLE_DOES_NOT_EXIST);
-                throw new UserManagerException(ROLE_DOES_NOT_EXIST);
+                throw new ValidationException(ROLE_DOES_NOT_EXIST);
             }
         }
 
@@ -394,13 +404,6 @@ public class UserManagerImpl implements UserManager {
             throw new UserManagerException(
                     "Could not remove user to competence", e);
         }
-
-        new User() {
-            @Override
-            public String toString() {
-                return super.toString() + "Hello@world.com";
-            }
-        };
     }
 
     @Override
@@ -448,16 +451,6 @@ public class UserManagerImpl implements UserManager {
         }
     }
 
-    @Override
-    @Transactional
-    public void updateUser(User user) throws UserManagerException {
-        try {
-            userDao.update(user);
-        } catch (Exception e) {
-            logger.error(USER_UPDATE_ERROR, e);
-            throw new UserManagerException(USER_UPDATE_ERROR, e);
-        }
-    }
 
     @Override
     @Transactional

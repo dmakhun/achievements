@@ -4,7 +4,8 @@ import com.softserve.edu.manager.ScheduleManager;
 import com.softserve.edu.manager.UserManager;
 import com.softserve.edu.manager.impl.ScheduleManagerImplementation;
 import com.softserve.edu.manager.impl.ScheduleRowsManagerImplementation;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +29,7 @@ import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 @Controller
 public class ScheduleController {
 
-    private static final Logger logger = Logger
+    private static final Logger logger = LoggerFactory
             .getLogger(ScheduleController.class);
 
     @Autowired
@@ -58,7 +59,7 @@ public class ScheduleController {
             model.addAttribute("prev", dateAdd - 1);
             return "schedule";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -72,7 +73,7 @@ public class ScheduleController {
                     userManager.findActiveNameGroups(auth.getName()));
             return "scheduleTable";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
 
@@ -94,7 +95,7 @@ public class ScheduleController {
             model.addAttribute("status", "file upload successfully");
             return "addSchedule";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             model.addAttribute("status", e.getMessage());
             return "addSchedule";
         }

@@ -6,7 +6,7 @@ import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
-import com.softserve.edu.manager.impl.CompetenceManagerImplementation;
+import com.softserve.edu.manager.impl.CompetenceManagerImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class CompetenceManagerTest {
 
     @InjectMocks
-    private CompetenceManager competenceManager = new CompetenceManagerImplementation();
+    private CompetenceManager competenceManager = new CompetenceManagerImpl();
     @Mock
     private CompetenceDao competenceDao;
     @Mock

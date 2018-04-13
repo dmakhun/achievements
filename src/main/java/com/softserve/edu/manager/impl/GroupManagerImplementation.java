@@ -7,7 +7,8 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.manager.GroupManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,7 +21,7 @@ import java.util.Set;
 @Service("groupManager")
 public class GroupManagerImplementation implements GroupManager {
 
-    private static final Logger LOGGER = Logger
+    private static final Logger logger = LoggerFactory
             .getLogger(GroupManagerImplementation.class);
 
     @Autowired
@@ -70,9 +71,9 @@ public class GroupManagerImplementation implements GroupManager {
 
         try {
             groupDao.save(group);
-            LOGGER.info("Group was saved");
+            logger.info("Group was saved");
         } catch (Exception e) {
-            LOGGER.error("cannot save group", e);
+            logger.error("cannot save group", e);
             throw new GroupManagerException("cannot save group", e);
         }
         return group.getId();
@@ -93,9 +94,9 @@ public class GroupManagerImplementation implements GroupManager {
         group.setCompetence(competence);
         try {
             groupDao.update(group);
-            LOGGER.info("Group was updated");
+            logger.info("Group was updated");
         } catch (Exception e) {
-            LOGGER.error("cannot updateUser group", e);
+            logger.error("cannot updateUser group", e);
             throw new GroupManagerException("cannot updateUser group", e);
         }
     }
@@ -104,15 +105,15 @@ public class GroupManagerImplementation implements GroupManager {
     @Transactional
     public void create(Group group) throws GroupManagerException {
         if (!validateGroup(group)) {
-            LOGGER.warn("Group is not valid. Try another arguments");
+            logger.warn("Group is not valid. Try another arguments");
             throw new GroupManagerException(
                     "Group is not valid. Try another arguments");
         }
         try {
             groupDao.save(group);
-            LOGGER.info("Group was created");
+            logger.info("Group was created");
         } catch (Exception e) {
-            LOGGER.error("Cannot createAchievementType group", e);
+            logger.error("Cannot createAchievementType group", e);
             throw new GroupManagerException("Cannot createAchievementType group", e);
         }
     }
@@ -122,9 +123,9 @@ public class GroupManagerImplementation implements GroupManager {
     public void addUser(Long userId, Long groupId) throws GroupManagerException {
         try {
             groupDao.addUser(userId, groupId);
-            LOGGER.info("User was added");
+            logger.info("User was added");
         } catch (Exception e) {
-            LOGGER.error("cannot add user to group", e);
+            logger.error("cannot add user to group", e);
             throw new GroupManagerException("cannot add user to group", e);
         }
     }
@@ -135,9 +136,9 @@ public class GroupManagerImplementation implements GroupManager {
             throws GroupManagerException {
         try {
             groupDao.addUser(userUuid, groupUuid);
-            LOGGER.info("User was added");
+            logger.info("User was added");
         } catch (Exception e) {
-            LOGGER.error("cannot add user to group", e);
+            logger.error("cannot add user to group", e);
             throw new GroupManagerException("cannot add user to group", e);
         }
     }
@@ -161,9 +162,9 @@ public class GroupManagerImplementation implements GroupManager {
         Group toDelete = groupDao.findById(Group.class, groupId);
         try {
             groupDao.delete(toDelete);
-            LOGGER.info("Group was deleted by id");
+            logger.info("Group was deleted by id");
         } catch (Exception e) {
-            LOGGER.error("cannot deleteAchievementType group", e);
+            logger.error("cannot deleteAchievementType group", e);
             throw new GroupManagerException("cannot deleteAchievementType group", e);
         }
     }
@@ -175,9 +176,9 @@ public class GroupManagerImplementation implements GroupManager {
         removeAssociation(group);
         try {
             groupDao.delete(group);
-            LOGGER.info("Group was deleted by uuid");
+            logger.info("Group was deleted by uuid");
         } catch (Exception e) {
-            LOGGER.error("cannot deleteAchievementType group", e);
+            logger.error("cannot deleteAchievementType group", e);
             throw new GroupManagerException("cannot deleteAchievementType group", e);
         }
 
@@ -188,9 +189,9 @@ public class GroupManagerImplementation implements GroupManager {
     public Group findGroupByGroupUuid(String uuid) {
         Group group = groupDao.findByUuid(Group.class, uuid);
         if (group == null) {
-            LOGGER.error("User with such uuid doesn't exist.");
+            logger.error("User with such uuid doesn't exist.");
         } else {
-            LOGGER.info("User was found");
+            logger.info("User was found");
         }
         return group;
     }
@@ -201,12 +202,12 @@ public class GroupManagerImplementation implements GroupManager {
         boolean valid = false;
         Group groupInDB = findGroupByGroupName(group.getName());
         if (groupInDB != null) {
-            LOGGER.warn("Such group is existed in database");
+            logger.warn("Such group is existed in database");
             return false;
         }
         if (group.getName().length() > 3 && group.getName().length() < 30) {
             if (group.getClosed().after(group.getOpened())) {
-                LOGGER.info("Group is valid");
+                logger.info("Group is valid");
                 valid = true;
             }
         }
@@ -235,7 +236,7 @@ public class GroupManagerImplementation implements GroupManager {
         users.clear();
         group.setUsers(users);
 
-        LOGGER.info("Group association was removed");
+        logger.info("Group association was removed");
     }
 
 }

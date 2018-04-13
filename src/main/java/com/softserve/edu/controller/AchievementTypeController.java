@@ -7,7 +7,8 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.AchievementTypeManager;
 import com.softserve.edu.manager.CompetenceManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ import java.util.List;
 public class AchievementTypeController {
 
     private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger LOGGER = Logger
+    private static final Logger logger = LoggerFactory
             .getLogger(AchievementTypeController.class);
 
     @Autowired
@@ -45,7 +46,7 @@ public class AchievementTypeController {
 
             return "allAchievements";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -60,7 +61,7 @@ public class AchievementTypeController {
 
             return "AllCompetencies";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -78,7 +79,7 @@ public class AchievementTypeController {
 
             return "success";
         } catch (AchievementTypeManagerException e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
 
@@ -96,7 +97,7 @@ public class AchievementTypeController {
 
             return "achievementTypeList";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }
@@ -110,7 +111,7 @@ public class AchievementTypeController {
 
             return "redirect:/admin/achievementtype/allAchievements?status=success";
         } catch (AchievementTypeManagerException e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return GENERALERROR;
         }
     }

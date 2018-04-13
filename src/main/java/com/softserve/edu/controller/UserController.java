@@ -11,7 +11,8 @@ import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.RoleManager;
 import com.softserve.edu.manager.UserManager;
 import com.softserve.edu.util.FieldForSearchController;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
 @Controller
 public class UserController {
-    private static final Logger logger = Logger.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserManager userManager;
@@ -90,7 +91,7 @@ public class UserController {
 
             return "userHome";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -106,7 +107,7 @@ public class UserController {
 
             return "redirect:/user/userHome";
         } catch (UserManagerException e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
 
@@ -121,7 +122,7 @@ public class UserController {
 
             return "redirect:/admin/removeManager?status=success";
         } catch (UserManagerException e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -146,7 +147,7 @@ public class UserController {
             userManager.createUser(user);
             return "admin/allManagers";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -167,7 +168,7 @@ public class UserController {
             model.addAttribute("status", status);
 
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
         return "allManagers";
@@ -198,7 +199,7 @@ public class UserController {
 
             return "SearchByCriteria";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
 
@@ -224,7 +225,7 @@ public class UserController {
 
             return "image";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -244,7 +245,7 @@ public class UserController {
             }
             return "redirect:/image";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
 
@@ -267,9 +268,9 @@ public class UserController {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_PNG);
 
-            return new ResponseEntity<byte[]>(image, headers, HttpStatus.OK);
+            return new ResponseEntity<>(image, headers, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -285,7 +286,7 @@ public class UserController {
 
             return "mainProfile";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -304,7 +305,7 @@ public class UserController {
 
             return "userProfile";
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
     }
@@ -319,7 +320,7 @@ public class UserController {
         model.addAttribute("username", currentUser.getUsername());
 
         if (result.hasErrors()) {
-            model.addAttribute("mess", "bad fill filds");
+            model.addAttribute("error", "fields incorrectly filled out.");
             return "userProfile";
         }
         try {
@@ -327,8 +328,8 @@ public class UserController {
                     user.getSurname(), null, null, user.getEmail(), null);
             return "mainProfile";
         } catch (UserManagerException e) {
-            model.addAttribute("mess", "email already exist!!!");
-            logger.error(e);
+            model.addAttribute("error", "email already exists.");
+            logger.error(e.getMessage());
             return "userProfile";
         }
     }
@@ -359,7 +360,7 @@ public class UserController {
                 return "mainProfile";
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             model.addAttribute("error", true);
         }
         return "passwordchanging";

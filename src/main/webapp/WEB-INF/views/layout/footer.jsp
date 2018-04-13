@@ -1,1 +1,1 @@
-<div class="footer text-muted">Developed by Lv-107 in 2014</div>
+<div class="footer text-muted"></div>

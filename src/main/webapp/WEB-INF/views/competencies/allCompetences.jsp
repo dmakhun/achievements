@@ -5,49 +5,53 @@
 <script src="<c:url value="/resources/script/jquery-2.1.0.js" />"></script>
 <script src="<c:url value="/resources/script/jquery-ui.js" />"></script>
 <script type="text/javascript">
-	function loadAchievementType(competenceId) {
-		$.ajax({
-			url : '<c:url value="/admin/achievementtype/list/"/>'
-					+ competenceId,
-			success : function(text) {
-				$(".achievement-type-list").remove();
-				$("#competence-" + competenceId).after(
-						"<tr class='achievement-type-list'><td colspan='2'>"
-								+ text + "</td></tr>");
-				$(".btn").css("display", "inherit");
-				$("#button-" + competenceId).css("display", "none");
-			}
-		});
-	}
+  function loadAchievementType(competenceId) {
+    $.ajax({
+      url: '<c:url value="/admin/achievementtype/list/"/>'
+      + competenceId,
+      success: function (text) {
+        $(".achievement-type-list").remove();
+        $("#competence-" + competenceId).after(
+            "<tr class='achievement-type-list'><td colspan='2'>"
+            + text + "</td></tr>");
+        $(".btn").css("display", "inherit");
+        $("#button-" + competenceId).css("display", "none");
+      }
+    });
+  }
 
-	function displayDialog(competenceId) {
-		$("#dialog").dialog();
-		var button = $("#achievement-type-submitter")[0];
-		button.value = competenceId;
-	}
-	
-	function pass() {
-		$.ajax({
-			url: '<c:url value="/admin/achievementtype/add/"/>' + $("#achievement-type-submitter").val(),
-			type: "POST",
-			data: $("form").serialize(),
-			success: function(text) {
-				$("#dialog").dialog("close");
-				
-				switch(text) {
-				case "success": addLineToTable(); break;
-				case "fail": alert("Something wrong)!"); break;
-				}
-			}
-		});
-	}
-	
-	function addLineToTable() {
-		var line = '<tr><td>' + $("form input[name=name]").val() + 
-	'</td><td>'
-				+ $("form input[name=points]").val() + '</td></tr>';
-		$($("table table tr")[0]).after(line);
-	}
+  function displayDialog(competenceId) {
+    $("#dialog").dialog();
+    var button = $("#achievement-type-submitter")[0];
+    button.value = competenceId;
+  }
+
+  function pass() {
+    $.ajax({
+      url: '<c:url value="/admin/achievementtype/add/"/>' + $("#achievement-type-submitter").val(),
+      type: "POST",
+      data: $("form").serialize(),
+      success: function (text) {
+        $("#dialog").dialog("close");
+
+        switch (text) {
+          case "success":
+            addLineToTable();
+            break;
+          case "fail":
+            alert("Something wrong)!");
+            break;
+        }
+      }
+    });
+  }
+
+  function addLineToTable() {
+    var line = '<tr><td>' + $("form input[name=name]").val() +
+        '</td><td>'
+        + $("form input[name=points]").val() + '</td></tr>';
+    $($("table table tr")[0]).after(line);
+  }
 
 
 </script>
@@ -63,7 +67,8 @@
             <tr id="competence-${item.id}">
                 <td>${item.name}</td>
                 <td>
-                    <button id="button-${item.id}" class="btn btn-default" onclick="loadAchievementType('${item.id}');">
+                    <button id="button-${item.id}" class="btn btn-default"
+                            onclick="loadAchievementType('${item.id}');">
                         Show achievement types
                     </button>
                 </td>
@@ -98,7 +103,8 @@
             <div class="row text-center">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <button id="achievement-type-submitter" type="button" class="btn btn-success form-control"
+                        <button id="achievement-type-submitter" type="button"
+                                class="btn btn-success form-control"
                                 onclick="pass();">
                             <spring:message code="add"/>
                         </button>

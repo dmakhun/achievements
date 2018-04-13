@@ -3,7 +3,8 @@ package com.softserve.edu.rest;
 import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.manager.RoleManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.GET;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Path("/role")
 public class RoleRest {
-    private static final Logger LOGGER = Logger.getLogger(RoleRest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoleRest.class);
 
     @Autowired
     RoleManager roleManager;
