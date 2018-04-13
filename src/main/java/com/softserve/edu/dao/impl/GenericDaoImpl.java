@@ -66,8 +66,8 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
                 query.setParameter(i + 1, params[i]);
             }
             return (T) query.getSingleResult();
-        } catch (NoResultException exc) {
-            logger.warn("cannot find", exc);
+        } catch (NoResultException ex) {
+            logger.warn("Cannot find entity", ex);
             return null;
         }
     }
