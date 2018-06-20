@@ -31,7 +31,7 @@
         <div class="row text-center">
             <div class="col-md-offset-3 col-md-4">
                 <div class="form-group">
-                    <select class="form-control" name="userList">
+                    <select class="form-control" name="userlist">
                         <option selected><spring:message code="select.manager"/></option>
                         <c:forEach var="item" items="${userlist}">
                             <option value="${item.id}">${item.name}</option>
