@@ -53,7 +53,7 @@ public class RoleManagerTest {
     @Test
     public final void testFindRoleUser() {
         when(roleDao.findRole("ROLE_USER")).thenReturn(3L);
-        Long actual = roleManager.findRole("ROLE_USER");
+        Long actual = roleManager.getRoleId("ROLE_USER");
         Long l = 3L;
         assertEquals(l, actual);
     }
@@ -61,7 +61,7 @@ public class RoleManagerTest {
     @Test
     public final void testFindRoleManager() {
         when(roleDao.findRole("ROLE_MANAGER")).thenReturn(2L);
-        Long actual = roleManager.findRole("ROLE_MANAGER");
+        Long actual = roleManager.getRoleId("ROLE_MANAGER");
         Long l = 2L;
         assertEquals(l, actual);
     }
@@ -69,7 +69,7 @@ public class RoleManagerTest {
     @Test
     public final void testFindRoleAdmin() {
         when(roleDao.findRole("ROLE_ADMIN")).thenReturn(1L);
-        Long actual = roleManager.findRole("ROLE_ADMIN");
+        Long actual = roleManager.getRoleId("ROLE_ADMIN");
         Long l = 1L;
         assertEquals(l, actual);
     }
@@ -77,21 +77,21 @@ public class RoleManagerTest {
     @Test
     public final void testFindRoleUserNotNull() {
         when(roleDao.findRole("ROLE_USER")).thenReturn(3L);
-        Long actual = roleManager.findRole("ROLE_USER");
+        Long actual = roleManager.getRoleId("ROLE_USER");
         assertNotNull(actual);
     }
 
     @Test
     public final void testFindRoleManagerNotNull() {
         when(roleDao.findRole("ROLE_MANAGER")).thenReturn(2L);
-        Long actual = roleManager.findRole("ROLE_MANAGER");
+        Long actual = roleManager.getRoleId("ROLE_MANAGER");
         assertNotNull(actual);
     }
 
     @Test
     public final void testFindRoleAdminNotNull() {
         when(roleDao.findRole("ROLE_ADMIN")).thenReturn(1L);
-        Long actual = roleManager.findRole("ROLE_ADMIN");
+        Long actual = roleManager.getRoleId("ROLE_ADMIN");
         assertNotNull(actual);
     }
 

@@ -172,7 +172,7 @@ public class ManagerController {
         try {
             List<User> userList = groupManager.users(groupId);
             model.addAttribute("users", userList);
-            return "userlist";
+            return "userList";
         } catch (Exception e) {
             logger.error(e.getMessage());
             return GENERAL_ERROR;
@@ -222,7 +222,7 @@ public class ManagerController {
 
             List<User> managers = userManager.findAllManagers();
 
-            model.addAttribute("userlist", managers);
+            model.addAttribute("userList", managers);
             model.addAttribute("status", status);
 
             return "removeManager";

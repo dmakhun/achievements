@@ -10,7 +10,7 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
 
     </definition>
-    <definition name="jqeryLayout" template="/WEB-INF/views/layout/layout2.jsp">
+    <definition name="jQueryLayout" template="/WEB-INF/views/layout/layout2.jsp">
         <put-attribute name="body" value=""/>
     </definition>
 
@@ -95,7 +95,7 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
     </definition>
 
     <!-- group folder -->
-    <definition name="userlist" extends="baseLayout">
+    <definition name="userList" extends="baseLayout">
         <put-attribute name="title" value="user list page"/>
         <put-attribute name="body" value="/WEB-INF/views/group/userlist.jsp"/>
     </definition>
@@ -201,12 +201,12 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
         <put-attribute name="body" value="/WEB-INF/views/user/userProfile.jsp"/>
     </definition>
 
-    <definition name="achievementTypeList" extends="jqeryLayout">
+    <definition name="achievementTypeList" extends="jQueryLayout">
         <put-attribute name="body" value="/WEB-INF/views/achievementType/achievementTypeList.jsp"/>
     </definition>
 
-    <definition name="SearchByCriteria" extends="jqeryLayout">
-        <put-attribute name="body" value="/WEB-INF/views/manager/SearchByCriteria.jsp"/>
+    <definition name="dynamicSearchManagers" extends="jQueryLayout">
+        <put-attribute name="body" value="/WEB-INF/views/manager/dynamicSearchManagers.jsp"/>
 
     </definition>
 
