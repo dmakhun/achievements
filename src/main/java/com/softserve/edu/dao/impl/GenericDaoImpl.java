@@ -101,7 +101,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
     public List<T> dynamicSearch(int startPosition, int maxResult,
                                  String parameter, String pattern, boolean isFirstChar,
                                  Class<T> objectClass) {
-        String placeholder = isFirstChar ? "%" : "";
+        String placeholder = isFirstChar ? "" : "%";
 
         List<T> resultList = (List<T>) entityManager
                 .createQuery(
