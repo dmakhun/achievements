@@ -1,15 +1,19 @@
 package com.softserve.edu.dao.impl;
 
 import com.softserve.edu.dao.GenericDao;
+import com.softserve.edu.manager.RoleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
+
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
 @Repository
 public class GenericDaoImpl<T> implements GenericDao<T> {
@@ -17,6 +21,9 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
     private static final Logger logger = LoggerFactory.getLogger(GenericDaoImpl.class);
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    private RoleManager roleManager;
 
     GenericDaoImpl() {
         super();
@@ -91,35 +98,20 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
     }
 
     @Override
-    public List<T> dynamicSearchTwoCriterias(int startPosition, int maxResult,
-                                             String parameter1, String resultString, boolean findCriteria,
-                                             Long resultLong, String parameter2, Class<T> objectClass) {
-        String additionFind = "";
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = criteriaBuilder
-                .createQuery(objectClass);
-        Root<T> root = criteriaQuery.from(objectClass);
+    public List<T> dynamicSearch(int startPosition, int maxResult,
+                                 String parameter, String pattern, boolean isFirstChar,
+                                 Class<T> objectClass) {
+        String placeholder = isFirstChar ? "%" : "";
 
-        criteriaQuery.select(root);
-
-        if (!findCriteria) {
-            additionFind = "%";
-        }
-
-        criteriaQuery.where(criteriaBuilder.like(root.get(parameter1),
-                additionFind + resultString + "%"));
-        if (resultLong != null) {
-            criteriaQuery.where(criteriaBuilder.like(
-                    root.get(parameter1), additionFind + resultString
-                            + "%"), criteriaBuilder.equal(root.get(parameter2),
-                    resultLong));
-        }
-        TypedQuery typedQuery = entityManager.createQuery(criteriaQuery);
-        typedQuery.setFirstResult(startPosition);
-        typedQuery.setMaxResults(maxResult);
-        List<T> resultList = typedQuery.getResultList();
-
+        List<T> resultList = (List<T>) entityManager
+                .createQuery(
+                        "from " + objectClass.getName()
+                                + " where " + parameter + " like :pattern and role="
+                                + roleManager.getRoleId(ROLE_MANAGER))
+                .setParameter("pattern", placeholder + pattern + "%")
+                .setFirstResult(startPosition)
+                .setMaxResults(maxResult)
+                .getResultList();
         return resultList;
     }
-
 }

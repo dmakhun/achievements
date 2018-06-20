@@ -180,19 +180,17 @@ public class UserController {
             @RequestParam(value = "criteria") String criteria,
             @RequestParam(value = "volume") int max,
             @RequestParam(value = "pagination") int paging,
-            @RequestParam(value = "additionFind") boolean additionFind,
+            @RequestParam(value = "isFirstChar") boolean isFirstChar,
             @PathVariable(value = "pattern") String pattern, Model model) {
         try {
             int start = max * (paging - 1);
 
-            List<User> dynamicUsers = userDao.dynamicSearchTwoCriterias(start,
-                    max, criteria, pattern, additionFind,
-                    roleManager.findRole(ROLE_MANAGER), "role", User.class);
+            List<User> dynamicUsers = userDao.dynamicSearch(start,
+                    max, criteria, pattern, isFirstChar, User.class);
 
-            List<User> allByCriteria = userDao.dynamicSearchTwoCriterias(0,
+            List<User> allByCriteria = userDao.dynamicSearch(0,
                     userDao.countManagers().intValue(), criteria, pattern,
-                    additionFind, roleManager.findRole(ROLE_MANAGER), "role",
-                    User.class);
+                    isFirstChar, User.class);
 
             model.addAttribute("userlist", dynamicUsers);
             model.addAttribute("currentSize", allByCriteria.size());
@@ -335,7 +333,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/passwordchanging", method = RequestMethod.GET)
-    public String passwordChan() {
+    public String passwordChange() {
         return "passwordchanging";
     }
 
