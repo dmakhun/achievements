@@ -8,7 +8,6 @@ public interface GenericDao<T> {
      * Save new value.
      *
      * @param item Item.
-     * @return true if saved successfully, false otherwise.
      */
     void save(T item);
 
@@ -40,7 +39,6 @@ public interface GenericDao<T> {
      * Delete existing item.
      *
      * @param item Item.
-     * @return true if deleted; false otherwise.
      */
     void delete(T item);
 
@@ -49,22 +47,6 @@ public interface GenericDao<T> {
      * @return
      */
     T findByUuid(Class<T> objectClass, String uuid);
-
-    /**
-     * Method for finding certain objects in db in some range.
-     *
-     * @param startPosition start position
-     * @param maxResult     max results
-     * @param parameter1    some parameter to find, String
-     * @param resultString  pattern for searching, String
-     * @param findCriteria  true - search from first letter
-     * @param resultLong    pattern for searching, Long
-     * @param parameter2    some parameter to find, Long
-     * @return list of objects
-     */
-    List<T> dynamicSearchTwoCriterias(int startPosition, int maxResult,
-                                      String parameter1, String resultString, boolean findCriteria,
-                                      Long resultLong, String parameter2, Class<T> entity);
 
     /**
      * @param singleQuery
@@ -79,4 +61,18 @@ public interface GenericDao<T> {
      * @return
      */
     List<T> findEntityList(String singleQuery, Object... params);
+
+    /**
+     * Method for finding objects in the DB in some range.
+     *
+     * @param isFirstChar   true - search from first letter
+     * @param startPosition start position
+     * @param maxResult     max results
+     * @param parameter     some parameter to find, String
+     * @param pattern       pattern for searching, String
+     * @return list of objects
+     */
+    List<T> dynamicSearch(int startPosition, int maxResult,
+                          String parameter, String pattern, boolean isFirstChar,
+                          Class<T> objectClass);
 }

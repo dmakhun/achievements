@@ -23,7 +23,7 @@ public class Role extends AbstractEntity {
     public static final String FIND_USERS_BY_ROLE_ID = "Role.findUsers";
     public static final String FIND_USERS_BY_ROLE_ID_QUERY = "from User where role_id = ?1";
 
-    public static final String FIND_ROLE_BY_NAME = "Role.findRole";
+    public static final String FIND_ROLE_BY_NAME = "Role.getRoleId";
     public static final String FIND_ROLE_BY_NAME_QUERY = "from Role where name like ?1";
 
     public static final String FIND_ROLE_BY_ROLE_NAME = "Role.findRoleByName";

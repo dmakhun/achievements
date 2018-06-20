@@ -124,7 +124,7 @@ public class CompetenceController {
 
     @RequestMapping(value = "/addManagerList", method = RequestMethod.POST)
     public String addManager(
-            @RequestParam(value = "userlist", required = false, defaultValue = "") Long userId,
+            @RequestParam(value = "userList", required = false, defaultValue = "") Long userId,
             @RequestParam(value = "rolelist", required = false, defaultValue = "") Long roleId) {
         try {
             userManager.updateUser(userId, null, null, null, null, null, roleId);
