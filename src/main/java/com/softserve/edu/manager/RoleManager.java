@@ -19,7 +19,7 @@ public interface RoleManager {
      * @param roleName role we need.
      * @return id of current role
      */
-    Long getRoleId(String roleName);
+    Long findRole(String roleName);
 
     /**
      * @param roleUuid
