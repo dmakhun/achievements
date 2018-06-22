@@ -40,9 +40,7 @@ public class AchievementTypeRest {
             logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
-        return Response.ok(new JaxbList<AchievementType>(achievementTypes))
-                .build();
-
+        return Response.ok(new JaxbList<>(achievementTypes)).build();
     }
 
     /**

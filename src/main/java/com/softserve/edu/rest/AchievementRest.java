@@ -17,8 +17,7 @@ import java.util.List;
 
 @Path("/achievement")
 public class AchievementRest {
-    private static final Logger logger = LoggerFactory
-            .getLogger(AchievementRest.class);
+    private static final Logger logger = LoggerFactory.getLogger(AchievementRest.class);
 
     @Autowired
     private AchievementManager achievementManager;
