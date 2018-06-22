@@ -10,6 +10,7 @@ import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
+import com.softserve.edu.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.softserve.edu.util.Constants.FIELD_MAX_LENGTH;
+import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
 
 @Service("userManager")
 public class UserManagerImpl implements UserManager {
@@ -42,9 +44,8 @@ public class UserManagerImpl implements UserManager {
     @Autowired
     private StandardPasswordEncoder passwordEncoder;
 
-    private static final String USER_UPDATE_ERROR = "Could not update User.";
     private static final String USER_SAVE_ERROR = "User cannot be created.";
-    private static final String FIELDS_VALIDATION_ERROR = "Fields didn't validate.";
+    private static final String FIELDS_VALIDATION_ERROR = " field didn't validate.";
     private static final String ROLE_DOES_NOT_EXIST = "Role does not exist.";
     private static final Logger logger = LoggerFactory.getLogger(UserManagerImpl.class);
     /**
@@ -76,9 +77,9 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public User updateUser(final Long userId, final String name,
-                           final String surname, final String username, final String newPassword,
-                           final String email, final Long roleId) throws UserManagerException {
+    public User updateUser(Long userId, String name,
+                           String surname, String username, String newPassword,
+                           String email, Long roleId) throws UserManagerException {
         User user = userDao.findById(User.class, userId);
 
         if (user == null) {
@@ -93,7 +94,7 @@ public class UserManagerImpl implements UserManager {
 
         } catch (Exception e) {
             logger.error(USER_UPDATE_ERROR + e);
-            throw new UserManagerException(USER_UPDATE_ERROR + e);
+            throw new UserManagerException(e);
         }
 
         return user;
@@ -101,7 +102,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public User updateUser(final String userUuid, final User user)
+    public User updateUser(String userUuid, User user)
             throws UserManagerException {
         return updateUser(userDao.findByUuid(User.class, userUuid).getId(), user.getName(),
                 user.getSurname(), user.getUsername(), user.getPassword(), user.getEmail(), user.getRole().getId());
@@ -114,13 +115,13 @@ public class UserManagerImpl implements UserManager {
             userDao.update(user);
         } catch (Exception e) {
             logger.error(USER_UPDATE_ERROR, e);
-            throw new UserManagerException(USER_UPDATE_ERROR, e);
+            throw new UserManagerException(e);
         }
     }
 
     @Override
     @Transactional
-    public void deleteById(final Long id) throws UserManagerException {
+    public void deleteById(Long id) throws UserManagerException {
         User user = userDao.findById(User.class, id);
         try {
             userDao.delete(user);
@@ -132,7 +133,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findById(final Long id) throws UserManagerException {
+    public User findById(Long id) throws UserManagerException {
         try {
             return userDao.findById(User.class, id);
         } catch (RuntimeException e) {
@@ -143,7 +144,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findByUuid(final String uuid) {
+    public User findByUuid(String uuid) {
         User user = userDao.findByUuid(User.class, uuid);
 
         if (user == null) {
@@ -156,13 +157,13 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findByUsername(final String username) {
+    public User findByUsername(String username) {
         return userDao.findByUsername(username);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findByEmail(final String email) {
+    public User findByEmail(String email) {
         return userDao.findByEmail(email);
 
     }
@@ -182,22 +183,21 @@ public class UserManagerImpl implements UserManager {
         }
 
         // Besides matching naming rules, such name should be unique. OtherUser
-        // here is the user that can already have the same username.
+        // here is the user that can have the same username already.
         User otherUser = findByUsername(user.getUsername());
-        validated = validateByPattern(user, otherUser, user.getUsername(),
-                PATTERN_USERNAME, "Username", isExisting);
+        validated = validateByPattern(user, otherUser, user.getUsername(), PATTERN_USERNAME, "Username", isExisting);
         if (!validated) {
             throw new ValidationException();
         }
 
         validated = validatePassword(user.getPassword(), isExisting);
+        if (!validated) {
+            throw new ValidationException();
+        }
 
-        /*
-         * Same logic as for username checks.
-         */
+        // Same logic as for username checks.
         otherUser = findByEmail(user.getEmail());
-        validated = validateByPattern(user, otherUser, user.getEmail(), PATTERN_EMAIL,
-                "Email", isExisting);
+        validated = validateByPattern(user, otherUser, user.getEmail(), PATTERN_EMAIL, "Email", isExisting);
         if (!validated) {
             throw new ValidationException();
         }
@@ -216,54 +216,47 @@ public class UserManagerImpl implements UserManager {
      * chars.
      *
      * @param field
-     * @param isExisting Flag, that says that we can ignore checks for emptiness because method is used for updates.
+     * @param isExisting Flag that says we can ignore checks for emptiness because the method was called for updates.
      * @return String
      * @throws ValidationException
      */
     @Transactional
-    private boolean genericValidation(final String field,
-                                      final String fieldName, final boolean isExisting)
-            throws ValidationException {
+    private boolean genericValidation(String field, String fieldName, boolean isExisting) throws ValidationException {
         if (field != null && !field.isEmpty() && field.length() <= FIELD_MAX_LENGTH) {
             return true;
         } else {
             if ((field == null || field.isEmpty()) && !isExisting) {
-                logger.error(fieldName + "field was not validated.");
-                throw new ValidationException(fieldName
-                        + "field was not validated.");
+                logger.error(fieldName + FIELDS_VALIDATION_ERROR);
+                throw new ValidationException(fieldName + FIELDS_VALIDATION_ERROR);
             }
-
             if (field != null && field.length() > FIELD_MAX_LENGTH) {
-                logger.error(fieldName + " field was not validated.");
-                throw new ValidationException(fieldName
-                        + "field was not validated.");
+                logger.error(fieldName + FIELDS_VALIDATION_ERROR);
+                throw new ValidationException(fieldName + FIELDS_VALIDATION_ERROR);
             }
+            return false;
         }
-        return false;
     }
 
     @Transactional
-    private boolean validateByPattern(final User user, final User otherUser,
-                                      final String field, final String pattern, final String fieldName,
-                                      final boolean isExisting) throws ValidationException {
+    private boolean validateByPattern(User user, User otherUser,
+                                      String field, String pattern, String fieldName,
+                                      boolean isExisting) throws ValidationException {
 
         if (field != null && field.matches(pattern)
-                && (otherUser == null || otherUser.getId() == user.getId())) {
+                && (otherUser == null || otherUser.getId().equals(user.getId()))) {
             return true;
         } else {
             if ((field == null || field.isEmpty()) && !isExisting) {
                 logger.error(fieldName + FIELDS_VALIDATION_ERROR);
-                throw new ValidationException(fieldName
-                        + FIELDS_VALIDATION_ERROR);
+                throw new ValidationException(fieldName + FIELDS_VALIDATION_ERROR);
             }
 
             if (field != null && !field.isEmpty() && !field.matches(pattern)) {
                 logger.error(fieldName + FIELDS_VALIDATION_ERROR);
-                throw new ValidationException(fieldName
-                        + FIELDS_VALIDATION_ERROR);
+                throw new ValidationException(fieldName + FIELDS_VALIDATION_ERROR);
             }
 
-            if (otherUser != null && otherUser.getId() != user.getId()) {
+            if (otherUser != null && !otherUser.getId().equals(user.getId())) {
                 logger.error(fieldName + FIELDS_VALIDATION_ERROR);
                 throw new ValidationException(fieldName + "user exists!");
             }
@@ -280,8 +273,7 @@ public class UserManagerImpl implements UserManager {
      * @throws ValidationException
      */
     @Transactional
-    private boolean validatePassword(final String password,
-                                     final boolean isExisting) throws ValidationException {
+    private boolean validatePassword(String password, boolean isExisting) throws ValidationException {
 
         if (password != null && !password.isEmpty()) {
             return true;
@@ -295,7 +287,7 @@ public class UserManagerImpl implements UserManager {
         return false;
     }
 
-    private boolean validateRole(final Long roleId) {
+    private boolean validateRole(Long roleId) {
         if (roleId != null) {
             Role role = roleDao.findById(Role.class, roleId);
             return role != null;

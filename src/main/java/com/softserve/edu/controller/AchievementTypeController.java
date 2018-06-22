@@ -24,13 +24,13 @@ public class AchievementTypeController {
             .getLogger(AchievementTypeController.class);
 
     @Autowired
-    CompetenceManager competenceManager;
+    private CompetenceManager competenceManager;
     @Autowired
     CompetenceDao competenceDao;
     @Autowired
-    AchievementTypeDao achievementTypeDao;
+    private AchievementTypeDao achievementTypeDao;
     @Autowired
-    AchievementTypeManager achievementTypeManager;
+    private AchievementTypeManager achievementTypeManager;
 
     @RequestMapping(value = "/admin/achievementtype/allAchievements", method = RequestMethod.GET)
     public String addAchievementTypeAll(
@@ -67,16 +67,14 @@ public class AchievementTypeController {
     }
 
     @RequestMapping(value = "/admin/achievementtype/add/{id}", method = RequestMethod.POST)
-    public
     @ResponseBody
-    String addAchievementTypePost(
+    public String addAchievementTypePost(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "points", required = false) String points,
             @PathVariable(value = "id") int competenceId, Model model) {
         try {
             int achPoints = Integer.parseInt(points);
             achievementTypeManager.createAchievementType(name, achPoints, competenceId);
-
             return "success";
         } catch (AchievementTypeManagerException e) {
             logger.error(e.getMessage());
