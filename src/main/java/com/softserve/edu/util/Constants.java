@@ -8,4 +8,8 @@ public class Constants {
 
     // Roles
     public static final String ROLE_MANAGER = "ROLE_MANAGER";
+
+    // Users
+    public static final String USER_UPDATE_ERROR = "Could not update User.";
+
 }

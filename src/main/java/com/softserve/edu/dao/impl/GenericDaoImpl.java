@@ -19,6 +19,7 @@ import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 public class GenericDaoImpl<T> implements GenericDao<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(GenericDaoImpl.class);
+
     @PersistenceContext
     EntityManager entityManager;
 
