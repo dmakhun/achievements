@@ -8,31 +8,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class RatingsController {
 
     @Autowired
     private UserManager userManager;
-
-    private static Map<User, Long> sortByComparator(Map<User, Long> unsortedMap) {
-
-        List<Object> list = new LinkedList<>(unsortedMap.entrySet());
-
-        // sort list based on comparator
-        list.sort(Collections.reverseOrder((Comparator) (o1, o2) -> ((Comparable) ((Map.Entry) (o1)).getValue())
-                .compareTo(((Map.Entry) (o2)).getValue())));
-
-        // put sorted list into map again
-        //LinkedHashMap make sure order in which keys were inserted
-        Map sortedMap = new LinkedHashMap();
-        for (Object aList : list) {
-            Map.Entry entry = (Map.Entry) aList;
-            sortedMap.put(entry.getKey(), entry.getValue());
-        }
-        return sortedMap;
-    }
 
     @RequestMapping(value = "/manager/ratings", method = RequestMethod.GET)
     public String ratings(Model model) {
@@ -43,7 +29,10 @@ public class RatingsController {
             userPoints.put(user, userManager.sumOfPoints(user));
         }
 
-        userPoints = sortByComparator(userPoints);
+        userPoints = userPoints.entrySet().stream()
+                .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (e1, e2) -> e1, LinkedHashMap::new));
 
         model.addAttribute("mapS", userPoints);
         return "ratings";
