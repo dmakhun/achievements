@@ -37,15 +37,15 @@ public class RatingsController {
     @RequestMapping(value = "/manager/ratings", method = RequestMethod.GET)
     public String ratings(Model model) {
         List<User> users = userManager.findAllUsers();
-        Map<User, Long> mapS = new HashMap<>();
+        Map<User, Long> userPoints = new HashMap<>();
 
         for (User user : users) {
-            mapS.put(user, userManager.sumOfPoints(user));
+            userPoints.put(user, userManager.sumOfPoints(user));
         }
 
-        mapS = sortByComparator(mapS);
+        userPoints = sortByComparator(userPoints);
 
-        model.addAttribute("mapS", mapS);
+        model.addAttribute("mapS", userPoints);
         return "ratings";
     }
 }
