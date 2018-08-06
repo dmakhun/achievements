@@ -21,7 +21,7 @@ public class RatingsController {
         List<Object> list = new LinkedList<>(unsortedMap.entrySet());
 
         // sort list based on comparator
-        Collections.sort(list, Collections.reverseOrder((Comparator) (o1, o2) -> ((Comparable) ((Map.Entry) (o1)).getValue())
+        list.sort(Collections.reverseOrder((Comparator) (o1, o2) -> ((Comparable) ((Map.Entry) (o1)).getValue())
                 .compareTo(((Map.Entry) (o2)).getValue())));
 
         // put sorted list into map again
