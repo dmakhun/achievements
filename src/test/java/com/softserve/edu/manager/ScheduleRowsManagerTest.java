@@ -1,6 +1,6 @@
 package com.softserve.edu.manager;
 
-import com.softserve.edu.manager.impl.ScheduleRowsManagerImplementation;
+import com.softserve.edu.manager.impl.ScheduleRowsManagerImpl;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -13,7 +13,7 @@ public class ScheduleRowsManagerTest {
     public void findMonday() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2014, Calendar.MARCH, 20);
-        ScheduleRowsManagerImplementation srm = new ScheduleRowsManagerImplementation(calendar);
+        ScheduleRowsManagerImpl srm = new ScheduleRowsManagerImpl(calendar);
         Calendar calendarTrue = Calendar.getInstance();
         calendarTrue.set(2014, Calendar.MARCH, 17, 8, 0);
         calendar = srm.findMonday();

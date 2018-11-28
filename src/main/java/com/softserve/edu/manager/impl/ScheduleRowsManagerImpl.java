@@ -7,32 +7,22 @@ import java.util.*;
 /**
  * Generates the current week.
  */
-public class ScheduleRowsManagerImplementation implements ScheduleRowsManager {
+public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
 
-    /**
-     * year of current week.
-     */
-    int year;
-    /**
-     * month of current week.
-     */
-    int month;
-    /**
-     * day of current week.
-     */
-    int day;
-
+    private final int year;
+    private final int month;
+    private int day;
     /**
      * current date from constructor.
      */
-    Calendar calendar = Calendar.getInstance();
+    private Calendar calendar = Calendar.getInstance();
 
     /**
      * The default constructor.
      *
      * @param calendar
      */
-    public ScheduleRowsManagerImplementation(Calendar calendar) {
+    public ScheduleRowsManagerImpl(Calendar calendar) {
         this.calendar = calendar;
         this.year = calendar.get(Calendar.YEAR);
         this.month = calendar.get(Calendar.MONTH);
@@ -41,7 +31,7 @@ public class ScheduleRowsManagerImplementation implements ScheduleRowsManager {
 
     @Override
     public Calendar findMonday() {
-        while (calendar.get(Calendar.DAY_OF_WEEK) != 2) {
+        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
             day = day - 1;
             calendar.set(year, month, day);
         }
@@ -51,7 +41,7 @@ public class ScheduleRowsManagerImplementation implements ScheduleRowsManager {
 
     @Override
     public List<Calendar> getWeek() {
-        List<Calendar> week = new ArrayList<Calendar>();
+        List<Calendar> week = new ArrayList<>();
         Calendar c = this.findMonday();
         int hour;
         int m = c.get(Calendar.MONTH);
@@ -73,7 +63,7 @@ public class ScheduleRowsManagerImplementation implements ScheduleRowsManager {
 
     @Override
     public Map<Long, String> getWeekHead() {
-        Map<Long, String> WeekHead = new LinkedHashMap<Long, String>();
+        Map<Long, String> workWeekMap = new LinkedHashMap<>();
         calendar = this.findMonday();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int year = calendar.get(Calendar.YEAR);
@@ -81,15 +71,13 @@ public class ScheduleRowsManagerImplementation implements ScheduleRowsManager {
         for (long i = 1; i < 6; i++) {
             calendar.set(year, month, day);
             int tempMonth = calendar.get(Calendar.MONTH) + 1;
-            WeekHead.put(
-                    i,
-                    calendar.get(Calendar.DAY_OF_MONTH) + "."
+            workWeekMap.put(i, calendar.get(Calendar.DAY_OF_MONTH) + "."
                             + tempMonth + "."
                             + calendar.get(Calendar.YEAR));
             day = day + 1;
         }
 
-        return WeekHead;
+        return workWeekMap;
 
     }
 

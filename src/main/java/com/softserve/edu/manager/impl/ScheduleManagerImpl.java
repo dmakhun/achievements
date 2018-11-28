@@ -7,6 +7,7 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.Schedule;
 import com.softserve.edu.entity.ScheduleTable;
 import com.softserve.edu.manager.ScheduleManager;
+import com.softserve.edu.manager.ScheduleRowsManager;
 import com.softserve.edu.util.CsvParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -19,7 +20,7 @@ import java.io.*;
 import java.util.*;
 
 @Service("scheduleManager")
-public class ScheduleManagerImplementation implements ScheduleManager {
+public class ScheduleManagerImpl implements ScheduleManager {
 
     @Autowired
     private ScheduleDao scheduleDao;
@@ -29,32 +30,30 @@ public class ScheduleManagerImplementation implements ScheduleManager {
 
     @Override
     public Map<Long, String> table(Calendar calendar, String group) {
-        Long placeOfText = 0l;
-        Map<Long, String> map = new LinkedHashMap<Long, String>();
-        ScheduleRowsManagerImplementation sr = new ScheduleRowsManagerImplementation(
-                calendar);
-        List<Calendar> calen = sr.getWeek();
-        ScheduleGroupDaoImpl sgd = new ScheduleGroupDaoImpl(group);
-        List<Schedule> schList = sgd.listScheduleForGroup;
+        Long placeOfText = 0L;
+        Map<Long, String> resultMap = new LinkedHashMap<>();
+        ScheduleRowsManager scheduleRowsManager = new ScheduleRowsManagerImpl(calendar);
+        List<Calendar> calen = scheduleRowsManager.getWeek();
+        ScheduleGroupDaoImpl scheduleGroupDao = new ScheduleGroupDaoImpl(group);
+        List<Schedule> listScheduleForGroup = scheduleGroupDao.listScheduleForGroup;
         for (Calendar c : calen) {
             ++placeOfText;
-            int m = c.get(Calendar.MONTH);
-            int d = c.get(Calendar.DAY_OF_MONTH);
-            int h = c.get(Calendar.HOUR_OF_DAY);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            int hour = c.get(Calendar.HOUR_OF_DAY);
 
-            for (Schedule s : schList) {
-                if (s.getStartDateAndTime().get(Calendar.MONTH) == m
-                        && s.getStartDateAndTime().get(Calendar.DAY_OF_MONTH) == d
-                        && s.getStartDateAndTime().get(Calendar.HOUR_OF_DAY) == h) {
+            for (Schedule schedule : listScheduleForGroup) {
+                if (schedule.getStartDateAndTime().get(Calendar.MONTH) == month
+                        && schedule.getStartDateAndTime().get(Calendar.DAY_OF_MONTH) == day
+                        && schedule.getStartDateAndTime().get(Calendar.HOUR_OF_DAY) == hour) {
 
-                    map.put(placeOfText,
-                            s.getMeetType() + " " + s.getLocation());
-                    Calendar calendarTemp = s.getStartDateAndTime();
+                    resultMap.put(placeOfText, schedule.getMeetType() + " " + schedule.getLocation());
+                    Calendar calendarTemp = schedule.getStartDateAndTime();
                     calendarTemp.add(Calendar.HOUR_OF_DAY, 1);
 
                     Long temp = placeOfText;
-                    while (calendarTemp.before(s.getEndDateAndTime())) {
-                        map.put(++temp, s.getMeetType() + " " + s.getLocation());
+                    while (calendarTemp.before(schedule.getEndDateAndTime())) {
+                        resultMap.put(++temp, schedule.getMeetType() + " " + schedule.getLocation());
                         calendarTemp.add(Calendar.HOUR_OF_DAY, 1);
                     }
 
@@ -62,7 +61,7 @@ public class ScheduleManagerImplementation implements ScheduleManager {
 
             }
         }
-        return map;
+        return resultMap;
     }
 
     @Override
@@ -110,7 +109,6 @@ public class ScheduleManagerImplementation implements ScheduleManager {
         return finalFile;
     }
 
-    @SuppressWarnings("resource")
     private boolean isUnique(File file) throws IOException {
         String rootPath = System.getProperty("catalina.home");
         File[] files = new File(rootPath + File.separator + "CSV").listFiles();
