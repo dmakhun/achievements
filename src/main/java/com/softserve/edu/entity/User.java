@@ -17,13 +17,11 @@ import java.util.Set;
 @Entity
 @Table(name = "ach_User")
 @NamedQueries({
-
         @NamedQuery(name = User.FIND_USER_BY_NAME, query = User.FIND_USER_BY_NAME_QUERY),
         @NamedQuery(name = User.FIND_USER_BY_EMAIL, query = User.FIND_USER_BY_EMAIL_QUERY),
         @NamedQuery(name = User.FIND_ONLY_OPENED_GROUPS, query = User.FIND_ONLY_OPENED_GROUPS_QUERY),
         @NamedQuery(name = User.FIND_GROUPS, query = User.FIND_GROUPS_QUERY),
         @NamedQuery(name = User.FIND_ALL_USERS_BY_ROLE, query = User.FIND_ALL_BY_ROLE_QUERY)
-
 })
 public class User extends AbstractEntity {
 

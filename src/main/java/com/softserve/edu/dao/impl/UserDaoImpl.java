@@ -1,6 +1,5 @@
 package com.softserve.edu.dao.impl;
 
-import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
@@ -82,8 +81,7 @@ public class UserDaoImpl extends GenericDaoImpl<User>
 
     public Long sumOfPoints(User user) {
         return (Long) entityManager
-                .createQuery(
-                        SUM_OF_POINTS)
+                .createQuery(SUM_OF_POINTS)
                 .setParameter("user_id", user.getId()).getSingleResult();
     }
 }

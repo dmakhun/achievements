@@ -2,8 +2,8 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.manager.ScheduleManager;
 import com.softserve.edu.manager.UserManager;
-import com.softserve.edu.manager.impl.ScheduleManagerImplementation;
-import com.softserve.edu.manager.impl.ScheduleRowsManagerImplementation;
+import com.softserve.edu.manager.impl.ScheduleManagerImpl;
+import com.softserve.edu.manager.impl.ScheduleRowsManagerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,7 @@ import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 @Controller
 public class ScheduleController {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(ScheduleController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
 
     @Autowired
     private UserManager userManager;
@@ -47,10 +46,8 @@ public class ScheduleController {
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, 7 * dateAdd);
-            Map<Long, String> mapWeek = new ScheduleRowsManagerImplementation(
-                    calendar).getWeekHead();
-            Map<Long, String> map = new ScheduleManagerImplementation().table(
-                    calendar, group.replace('_', ' '));
+            Map<Long, String> mapWeek = new ScheduleRowsManagerImpl(calendar).getWeekHead();
+            Map<Long, String> map = scheduleManager.table(calendar, group.replace('_', ' '));
 
             model.addAttribute("group", group);
             model.addAttribute("mapWeek", mapWeek);
@@ -89,7 +86,7 @@ public class ScheduleController {
                              Model model) throws IllegalStateException {
 
         try {
-            File serverFile = new ScheduleManagerImplementation()
+            File serverFile = new ScheduleManagerImpl()
                     .saveFileOnServer(file);
             scheduleManager.fillDBfromCSV(serverFile);
             model.addAttribute("status", "file upload successfully");
