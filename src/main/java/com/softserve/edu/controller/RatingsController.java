@@ -8,11 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 @Controller
 public class RatingsController {
@@ -23,18 +25,16 @@ public class RatingsController {
     @RequestMapping(value = "/manager/ratings", method = RequestMethod.GET)
     public String ratings(Model model) {
         List<User> users = userManager.findAllUsers();
-        Map<User, Long> userPoints = new HashMap<>();
-
-        for (User user : users) {
-            userPoints.put(user, userManager.sumOfPoints(user));
-        }
-
-        userPoints = userPoints.entrySet().stream()
+        // get points for users and sort by points DESC
+        Map<User, Long> userPointsMap = users.stream()
+                .collect(toMap(Function.identity(), user -> userManager.sumOfPoints(user)))
+                .entrySet()
+                .stream()
                 .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (e1, e2) -> e1, LinkedHashMap::new));
 
-        model.addAttribute("mapS", userPoints);
+        model.addAttribute("mapS", userPointsMap);
         return "ratings";
     }
 }
