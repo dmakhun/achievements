@@ -1,5 +1,7 @@
 package com.softserve.edu.controller;
 
+import static java.util.stream.Collectors.toMap;
+
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
@@ -8,6 +10,15 @@ import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.AbstractMap;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +32,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 @Controller
 public class ManagerController {
 
     private static final String GENERAL_ERROR = "redirect:/myerror/10";
-    private static final Logger logger = LoggerFactory
-            .getLogger(ManagerController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
     @Autowired
     private GroupManager groupManager;
@@ -45,15 +51,15 @@ public class ManagerController {
     public String groups(
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             Model model) {
-
         try {
-            List<Competence> competenceList = competenceManager
-                    .findAllCompetences();
-            Map<String, List<Group>> groups = new HashMap<>();
-            for (Competence competence : competenceList) {
-                groups.put(competence.getName(),
-                        groupManager.findByCompetence(competence.getId(), true));
-            }
+            // TODO pass just competence entity
+            List<Competence> competenceList = competenceManager.findAllCompetences();
+            Map<String, Set<Group>> groups = competenceList.stream()
+                    .map(competence -> new AbstractMap.SimpleEntry<>(competence.getName(),
+                            competence.getGroups())) // TODO filter just opened groups
+                    .collect(toMap(AbstractMap.SimpleEntry::getKey,
+                            AbstractMap.SimpleEntry::getValue));
+
             model.addAttribute("status", status);
             model.addAttribute("groups", groups);
             model.addAttribute("competences", competenceList);
@@ -92,13 +98,12 @@ public class ManagerController {
     }
 
     private ResponseEntity<String> createGroup(String groupName,
-                                               Long competence, String start, String end, Locale locale)
+            Long competenceId, String start, String end, Locale locale)
             throws ParseException {
 
-        Long id = null;
+        Long groupId = null;
         try {
-            ResponseEntity<String> pass = groupChecks(groupName, start, end,
-                    locale);
+            ResponseEntity<String> pass = groupChecks(groupName, start, end, locale);
             if (pass.getStatusCode() != HttpStatus.OK) {
                 return pass;
             }
@@ -106,15 +111,15 @@ public class ManagerController {
             Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
             Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 
-            id = groupManager.create(groupName, starting, ending, competence);
+            groupId = groupManager.create(groupName, starting, ending, competenceId);
         } catch (GroupManagerException e) {
             logger.error(e.getMessage());
         }
-        return new ResponseEntity<>(id.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(groupId.toString(), HttpStatus.OK);
     }
 
     private ResponseEntity<String> modifyGroup(Long groupId, String name,
-                                               Long competence, String start, String end, Locale locale)
+            Long competence, String start, String end, Locale locale)
             throws ParseException {
         try {
             ResponseEntity<String> pass = groupChecks(name, start, end, locale);
@@ -140,19 +145,19 @@ public class ManagerController {
     }
 
     private ResponseEntity<String> groupChecks(String name, String start,
-                                               String end, Locale locale) {
+            String end, Locale locale) {
         try {
             Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
             Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 
             if (name.isEmpty()) {
-                return new ResponseEntity<String>(messageSource.getMessage(
+                return new ResponseEntity<>(messageSource.getMessage(
                         "groups.error.emptyname", null, locale),
                         HttpStatus.NOT_ACCEPTABLE);
             }
 
             if (starting.after(ending)) {
-                return new ResponseEntity<String>(messageSource.getMessage(
+                return new ResponseEntity<>(messageSource.getMessage(
                         "groups.error.inversed", null, locale),
                         HttpStatus.NOT_ACCEPTABLE);
             }
@@ -161,14 +166,14 @@ public class ManagerController {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return new ResponseEntity<String>(messageSource.getMessage(
+        return new ResponseEntity<>(messageSource.getMessage(
                 "groups.error.datepattern", null, locale),
                 HttpStatus.NOT_ACCEPTABLE);
     }
 
     @RequestMapping(value = "/manager/group/{id}", method = RequestMethod.GET)
     public String concreteGroup(@PathVariable(value = "id") Long groupId,
-                                Model model) {
+            Model model) {
         try {
             List<User> userList = groupManager.users(groupId);
             model.addAttribute("users", userList);
@@ -182,8 +187,7 @@ public class ManagerController {
     @RequestMapping(value = "/manager/attendees", method = RequestMethod.GET)
     public String attendees(Model model) {
         try {
-            List<Competence> competenceList = competenceManager
-                    .findAllCompetences();
+            List<Competence> competenceList = competenceManager.findAllCompetences();
             Map<String, List<Group>> groups = new HashMap<>();
             for (Competence competence : competenceList) {
                 groups.put(competence.getName(),
@@ -202,8 +206,8 @@ public class ManagerController {
 
     @RequestMapping(value = "/manager/attendees", method = RequestMethod.POST)
     public String attendUser(@RequestParam(value = "user_id") Long userId,
-                             @RequestParam(value = "group_id") Long groupId,
-                             @RequestParam(value = "competence_id") Long competenceId) {
+            @RequestParam(value = "group_id") Long groupId,
+            @RequestParam(value = "competence_id") Long competenceId) {
         try {
             groupManager.addUser(userId, groupId);
             userManager.removeUserToCompetence(userId, competenceId);
