@@ -2,6 +2,7 @@ package com.softserve.edu.dao.impl;
 
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.GroupDao;
+import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
@@ -18,9 +19,12 @@ public class CompetenceDaoImpl extends
     @Autowired
     private GroupDao groupDao;
 
+    @Autowired
+    private UserDao userDao;
+
     @Override
-    public List<Group> showGroups(int groupId) {
-        return groupDao.findEntityList(Competence.SHOW_GROUPS, groupId);
+    public List<Group> findGroupsByCompetenceId(int competenceId) {
+        return groupDao.findEntityList(Competence.FIND_GROUPS_BY_COMPETENCE_ID, competenceId);
     }
 
     @Override
@@ -32,20 +36,19 @@ public class CompetenceDaoImpl extends
 
     @Override
     public Competence findByName(String name) {
-        return this.findEntity(Competence.FIND_COMPETENCE_BY_NAME, name);
+        return findEntity(Competence.FIND_COMPETENCE_BY_NAME, name);
     }
 
     @Override
     public List<Competence> findCompetencesByUserId(Long userId) {
-
-        User user = entityManager.find(User.class, userId);
-
+        User user = userDao.findById(User.class, userId);
         return new ArrayList<>(user.getCompetences());
     }
 
     @Override
     public List<Competence> findByUserUuid(String userUuid) {
-        return this.findEntityList(Competence.FIND_BY_USER_UUID, userUuid);
+        User user = userDao.findByUuid(User.class, userUuid);
+        return new ArrayList<>(user.getCompetences());
     }
 
     @Override

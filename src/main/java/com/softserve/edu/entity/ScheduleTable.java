@@ -33,18 +33,17 @@ public class ScheduleTable {
     @Column(name = "location", length = 50)
     private String location;
 
+    public ScheduleTable() {
+    }
+
     public ScheduleTable(Group group, String meetingType, Calendar begin,
                          Calendar end, String description, String location) {
-        super();
         this.group = group;
         this.meetingType = meetingType;
         this.begin = begin;
         this.end = end;
         this.description = description;
         this.location = location;
-    }
-
-    public ScheduleTable() {
     }
 
     public Group getGroup() {

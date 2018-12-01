@@ -29,7 +29,7 @@
                     <c:forEach var="item" items="${list}">
                         <tr>
                             <td>${item.name}</td>
-                            <td>${item.opened}</td>
+                            <td>${item.dateOpened}</td>
                             <td>${item.competence.name}</td>
                         </tr>
                     </c:forEach>

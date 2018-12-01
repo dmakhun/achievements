@@ -158,8 +158,7 @@ public class UserController {
             Model model) {
         try {
             List<User> managers = userManager.findAllManagers();
-            Long total = userDao.countManagers();
-            model.addAttribute("total", total);
+            model.addAttribute("total", managers.size());
             model.addAttribute("user", new User());
             Map<String, String> searchBy = new FieldForSearchController<>(
                     User.class).findAnnotation();
@@ -189,7 +188,7 @@ public class UserController {
                     max, criteria, pattern, additionFind, User.class);
 
             List<User> allByCriteria = userDao.dynamicSearch(0,
-                    userDao.countManagers().intValue(), criteria, pattern,
+                    userDao.findByRole(ROLE_MANAGER).size(), criteria, pattern,
                     additionFind, User.class);
 
             model.addAttribute("userlist", dynamicUsers);

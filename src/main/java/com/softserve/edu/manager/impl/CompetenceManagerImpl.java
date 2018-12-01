@@ -33,7 +33,7 @@ public class CompetenceManagerImpl implements CompetenceManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> findGroups(int CompetenceId) {
-        return competenceDao.showGroups(CompetenceId);
+        return competenceDao.findGroupsByCompetenceId(CompetenceId);
     }
 
     @Override
