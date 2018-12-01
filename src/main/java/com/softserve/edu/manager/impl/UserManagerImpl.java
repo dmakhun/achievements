@@ -10,7 +10,6 @@ import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
-import com.softserve.edu.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +24,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.softserve.edu.util.Constants.FIELD_MAX_LENGTH;
-import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
+import static com.softserve.edu.util.Constants.*;
 
 @Service("userManager")
 public class UserManagerImpl implements UserManager {
 
-    public static final String USER_DOES_NOT_EXIST = "User does not exist.";
-    public static final String PASSWORD_CANNOT_BE_EMPTY = "Password cannot be empty.";
+    private static final Logger logger = LoggerFactory.getLogger(UserManagerImpl.class);
+
+    private static final String USER_DOES_NOT_EXIST = "User does not exist.";
+    private static final String PASSWORD_CANNOT_BE_EMPTY = "Password cannot be empty.";
+    private static final String USER_SAVE_ERROR = "User cannot be created.";
+    private static final String FIELDS_VALIDATION_ERROR = " field didn't validate.";
+    private static final String ROLE_DOES_NOT_EXIST = "Role does not exist.";
+
+    private static final String PATTERN_EMAIL = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
+    private static final String PATTERN_USERNAME = "^[a-zA-Z0-9\\.\\-_]{3,50}$";
+
     @Autowired
     private UserDao userDao;
     @Autowired
@@ -44,18 +51,6 @@ public class UserManagerImpl implements UserManager {
     @Autowired
     private StandardPasswordEncoder passwordEncoder;
 
-    private static final String USER_SAVE_ERROR = "User cannot be created.";
-    private static final String FIELDS_VALIDATION_ERROR = " field didn't validate.";
-    private static final String ROLE_DOES_NOT_EXIST = "Role does not exist.";
-    private static final Logger logger = LoggerFactory.getLogger(UserManagerImpl.class);
-    /**
-     * Pattern that covers almost all of valid emails.
-     */
-    private static final String PATTERN_EMAIL = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
-    /**
-     * Username pattern, that we pretend to define.
-     */
-    private static final String PATTERN_USERNAME = "^[a-zA-Z0-9\\.\\-_]{3,50}$";
 
     @Override
     @Transactional
@@ -91,7 +86,6 @@ public class UserManagerImpl implements UserManager {
             validateUser(user, true);
             user.setPassword(passwordEncoder.encode(newPassword));
             userDao.update(user);
-
         } catch (Exception e) {
             logger.error(USER_UPDATE_ERROR + e);
             throw new UserManagerException(e);
@@ -102,8 +96,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public User updateUser(String userUuid, User user)
-            throws UserManagerException {
+    public User updateUser(String userUuid, User user) throws UserManagerException {
         return updateUser(userDao.findByUuid(User.class, userUuid).getId(), user.getName(),
                 user.getSurname(), user.getUsername(), user.getPassword(), user.getEmail(), user.getRole().getId());
     }
@@ -168,7 +161,6 @@ public class UserManagerImpl implements UserManager {
 
     }
 
-    @Transactional
     private void validateUser(User user, boolean isExisting) throws ValidationException {
 
         boolean validated;
@@ -221,7 +213,7 @@ public class UserManagerImpl implements UserManager {
      * @throws ValidationException
      */
     @Transactional
-    private boolean genericValidation(String field, String fieldName, boolean isExisting) throws ValidationException {
+    boolean genericValidation(String field, String fieldName, boolean isExisting) throws ValidationException {
         if (field != null && !field.isEmpty() && field.length() <= FIELD_MAX_LENGTH) {
             return true;
         } else {
@@ -238,9 +230,9 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Transactional
-    private boolean validateByPattern(User user, User otherUser,
-                                      String field, String pattern, String fieldName,
-                                      boolean isExisting) throws ValidationException {
+    boolean validateByPattern(User user, User otherUser,
+                              String field, String pattern, String fieldName,
+                              boolean isExisting) throws ValidationException {
 
         if (field != null && field.matches(pattern)
                 && (otherUser == null || otherUser.getId().equals(user.getId()))) {
@@ -323,8 +315,7 @@ public class UserManagerImpl implements UserManager {
             throws UserManagerException {
 
         User user = userDao.findByUuid(User.class, userUuid);
-        Competence competence = competenceDao.findByUuid(Competence.class,
-                competenceUuid);
+        Competence competence = competenceDao.findByUuid(Competence.class, competenceUuid);
 
         try {
             userDao.attendUserToCompetence(user, competence);
@@ -376,8 +367,8 @@ public class UserManagerImpl implements UserManager {
         Set<String> nameGroups = new HashSet<>();
         User user = userDao.findByUsername(username);
         List<Group> listGroup = userDao.findGroups(user.getId(), true);
-        for (Group g : listGroup) {
-            nameGroups.add(g.getName());
+        for (Group group : listGroup) {
+            nameGroups.add(group.getName());
         }
         return nameGroups;
 
@@ -433,12 +424,14 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public Long sumOfPoints(User user) {
-        return userDao.sumOfPoints(user);
+        return userDao.findByUsername(user.getUsername()).getAchievements()
+                .stream().mapToLong(achievement -> achievement.getAchievementType().getPoints())
+                .sum();
     }
 
     @Override
     @Transactional
     public List<User> findAllManagers() {
-        return userDao.findAllManagers();
+        return userDao.findByRole(ROLE_MANAGER);
     }
 }

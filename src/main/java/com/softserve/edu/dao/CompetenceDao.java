@@ -13,7 +13,7 @@ public interface CompetenceDao extends GenericDao<Competence> {
      * @param groupId
      * @return list of groups
      */
-    List<Group> showGroups(int groupId);
+    List<Group> findGroupsByCompetenceId(int groupId);
 
     /**
      * Finds all groups of a specific competence

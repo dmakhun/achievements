@@ -58,7 +58,7 @@ public class CompetenceManagerTest {
 
     @Test
     public void testGetGroups() {
-        when(competenceDao.showGroups(idMock)).thenReturn(listGroups);
+        when(competenceDao.findGroupsByCompetenceId(idMock)).thenReturn(listGroups);
         List<Group> listActual = competenceManager.findGroups(idMock);
         assertEquals(listGroups, listActual);
     }

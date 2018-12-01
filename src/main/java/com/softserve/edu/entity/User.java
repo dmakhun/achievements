@@ -10,47 +10,33 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.Set;
 
-/**
- * Represents bean class for User entity.
- */
 @XmlRootElement
 @Entity
 @Table(name = "ach_User")
 @NamedQueries({
-        @NamedQuery(name = User.FIND_USER_BY_NAME, query = User.FIND_USER_BY_NAME_QUERY),
+        @NamedQuery(name = User.FIND_USER_BY_USERNAME, query = User.FIND_USER_BY_NAME_QUERY),
         @NamedQuery(name = User.FIND_USER_BY_EMAIL, query = User.FIND_USER_BY_EMAIL_QUERY),
         @NamedQuery(name = User.FIND_ONLY_OPENED_GROUPS, query = User.FIND_ONLY_OPENED_GROUPS_QUERY),
-        @NamedQuery(name = User.FIND_GROUPS, query = User.FIND_GROUPS_QUERY),
         @NamedQuery(name = User.FIND_ALL_USERS_BY_ROLE, query = User.FIND_ALL_BY_ROLE_QUERY)
 })
 public class User extends AbstractEntity {
 
-    public static final String FIND_USER_BY_NAME = "User.findByUsername";
+    public static final String FIND_USER_BY_USERNAME = "User.findByUsername";
     public static final String FIND_USER_BY_NAME_QUERY = "FROM User WHERE username LIKE ?1";
 
     public static final String FIND_USER_BY_EMAIL = "User.findByEmail";
     public static final String FIND_USER_BY_EMAIL_QUERY = "FROM User WHERE email LIKE ?1";
 
-    public static final String FIND_GROUPS = "User.findGroup";
-    public static final String FIND_GROUPS_QUERY = "FROM Group g inner join fetch g.users u WHERE u.id = ?1";
-
     public static final String FIND_ONLY_OPENED_GROUPS = "User.openedGroups";
-    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.users u WHERE u.id = ?1 and g.closed > ?2";
+    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.users u WHERE u.id = ?1 and g.dateClosed > ?2";
 
     public static final String FIND_ALL_USERS_BY_ROLE = "User.all";
     public static final String FIND_ALL_BY_ROLE_QUERY = "FROM User u inner join fetch u.role r WHERE r.id = ?1";
 
-    /**
-     * Id field. It's PK and must be generated value. Mapped on column id.
-     */
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    /**
-     * Many to one connection with role_id table.
-     */
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -61,26 +47,16 @@ public class User extends AbstractEntity {
     @FieldForSearch(nameForView = "Name")
     private String name;
 
-    /**
-     * surname field. Mapped on column surname.
-     */
-    @Size(min = 2, max = 20)
     @Column(name = "surname", length = 255)
     @FieldForSearch(nameForView = "Surname")
     private String surname;
 
-    /**
-     * Login field. . Mapped on column username.
-     */
     @Size(min = 4, max = 25)
     @Pattern(regexp = "^\\w{4,}$")
     @Column(name = "username", length = 25, unique = true)
     @FieldForSearch(nameForView = "Username")
     private String username;
 
-    /**
-     * Password field. Mapped on column password.
-     */
     @Size(min = 4, max = 30)
     @Pattern(regexp = "^\\S+$")
     @Column(name = "password", length = 80)
@@ -111,18 +87,8 @@ public class User extends AbstractEntity {
     public User() {
     }
 
-    /**
-     * Parameterized constructor.
-     *
-     * @param role     value for roles field
-     * @param name     value for name field
-     * @param surname  value for surname field
-     * @param username value for username field
-     * @param password value for password field
-     */
     public User(String name, String surname, String username, Role role,
                 String password, byte[] picture) {
-        super();
         this.role = role;
         this.name = name;
         this.surname = surname;

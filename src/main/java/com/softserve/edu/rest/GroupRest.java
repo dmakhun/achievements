@@ -46,9 +46,8 @@ public class GroupRest {
     }
 
     /**
-     * Select Groups, where opening date>current Date. find by
-     * rest/group/findgroupsinfuture. listGroupsInFuture is wrapped by special
-     * JaxbList object. Method produces xml file.
+     * Get not yet opened groups
+     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -62,7 +61,7 @@ public class GroupRest {
             return Response.status(500)
                     .entity(e.getMessage()).build();
         }
-        JaxbList<Group> jaxbList = new JaxbList<Group>(listGroupsInFuture);
+        JaxbList<Group> jaxbList = new JaxbList<>(listGroupsInFuture);
         return Response.ok(jaxbList).build();
     }
 

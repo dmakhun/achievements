@@ -8,22 +8,7 @@ import java.util.Date;
 @XmlRootElement
 @Entity
 @Table(name = "ach_Achievement")
-@NamedQueries({
-        @NamedQuery(name = Achievement.GET_ACHIEVEMENT, query = Achievement.GET_ACHIEVEMENT_QUERY),
-        @NamedQuery(name = Achievement.GET_ACHIEVEMENT_FROM_USER, query = Achievement.GET_ACHIEVEMENT_FROM_USER_QUERY),
-        @NamedQuery(name = Achievement.GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT, query = Achievement.GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT_QUERY)
-})
 public class Achievement extends AbstractEntity {
-
-    public static final String GET_ACHIEVEMENT = "Achievement.findByAchievementTypeAndUser";
-    public static final String GET_ACHIEVEMENT_QUERY = "from Achievement where achievement_type_id = ?1 and user_id = ?2";
-
-    public static final String GET_ACHIEVEMENT_FROM_USER = "Achievement.getAchievementsByUserUuidFromUser";
-    public static final String GET_ACHIEVEMENT_FROM_USER_QUERY = "from User WHERE uuid like ?1";
-
-    public static final String GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT = "Achievement.getAchievementsByUserUuidFromAchievement";
-    public static final String GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT_QUERY = "from Achievement WHERE user_id like ?1";
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -55,13 +40,19 @@ public class Achievement extends AbstractEntity {
 
     public Achievement(AchievementType achievementType, Date created,
                        String comment) {
-        super();
         this.achievementType = achievementType;
         this.created = created;
         this.comment = comment;
 
     }
 
+    public Achievement(AchievementType achievementType, Date created,
+                       String comment, User user) {
+        this.achievementType = achievementType;
+        this.created = created;
+        this.comment = comment;
+        this.user = user;
+    }
 
     public User getUser() {
         return user;

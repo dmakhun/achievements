@@ -33,13 +33,13 @@ public class GroupManagerImplementation implements GroupManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> inFuture() {
-        return groupDao.inFuture();
+        return groupDao.findGroupsToBeOpened();
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> inFuture(Long competenceId) {
-        return groupDao.inFuture(competenceId);
+        return groupDao.findGroupsToBeOpened(competenceId);
     }
 
     @Override
@@ -65,8 +65,8 @@ public class GroupManagerImplementation implements GroupManager {
 
         Group group = new Group();
         group.setName(name);
-        group.setOpened(startDate);
-        group.setClosed(endDate);
+        group.setDateOpened(startDate);
+        group.setDateClosed(endDate);
         group.setCompetence(competence);
 
         try {
@@ -89,8 +89,8 @@ public class GroupManagerImplementation implements GroupManager {
                 competenceId);
         Group group = groupDao.findById(Group.class, groupId);
         group.setName(name);
-        group.setOpened(start);
-        group.setClosed(end);
+        group.setDateOpened(start);
+        group.setDateClosed(end);
         group.setCompetence(competence);
         try {
             groupDao.update(group);
@@ -206,7 +206,7 @@ public class GroupManagerImplementation implements GroupManager {
             return false;
         }
         if (group.getName().length() > 3 && group.getName().length() < 30) {
-            if (group.getClosed().after(group.getOpened())) {
+            if (group.getDateClosed().after(group.getDateOpened())) {
                 logger.info("Group is valid");
                 valid = true;
             }

@@ -12,7 +12,7 @@ public interface GroupDao extends GenericDao<Group> {
      *
      * @return list of groups
      */
-    List<Group> inFuture();
+    List<Group> findGroupsToBeOpened();
 
     /**
      * Find all group with certain competence what will be opened.
@@ -20,7 +20,7 @@ public interface GroupDao extends GenericDao<Group> {
      * @param competenceId
      * @return list of group
      */
-    List<Group> inFuture(Long competenceId);
+    List<Group> findGroupsToBeOpened(Long competenceId);
 
     /**
      * All users in some group.

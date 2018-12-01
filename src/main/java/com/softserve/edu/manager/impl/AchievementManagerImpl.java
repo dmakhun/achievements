@@ -42,11 +42,7 @@ public class AchievementManagerImpl implements AchievementManager {
         User user = userDao.findById(User.class, userId);
         if (user == null) throw new IllegalArgumentException("User with such id does not exist.");
 
-        Achievement achievement = new Achievement();
-        achievement.setComment(comment);
-        achievement.setAchievementType(achievementType);
-        achievement.setUser(user);
-        achievement.setCreated(new Date());
+        Achievement achievement = new Achievement(achievementType, new Date(), comment, user);
         try {
             achievementDao.save(achievement);
         } catch (Exception e) {

@@ -24,7 +24,7 @@ public class AchievementTypeDaoImpl extends
     @Override
     public List<AchievementType> findByCompetenceUuid(String competenceUuid) {
         return findEntityList(
-                AchievementType.GET_ACHIEVEMENT_TYPES_BY_COMPETENCE_ID,
+                AchievementType.GET_ACHIEVEMENT_TYPES_BY_COMPETENCE_UUID,
                 competenceUuid);
     }
 

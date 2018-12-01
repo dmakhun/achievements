@@ -14,20 +14,17 @@ import java.util.Set;
         @NamedQuery(name = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, query = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY),
         @NamedQuery(name = Group.FIND_LIST_GROUPS_BY_COMPETENCE, query = Group.FIND_LIST_GROUPS_BY_COMPETENCE_QUERY),
         @NamedQuery(name = Group.FIND_LIST_GROUPS_BY_COMPETENCE_UUID, query = Group.FIND_LIST_GROUPS_BY_COMPETENCE_UUID_QUERY),
-        @NamedQuery(name = Group.ADD_GROUP_TO_USER, query = Group.ADD_GROUP_TO_USER_QUERY),
-        @NamedQuery(name = Group.ADD_USER_TO_GROUP, query = Group.ADD_USER_TO_GROUP_QUERY),
-        @NamedQuery(name = Group.GET_USER_LIST_IN_GROUP, query = Group.GET_USER_LIST_IN_GROUP_QUERY),
-        @NamedQuery(name = Group.FIND_USER_BY_GROUP_UUID, query = Group.FIND_USER_BY_GROUP_UUID_QUERY),
         @NamedQuery(name = Group.GET_GROUP_BY_NAME, query = Group.GET_GROUP_BY_NAME_QUERY),
         @NamedQuery(name = Group.FIND_ONLY_OPENED_GROUPS, query = Group.FIND_ONLY_OPENED_GROUPS_QUERY),
+        @NamedQuery(name = Group.FIND_ONLY_OPENED_GROUPS_UUID, query = Group.FIND_ONLY_OPENED_GROUPS_UUID_QUERY),
         @NamedQuery(name = Group.FIND_GROUPS, query = Group.FIND_GROUPS_QUERY)})
 public class Group extends AbstractEntity {
 
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE = "Group.inFuture";
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_QUERY = "from Group where opened > ?1";
+    public static final String SHOW_GROUPS_OPENED_IN_FUTURE = "Group.findGroupsToBeOpened";
+    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_QUERY = "from Group where dateOpened > ?1";
 
     public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE = "Group.inFutureCompetenceId";
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY = "from Group where opened > ?1 and competence_id = ?2";
+    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY = "from Group where dateOpened > ?1 and competence_id = ?2";
 
     public static final String FIND_LIST_GROUPS_BY_COMPETENCE = "Group.findByCompetence";
     public static final String FIND_LIST_GROUPS_BY_COMPETENCE_QUERY = "from Group where competence_id = ?1 ";
@@ -35,41 +32,23 @@ public class Group extends AbstractEntity {
     public static final String FIND_LIST_GROUPS_BY_COMPETENCE_UUID = "Group.findByCompetenceUuid";
     public static final String FIND_LIST_GROUPS_BY_COMPETENCE_UUID_QUERY = "from Group g INNER JOIN fetch g.competence c WHERE c.uuid = ?1";
 
-    public static final String ADD_GROUP_TO_USER = "Group.addUserToUser";
-    public static final String ADD_GROUP_TO_USER_QUERY = "from User u WHERE u.uuid = ?1";
-
-    public static final String ADD_USER_TO_GROUP = "Group.addUserToGroup";
-    public static final String ADD_USER_TO_GROUP_QUERY = "from Group g WHERE g.uuid = ?1";
-
-    public static final String GET_USER_LIST_IN_GROUP = "Group.userList";
-    public static final String GET_USER_LIST_IN_GROUP_QUERY = "select user from User user inner join user.groups ach_group  where ach_group.id = ?1";
-
-    public static final String FIND_USER_BY_GROUP_UUID = "Group.findUsersByGroupUuid";
-    public static final String FIND_USER_BY_GROUP_UUID_QUERY = "from User u INNER JOIN fetch u.groups g where g.uuid = ?1";
-
     public static final String GET_GROUP_BY_NAME = "Group.getGroupByName";
     public static final String GET_GROUP_BY_NAME_QUERY = "from Group where name like ?1";
 
     public static final String FIND_ONLY_OPENED_GROUPS = "Group.opened";
-    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1 and g.closed > ?2";
+    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1 and g.dateClosed > ?2";
 
     public static final String FIND_ONLY_OPENED_GROUPS_UUID = "Group.opened";
     public static final String FIND_ONLY_OPENED_GROUPS_UUID_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.uuid = ?1 and g.closed > ?2";
 
-    public static final String FIND_GROUPS = "Group.shit";
+    public static final String FIND_GROUPS = "Groups";
     public static final String FIND_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1";
 
-    /**
-     * @return the group_id
-     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-
-    /**
-     * @return the name
-     */
 
     @ManyToOne
     @JoinColumn(name = "competence_id")
@@ -80,23 +59,22 @@ public class Group extends AbstractEntity {
 
     @Column(name = "opened")
     @Temporal(value = TemporalType.DATE)
-    private Date opened;
+    private Date dateOpened;
 
     @Column(name = "closed")
     @Temporal(value = TemporalType.DATE)
-    private Date closed;
+    private Date dateClosed;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "ach_UserToGroup", joinColumns = {@JoinColumn(name = "group_id")}, inverseJoinColumns = {
             @JoinColumn(name = "user_id")})
     private Set<User> users;
 
-    public Group(Competence competence, String name, Date opened, Date closed, Set<User> users) {
-        super();
+    public Group(Competence competence, String name, Date dateOpened, Date dateClosed, Set<User> users) {
         this.competence = competence;
         this.name = name;
-        this.opened = opened;
-        this.closed = closed;
+        this.dateOpened = dateOpened;
+        this.dateClosed = dateClosed;
         this.users = users;
     }
 
@@ -137,20 +115,20 @@ public class Group extends AbstractEntity {
         this.name = name;
     }
 
-    public Date getOpened() {
-        return opened;
+    public Date getDateOpened() {
+        return dateOpened;
     }
 
-    public void setOpened(Date opened) {
-        this.opened = opened;
+    public void setDateOpened(Date opened) {
+        dateOpened = opened;
     }
 
-    public Date getClosed() {
-        return closed;
+    public Date getDateClosed() {
+        return dateClosed;
     }
 
-    public void setClosed(Date closed) {
-        this.closed = closed;
+    public void setDateClosed(Date closed) {
+        dateClosed = closed;
     }
 
     @Override

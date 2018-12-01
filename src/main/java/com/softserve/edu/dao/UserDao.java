@@ -43,26 +43,11 @@ public interface UserDao extends GenericDao<User> {
     List<Group> findGroups(Long userId, boolean onlyOpened);
 
     /**
-     * Count all managers.
-     *
-     * @return number of managers
-     */
-    Long countManagers();
-
-    /**
      * @param user
      * @param competence
      */
     void removeUserToCompetence(User user, Competence competence);
 
-    /**
-     * Find all points for user
-     *
-     * @param user
-     * @return Long
-     */
-    Long sumOfPoints(User user);
-
-    List<User> findAllManagers();
+    List<User> findByRole(String role);
 
 }

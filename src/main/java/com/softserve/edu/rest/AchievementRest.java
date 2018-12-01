@@ -5,6 +5,7 @@ import com.softserve.edu.manager.AchievementManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -16,16 +17,13 @@ import java.util.List;
 
 
 @Path("/achievement")
+@RestController
 public class AchievementRest {
     private static final Logger logger = LoggerFactory.getLogger(AchievementRest.class);
 
     @Autowired
     private AchievementManager achievementManager;
 
-    /*
-     * find all users from database. find by rest/user/allusers. listOfUsers is
-     * wrapped by special JaxbList object. Method produces xml file.
-     */
     @GET
     @Produces(MediaType.APPLICATION_XML)
     @Path("/getachievementsbyuseruuid/{useruuid}")
