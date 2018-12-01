@@ -27,7 +27,6 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
     private RoleManager roleManager;
 
     GenericDaoImpl() {
-        super();
     }
 
     @Override

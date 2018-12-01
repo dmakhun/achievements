@@ -24,7 +24,7 @@ public class CompetenceDaoTest {
 
     @Test
     public void testShowGroups() {
-        List<Group> groups = competenceDao.showGroups(1);
+        List<Group> groups = competenceDao.findGroupsByCompetenceId(1);
         assertEquals(1, groups.size());
     }
 

@@ -22,20 +22,17 @@ public class RoleDaoImpl extends GenericDaoImpl<Role>
     }
 
     @Override
-    public Long findRole(String roleName) {
-        return this.findEntity(Role.FIND_ROLE_BY_NAME, roleName).getId();
+    public Long findRoleId(String roleName) {
+        return findRoleByName(roleName).getId();
     }
 
     @Override
     public Role findRoleByName(String roleName) {
-        return this.findEntity(Role.FIND_ROLE_BY_ROLE_NAME, roleName);
+        return findEntity(Role.FIND_ROLE_BY_NAME, roleName);
     }
 
     @Override
     public List<User> findUsersByRoleUuid(String roleUuid) {
-        if (roleUuid == null || roleUuid.isEmpty()) {
-            return null;
-        }
         return userDao.findEntityList(Role.FIND_USERS_BY_ROLE_UUID, roleUuid);
     }
 

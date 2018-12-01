@@ -241,8 +241,8 @@
                     <c:forEach var="item" items="${mapItem.value}">
                         <div class="row">
                             <div class="col-md-6 group-name">${item.name }</div>
-                            <div class="col-md-2 group-opened">${item.opened }</div>
-                            <div class="col-md-2 group-closed">${item.closed }</div>
+                            <div class="col-md-2 group-opened">${item.dateOpened }</div>
+                            <div class="col-md-2 group-closed">${item.dateClosed }</div>
                             <div class="col-md-2 text-center">
                                 <div class="btn-group btn-group-lg">
                                     <button type="button" class="modifiable btn btn-warning">

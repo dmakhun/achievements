@@ -34,7 +34,7 @@ public class RoleDaoTest {
 
     @Test
     public void testFindRole() {
-        long i = roleDao.findRole("admin");
+        long i = roleDao.findRoleId("admin");
         System.out.println("id role with name 'admin': " + i);
         assertEquals(2, i);
     }

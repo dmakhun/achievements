@@ -6,28 +6,44 @@ import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toSet;
 
 @Repository("userDao")
 public class UserDaoImpl extends GenericDaoImpl<User>
         implements UserDao {
-
-    public static final String SUM_OF_POINTS = "select sum(atype.points) from AchievementType atype where atype in(select ac.achievementType  "
-            + "from Achievement ac WHERE user_id like :user_id)";
-    public static final String COUNT_ALL_MANAGERS = "select count(*) FROM User u inner join u.role r WHERE r.id = :id";
+    private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     @Autowired
     private RoleDao roleDao;
     @Autowired
     private GroupDao groupDao;
+    @Autowired
+    private UserDao userDao;
+
+    @Override
+    public User findById(Class<User> userClass, long id) {
+        return super.findById(userClass, id);
+    }
+
+    @Override
+    public User findByUuid(Class<User> userClass, String uuid) {
+        return super.findByUuid(userClass, uuid);
+    }
 
     @Override
     public void attendUserToCompetence(User user, Competence competence) {
-        user.getCompetences().add(competence);
+        user.setCompetences(Stream.of(competence).collect(toSet()));
     }
 
     @Override
@@ -38,50 +54,32 @@ public class UserDaoImpl extends GenericDaoImpl<User>
 
     @Override
     public User findByUsername(String username) {
-
         try {
-            if (username == null || username.isEmpty()) {
+            if (StringUtils.isEmpty(username)) {
                 return null;
             }
-
-            return this.findEntity(User.FIND_USER_BY_NAME, username);
-
+            return findEntity(User.FIND_USER_BY_USERNAME, username);
         } catch (Exception e) {
-            return null;
+            logger.error("Error finding user by it's username", e);
         }
+        return null;
     }
 
     @Override
     public User findByEmail(String email) {
-        return this.findEntity(User.FIND_USER_BY_EMAIL, email);
+        return findEntity(User.FIND_USER_BY_EMAIL, email);
     }
 
     @Override
     public List<Group> findGroups(Long userId, boolean onlyOpened) {
-
         if (onlyOpened) {
-            return groupDao.findEntityList(User.FIND_ONLY_OPENED_GROUPS,
-                    userId, new Date());
+            return groupDao.findEntityList(User.FIND_ONLY_OPENED_GROUPS, userId, new Date());
         }
-        return groupDao.findEntityList(User.FIND_GROUPS, userId);
-
+        return new ArrayList<>(userDao.findById(User.class, userId).getGroups());
     }
 
     @Override
-    public Long countManagers() {
-        return (Long) entityManager
-                .createQuery(COUNT_ALL_MANAGERS)
-                .setParameter("id", roleDao.findRole("ROLE_MANAGER")).getSingleResult();
-    }
-
-    @Override
-    public List<User> findAllManagers() {
-        return findEntityList(User.FIND_ALL_USERS_BY_ROLE, roleDao.findRole("ROLE_MANAGER"));
-    }
-
-    public Long sumOfPoints(User user) {
-        return (Long) entityManager
-                .createQuery(SUM_OF_POINTS)
-                .setParameter("user_id", user.getId()).getSingleResult();
+    public List<User> findByRole(String role) {
+        return findEntityList(User.FIND_ALL_USERS_BY_ROLE, roleDao.findRoleId(role));
     }
 }

@@ -54,7 +54,7 @@ public class GroupManagerTest {
 
     @Test
     public final void testInFutureEquals() {
-        when(groupDao.inFuture()).thenReturn(listGroups);
+        when(groupDao.findGroupsToBeOpened()).thenReturn(listGroups);
         List<Group> listActual = groupManager.inFuture();
         assertEquals(listGroups, listActual);
     }
@@ -67,21 +67,21 @@ public class GroupManagerTest {
 
     @Test
     public final void testInFutureLongEquals() {
-        when(groupDao.inFuture(idMockLong)).thenReturn(listGroups);
+        when(groupDao.findGroupsToBeOpened(idMockLong)).thenReturn(listGroups);
         List<Group> listActual = groupManager.inFuture(idMockLong);
         assertEquals(listGroups, listActual);
     }
 
     @Test
     public final void testInFutureLongNotNull() {
-        when(groupDao.inFuture(idMockLong)).thenReturn(listGroups);
+        when(groupDao.findGroupsToBeOpened(idMockLong)).thenReturn(listGroups);
         List<Group> listActual = groupManager.inFuture(idMockLong);
         assertNotNull(listActual);
     }
 
     @Test
     public final void testInFutureLongNull() {
-        when(groupDao.inFuture(null)).thenReturn(null);
+        when(groupDao.findGroupsToBeOpened(null)).thenReturn(null);
         List<Group> listActual = groupManager.inFuture(null);
         assertNull(listActual);
     }

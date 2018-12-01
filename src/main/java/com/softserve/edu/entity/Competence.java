@@ -10,25 +10,20 @@ import java.util.Set;
 @Table(name = "ach_Competence")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = Competence.SHOW_GROUPS, query = Competence.SHOW_GROUPS_QUERY),
+        @NamedQuery(name = Competence.FIND_GROUPS_BY_COMPETENCE_ID, query = Competence.FIND_GROUPS_BY_COMPETENCE_ID_QUERY),
         @NamedQuery(name = Competence.FIND_GROUPS_BY_COMPETENCE_UUID, query = Competence.FIND_GROUPS_BY_COMPETENCE_UUID_QUERY),
         @NamedQuery(name = Competence.FIND_COMPETENCE_BY_NAME, query = Competence.FIND_COMPETENCE_BY_NAME_QUERY),
-        @NamedQuery(name = Competence.FIND_BY_USER_UUID, query = Competence.FIND_BY_USER_UUID_QUERY),
 })
 public class Competence extends AbstractEntity {
 
-    public static final String SHOW_GROUPS = "Competence.showGroups";
-    public static final String SHOW_GROUPS_QUERY = "from Group where competence_id = ?1";
+    public static final String FIND_GROUPS_BY_COMPETENCE_ID = "Competence.findGroupsByCompetenceId";
+    public static final String FIND_GROUPS_BY_COMPETENCE_ID_QUERY = "from Group where competence_id = ?1";
 
     public static final String FIND_GROUPS_BY_COMPETENCE_UUID = "Competence.findGroupsByCompetenceId";
     public static final String FIND_GROUPS_BY_COMPETENCE_UUID_QUERY = "FROM Group g INNER JOIN fetch g.competence c WHERE c.uuid like ?1";
 
     public static final String FIND_COMPETENCE_BY_NAME = "Competence.findByName";
     public static final String FIND_COMPETENCE_BY_NAME_QUERY = "from Competence where name like ?1";
-
-    public static final String FIND_BY_USER_UUID = "Competence.findAchievementsByUserUuid";
-    public static final String FIND_BY_USER_UUID_QUERY = "FROM Competence c INNER JOIN fetch c.groups g INNER JOIN fetch g.users u WHERE u.uuid LIKE ?1";
-
 
     /**
      * @return the id
@@ -62,7 +57,6 @@ public class Competence extends AbstractEntity {
     }
 
     public Competence(String name, Date date) {
-        super();
         this.name = name;
         this.date = date;
     }

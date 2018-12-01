@@ -7,12 +7,14 @@ import com.softserve.edu.manager.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+@RestController
 @Path("/user")
 public class UserRest {
     private static final Logger logger = LoggerFactory.getLogger(UserRest.class);
@@ -21,9 +23,8 @@ public class UserRest {
     private UserManager userManager;
 
     /**
-     * find all users from database. find by rest/user/allusers. listOfUsers is
-     * wrapped by special JaxbList object. Method produces xml file. Return list
-     * of all users and response status 200.
+     * Get all users
+     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
