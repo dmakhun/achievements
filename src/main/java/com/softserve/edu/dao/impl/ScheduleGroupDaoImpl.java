@@ -2,13 +2,11 @@ package com.softserve.edu.dao.impl;
 
 import com.softserve.edu.entity.Schedule;
 import com.softserve.edu.util.ScheduleMapping;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Parse csv file in List of Schedule for specific group.
- *
  */
 public class ScheduleGroupDaoImpl {
 
@@ -33,7 +31,7 @@ public class ScheduleGroupDaoImpl {
      */
     public ScheduleGroupDaoImpl(String groupName) {
         this.groupName = groupName;
-        this.listScheduleForGroup = this.listScheduleForThisGroup();
+        listScheduleForGroup = listScheduleForThisGroup();
 
     }
 

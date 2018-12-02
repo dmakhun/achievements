@@ -1,10 +1,25 @@
 package com.softserve.edu.entity;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
 @Entity
@@ -66,11 +81,13 @@ public class Group extends AbstractEntity {
     private Date dateClosed;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "ach_UserToGroup", joinColumns = {@JoinColumn(name = "group_id")}, inverseJoinColumns = {
+    @JoinTable(name = "ach_UserToGroup", joinColumns = {
+            @JoinColumn(name = "group_id")}, inverseJoinColumns = {
             @JoinColumn(name = "user_id")})
     private Set<User> users;
 
-    public Group(Competence competence, String name, Date dateOpened, Date dateClosed, Set<User> users) {
+    public Group(Competence competence, String name, Date dateOpened, Date dateClosed,
+            Set<User> users) {
         this.competence = competence;
         this.name = name;
         this.dateOpened = dateOpened;
@@ -141,16 +158,21 @@ public class Group extends AbstractEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Group other = (Group) obj;
         if (id == null) {
             return other.id == null;
-        } else return id.equals(other.id);
+        } else {
+            return id.equals(other.id);
+        }
     }
 
 }

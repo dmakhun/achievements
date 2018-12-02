@@ -1,5 +1,8 @@
 package com.softserve.edu.controller;
 
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
+
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.entity.Competence;
@@ -11,6 +14,15 @@ import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.RoleManager;
 import com.softserve.edu.manager.UserManager;
 import com.softserve.edu.util.FieldForSearchController;
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Files;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,24 +36,16 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import java.io.File;
-import java.net.URL;
-import java.nio.file.Files;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import static com.softserve.edu.util.Constants.GENERAL_ERROR;
-import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
 @Controller
 public class UserController {
+
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
@@ -103,7 +107,8 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         try {
-            userManager.appendCompetence(userManager.findByUsername(auth.getName()).getId(), competenceId);
+            userManager.appendCompetence(userManager.findByUsername(auth.getName()).getId(),
+                    competenceId);
 
             return "redirect:/user/userHome";
         } catch (UserManagerException e) {
@@ -204,7 +209,7 @@ public class UserController {
 
     @RequestMapping(value = "/admin/removeManager/{id}", method = RequestMethod.GET)
     public String removeManagerById(Model model,
-                                    @PathVariable(value = "id") Long userId) {
+            @PathVariable(value = "id") Long userId) {
         try {
             userManager.deleteById(userId);
             return "redirect:/admin/allManagers?status=success";
@@ -229,7 +234,7 @@ public class UserController {
 
     @RequestMapping(value = "/image", method = RequestMethod.POST)
     String uploadFileHandler(@RequestParam("file") MultipartFile file,
-                             Model model) {
+            Model model) {
 
         try {
             if (!file.isEmpty() || file.getContentType().startsWith("image/")) {
@@ -309,7 +314,7 @@ public class UserController {
 
     @RequestMapping(value = "/editprofile", method = RequestMethod.POST)
     public String editProfileUpdate(@Valid User user, BindingResult result,
-                                    Model model, Principal principal) {
+            Model model, Principal principal) {
         User currentUser = userManager.findByUsername(principal.getName());
         model.addAttribute("name", user.getName());
         model.addAttribute("email", user.getEmail());

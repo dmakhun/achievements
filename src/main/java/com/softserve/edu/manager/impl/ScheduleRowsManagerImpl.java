@@ -1,8 +1,12 @@
 package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.manager.ScheduleRowsManager;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Generates the current week.
@@ -19,14 +23,12 @@ public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
 
     /**
      * The default constructor.
-     *
-     * @param calendar
      */
     public ScheduleRowsManagerImpl(Calendar calendar) {
         this.calendar = calendar;
-        this.year = calendar.get(Calendar.YEAR);
-        this.month = calendar.get(Calendar.MONTH);
-        this.day = calendar.get(Calendar.DAY_OF_MONTH);
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     @Override
@@ -42,7 +44,7 @@ public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
     @Override
     public List<Calendar> getWeek() {
         List<Calendar> week = new ArrayList<>();
-        Calendar c = this.findMonday();
+        Calendar c = findMonday();
         int hour;
         int m = c.get(Calendar.MONTH);
         int TempDay = c.get(Calendar.DAY_OF_MONTH);
@@ -64,7 +66,7 @@ public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
     @Override
     public Map<Long, String> getWeekHead() {
         Map<Long, String> workWeekMap = new LinkedHashMap<>();
-        calendar = this.findMonday();
+        calendar = findMonday();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -72,8 +74,8 @@ public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
             calendar.set(year, month, day);
             int tempMonth = calendar.get(Calendar.MONTH) + 1;
             workWeekMap.put(i, calendar.get(Calendar.DAY_OF_MONTH) + "."
-                            + tempMonth + "."
-                            + calendar.get(Calendar.YEAR));
+                    + tempMonth + "."
+                    + calendar.get(Calendar.YEAR));
             day = day + 1;
         }
 

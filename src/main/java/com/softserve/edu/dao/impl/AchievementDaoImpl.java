@@ -4,11 +4,10 @@ import com.softserve.edu.dao.AchievementDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository("achievementDao")
 public class AchievementDaoImpl extends GenericDaoImpl<Achievement> implements AchievementDao {

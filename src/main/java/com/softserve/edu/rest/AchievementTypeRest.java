@@ -3,17 +3,23 @@ package com.softserve.edu.rest;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.AchievementTypeManager;
+import java.util.List;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.List;
-
 @Path("/achievement_type")
 public class AchievementTypeRest {
+
     private static final Logger logger = LoggerFactory
             .getLogger(AchievementTypeRest.class);
 
@@ -21,8 +27,7 @@ public class AchievementTypeRest {
     private AchievementTypeManager achievementTypeManager;
 
     /**
-     * This method returns all existing achievement types
-     * http://localhost:8080/Achievements
+     * This method returns all existing achievement types http://localhost:8080/Achievements
      * /rest/achievement_type/findAllAchievementTypes
      *
      * @return xml representation of all achievement types
@@ -45,11 +50,7 @@ public class AchievementTypeRest {
 
     /**
      * Creates a new achievement type according to the data of consumed XML
-     * http://localhost:8080/Achievements/rest/achievement_type/
-     * createAchievementType
-     *
-     * @param achievementType
-     * @return
+     * http://localhost:8080/Achievements/rest/achievement_type/ createAchievementType
      */
     @POST
     @Path("/createAchievementType")
@@ -70,12 +71,8 @@ public class AchievementTypeRest {
     }
 
     /**
-     * deletes achievement type by its uuid
-     * http://localhost:8080/Achievements/rest
+     * deletes achievement type by its uuid http://localhost:8080/Achievements/rest
      * /achievement_type/deleteAchivementTypeByUuid/UUID
-     *
-     * @param uuid
-     * @return
      */
     @DELETE
     @Path("deleteAchivementTypeByUuid/{uuid}")

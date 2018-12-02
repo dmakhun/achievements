@@ -2,7 +2,6 @@ package com.softserve.edu.manager;
 
 import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
-
 import java.util.List;
 
 public interface RoleManager {
@@ -22,31 +21,27 @@ public interface RoleManager {
     Long findRole(String roleName);
 
     /**
-     * @param roleUuid
-     * @return
+     *
      */
     List<User> findUsersByRoleUuid(String roleUuid);
 
     /**
-     * @param id
-     * @return
+     *
      */
     Role findById(Long id);
 
     /**
-     * @param roleName
-     * @return
+     *
      */
     Role findRoleByRolename(String roleName);
 
     /**
-     * @param roleUuid
-     * @return
+     *
      */
     Role findRoleByUuid(String roleUuid);
 
     /**
-     * @return
+     *
      */
     List<Role> findAll();
 }

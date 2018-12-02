@@ -3,7 +3,6 @@ package com.softserve.edu.manager;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
-
 import java.util.List;
 import java.util.Set;
 
@@ -12,9 +11,7 @@ public interface UserManager {
     /**
      * Create new user, filling in lots of data.
      *
-     *
      * @param user@throws UserManagerException
-     * @throws Exception
      */
     User createUser(User user) throws UserManagerException;
 
@@ -24,18 +21,17 @@ public interface UserManager {
      * <p>
      * If passed parameter is null or empty, that field will be not updated.
      *
-     * @param userId   User's id, that we want to modify.
-     * @param name     New name.
-     * @param surname  New surname.
+     * @param userId User's id, that we want to modify.
+     * @param name New name.
+     * @param surname New surname.
      * @param username New username.
      * @param password New password.
-     * @param email    New email.
-     * @param roleId   New role id.
-     * @throws UserManagerException
+     * @param email New email.
+     * @param roleId New role id.
      */
     User updateUser(final Long userId, final String name,
-                    final String surname, final String username, final String password,
-                    final String email, final Long roleId) throws UserManagerException;
+            final String surname, final String username, final String password,
+            final String email, final Long roleId) throws UserManagerException;
 
     /**
      * Modify existing user.
@@ -43,7 +39,6 @@ public interface UserManager {
      * If passed parameter is null or empty, that field will be not updated.
      *
      * @param user New User.
-     * @throws UserManagerException
      */
     void updateUser(User user) throws UserManagerException;
 
@@ -52,8 +47,7 @@ public interface UserManager {
      * <p>
      * If passed parameter is null or empty, that field will be not updated.
      *
-     * @param userUuid   User's uuid, that we want to modify.
-     * @throws UserManagerException
+     * @param userUuid User's uuid, that we want to modify.
      */
     User updateUser(final String userUuid, User user) throws UserManagerException;
 
@@ -62,7 +56,6 @@ public interface UserManager {
      *
      * @param id User id.
      * @return result.
-     * @throws UserManagerException
      */
     void deleteById(final Long id) throws UserManagerException;
 
@@ -71,14 +64,12 @@ public interface UserManager {
      *
      * @param id User id.
      * @return User or null.
-     * @throws UserManagerException
      */
     User findById(final Long id) throws UserManagerException;
 
     /**
      * Find user by his ID.
      *
-     * @param uuid
      * @return User or null.
      */
     User findByUuid(final String uuid);
@@ -88,7 +79,6 @@ public interface UserManager {
      *
      * @param username Username.
      * @return User or null.
-     * @throws UserManagerException
      */
     User findByUsername(final String username);
 
@@ -103,34 +93,27 @@ public interface UserManager {
     /**
      * Find all groups user attending to.
      *
-     * @param userId     User id.
-     * @param onlyOpened Select only those groups, that are opened (aka not closed) in
-     *                   the current moment.
-     * @return
+     * @param userId User id.
+     * @param onlyOpened Select only those groups, that are opened (aka not closed) in the current
+     * moment.
      */
     List<Group> findGroups(final Long userId, final boolean onlyOpened);
 
     /**
      * Attend user to specific competence.
-     *
-     * @param userId
-     * @param competenceId
-     * @throws UserManagerException
      */
     void appendCompetence(final Long userId, final Long competenceId) throws UserManagerException;
 
     /**
      * Removes user from attending to some competence
      *
-     * @param userId       - user you want to remove
+     * @param userId - user you want to remove
      * @param competenceId - competence Id from which you want to remove user\'s attend
-     * @throws UserManagerException
      */
     void removeUserToCompetence(final Long userId,
-                                final Long competenceId) throws UserManagerException;
+            final Long competenceId) throws UserManagerException;
 
     /**
-     * @param username
      * @return Set of name of all active groups for user with username
      */
     Set<String> findActiveNameGroups(String username);
@@ -143,7 +126,6 @@ public interface UserManager {
     /**
      * check if user exists in database
      *
-     * @param username
      * @return boolean;
      * @nsosntc
      */
@@ -153,36 +135,30 @@ public interface UserManager {
     /**
      * check if email exists in database
      *
-     * @param email
      * @return boolean;
      * @nsosntc
      */
     boolean existEmail(String email);
 
     /**
-     * @param userUuid
-     * @throws UserManagerException
+     *
      */
     void deleteByUuid(String userUuid) throws UserManagerException;
 
     /**
-     * @param userUuid
-     * @param competenceUuid
-     * @throws UserManagerException
+     *
      */
     void appendCompetence(String userUuid, String competenceUuid) throws UserManagerException;
 
 
     /**
-     * @param userUuid
-     * @param competenceUuid
-     * @throws UserManagerException
+     *
      */
     void removeUserToCompetence(String userUuid, String competenceUuid)
             throws UserManagerException;
 
     /**
-     * @param user
+     *
      */
     void removeAssociations(User user);
 

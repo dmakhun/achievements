@@ -1,19 +1,18 @@
 package com.softserve.edu.dao.impl;
 
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
+
 import com.softserve.edu.dao.GenericDao;
 import com.softserve.edu.manager.RoleManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
-
-import static com.softserve.edu.util.Constants.ROLE_MANAGER;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class GenericDaoImpl<T> implements GenericDao<T> {
@@ -99,8 +98,8 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 
     @Override
     public List<T> dynamicSearch(int startPosition, int maxResult,
-                                 String parameter, String pattern, boolean isFirstChar,
-                                 Class<T> objectClass) {
+            String parameter, String pattern, boolean isFirstChar,
+            Class<T> objectClass) {
         String placeholder = isFirstChar ? "" : "%";
 
         List<T> resultList = (List<T>) entityManager

@@ -19,7 +19,7 @@ public class UserManagerException extends Exception {
 
     /**
      * @param msg - the message to add to exception.
-     * @param e   - the exception.
+     * @param e - the exception.
      */
     public UserManagerException(String msg, Exception e) {
         super(msg, e);

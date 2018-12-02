@@ -1,9 +1,19 @@
 package com.softserve.edu.entity;
 
-import javax.persistence.*;
+import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.Date;
 
 @XmlRootElement
 @Entity
@@ -39,7 +49,7 @@ public class Achievement extends AbstractEntity {
     }
 
     public Achievement(AchievementType achievementType, Date created,
-                       String comment) {
+            String comment) {
         this.achievementType = achievementType;
         this.created = created;
         this.comment = comment;
@@ -47,7 +57,7 @@ public class Achievement extends AbstractEntity {
     }
 
     public Achievement(AchievementType achievementType, Date created,
-                       String comment, User user) {
+            String comment, User user) {
         this.achievementType = achievementType;
         this.created = created;
         this.comment = comment;

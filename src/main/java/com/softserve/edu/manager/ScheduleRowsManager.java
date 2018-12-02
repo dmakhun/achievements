@@ -26,7 +26,7 @@ public interface ScheduleRowsManager {
     /**
      * Determines the value of the head of the week.
      *
-     * @return Map<Long, String>.
+     * @return Map<Long ,   String>.
      */
     Map<Long, String> getWeekHead();
 }

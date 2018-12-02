@@ -4,10 +4,9 @@ import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository("roleDao")
 public class RoleDaoImpl extends GenericDaoImpl<Role>

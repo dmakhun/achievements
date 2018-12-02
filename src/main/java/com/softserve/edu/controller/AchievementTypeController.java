@@ -7,14 +7,17 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.AchievementTypeManager;
 import com.softserve.edu.manager.CompetenceManager;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class AchievementTypeController {
@@ -85,7 +88,7 @@ public class AchievementTypeController {
 
     @RequestMapping(value = "/admin/achievementtype/list/{id}", method = RequestMethod.GET)
     public String list(@PathVariable(value = "id") Long competenceId,
-                       Model model) {
+            Model model) {
         try {
             List<AchievementType> achievements = achievementTypeDao
                     .findByCompetenceId(competenceId);

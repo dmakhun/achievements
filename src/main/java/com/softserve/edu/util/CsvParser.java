@@ -4,7 +4,6 @@ import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 import com.softserve.edu.entity.Schedule;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
