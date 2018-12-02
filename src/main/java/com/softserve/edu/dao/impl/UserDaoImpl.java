@@ -1,27 +1,27 @@
 package com.softserve.edu.dao.impl;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toSet;
-
 @Repository("userDao")
 public class UserDaoImpl extends GenericDaoImpl<User>
         implements UserDao {
+
     private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     @Autowired

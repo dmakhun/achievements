@@ -2,13 +2,27 @@ package com.softserve.edu.entity;
 
 import com.softserve.edu.util.FieldForSearch;
 import com.softserve.edu.validation.ValidEmail;
-
-import javax.persistence.*;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.Set;
 
 @XmlRootElement
 @Entity
@@ -71,7 +85,9 @@ public class User extends AbstractEntity {
     private byte[] picture;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "ach_UserToCompetence", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "competence_id")})
+    @JoinTable(name = "ach_UserToCompetence", joinColumns = {
+            @JoinColumn(name = "user_id")}, inverseJoinColumns = {
+            @JoinColumn(name = "competence_id")})
     private Set<Competence> competences;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
@@ -81,14 +97,15 @@ public class User extends AbstractEntity {
      * Many to many and createAchievementType table user_group
      */
     @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "ach_UserToGroup", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
+    @JoinTable(name = "ach_UserToGroup", joinColumns = {
+            @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
     private Set<Group> groups;
 
     public User() {
     }
 
     public User(String name, String surname, String username, Role role,
-                String password, byte[] picture) {
+            String password, byte[] picture) {
         this.role = role;
         this.name = name;
         this.surname = surname;
@@ -192,16 +209,21 @@ public class User extends AbstractEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         User other = (User) obj;
         if (id == null) {
             return other.id == null;
-        } else return id.equals(other.id);
+        } else {
+            return id.equals(other.id);
+        }
     }
 
     @XmlTransient

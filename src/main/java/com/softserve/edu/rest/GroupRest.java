@@ -4,26 +4,32 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.manager.GroupManager;
+import java.util.List;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.List;
-
 @Path("/group")
 public class GroupRest {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupRest.class);
 
     @Autowired
     private GroupManager groupManager;
 
     /**
-     * find all user by group uuid from database. find by
-     * rest/group/findusersbygroupuuid/{groupuuid}. listOfUsers is wrapped by
-     * special JaxbList object. Method produces xml file.
+     * find all user by group uuid from database. find by rest/group/findusersbygroupuuid/{groupuuid}.
+     * listOfUsers is wrapped by special JaxbList object. Method produces xml file.
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -47,7 +53,6 @@ public class GroupRest {
 
     /**
      * Get not yet opened groups
-     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -90,10 +95,9 @@ public class GroupRest {
 
     /**
      * createAchievementType group (save in database). createAchievementType by
-     * rest/group/creategroup/{competenceuuid} competenceuuid - appropriate uuid
-     * of some group's competence. Consumes application/xml file and save in
-     * database. return response status 201 if group creation process was
-     * successful, otherwise return 500 response status.
+     * rest/group/creategroup/{competenceuuid} competenceuuid - appropriate uuid of some group's
+     * competence. Consumes application/xml file and save in database. return response status 201 if
+     * group creation process was successful, otherwise return 500 response status.
      */
     @POST
     @Consumes(MediaType.APPLICATION_XML)
@@ -112,15 +116,14 @@ public class GroupRest {
 
     /**
      * add user with appropriate uuid to group with appropriate uuid. add by
-     * addusertogroup/{useruuid}/{groupuuid} useruuid - appropriate uuid of some
-     * user. groupuuid - appropriate uuid of some group. return response status
-     * 200 if group creation process was successful, otherwise return 500
-     * response status.
+     * addusertogroup/{useruuid}/{groupuuid} useruuid - appropriate uuid of some user. groupuuid -
+     * appropriate uuid of some group. return response status 200 if group creation process was
+     * successful, otherwise return 500 response status.
      */
     @PUT
     @Path("/addusertogroup/{useruuid}/{groupuuid}")
     public Response addUserToGroup(@PathParam("useruuid") String userUuid,
-                                   @PathParam("groupuuid") String groupUuid) {
+            @PathParam("groupuuid") String groupUuid) {
 
         try {
             groupManager.addUser(userUuid, groupUuid);
@@ -133,11 +136,9 @@ public class GroupRest {
     }
 
     /**
-     * deleteAchievementType user by user's uuid. find by
-     * rest/user/deleteuserbyuseruuid/{useruuid}.If some trouble occurred,
-     * return response status 500 with appropriate message. If groups was found
-     * and removed from database - return response status 200 with appropriate
-     * message.
+     * deleteAchievementType user by user's uuid. find by rest/user/deleteuserbyuseruuid/{useruuid}.If
+     * some trouble occurred, return response status 500 with appropriate message. If groups was
+     * found and removed from database - return response status 200 with appropriate message.
      */
     @DELETE
     @Path("/deletegroupbygroupuuid/{groupuuid}")

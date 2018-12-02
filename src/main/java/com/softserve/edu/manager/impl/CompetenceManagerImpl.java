@@ -7,17 +7,16 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.CompetenceManager;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service("competenceManager")
 public class CompetenceManagerImpl implements CompetenceManager {
@@ -168,21 +167,28 @@ public class CompetenceManagerImpl implements CompetenceManager {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         CompetenceManagerImpl other = (CompetenceManagerImpl) obj;
         if (achievementTypeDao == null) {
-            if (other.achievementTypeDao != null)
+            if (other.achievementTypeDao != null) {
                 return false;
-        } else if (!achievementTypeDao.equals(other.achievementTypeDao))
+            }
+        } else if (!achievementTypeDao.equals(other.achievementTypeDao)) {
             return false;
+        }
         if (competenceDao == null) {
             return other.competenceDao == null;
-        } else return competenceDao.equals(other.competenceDao);
+        } else {
+            return competenceDao.equals(other.competenceDao);
+        }
     }
 
     @Override

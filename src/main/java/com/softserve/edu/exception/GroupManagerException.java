@@ -6,12 +6,11 @@ public class GroupManagerException extends Exception {
      * The default constructor.
      */
     public GroupManagerException() {
-        super();
     }
 
     /**
      * @param msg - the message to add to exception.
-     * @param e   - the exception.
+     * @param e - the exception.
      */
     public GroupManagerException(String msg, Exception e) {
         super(msg, e);

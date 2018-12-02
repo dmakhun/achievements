@@ -1,11 +1,10 @@
 package com.softserve.edu.manager;
 
-import com.softserve.edu.manager.impl.ScheduleRowsManagerImpl;
-import org.junit.Test;
-
-import java.util.Calendar;
-
 import static org.junit.Assert.assertTrue;
+
+import com.softserve.edu.manager.impl.ScheduleRowsManagerImpl;
+import java.util.Calendar;
+import org.junit.Test;
 
 public class ScheduleRowsManagerTest {
 

@@ -4,19 +4,26 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
+import java.util.List;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.List;
-
 @RestController
 @Path("/user")
 public class UserRest {
+
     private static final Logger logger = LoggerFactory.getLogger(UserRest.class);
 
     @Autowired
@@ -24,7 +31,6 @@ public class UserRest {
 
     /**
      * Get all users
-     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -43,11 +49,10 @@ public class UserRest {
     }
 
     /**
-     * find user by user uuid. find by rest/user/finduserbyuuid/{uuid}. Method
-     * produces xml file. If user with appropriate uuid does not exist in
-     * database or some trouble occurred, return response status 500 with
-     * appropriate message. If user was found - return user with response status
-     * 200.
+     * find user by user uuid. find by rest/user/finduserbyuuid/{uuid}. Method produces xml file. If
+     * user with appropriate uuid does not exist in database or some trouble occurred, return
+     * response status 500 with appropriate message. If user was found - return user with response
+     * status 200.
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -71,11 +76,10 @@ public class UserRest {
     }
 
     /**
-     * find user by user email. find by rest/user/finduserbyemail/{email}.
-     * Method produces xml file. If user with appropriate email does not exist
-     * in database or some trouble occurred, return response status 500 with
-     * appropriate message. If user was found - return user with response status
-     * 200.
+     * find user by user email. find by rest/user/finduserbyemail/{email}. Method produces xml file.
+     * If user with appropriate email does not exist in database or some trouble occurred, return
+     * response status 500 with appropriate message. If user was found - return user with response
+     * status 200.
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -99,10 +103,10 @@ public class UserRest {
     }
 
     /**
-     * find all user's groups. find by rest/user/findgroups/{username}. Method
-     * produces xml file. If user with appropriate username does not take part
-     * in database or some trouble occurred, return response status 500 with
-     * appropriate message. If groups was found - return response status 200.
+     * find all user's groups. find by rest/user/findgroups/{username}. Method produces xml file. If
+     * user with appropriate username does not take part in database or some trouble occurred,
+     * return response status 500 with appropriate message. If groups was found - return response
+     * status 200.
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -130,11 +134,10 @@ public class UserRest {
     }
 
     /**
-     * find user by user name. find by rest/user/finduserbyusername/{username}.
-     * Method produces xml file. If user with appropriate email does not exist
-     * in database or some trouble occurred, return response status 500 with
-     * appropriate message. If user was found - return user with response status
-     * 200.
+     * find user by user name. find by rest/user/finduserbyusername/{username}. Method produces xml
+     * file. If user with appropriate email does not exist in database or some trouble occurred,
+     * return response status 500 with appropriate message. If user was found - return user with
+     * response status 200.
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -160,11 +163,9 @@ public class UserRest {
     }
 
     /**
-     * deleteAchievementType user by user's uuid. find by
-     * rest/user/deleteuserbyuseruuid/{useruuid}.If some trouble occurred,
-     * return response status 500 with appropriate message. If groups was found
-     * and removed from database - return response status 200 with appropriate
-     * message.
+     * deleteAchievementType user by user's uuid. find by rest/user/deleteuserbyuseruuid/{useruuid}.If
+     * some trouble occurred, return response status 500 with appropriate message. If groups was
+     * found and removed from database - return response status 200 with appropriate message.
      */
     @DELETE
     @Path("/deleteuserbyuseruuid/{useruuid}")
@@ -181,9 +182,9 @@ public class UserRest {
     }
 
     /**
-     * createAchievementType user (save in database). Consumes application/xml file, validate
-     * fields and save in database. return response status 201 if user creation
-     * process was successful, otherwise return 500 response status.
+     * createAchievementType user (save in database). Consumes application/xml file, validate fields
+     * and save in database. return response status 201 if user creation process was successful,
+     * otherwise return 500 response status.
      */
     @POST
     @Path("/createuser")
@@ -199,11 +200,10 @@ public class UserRest {
     }
 
     /**
-     * updateUser user with appropriate uuid. Consumes application/xml file, find
-     * appropriate user by user uuid, validate fields from consumed xml file and
-     * updateUser user in database if validation process was successful. return
-     * response status 200 if updateUser process was successful, otherwise return
-     * 500 response status.
+     * updateUser user with appropriate uuid. Consumes application/xml file, find appropriate user
+     * by user uuid, validate fields from consumed xml file and updateUser user in database if
+     * validation process was successful. return response status 200 if updateUser process was
+     * successful, otherwise return 500 response status.
      */
     @PUT
     @Path("/updateuser/{uuid}")
@@ -219,14 +219,13 @@ public class UserRest {
     }
 
     /**
-     * attend competence with appropriate competence uuid to user with
-     * appropriate uuid. find user and competence by uuid. return response
-     * status 200 if attending process was successful.
+     * attend competence with appropriate competence uuid to user with appropriate uuid. find user
+     * and competence by uuid. return response status 200 if attending process was successful.
      */
     @PUT
     @Path("/attendcompetence/{useruuid}/{competenceuuid}")
     public Response appendCompetence(@PathParam("useruuid") String userUuid,
-                                     @PathParam("competenceuuid") String competenceUuid) {
+            @PathParam("competenceuuid") String competenceUuid) {
         try {
             userManager.appendCompetence(userUuid, competenceUuid);
         } catch (Exception e) {
@@ -237,14 +236,13 @@ public class UserRest {
     }
 
     /**
-     * attend competence with appropriate competence uuid to user with
-     * appropriate uuid. find user and competence by uuid. return response
-     * status 200 if attending process was successful.
+     * attend competence with appropriate competence uuid to user with appropriate uuid. find user
+     * and competence by uuid. return response status 200 if attending process was successful.
      */
     @PUT
     @Path("/removecompetence/{useruuid}/{competenceuuid}")
     public Response removeCompetence(@PathParam("useruuid") String userUuid,
-                                     @PathParam("competenceuuid") String competenceUuid) {
+            @PathParam("competenceuuid") String competenceUuid) {
         try {
             userManager.removeUserToCompetence(userUuid, competenceUuid);
         } catch (Exception e) {

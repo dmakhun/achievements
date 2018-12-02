@@ -1,11 +1,12 @@
 package com.softserve.edu.entity;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import java.util.Date;
 import java.util.UUID;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 public class Listener {
+
     @PrePersist
     public void setUUID(AbstractEntity entity) {
         entity.setUuid(UUID.randomUUID().toString());

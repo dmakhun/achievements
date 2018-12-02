@@ -7,16 +7,15 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.manager.GroupManager;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Service("groupManager")
 public class GroupManagerImplementation implements GroupManager {
@@ -51,14 +50,14 @@ public class GroupManagerImplementation implements GroupManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> findByCompetenceUuid(String competenceUuid,
-                                            boolean onlyOpened) {
+            boolean onlyOpened) {
         return groupDao.findByCompetenceUuid(competenceUuid, onlyOpened);
     }
 
     @Override
     @Transactional
     public Long create(String name, Date startDate, Date endDate,
-                       Long competenceId) throws GroupManagerException {
+            Long competenceId) throws GroupManagerException {
 
         Competence competence = competenceDao.findById(Competence.class,
                 competenceId);
@@ -82,7 +81,7 @@ public class GroupManagerImplementation implements GroupManager {
     @Override
     @Transactional
     public void modify(final Long groupId, final String name, final Date start,
-                       final Date end, final Long competenceId)
+            final Date end, final Long competenceId)
             throws GroupManagerException {
 
         Competence competence = competenceDao.findById(Competence.class,

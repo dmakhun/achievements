@@ -1,9 +1,20 @@
 package com.softserve.edu.entity;
 
-import javax.persistence.*;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.Set;
 
 @XmlRootElement
 @Entity
@@ -48,7 +59,7 @@ public class AchievementType extends AbstractEntity {
     }
 
     public AchievementType(Competence competence, String name, Integer points,
-                           Set<Achievement> achievement) {
+            Set<Achievement> achievement) {
         this.competence = competence;
         this.name = name;
         this.points = points;
@@ -121,35 +132,48 @@ public class AchievementType extends AbstractEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         AchievementType other = (AchievementType) obj;
         if (achievement == null) {
-            if (other.achievement != null)
+            if (other.achievement != null) {
                 return false;
-        } else if (!achievement.equals(other.achievement))
+            }
+        } else if (!achievement.equals(other.achievement)) {
             return false;
+        }
         if (competence == null) {
-            if (other.competence != null)
+            if (other.competence != null) {
                 return false;
-        } else if (!competence.equals(other.competence))
+            }
+        } else if (!competence.equals(other.competence)) {
             return false;
+        }
         if (id == null) {
-            if (other.id != null)
+            if (other.id != null) {
                 return false;
-        } else if (!id.equals(other.id))
+            }
+        } else if (!id.equals(other.id)) {
             return false;
+        }
         if (name == null) {
-            if (other.name != null)
+            if (other.name != null) {
                 return false;
-        } else if (!name.equals(other.name))
+            }
+        } else if (!name.equals(other.name)) {
             return false;
+        }
         if (points == null) {
             return other.points == null;
-        } else return points.equals(other.points);
+        } else {
+            return points.equals(other.points);
+        }
     }
 }
