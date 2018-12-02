@@ -53,10 +53,10 @@ public class Group extends AbstractEntity {
     public static final String FIND_ONLY_OPENED_GROUPS = "Group.opened";
     public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1 and g.dateClosed > ?2";
 
-    public static final String FIND_ONLY_OPENED_GROUPS_UUID = "Group.opened";
-    public static final String FIND_ONLY_OPENED_GROUPS_UUID_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.uuid = ?1 and g.closed > ?2";
+    public static final String FIND_ONLY_OPENED_GROUPS_UUID = "Group.openedByUuid";
+    public static final String FIND_ONLY_OPENED_GROUPS_UUID_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.uuid = ?1 and g.dateClosed > ?2";
 
-    public static final String FIND_GROUPS = "Groups";
+    public static final String FIND_GROUPS = "Group.all";
     public static final String FIND_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1";
 
 

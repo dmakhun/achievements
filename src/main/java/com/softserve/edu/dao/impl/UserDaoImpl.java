@@ -28,8 +28,6 @@ public class UserDaoImpl extends GenericDaoImpl<User>
     private RoleDao roleDao;
     @Autowired
     private GroupDao groupDao;
-    @Autowired
-    private UserDao userDao;
 
     @Override
     public User findById(Class<User> userClass, long id) {
@@ -75,7 +73,7 @@ public class UserDaoImpl extends GenericDaoImpl<User>
         if (onlyOpened) {
             return groupDao.findEntityList(User.FIND_ONLY_OPENED_GROUPS, userId, new Date());
         }
-        return new ArrayList<>(userDao.findById(User.class, userId).getGroups());
+        return new ArrayList<>(findById(User.class, userId).getGroups());
     }
 
     @Override
