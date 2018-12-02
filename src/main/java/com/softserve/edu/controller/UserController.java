@@ -88,7 +88,7 @@ public class UserController {
             }
             exceptOfList.addAll(wantToAttend);
 
-            List<Competence> competences = competenceManager.listWithout(exceptOfList);
+            List<Competence> competences = competenceManager.findExcept(exceptOfList);
 
             model.addAttribute("competences", competences);
             model.addAttribute("waiting_attend", wantToAttend);

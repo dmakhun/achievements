@@ -57,10 +57,10 @@ public class AchievementTypeController {
     @RequestMapping(value = "/admin/achievementtype/add", method = RequestMethod.GET)
     public String addAchievementTypeAllCompetences(Model model) {
         try {
-            List<Competence> competencelist = competenceManager
+            List<Competence> competenceList = competenceManager
                     .findAllCompetences();
 
-            model.addAttribute("competencelist", competencelist);
+            model.addAttribute("competenceList", competenceList);
 
             return "AllCompetencies";
         } catch (Exception e) {

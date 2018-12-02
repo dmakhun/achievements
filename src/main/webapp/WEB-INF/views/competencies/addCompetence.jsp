@@ -10,7 +10,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">All competences</div>
             <table class="table">
-                <c:forEach var="item" items="${competencelist}">
+                <c:forEach var="item" items="${competenceList}">
                     <tr>
                         <td>${item.name}</td>
                     </tr>

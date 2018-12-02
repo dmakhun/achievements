@@ -19,7 +19,7 @@
                     <select class="selectpicker" name="competence">
                         <option selected value="SelectBranch"><spring:message
                                 code="select.branch"/></option>
-                        <c:forEach var="item" items="${competencelist}">
+                        <c:forEach var="item" items="${competenceList}">
                             <option value="${item.id}">${item.name}</option>
                         </c:forEach>
                     </select> &nbsp
