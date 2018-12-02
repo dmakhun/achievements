@@ -21,8 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("competenceManager")
 public class CompetenceManagerImpl implements CompetenceManager {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(CompetenceManagerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(CompetenceManagerImpl.class);
 
     @Autowired
     private CompetenceDao competenceDao;
@@ -31,8 +30,8 @@ public class CompetenceManagerImpl implements CompetenceManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Group> findGroups(int CompetenceId) {
-        return competenceDao.findGroupsByCompetenceId(CompetenceId);
+    public List<Group> findGroups(int competenceId) {
+        return competenceDao.findGroupsByCompetenceId(competenceId);
     }
 
     @Override
@@ -49,19 +48,16 @@ public class CompetenceManagerImpl implements CompetenceManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<AchievementType> findTypesOfAchievements(Long idCompetence) {
-
+    public List<AchievementType> findTypesOfAchievements(Long competenceId) {
         return achievementTypeDao
-                .findByCompetenceId(idCompetence);
+                .findByCompetenceId(competenceId);
     }
 
     @Override
     @Transactional
     public Competence create(String name) throws CompetenceManagerException {
-        Competence competence;
         try {
-            competence = new Competence();
-            competence.setName(name);
+            Competence competence = new Competence(name, null);
             competenceDao.save(competence);
             logger.info("Competence created successfully");
             return competence;
@@ -118,10 +114,9 @@ public class CompetenceManagerImpl implements CompetenceManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Competence> listWithout(List<Competence> withoutList) {
-        Set<Competence> but = new HashSet<>(withoutList);
+    public List<Competence> findExcept(List<Competence> competencesToExclude) {
         Set<Competence> set = new HashSet<>(competenceDao.findAll(Competence.class));
-        set.removeAll(but);
+        set.removeAll(competencesToExclude);
         return new ArrayList<>(set);
     }
 
@@ -134,20 +129,19 @@ public class CompetenceManagerImpl implements CompetenceManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findByUserUuid(String userUuid) {
-        return competenceDao.findByUserUuid(userUuid);
+        return competenceDao.findCompetencesByUserUuid(userUuid);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Competence findByID(Long objectId) {
-        return competenceDao.findById(Competence.class, objectId);
+    public Competence findByID(Long competenceId) {
+        return competenceDao.findById(Competence.class, competenceId);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<AchievementType> findAchievementTypesByCompetenceUuid(
             String competenceUuid) {
-
         return achievementTypeDao
                 .findByCompetenceUuid(competenceUuid);
     }

@@ -6,7 +6,7 @@ import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.User;
-import com.softserve.edu.exception.CompetenceManagerException;
+import com.softserve.edu.exception.AchievementManagerException;
 import com.softserve.edu.manager.AchievementManager;
 import java.util.Date;
 import java.util.List;
@@ -34,12 +34,11 @@ public class AchievementManagerImpl implements AchievementManager {
     @Override
     @Transactional
     public void awardUser(long userId, long achievementTypeId, String comment)
-            throws CompetenceManagerException {
-
+            throws AchievementManagerException {
         AchievementType achievementType = achievementTypeDao
                 .findById(AchievementType.class, achievementTypeId);
         if (achievementType == null) {
-            throw new IllegalArgumentException("No such Achievement Type id.");
+            throw new IllegalArgumentException("No such AchievementType id.");
         }
         User user = userDao.findById(User.class, userId);
         if (user == null) {
@@ -51,7 +50,7 @@ public class AchievementManagerImpl implements AchievementManager {
             achievementDao.save(achievement);
         } catch (Exception e) {
             logger.error("Could not award achievement to user", e);
-            throw new CompetenceManagerException("Could not award achievement to user", e);
+            throw new AchievementManagerException("Could not award achievement to user", e);
         }
     }
 

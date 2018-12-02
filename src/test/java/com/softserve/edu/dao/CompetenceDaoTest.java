@@ -52,7 +52,7 @@ public class CompetenceDaoTest {
 
     @Test
     public void testFindByUserUuid() {
-        List<Competence> competences = competenceDao.findByUserUuid("i1");
+        List<Competence> competences = competenceDao.findCompetencesByUserUuid("i1");
         for (Competence competency : competences) {
             System.out.println(competency.getName());
         }

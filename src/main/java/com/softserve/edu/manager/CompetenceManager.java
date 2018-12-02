@@ -39,7 +39,7 @@ public interface CompetenceManager {
     /**
      * Get list of competences but those, that are given.
      */
-    List<Competence> listWithout(List<Competence> buts);
+    List<Competence> findExcept(List<Competence> buts);
 
     /**
      * Get list of competences, that user want attend to.

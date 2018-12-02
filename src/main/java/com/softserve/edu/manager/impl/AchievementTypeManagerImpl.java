@@ -28,8 +28,8 @@ public class AchievementTypeManagerImpl implements
     private AchievementTypeDao achievementTypeDao;
 
     @Override
-    public AchievementType createAchievementType(final Competence competence, final String name,
-            final int points)
+    @Transactional
+    public AchievementType createAchievementType(Competence competence, String name, int points)
             throws AchievementTypeManagerException {
         AchievementType achievementType;
         try {

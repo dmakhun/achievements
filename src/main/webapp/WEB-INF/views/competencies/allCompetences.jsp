@@ -63,7 +63,7 @@
             <th>Competence</th>
             <th></th>
         </tr>
-        <c:forEach var="item" items="${competencelist}">
+        <c:forEach var="item" items="${competenceList}">
             <tr id="competence-${item.id}">
                 <td>${item.name}</td>
                 <td>

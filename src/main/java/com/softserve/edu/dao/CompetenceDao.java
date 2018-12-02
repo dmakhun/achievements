@@ -35,7 +35,7 @@ public interface CompetenceDao extends GenericDao<Competence> {
     /**
      * Finds the list of the competences of the specific user by user's UUID.
      */
-    List<Competence> findByUserUuid(final String userUuid);
+    List<Competence> findCompetencesByUserUuid(final String userUuid);
 
     /**
      * Get competences with loaded users to them.
