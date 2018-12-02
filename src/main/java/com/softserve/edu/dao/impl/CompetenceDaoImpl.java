@@ -30,7 +30,6 @@ public class CompetenceDaoImpl extends
     public List<Group> findGroupsByCompetenceUuid(String competenceUuid) {
         return groupDao.findEntityList(
                 Competence.FIND_GROUPS_BY_COMPETENCE_UUID, competenceUuid);
-
     }
 
     @Override
@@ -45,7 +44,7 @@ public class CompetenceDaoImpl extends
     }
 
     @Override
-    public List<Competence> findByUserUuid(String userUuid) {
+    public List<Competence> findCompetencesByUserUuid(String userUuid) {
         User user = userDao.findByUuid(User.class, userUuid);
         return new ArrayList<>(user.getCompetences());
     }

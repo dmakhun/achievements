@@ -137,14 +137,14 @@ public class CompetenceManagerTest {
 
     @Test
     public void testFindByUserUuidEquals() {
-        when(competenceDao.findByUserUuid(uuIdMock)).thenReturn(listCompetences);
+        when(competenceDao.findCompetencesByUserUuid(uuIdMock)).thenReturn(listCompetences);
         List<Competence> expected = competenceManager.findByUserUuid(uuIdMock);
         assertEquals(expected, listCompetences);
     }
 
     @Test
     public void testFindByUserUuidNotNull() {
-        when(competenceDao.findByUserUuid(uuIdMock)).thenReturn(listCompetences);
+        when(competenceDao.findCompetencesByUserUuid(uuIdMock)).thenReturn(listCompetences);
         List<Competence> expected = competenceManager.findByUserUuid(uuIdMock);
         assertNotNull(expected);
     }
