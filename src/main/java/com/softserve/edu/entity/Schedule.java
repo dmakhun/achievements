@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * The <code>Schedule</code> class is entity of file csv in Java. One object of
- * class include one line in file csv.
+ * The <code>Schedule</code> class is entity of file csv in Java. One object of class include one
+ * line in file csv.
  */
 
 public class Schedule {
@@ -167,7 +167,7 @@ public class Schedule {
      * @param startDate .
      */
     public void setStartDateAndTime(Calendar startDate) {
-        this.startDateAndTime = startDate;
+        startDateAndTime = startDate;
     }
 
     /**
@@ -189,7 +189,7 @@ public class Schedule {
      * @param endDate .
      */
     public void setEndDateAndTime(Calendar endDate) {
-        this.endDateAndTime = endDate;
+        endDateAndTime = endDate;
     }
 
 }

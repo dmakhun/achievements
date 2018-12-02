@@ -1,10 +1,9 @@
 package com.softserve.edu.validation;
 
 
-import org.apache.commons.validator.routines.EmailValidator;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import org.apache.commons.validator.routines.EmailValidator;
 
 public class ValidEmailImpl implements ConstraintValidator<ValidEmail, String> {
 

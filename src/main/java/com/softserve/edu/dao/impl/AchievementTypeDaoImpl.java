@@ -3,10 +3,9 @@ package com.softserve.edu.dao.impl;
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.AchievementType;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository("achievementTypeDao")
 public class AchievementTypeDaoImpl extends

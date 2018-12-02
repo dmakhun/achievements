@@ -6,17 +6,22 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
+import java.util.List;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.List;
-
 @Path("/competence")
 public class CompetenceRest {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CompetenceRest.class);
 
     @Autowired
@@ -25,12 +30,8 @@ public class CompetenceRest {
     GroupManager groupManager;
 
     /**
-     * Finds all OPENED groups for specific competence
-     * http://localhost:8080/Achievements
+     * Finds all OPENED groups for specific competence http://localhost:8080/Achievements
      * /rest/competence/findGroupsOpenedByCompetence/UUID
-     *
-     * @param competenceUuid
-     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -56,8 +57,7 @@ public class CompetenceRest {
 
     /**
      * This method returns marshaled list of groups of some specific competence
-     * http://localhost:8080/Achievements/rest/competence/
-     * findGroupsByCompetenceUuid/SOME_COMPETENCE_UUID
+     * http://localhost:8080/Achievements/rest/competence/ findGroupsByCompetenceUuid/SOME_COMPETENCE_UUID
      *
      * @param id some specific id of the competence
      * @return xml representation of the list of groups
@@ -82,8 +82,7 @@ public class CompetenceRest {
     }
 
     /**
-     * This method returns all competences of the project
-     * http://localhost:8080/Achievements/rest/competence/findAllCompetences
+     * This method returns all competences of the project http://localhost:8080/Achievements/rest/competence/findAllCompetences
      *
      * @return xml representation of all existing competences
      */
@@ -106,8 +105,7 @@ public class CompetenceRest {
 
     /**
      * This method returns all achievement types of some specific competence
-     * http://localhost:8080/Achievements/rest/competence/
-     * findAchievementTypesByComptenceUuid/SOME_COMPETENCE_UUID
+     * http://localhost:8080/Achievements/rest/competence/ findAchievementTypesByComptenceUuid/SOME_COMPETENCE_UUID
      *
      * @param id specific competence id
      * @return xml representation of all achievement types of some competence
@@ -133,10 +131,8 @@ public class CompetenceRest {
     }
 
     /**
-     * This method returns all competences of some specific user
-     * http://localhost
-     * :8080/Achievements/rest/competence/findCompetencesByUserUuid
-     * /SOME_USER_UUID
+     * This method returns all competences of some specific user http://localhost
+     * :8080/Achievements/rest/competence/findCompetencesByUserUuid /SOME_USER_UUID
      *
      * @param userId specific user id
      * @return xml representation of the competences of some user
@@ -161,9 +157,6 @@ public class CompetenceRest {
 
     /**
      * Creates new competence with the name specified in URL
-     *
-     * @param name
-     * @return
      */
     @Path("createCompetence/{name}")
     @POST
@@ -192,9 +185,6 @@ public class CompetenceRest {
 
     /**
      * Deletes competence by its uuid
-     *
-     * @param uuid
-     * @return
      */
     @DELETE
     @Path("/remove/{uuid}")

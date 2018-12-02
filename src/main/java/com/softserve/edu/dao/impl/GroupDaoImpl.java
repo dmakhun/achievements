@@ -1,18 +1,17 @@
 package com.softserve.edu.dao.impl;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toSet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository("groupDao")
 public class GroupDaoImpl extends GenericDaoImpl<Group>
@@ -44,7 +43,7 @@ public class GroupDaoImpl extends GenericDaoImpl<Group>
 
     @Override
     public List<Group> findByCompetenceUuid(String competenceUuid,
-                                            boolean onlyOpened) {
+            boolean onlyOpened) {
         if (onlyOpened) {
             return findEntityList(Group.FIND_ONLY_OPENED_GROUPS_UUID,
                     competenceUuid, new Date());

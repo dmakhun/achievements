@@ -7,6 +7,7 @@ import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 public class CompetenceController {
@@ -66,7 +65,8 @@ public class CompetenceController {
         }
     }
 
-    @RequestMapping(value = "/addCompetence", method = RequestMethod.POST, params = {"addCompetence"})
+    @RequestMapping(value = "/addCompetence", method = RequestMethod.POST, params = {
+            "addCompetence"})
     public String addCompetence(
             Model model,
             @RequestParam(value = "competenceName", required = false, defaultValue = "") String name) {

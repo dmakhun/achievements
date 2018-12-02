@@ -1,9 +1,14 @@
 package com.softserve.edu.controller;
 
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
+
 import com.softserve.edu.manager.ScheduleManager;
 import com.softserve.edu.manager.UserManager;
 import com.softserve.edu.manager.impl.ScheduleManagerImpl;
 import com.softserve.edu.manager.impl.ScheduleRowsManagerImpl;
+import java.io.File;
+import java.util.Calendar;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.util.Calendar;
-import java.util.Map;
-
-import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 
 /**
  * Controller serves a request to schedule.
@@ -42,7 +41,7 @@ public class ScheduleController {
      */
     @RequestMapping(value = "/schedule/{group:[a-zA-Z0-9\\.\\-_]+}/{dateAdd}")
     public String schedule(@PathVariable("group") String group,
-                           @PathVariable("dateAdd") Integer dateAdd, Model model) {
+            @PathVariable("dateAdd") Integer dateAdd, Model model) {
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, 7 * dateAdd);
@@ -83,7 +82,7 @@ public class ScheduleController {
 
     @RequestMapping(value = "/addSchedule", method = RequestMethod.POST)
     String uploadFileHandler(@RequestParam("file") MultipartFile file,
-                             Model model) throws IllegalStateException {
+            Model model) throws IllegalStateException {
 
         try {
             File serverFile = new ScheduleManagerImpl()

@@ -1,5 +1,9 @@
 package com.softserve.edu.manager.impl;
 
+import static com.softserve.edu.util.Constants.FIELD_MAX_LENGTH;
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
+import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
+
 import com.softserve.edu.dao.AchievementDao;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.RoleDao;
@@ -10,6 +14,11 @@ import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +26,6 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.validation.ValidationException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static com.softserve.edu.util.Constants.*;
 
 @Service("userManager")
 public class UserManagerImpl implements UserManager {
@@ -73,8 +74,8 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public User updateUser(Long userId, String name,
-                           String surname, String username, String newPassword,
-                           String email, Long roleId) throws UserManagerException {
+            String surname, String username, String newPassword,
+            String email, Long roleId) throws UserManagerException {
         User user = userDao.findById(User.class, userId);
 
         if (user == null) {
@@ -98,7 +99,8 @@ public class UserManagerImpl implements UserManager {
     @Transactional
     public User updateUser(String userUuid, User user) throws UserManagerException {
         return updateUser(userDao.findByUuid(User.class, userUuid).getId(), user.getName(),
-                user.getSurname(), user.getUsername(), user.getPassword(), user.getEmail(), user.getRole().getId());
+                user.getSurname(), user.getUsername(), user.getPassword(), user.getEmail(),
+                user.getRole().getId());
     }
 
     @Override
@@ -177,7 +179,8 @@ public class UserManagerImpl implements UserManager {
         // Besides matching naming rules, such name should be unique. OtherUser
         // here is the user that can have the same username already.
         User otherUser = findByUsername(user.getUsername());
-        validated = validateByPattern(user, otherUser, user.getUsername(), PATTERN_USERNAME, "Username", isExisting);
+        validated = validateByPattern(user, otherUser, user.getUsername(), PATTERN_USERNAME,
+                "Username", isExisting);
         if (!validated) {
             throw new ValidationException();
         }
@@ -189,7 +192,8 @@ public class UserManagerImpl implements UserManager {
 
         // Same logic as for username checks.
         otherUser = findByEmail(user.getEmail());
-        validated = validateByPattern(user, otherUser, user.getEmail(), PATTERN_EMAIL, "Email", isExisting);
+        validated = validateByPattern(user, otherUser, user.getEmail(), PATTERN_EMAIL, "Email",
+                isExisting);
         if (!validated) {
             throw new ValidationException();
         }
@@ -204,16 +208,15 @@ public class UserManagerImpl implements UserManager {
     /**
      * Generic field validation.
      * <p>
-     * This means, that field should meet general rules: not empty, less than 50
-     * chars.
+     * This means, that field should meet general rules: not empty, less than 50 chars.
      *
-     * @param field
-     * @param isExisting Flag that says we can ignore checks for emptiness because the method was called for updates.
+     * @param isExisting Flag that says we can ignore checks for emptiness because the method was
+     * called for updates.
      * @return String
-     * @throws ValidationException
      */
     @Transactional
-    boolean genericValidation(String field, String fieldName, boolean isExisting) throws ValidationException {
+    boolean genericValidation(String field, String fieldName, boolean isExisting)
+            throws ValidationException {
         if (field != null && !field.isEmpty() && field.length() <= FIELD_MAX_LENGTH) {
             return true;
         } else {
@@ -231,8 +234,8 @@ public class UserManagerImpl implements UserManager {
 
     @Transactional
     boolean validateByPattern(User user, User otherUser,
-                              String field, String pattern, String fieldName,
-                              boolean isExisting) throws ValidationException {
+            String field, String pattern, String fieldName,
+            boolean isExisting) throws ValidationException {
 
         if (field != null && field.matches(pattern)
                 && (otherUser == null || otherUser.getId().equals(user.getId()))) {
@@ -260,12 +263,12 @@ public class UserManagerImpl implements UserManager {
     /**
      * Check  password for non-emptiness.
      *
-     * @param password  Password.
+     * @param password Password.
      * @param isExisting Flag to ignore checks for isEmpty.
-     * @throws ValidationException
      */
     @Transactional
-    private boolean validatePassword(String password, boolean isExisting) throws ValidationException {
+    private boolean validatePassword(String password, boolean isExisting)
+            throws ValidationException {
 
         if (password != null && !password.isEmpty()) {
             return true;

@@ -4,15 +4,15 @@ import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.manager.RoleManager;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service("roleManager")
 public class RoleManagerImplementation implements RoleManager {
+
     @Autowired
     RoleDao roleDao;
 

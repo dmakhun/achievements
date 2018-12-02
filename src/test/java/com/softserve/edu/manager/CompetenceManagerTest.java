@@ -1,5 +1,12 @@
 package com.softserve.edu.manager;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
@@ -7,20 +14,16 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.impl.CompetenceManagerImpl;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -162,14 +165,16 @@ public class CompetenceManagerTest {
     @Test
     public void testGetAchievementTypesByCompetenceUuidEquals() {
         when(achievementTypeDao.findByCompetenceUuid(uuIdMock)).thenReturn(listAchievementTypes);
-        List<AchievementType> expected = competenceManager.findAchievementTypesByCompetenceUuid(uuIdMock);
+        List<AchievementType> expected = competenceManager
+                .findAchievementTypesByCompetenceUuid(uuIdMock);
         assertEquals(listAchievementTypes, expected);
     }
 
     @Test
     public void testGetAchievementTypesByCompetenceUuidNotNull() {
         when(achievementTypeDao.findByCompetenceUuid(uuIdMock)).thenReturn(listAchievementTypes);
-        List<AchievementType> expected = competenceManager.findAchievementTypesByCompetenceUuid(uuIdMock);
+        List<AchievementType> expected = competenceManager
+                .findAchievementTypesByCompetenceUuid(uuIdMock);
         assertNotNull(expected);
     }
 }
