@@ -44,7 +44,7 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
     <definition name="AllCompetencies" extends="baseLayout">
         <put-attribute name="title" value="All Competencies"/>
-        <put-attribute name="body" value="/WEB-INF/views/competencies/AllCompetencies.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/competencies/allCompetences.jsp"/>
     </definition>
 
     <definition name="forDeleteOrAddCompetence" extends="baseLayout">
@@ -65,27 +65,6 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
     <definition name="showCompetence" extends="baseLayout">
         <put-attribute name="title" value="show Competence"/>
         <put-attribute name="body" value="/WEB-INF/views/competencies/showCompetence.jsp"/>
-    </definition>
-
-    <!-- deleteJSP folder -->
-    <definition name="competence" extends="baseLayout">
-        <put-attribute name="title" value="competence page"/>
-        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/competence.jsp"/>
-    </definition>
-
-    <definition name="test" extends="baseLayout">
-        <put-attribute name="title" value="test page"/>
-        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/test.jsp"/>
-    </definition>
-
-    <definition name="topList_last" extends="baseLayout">
-        <put-attribute name="title" value="topList_last page"/>
-        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/topList_last.jsp"/>
-    </definition>
-
-    <definition name="topList" extends="baseLayout">
-        <put-attribute name="title" value="top List page"/>
-        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/topList.jsp"/>
     </definition>
 
     <!-- error folder -->

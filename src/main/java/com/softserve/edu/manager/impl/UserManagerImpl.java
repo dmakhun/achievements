@@ -189,6 +189,7 @@ public class UserManagerImpl implements UserManager {
         if (!validated) {
             throw new ValidationException();
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Same logic as for username checks.
         otherUser = findByEmail(user.getEmail());
@@ -266,7 +267,6 @@ public class UserManagerImpl implements UserManager {
      * @param password Password.
      * @param isExisting Flag to ignore checks for isEmpty.
      */
-    @Transactional
     private boolean validatePassword(String password, boolean isExisting)
             throws ValidationException {
 
