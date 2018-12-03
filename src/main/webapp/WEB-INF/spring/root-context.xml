@@ -50,7 +50,7 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <jpa:repositories base-package="com.softserve.edu"/>
+    <jpa:repositories base-package="com.softserve.edu.dao"/>
 
 
 </beans>
