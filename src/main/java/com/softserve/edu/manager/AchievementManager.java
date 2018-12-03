@@ -12,7 +12,5 @@ public interface AchievementManager {
     void awardUser(long userId, long achievementTypeId,
             String comment) throws AchievementManagerException;
 
-    List<Achievement> findUserAchievements(Long userId);
-
-    List<Achievement> findAchievementsByUserUuid(String achievementUuid);
+    List<Achievement> findUserAchievementsByUserId(Long userId);
 }

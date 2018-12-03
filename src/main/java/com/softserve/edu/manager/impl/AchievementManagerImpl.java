@@ -56,14 +56,7 @@ public class AchievementManagerImpl implements AchievementManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Achievement> findUserAchievements(Long userId) {
+    public List<Achievement> findUserAchievementsByUserId(Long userId) {
         return achievementDao.findAchievementsByUserId(userId);
     }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Achievement> findAchievementsByUserUuid(String userUuid) {
-        return achievementDao.findAchievementsByUserUuid(userUuid);
-    }
-
 }
