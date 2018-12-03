@@ -1,6 +1,5 @@
 package com.softserve.edu.rest;
 
-import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
@@ -101,33 +100,6 @@ public class CompetenceRest {
         }
 
         return Response.ok(new JaxbList<Competence>(competences)).build();
-    }
-
-    /**
-     * This method returns all achievement types of some specific competence
-     * http://localhost:8080/Achievements/rest/competence/ findAchievementTypesByComptenceUuid/SOME_COMPETENCE_UUID
-     *
-     * @param id specific competence id
-     * @return xml representation of all achievement types of some competence
-     */
-    @Path("findAchievementTypesByComptenceUuid/{competenceuuid}")
-    @GET
-    @Produces(MediaType.APPLICATION_XML)
-    public Response findAllAchievementTypeByCompetenceUuid(
-            @PathParam("competenceuuid") final String competenceUuid) {
-
-        List<AchievementType> achievementTypes;
-
-        try {
-            achievementTypes = competenceManager
-                    .findAchievementTypesByCompetenceUuid(competenceUuid);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            return Response.status(500).entity(e.getMessage()).build();
-        }
-
-        return Response.ok(new JaxbList<AchievementType>(achievementTypes))
-                .build();
     }
 
     /**

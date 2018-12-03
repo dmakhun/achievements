@@ -61,19 +61,6 @@ public class AchievementTypeManagerImpl implements
     }
 
     @Override
-    @Transactional
-    public AchievementType createAchievementTypeByUuid(String name, int points,
-            String competenceUuid) throws AchievementTypeManagerException {
-        Competence competence = competenceDao.findByUuid(Competence.class,
-                competenceUuid);
-        if (competence == null) {
-            logger.error(ACHIEVEMENT_TYPE_NO_COMPETENCE_UUID_ERROR);
-            throw new AchievementTypeManagerException(ACHIEVEMENT_TYPE_NO_COMPETENCE_UUID_ERROR);
-        }
-        return createAchievementType(competence, name, points);
-    }
-
-    @Override
     public boolean deleteAchievementType(AchievementType achievementType)
             throws AchievementTypeManagerException {
         try {
@@ -102,27 +89,9 @@ public class AchievementTypeManagerImpl implements
     }
 
     @Override
-    @Transactional
-    public boolean deleteAchievementType(String uuid)
-            throws AchievementTypeManagerException {
-        AchievementType achievementType = achievementTypeDao
-                .findByUuid(AchievementType.class, uuid);
-        if (achievementType == null) {
-            logger.error(ACHIEVEMENT_TYPE_CANT_FIND_UUID_ERROR);
-            throw new AchievementTypeManagerException(ACHIEVEMENT_TYPE_CANT_FIND_UUID_ERROR);
-        }
-        return deleteAchievementType(achievementType);
-    }
-
-    @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<AchievementType> achievementTypesList() {
         return achievementTypeDao.findAll(AchievementType.class);
     }
 
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<AchievementType> findAchievements(long competenceId) {
-        return achievementTypeDao.findByCompetenceId(competenceId);
-    }
 }
