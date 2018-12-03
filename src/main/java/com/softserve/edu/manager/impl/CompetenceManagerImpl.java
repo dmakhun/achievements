@@ -139,14 +139,6 @@ public class CompetenceManagerImpl implements CompetenceManager {
     }
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<AchievementType> findAchievementTypesByCompetenceUuid(
-            String competenceUuid) {
-        return achievementTypeDao
-                .findByCompetenceUuid(competenceUuid);
-    }
-
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

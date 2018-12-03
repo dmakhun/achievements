@@ -10,17 +10,8 @@ public interface AchievementTypeManager {
     AchievementType createAchievementType(final Competence competence, final String name,
             final int points) throws AchievementTypeManagerException;
 
-    /**
-     * Create new achievement type.
-     */
     AchievementType createAchievementType(String name, int points, long competenceId)
             throws AchievementTypeManagerException;
-
-    /**
-     * Create new achievement type.
-     */
-    AchievementType createAchievementTypeByUuid(final String name, final int points,
-            final String competenceUuid) throws AchievementTypeManagerException;
 
     boolean deleteAchievementType(AchievementType achievementType)
             throws AchievementTypeManagerException;
@@ -30,17 +21,9 @@ public interface AchievementTypeManager {
      *
      * @param achievementTypeId Achievement type id.
      */
-    boolean deleteAchievementType(final long achievementTypeId)
-            throws AchievementTypeManagerException;
-
-    /**
-     * Deletes achievement type by its uuid.
-     */
-    boolean deleteAchievementType(final String uuid)
+    boolean deleteAchievementType(long achievementTypeId)
             throws AchievementTypeManagerException;
 
     List<AchievementType> achievementTypesList();
-
-    List<AchievementType> findAchievements(final long idCompetence);
 
 }

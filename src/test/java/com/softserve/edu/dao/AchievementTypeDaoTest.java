@@ -29,14 +29,5 @@ public class AchievementTypeDaoTest {
         assertEquals(3, achType.size());
     }
 
-    @Test
-    public void testfindByCompetenceUuid() {
-        List<AchievementType> achType = achievementTypeDao.findByCompetenceUuid("i1");
-        System.out.println("achievement types of competence with uuid = 'i1'");
-        for (AchievementType anAchType : achType) {
-            System.out.println(anAchType.getName());
-        }
-        assertEquals(4, achType.size());
-    }
 
 }

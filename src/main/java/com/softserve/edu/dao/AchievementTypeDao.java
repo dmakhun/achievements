@@ -13,10 +13,5 @@ public interface AchievementTypeDao extends GenericDao<AchievementType> {
      */
     List<AchievementType> findByCompetenceId(Long competenceId);
 
-    /**
-     * @param competenceUuid uuid
-     */
-    List<AchievementType> findByCompetenceUuid(String competenceUuid);
-
 
 }

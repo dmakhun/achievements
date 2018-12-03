@@ -20,11 +20,4 @@ public class AchievementTypeDaoImpl extends
                 competenceId);
     }
 
-    @Override
-    public List<AchievementType> findByCompetenceUuid(String competenceUuid) {
-        return findEntityList(
-                AchievementType.GET_ACHIEVEMENT_TYPES_BY_COMPETENCE_UUID,
-                competenceUuid);
-    }
-
 }
