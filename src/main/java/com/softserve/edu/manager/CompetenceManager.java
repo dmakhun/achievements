@@ -31,12 +31,6 @@ public interface CompetenceManager {
     List<AchievementType> findTypesOfAchievements(Long idCompetence);
 
     /**
-     *
-     */
-    List<AchievementType> findAchievementTypesByCompetenceUuid(
-            String competenceUuid);
-
-    /**
      * Get list of competences but those, that are given.
      */
     List<Competence> findExcept(List<Competence> buts);

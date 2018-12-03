@@ -161,20 +161,4 @@ public class CompetenceManagerTest {
         Competence actual = competenceManager.findByID(idMockLong);
         assertEquals(competence, actual);
     }
-
-    @Test
-    public void testGetAchievementTypesByCompetenceUuidEquals() {
-        when(achievementTypeDao.findByCompetenceUuid(uuIdMock)).thenReturn(listAchievementTypes);
-        List<AchievementType> expected = competenceManager
-                .findAchievementTypesByCompetenceUuid(uuIdMock);
-        assertEquals(listAchievementTypes, expected);
-    }
-
-    @Test
-    public void testGetAchievementTypesByCompetenceUuidNotNull() {
-        when(achievementTypeDao.findByCompetenceUuid(uuIdMock)).thenReturn(listAchievementTypes);
-        List<AchievementType> expected = competenceManager
-                .findAchievementTypesByCompetenceUuid(uuIdMock);
-        assertNotNull(expected);
-    }
 }
