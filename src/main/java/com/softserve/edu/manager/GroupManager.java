@@ -29,8 +29,7 @@ public interface GroupManager {
      * @param competenceId Competence id.
      * @param onlyOpened Flag that says to get only opened groups.
      */
-    List<Group> findByCompetence(final Long competenceId,
-            final boolean onlyOpened);
+    List<Group> findAllByCompetenceId(Long competenceId, boolean onlyOpened);
 
     /**
      *
@@ -80,11 +79,6 @@ public interface GroupManager {
      *
      */
     void addUser(String userUuid, String groupUuid) throws GroupManagerException;
-
-    /**
-     *
-     */
-    Group findGroupByGroupUuid(String uuid);
 
     /**
      *
