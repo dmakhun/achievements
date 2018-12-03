@@ -1,7 +1,11 @@
 package com.softserve.edu.dao;
 
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 import static org.junit.Assert.assertEquals;
 
+import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.User;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,9 +17,18 @@ public class AchievementDaoTest {
 
     @Autowired
     private AchievementDao achievementDao;
+    @Autowired
+    private UserDao userDao;
+
+    @Before
+    public void setUp() {
+        userDao.save(new User("Dmytro", "Makhun", "dmak", new Role(ROLE_MANAGER), "password",
+                null));
+    }
 
     @Test
     public void testGetAchievementsByUserId() {
-        assertEquals(1, achievementDao.findAchievementsByUserId(7L).size());
+        User user = userDao.findByUsername("dmak");
+        assertEquals(0, achievementDao.findAchievementsByUserId(user.getId()).size());
     }
 }
