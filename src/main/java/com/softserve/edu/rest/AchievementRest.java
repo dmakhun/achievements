@@ -26,19 +26,15 @@ public class AchievementRest {
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    @Path("/getachievementsbyuseruuid/{useruuid}")
-    public Response getAchievementByUuid(@PathParam("useruuid") String userUuid) {
-
+    @Path("/getachievementsbyuserid/{userid}")
+    public Response getAchievementsByUserId(@PathParam("userid") Long userId) {
         List<Achievement> achievements;
-
         try {
-            achievements = achievementManager
-                    .findAchievementsByUserUuid(userUuid);
+            achievements = achievementManager.findUserAchievementsByUserId(userId);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Response.status(500).entity(e.getMessage()).build();
         }
-
         return Response.ok(achievements).build();
     }
 

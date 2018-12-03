@@ -18,10 +18,4 @@ public class AchievementDaoTest {
     public void testGetAchievementsByUserId() {
         assertEquals(1, achievementDao.findAchievementsByUserId(7L).size());
     }
-
-    @Test
-    public void testGetAchievementsByUserUuid() {
-        assertEquals(1, achievementDao.findAchievementsByUserUuid("i1").size());
-    }
-
 }
