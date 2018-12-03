@@ -67,13 +67,6 @@ public class CompetenceManagerTest {
     }
 
     @Test
-    public void testFindGroupsByCompetenceUuid() {
-        when(competenceDao.findGroupsByCompetenceUuid(uuIdMock)).thenReturn(listGroups);
-        List<Group> listActual = competenceManager.findGroupsByCompetenceUuid(uuIdMock);
-        assertEquals(listGroups, listActual);
-    }
-
-    @Test
     public void testfindAllCompetence() {
         when(competenceDao.findAllCompetences()).thenReturn(listCompetences);
         List<Competence> listActual = competenceManager.findAllCompetences();
@@ -111,18 +104,6 @@ public class CompetenceManagerTest {
     }
 
     @Test(expected = CompetenceManagerException.class)
-    public void testDeleteByUuidNullException() throws CompetenceManagerException {
-        competenceManager.deleteByUuid(null);
-    }
-
-    @Test
-    public void testDeleteByUuid() throws CompetenceManagerException {
-        when(competenceDao.findByUuid(competenceClass, uuIdMock)).thenReturn(competence);
-        boolean deleted = competenceManager.deleteByUuid(uuIdMock);
-        assertTrue("Not Deleted", deleted);
-    }
-
-    @Test(expected = CompetenceManagerException.class)
     public void testDeleteByStringFalse() throws CompetenceManagerException {
         boolean deleted = competenceManager.delete(idMockLong);
         assertFalse("Failure - must be false", deleted);
@@ -133,20 +114,6 @@ public class CompetenceManagerTest {
         when(competenceDao.findCompetencesByUserId(idMockLong)).thenReturn(listCompetences);
         List<Competence> expected = competenceManager.findByUser(idMockLong);
         assertEquals(expected, listCompetences);
-    }
-
-    @Test
-    public void testFindByUserUuidEquals() {
-        when(competenceDao.findCompetencesByUserUuid(uuIdMock)).thenReturn(listCompetences);
-        List<Competence> expected = competenceManager.findByUserUuid(uuIdMock);
-        assertEquals(expected, listCompetences);
-    }
-
-    @Test
-    public void testFindByUserUuidNotNull() {
-        when(competenceDao.findCompetencesByUserUuid(uuIdMock)).thenReturn(listCompetences);
-        List<Competence> expected = competenceManager.findByUserUuid(uuIdMock);
-        assertNotNull(expected);
     }
 
     @Test

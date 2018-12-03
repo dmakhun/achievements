@@ -16,11 +16,6 @@ public interface AchievementTypeManager {
     boolean deleteAchievementType(AchievementType achievementType)
             throws AchievementTypeManagerException;
 
-    /**
-     * Delete existing achievement type by its id.
-     *
-     * @param achievementTypeId Achievement type id.
-     */
     boolean deleteAchievementType(long achievementTypeId)
             throws AchievementTypeManagerException;
 
