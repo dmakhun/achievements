@@ -72,7 +72,7 @@ public class UserController {
             List<Group> groups = userManager.findGroups(user.getId(), false);
             model.addAttribute("groups", groups);
             List<Achievement> achievements = achievementManager
-                    .findUserAchievements(user.getId());
+                    .findUserAchievementsByUserId(user.getId());
 
             model.addAttribute("achievements", achievements);
 
