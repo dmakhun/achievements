@@ -237,7 +237,7 @@
 
 </div>
 <div id="add" style="display: none">
-    <sf:form id="formAddManager" commandName="user">
+    <sf:form id="formAddManager" modelAttribute="user">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
