@@ -43,7 +43,7 @@ public class GroupManagerImplementation implements GroupManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Group> findByCompetence(Long competenceId, boolean onlyOpened) {
+    public List<Group> findAllByCompetenceId(Long competenceId, boolean onlyOpened) {
         return groupDao.findByCompetence(competenceId, onlyOpened);
     }
 
@@ -181,18 +181,6 @@ public class GroupManagerImplementation implements GroupManager {
             throw new GroupManagerException("cannot deleteAchievementType group", e);
         }
 
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Group findGroupByGroupUuid(String uuid) {
-        Group group = groupDao.findByUuid(Group.class, uuid);
-        if (group == null) {
-            logger.error("User with such uuid doesn't exist.");
-        } else {
-            logger.info("User was found");
-        }
-        return group;
     }
 
     @Override

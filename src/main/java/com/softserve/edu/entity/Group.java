@@ -41,7 +41,7 @@ public class Group extends AbstractEntity {
     public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE = "Group.inFutureCompetenceId";
     public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY = "from Group where dateOpened > ?1 and competence_id = ?2";
 
-    public static final String FIND_LIST_GROUPS_BY_COMPETENCE = "Group.findByCompetence";
+    public static final String FIND_LIST_GROUPS_BY_COMPETENCE = "Group.findAllByCompetenceId";
     public static final String FIND_LIST_GROUPS_BY_COMPETENCE_QUERY = "from Group where competence_id = ?1 ";
 
     public static final String FIND_LIST_GROUPS_BY_COMPETENCE_UUID = "Group.findByCompetenceUuid";

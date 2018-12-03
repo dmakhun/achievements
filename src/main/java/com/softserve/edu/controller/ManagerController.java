@@ -191,7 +191,7 @@ public class ManagerController {
             Map<String, List<Group>> groups = new HashMap<>();
             for (Competence competence : competenceList) {
                 groups.put(competence.getName(),
-                        groupManager.findByCompetence(competence.getId(), true));
+                        groupManager.findAllByCompetenceId(competence.getId(), true));
             }
 
             model.addAttribute("competences", competenceList);

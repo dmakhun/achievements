@@ -36,12 +36,6 @@ public class CompetenceManagerImpl implements CompetenceManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Group> findGroupsByCompetenceUuid(String competenceUuid) {
-        return competenceDao.findGroupsByCompetenceUuid(competenceUuid);
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findAllCompetences() {
         return competenceDao.findAllCompetences();
     }
@@ -91,28 +85,6 @@ public class CompetenceManagerImpl implements CompetenceManager {
     }
 
     @Override
-    @Transactional
-    public boolean deleteByUuid(String uuid) throws CompetenceManagerException {
-
-        Competence competence = competenceDao
-                .findByUuid(Competence.class, uuid);
-        if (competence == null) {
-            logger.error("Competence with such UUID does not exist");
-            throw new CompetenceManagerException(
-                    "Competence with such UUID does not exist");
-        }
-        try {
-            competenceDao.delete(competence);
-            logger.info("Competence removed successfully");
-            return true;
-        } catch (Exception e) {
-            logger.error("Could not deleteAchievementType competence", e);
-            throw new CompetenceManagerException("Could not deleteAchievementType competence",
-                    e);
-        }
-    }
-
-    @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findExcept(List<Competence> competencesToExclude) {
         Set<Competence> set = new HashSet<>(competenceDao.findAll(Competence.class));
@@ -124,12 +96,6 @@ public class CompetenceManagerImpl implements CompetenceManager {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findByUser(Long userId) {
         return competenceDao.findCompetencesByUserId(userId);
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Competence> findByUserUuid(String userUuid) {
-        return competenceDao.findCompetencesByUserUuid(userUuid);
     }
 
     @Override
@@ -175,12 +141,6 @@ public class CompetenceManagerImpl implements CompetenceManager {
         } else {
             return competenceDao.equals(other.competenceDao);
         }
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public boolean validateCompetenceName(String name) {
-        return competenceDao.findByName(name) == null;
     }
 
 }

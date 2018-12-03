@@ -154,7 +154,7 @@ public class CompetenceController {
         try {
             List<Competence> list = competenceManager.findAllCompetences();
             model.addAttribute("list", list);
-            List<Group> listGroups = groupManager.findByCompetence(
+            List<Group> listGroups = groupManager.findAllByCompetenceId(
                     competerceId, true);
             model.addAttribute("list_groups", listGroups);
 
