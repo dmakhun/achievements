@@ -19,28 +19,13 @@ public class RoleManagerImplementation implements RoleManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<User> findUsers(int roleId) {
-
-        return roleDao.findUsers(roleId);
+        return roleDao.findUsersById(roleId);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Long findRole(String roleName) {
-
-        return roleDao.findRoleId(roleName);
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Role findRoleByRolename(String roleName) {
-
+    public Role findRoleByName(String roleName) {
         return roleDao.findRoleByName(roleName);
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<User> findUsersByRoleUuid(String roleUuid) {
-        return roleDao.findUsersByRoleUuid(roleUuid);
     }
 
     @Override
@@ -49,15 +34,4 @@ public class RoleManagerImplementation implements RoleManager {
         return roleDao.findById(Role.class, id);
     }
 
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Role findRoleByUuid(String roleUuid) {
-        return roleDao.findByUuid(Role.class, roleUuid);
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Role> findAll() {
-        return roleDao.findAll(Role.class);
-    }
 }
