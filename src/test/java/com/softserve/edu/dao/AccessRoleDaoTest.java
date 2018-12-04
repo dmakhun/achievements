@@ -3,7 +3,7 @@ package com.softserve.edu.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.AccessRole;
 import com.softserve.edu.entity.User;
 import java.util.List;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class RoleDaoTest {
+public class AccessRoleDaoTest {
 
     @Autowired
     private RoleDao roleDao;
@@ -40,9 +40,9 @@ public class RoleDaoTest {
 
     @Test
     public void testFindRoleByRolename() {
-        Role role = roleDao.findRoleByName("user");
-        System.out.println("Uuid from user " + role.getId());
-        assertEquals("i1", role.getId());
-        assertNotNull(role);
+        AccessRole accessRole = roleDao.findRoleByName("user");
+        System.out.println("Uuid from user " + accessRole.getId());
+        assertEquals("i1", accessRole.getId());
+        assertNotNull(accessRole);
     }
 }

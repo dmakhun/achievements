@@ -8,7 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({AchievementManagerTest.class,
         AchievementTypeManagerTest.class, CompetenceManagerTest.class,
         GroupManagerTest.class,
-        RoleManagerTest.class, UserManagerTest.class})
+        AccessRoleManagerTest.class, UserManagerTest.class})
 public class ManagerTestSuite {
 
 }

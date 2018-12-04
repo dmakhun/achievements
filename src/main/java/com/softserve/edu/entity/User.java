@@ -43,7 +43,7 @@ public class User extends AbstractEntity {
     public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.users u WHERE u.id = ?1 and g.dateClosed > ?2";
 
     public static final String FIND_ALL_USERS_BY_ROLE = "User.all";
-    public static final String FIND_ALL_BY_ROLE_QUERY = "FROM User u inner join fetch u.role r WHERE r.id = ?1";
+    public static final String FIND_ALL_BY_ROLE_QUERY = "FROM User u inner join fetch u.accessRole r WHERE r.id = ?1";
 
     @Id
     @Column(name = "id")
@@ -52,7 +52,7 @@ public class User extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    private Role role;
+    private AccessRole accessRole;
 
     @Size(min = 2, max = 15)
     @Column(name = "name", length = 255)
@@ -102,9 +102,9 @@ public class User extends AbstractEntity {
     public User() {
     }
 
-    public User(String name, String surname, String username, Role role,
+    public User(String name, String surname, String username, AccessRole accessRole,
             String password, byte[] picture) {
-        this.role = role;
+        this.accessRole = accessRole;
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -121,12 +121,12 @@ public class User extends AbstractEntity {
         this.id = id;
     }
 
-    public Role getRole() {
-        return role;
+    public AccessRole getAccessRole() {
+        return accessRole;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setAccessRole(AccessRole accessRole) {
+        this.accessRole = accessRole;
     }
 
     public String getName() {
