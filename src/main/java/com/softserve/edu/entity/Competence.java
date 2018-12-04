@@ -16,7 +16,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "ach_Competence")
@@ -72,7 +71,7 @@ public class Competence extends AbstractEntity {
         this.date = date;
     }
 
-    @XmlTransient
+
     public Set<Group> getGroups() {
         return groups;
     }
@@ -81,7 +80,7 @@ public class Competence extends AbstractEntity {
         this.groups = groups;
     }
 
-    @XmlTransient
+
     public Set<AchievementType> getAchievementTypes() {
         return achievementTypes;
     }
@@ -90,7 +89,7 @@ public class Competence extends AbstractEntity {
         this.achievementTypes = achievementTypes;
     }
 
-    @XmlTransient
+
     public Set<User> getUsers() {
         return users;
     }
@@ -99,7 +98,7 @@ public class Competence extends AbstractEntity {
         this.users = users;
     }
 
-    @XmlTransient
+
     public Long getId() {
         return id;
     }

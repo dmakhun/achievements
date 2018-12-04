@@ -91,19 +91,4 @@
         <url-pattern>/i18n-tutorial/*</url-pattern>
     </filter-mapping>
 
-    <!-- Rest servlet dedicated to work with com.softserve.edu.rest< -->
-    <servlet>
-        <servlet-name>jersey-servlet</servlet-name>
-        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-        <init-param>
-            <param-name>javax.ws.rs.Application</param-name>
-            <param-value>com.softserve.edu.rest.RestApplication</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>jersey-servlet</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
-
 </web-app>

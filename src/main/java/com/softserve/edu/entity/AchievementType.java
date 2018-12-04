@@ -14,7 +14,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
 @Entity
@@ -66,7 +65,7 @@ public class AchievementType extends AbstractEntity {
         this.achievement = achievement;
     }
 
-    @XmlTransient
+
     public Long getId() {
         return id;
     }
@@ -75,7 +74,7 @@ public class AchievementType extends AbstractEntity {
         this.id = id;
     }
 
-    @XmlTransient
+
     public Set<Achievement> getAchievement() {
         return achievement;
     }

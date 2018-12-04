@@ -22,7 +22,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
 @Entity
@@ -115,7 +114,6 @@ public class User extends AbstractEntity {
     }
 
 
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -172,7 +170,7 @@ public class User extends AbstractEntity {
         this.email = email;
     }
 
-    @XmlTransient
+
     public Set<Competence> getCompetences() {
         return competences;
     }
@@ -181,7 +179,7 @@ public class User extends AbstractEntity {
         this.competences = competences;
     }
 
-    @XmlTransient
+
     public Set<Achievement> getAchievements() {
         return achievements;
     }
@@ -190,7 +188,7 @@ public class User extends AbstractEntity {
         this.achievements = achievements;
     }
 
-    @XmlTransient
+
     public Set<Group> getGroups() {
         return groups;
     }
@@ -226,7 +224,7 @@ public class User extends AbstractEntity {
         }
     }
 
-    @XmlTransient
+
     public byte[] getPicture() {
         return picture;
     }
