@@ -41,8 +41,8 @@ public class RoleDaoTest {
     @Test
     public void testFindRoleByRolename() {
         Role role = roleDao.findRoleByName("user");
-        System.out.println("Uuid from user " + role.getUuid());
-        assertEquals("i1", role.getUuid());
+        System.out.println("Uuid from user " + role.getId());
+        assertEquals("i1", role.getId());
         assertNotNull(role);
     }
 }

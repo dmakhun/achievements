@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("groupDao")
-public class GroupDaoImpl extends GenericDaoImpl<Group>
-        implements GroupDao {
+public class GroupDaoImpl extends GenericDaoImpl<Group> implements GroupDao {
 
     @Autowired
     private UserDao userDao;
@@ -42,17 +41,6 @@ public class GroupDaoImpl extends GenericDaoImpl<Group>
     }
 
     @Override
-    public List<Group> findByCompetenceUuid(String competenceUuid,
-            boolean onlyOpened) {
-        if (onlyOpened) {
-            return findEntityList(Group.FIND_ONLY_OPENED_GROUPS_UUID,
-                    competenceUuid, new Date());
-        }
-        return findEntityList(Group.FIND_LIST_GROUPS_BY_COMPETENCE_UUID,
-                competenceUuid);
-    }
-
-    @Override
     public void addUser(Long userId, Long groupId) {
         User user = userDao.findById(User.class, userId);
         Group group = findById(Group.class, groupId);
@@ -60,20 +48,8 @@ public class GroupDaoImpl extends GenericDaoImpl<Group>
     }
 
     @Override
-    public void addUser(String userUuid, String groupUuid) {
-        User user = userDao.findByUuid(User.class, userUuid);
-        Group group = findByUuid(Group.class, groupUuid);
-        group.setUsers(Stream.of(user).collect(toSet()));
-    }
-
-    @Override
     public List<User> userList(Long groupId) {
         return new ArrayList<>(findById(Group.class, groupId).getUsers());
-    }
-
-    @Override
-    public List<User> findUsersByGroupUuid(String groupUuid) {
-        return new ArrayList<>(findByUuid(Group.class, groupUuid).getUsers());
     }
 
     @Override

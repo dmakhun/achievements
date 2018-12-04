@@ -35,11 +35,6 @@ public class UserDaoImpl extends GenericDaoImpl<User>
     }
 
     @Override
-    public User findByUuid(Class<User> userClass, String uuid) {
-        return super.findByUuid(userClass, uuid);
-    }
-
-    @Override
     public void attendUserToCompetence(User user, Competence competence) {
         user.setCompetences(Stream.of(competence).collect(toSet()));
     }

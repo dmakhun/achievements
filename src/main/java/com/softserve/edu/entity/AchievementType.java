@@ -16,18 +16,14 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "ach_AchievementType")
+@Table(name = "AchievementType")
 @NamedQueries({
         @NamedQuery(name = AchievementType.GET_LIST_ACHIEVEMENT_TYPE, query = AchievementType.GET_LIST_ACHIEVEMENT_TYPE_QUERY),
-        @NamedQuery(name = AchievementType.GET_ACHIEVEMENT_TYPES_BY_COMPETENCE_UUID, query = AchievementType.GET_ACHIEVEMENT_TYPES_BY_COMPETENCE_UUID_QUERY)
 })
 public class AchievementType extends AbstractEntity {
 
     public static final String GET_LIST_ACHIEVEMENT_TYPE = "AchievementType.getList";
     public static final String GET_LIST_ACHIEVEMENT_TYPE_QUERY = "from AchievementType where competence_id = ?1";
-
-    public static final String GET_ACHIEVEMENT_TYPES_BY_COMPETENCE_UUID = "AchievementType.getAchievementTypesByCompetenceUuid";
-    public static final String GET_ACHIEVEMENT_TYPES_BY_COMPETENCE_UUID_QUERY = "from AchievementType at INNER JOIN fetch at.competence c WHERE c.uuid = ?1";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

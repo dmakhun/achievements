@@ -61,8 +61,6 @@ public interface GroupManager {
 
     void deleteById(Long groupId) throws GroupManagerException;
 
-    void addUser(String userUuid, String groupUuid) throws GroupManagerException;
-
     void create(Group group) throws GroupManagerException;
 
     boolean validateGroup(Group group);

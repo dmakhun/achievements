@@ -13,7 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "ach_Schedule")
+@Table(name = "Schedule")
 public class ScheduleTable {
 
     @Id

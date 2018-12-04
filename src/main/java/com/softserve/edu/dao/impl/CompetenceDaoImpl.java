@@ -27,12 +27,6 @@ public class CompetenceDaoImpl extends
     }
 
     @Override
-    public List<Group> findGroupsByCompetenceUuid(String competenceUuid) {
-        return groupDao.findEntityList(
-                Competence.FIND_GROUPS_BY_COMPETENCE_UUID, competenceUuid);
-    }
-
-    @Override
     public Competence findByName(String name) {
         return findEntity(Competence.FIND_COMPETENCE_BY_NAME, name);
     }
@@ -40,12 +34,6 @@ public class CompetenceDaoImpl extends
     @Override
     public List<Competence> findCompetencesByUserId(Long userId) {
         User user = userDao.findById(User.class, userId);
-        return new ArrayList<>(user.getCompetences());
-    }
-
-    @Override
-    public List<Competence> findCompetencesByUserUuid(String userUuid) {
-        User user = userDao.findByUuid(User.class, userUuid);
         return new ArrayList<>(user.getCompetences());
     }
 

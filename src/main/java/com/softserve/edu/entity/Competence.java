@@ -18,19 +18,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ach_Competence")
+@Table(name = "Competence")
 @NamedQueries({
         @NamedQuery(name = Competence.FIND_GROUPS_BY_COMPETENCE_ID, query = Competence.FIND_GROUPS_BY_COMPETENCE_ID_QUERY),
-        @NamedQuery(name = Competence.FIND_GROUPS_BY_COMPETENCE_UUID, query = Competence.FIND_GROUPS_BY_COMPETENCE_UUID_QUERY),
-        @NamedQuery(name = Competence.FIND_COMPETENCE_BY_NAME, query = Competence.FIND_COMPETENCE_BY_NAME_QUERY),
+        @NamedQuery(name = Competence.FIND_COMPETENCE_BY_NAME, query = Competence.FIND_COMPETENCE_BY_NAME_QUERY)
 })
 public class Competence extends AbstractEntity {
 
     public static final String FIND_GROUPS_BY_COMPETENCE_ID = "Competence.findGroupsByCompetenceId";
     public static final String FIND_GROUPS_BY_COMPETENCE_ID_QUERY = "from Group where competence_id = ?1";
-
-    public static final String FIND_GROUPS_BY_COMPETENCE_UUID = "Competence.findGroupsByCompetenceUuId";
-    public static final String FIND_GROUPS_BY_COMPETENCE_UUID_QUERY = "FROM Group g INNER JOIN fetch g.competence c WHERE c.uuid like ?1";
 
     public static final String FIND_COMPETENCE_BY_NAME = "Competence.findByName";
     public static final String FIND_COMPETENCE_BY_NAME_QUERY = "from Competence where name like ?1";
