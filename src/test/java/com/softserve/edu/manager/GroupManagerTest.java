@@ -116,48 +116,6 @@ public class GroupManagerTest {
     }
 
     @Test
-    public final void testFindByCompetenceUuidEquals() {
-        when(groupDao.findByCompetenceUuid(uuIdMock, false)).thenReturn(listGroups);
-        List<Group> listActual = groupManager.findByCompetenceUuid(uuIdMock, false);
-        assertEquals(listGroups, listActual);
-    }
-
-    @Test
-    public final void testFindByCompetenceUuidNotNull() {
-        when(groupDao.findByCompetenceUuid(uuIdMock, false)).thenReturn(listGroups);
-        List<Group> listActual = groupManager.findByCompetenceUuid(uuIdMock, false);
-        assertNotNull(listActual);
-    }
-
-    @Test
-    public final void testFindByCompetenceUuidNull() {
-        when(groupDao.findByCompetenceUuid(null, false)).thenReturn(null);
-        List<Group> listActual = groupManager.findByCompetenceUuid(null, false);
-        assertNull(listActual);
-    }
-
-    @Test
-    public final void testFindByCompetenceUuidOnlyOpenedEquals() {
-        when(groupDao.findByCompetenceUuid(uuIdMock, true)).thenReturn(listGroups);
-        List<Group> listActual = groupManager.findByCompetenceUuid(uuIdMock, true);
-        assertEquals(listGroups, listActual);
-    }
-
-    @Test
-    public final void testFindByCompetenceUuidOnlyOpenedNotNull() {
-        when(groupDao.findByCompetenceUuid(uuIdMock, true)).thenReturn(listGroups);
-        List<Group> listActual = groupManager.findByCompetenceUuid(uuIdMock, true);
-        assertNotNull(listActual);
-    }
-
-    @Test
-    public final void testFindByCompetenceUuidOnlyOpenedNull() {
-        when(groupDao.findByCompetenceUuid(null, false)).thenReturn(null);
-        List<Group> listActual = groupManager.findByCompetenceUuid(null, false);
-        assertNull(listActual);
-    }
-
-    @Test
     public final void testModify() throws GroupManagerException {
         when(competenceDao.findById(Competence.class, idMockLong)).thenReturn(competence);
         when(groupDao.findById(Group.class, idMockLong)).thenReturn(group);
@@ -193,21 +151,6 @@ public class GroupManagerTest {
     public final void testUsersNotNull() {
         List<User> actual = new ArrayList<>();
         actual = groupManager.users(idMockLong);
-        assertNotNull(actual);
-    }
-
-    @Test
-    public final void testFindUsersByGroupUuidEquals() {
-        List<User> expected = new ArrayList<>();
-        List<User> actual = new ArrayList<>();
-        actual = groupManager.findUsersByGroupUuid(uuIdMock);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public final void testFindUsersByGroupUuidNotNull() {
-        List<User> actual = new ArrayList<>();
-        actual = groupManager.findUsersByGroupUuid(uuIdMock);
         assertNotNull(actual);
     }
 

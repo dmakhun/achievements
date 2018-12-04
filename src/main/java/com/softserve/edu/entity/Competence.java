@@ -16,12 +16,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "ach_Competence")
-@XmlRootElement
 @NamedQueries({
         @NamedQuery(name = Competence.FIND_GROUPS_BY_COMPETENCE_ID, query = Competence.FIND_GROUPS_BY_COMPETENCE_ID_QUERY),
         @NamedQuery(name = Competence.FIND_GROUPS_BY_COMPETENCE_UUID, query = Competence.FIND_GROUPS_BY_COMPETENCE_UUID_QUERY),

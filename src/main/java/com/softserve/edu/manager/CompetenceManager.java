@@ -11,7 +11,7 @@ public interface CompetenceManager {
     /**
      * returns all groups in a certain competence.
      */
-    List<Group> findGroups(int CompetenceId);
+    List<Group> findGroups(int competenceId);
 
     /**
      * @return all list of competenceies.
@@ -23,7 +23,7 @@ public interface CompetenceManager {
      *
      * @return List<AchievementType>
      */
-    List<AchievementType> findTypesOfAchievements(Long idCompetence);
+    List<AchievementType> findAchievementsTypesByCompetenceId(Long competenceId);
 
     /**
      * Get list of competences but those, that are given.
@@ -33,7 +33,7 @@ public interface CompetenceManager {
     /**
      * Get list of competences, that user want attend to.
      */
-    List<Competence> findByUser(Long userId);
+    List<Competence> findByUserId(Long userId);
 
     /**
      * Creates a new competence with current name.
