@@ -92,10 +92,10 @@ public class LoginController {
     @RequestMapping(value = "/createaccount", method = RequestMethod.POST)
     public String createAccount(@Valid User user, BindingResult result, Model model) {
         try {
-            if (userManager.existEmail(user.getEmail())) {
+            if (userManager.isEmailExists(user.getEmail())) {
                 result.rejectValue("email", "DuplicateKey.user.email");
             }
-            if (userManager.existUserName(user.getUsername())) {
+            if (userManager.isUsernameExists(user.getUsername())) {
                 result.rejectValue("username", "DuplicateKey.user.username");
             }
             if (result.hasErrors()) {
