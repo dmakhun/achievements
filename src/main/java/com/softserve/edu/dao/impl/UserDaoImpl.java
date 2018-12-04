@@ -78,6 +78,6 @@ public class UserDaoImpl extends GenericDaoImpl<User>
 
     @Override
     public List<User> findByRole(String role) {
-        return findEntityList(User.FIND_ALL_USERS_BY_ROLE, roleDao.findRoleId(role));
+        return findEntityList(User.FIND_ALL_USERS_BY_ROLE, roleDao.findRoleByName(role).getId());
     }
 }

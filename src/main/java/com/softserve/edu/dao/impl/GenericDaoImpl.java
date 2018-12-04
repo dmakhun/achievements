@@ -106,7 +106,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
                 .createQuery(
                         "from " + objectClass.getName()
                                 + " where " + parameter + " like :pattern and role="
-                                + roleManager.findRole(ROLE_MANAGER))
+                                + roleManager.findRoleByName(ROLE_MANAGER).getId())
                 .setParameter("pattern", placeholder + pattern + "%")
                 .setFirstResult(startPosition)
                 .setMaxResults(maxResult)

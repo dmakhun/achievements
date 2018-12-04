@@ -16,23 +16,13 @@ public class RoleDaoImpl extends GenericDaoImpl<Role>
     private UserDao userDao;
 
     @Override
-    public List<User> findUsers(int roleId) {
+    public List<User> findUsersById(int roleId) {
         return userDao.findEntityList(Role.FIND_USERS_BY_ROLE_ID, roleId);
-    }
-
-    @Override
-    public Long findRoleId(String roleName) {
-        return findRoleByName(roleName).getId();
     }
 
     @Override
     public Role findRoleByName(String roleName) {
         return findEntity(Role.FIND_ROLE_BY_NAME, roleName);
-    }
-
-    @Override
-    public List<User> findUsersByRoleUuid(String roleUuid) {
-        return userDao.findEntityList(Role.FIND_USERS_BY_ROLE_UUID, roleUuid);
     }
 
 }
