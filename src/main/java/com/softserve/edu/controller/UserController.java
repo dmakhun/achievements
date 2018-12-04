@@ -80,7 +80,7 @@ public class UserController {
                     .findByUsername(auth.getName()).getId(), true);
             List<Competence> exceptOfList = new ArrayList<>();
             List<Competence> wantToAttend = competenceManager
-                    .findByUser(userManager.findByUsername(auth.getName())
+                    .findByUserId(userManager.findByUsername(auth.getName())
                             .getId());
 
             for (Group group : groupslist) {

@@ -42,7 +42,7 @@ public class CompetenceManagerImpl implements CompetenceManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<AchievementType> findTypesOfAchievements(Long competenceId) {
+    public List<AchievementType> findAchievementsTypesByCompetenceId(Long competenceId) {
         return achievementTypeDao
                 .findByCompetenceId(competenceId);
     }
@@ -94,7 +94,7 @@ public class CompetenceManagerImpl implements CompetenceManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Competence> findByUser(Long userId) {
+    public List<Competence> findByUserId(Long userId) {
         return competenceDao.findCompetencesByUserId(userId);
     }
 

@@ -76,7 +76,8 @@ public class CompetenceManagerTest {
     @Test
     public void testGetTypesOfAchievements() {
         when(achievementTypeDao.findByCompetenceId(idMockLong)).thenReturn(listAchievementTypes);
-        List<AchievementType> listActual = competenceManager.findTypesOfAchievements(idMockLong);
+        List<AchievementType> listActual = competenceManager
+                .findAchievementsTypesByCompetenceId(idMockLong);
         assertEquals(listAchievementTypes, listActual);
     }
 
@@ -112,7 +113,7 @@ public class CompetenceManagerTest {
     @Test
     public void testFindByUser() {
         when(competenceDao.findCompetencesByUserId(idMockLong)).thenReturn(listCompetences);
-        List<Competence> expected = competenceManager.findByUser(idMockLong);
+        List<Competence> expected = competenceManager.findByUserId(idMockLong);
         assertEquals(expected, listCompetences);
     }
 

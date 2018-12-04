@@ -32,16 +32,10 @@ public interface GroupManager {
     List<Group> findAllByCompetenceId(Long competenceId, boolean onlyOpened);
 
     /**
-     *
-     */
-    List<Group> findByCompetenceUuid(final String competenceUuid,
-            final boolean onlyOpened);
-
-    /**
      * Create new group.
      */
-    Long create(final String name, final Date startDate,
-            final Date endDate, final Long competenceId) throws GroupManagerException;
+    Long create(String name, Date startDate,
+            Date endDate, Long competenceId) throws GroupManagerException;
 
     /**
      * Modify existing group.
@@ -52,57 +46,29 @@ public interface GroupManager {
      * @param end Ending date.
      * @param competenceId Competence id.
      */
-    void modify(final Long groupId, final String name, final Date start,
-            final Date end, final Long competenceId) throws GroupManagerException;
+    void modify(Long groupId, String name, Date start,
+            Date end, Long competenceId) throws GroupManagerException;
 
     /**
      * Add existing user to existing group.
      */
-    void addUser(final Long userId, final Long groupId) throws GroupManagerException;
+    void addUser(Long userId, Long groupId) throws GroupManagerException;
 
     /**
      * Get users from given group.
      */
-    List<User> users(final Long groupId);
+    List<User> users(Long groupId);
 
-    /**
-     *
-     */
-    List<User> findUsersByGroupUuid(String groupUuid);
-
-    /**
-     *
-     */
     void deleteById(Long groupId) throws GroupManagerException;
 
-    /**
-     *
-     */
     void addUser(String userUuid, String groupUuid) throws GroupManagerException;
 
-    /**
-     *
-     */
     void create(Group group) throws GroupManagerException;
 
-    /**
-     *
-     */
     boolean validateGroup(Group group);
 
-    /**
-     *
-     */
     Group findGroupByGroupName(String groupName);
 
-    /**
-     *
-     */
-    void deleteByUuid(String groupUuid) throws GroupManagerException;
-
-    /**
-     *
-     */
     void removeAssociation(Group group);
 
 

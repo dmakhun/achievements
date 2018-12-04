@@ -48,13 +48,6 @@ public class GroupManagerImplementation implements GroupManager {
     }
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Group> findByCompetenceUuid(String competenceUuid,
-            boolean onlyOpened) {
-        return groupDao.findByCompetenceUuid(competenceUuid, onlyOpened);
-    }
-
-    @Override
     @Transactional
     public Long create(String name, Date startDate, Date endDate,
             Long competenceId) throws GroupManagerException {
@@ -150,37 +143,17 @@ public class GroupManagerImplementation implements GroupManager {
     }
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<User> findUsersByGroupUuid(String groupUuid) {
-        return groupDao.findUsersByGroupUuid(groupUuid);
-    }
-
-    @Override
     @Transactional
     public void deleteById(Long groupId) throws GroupManagerException {
-        Group toDelete = groupDao.findById(Group.class, groupId);
+        Group group = groupDao.findById(Group.class, groupId);
+        removeAssociation(group);
         try {
-            groupDao.delete(toDelete);
+            groupDao.delete(group);
             logger.info("Group was deleted by id");
         } catch (Exception e) {
             logger.error("cannot deleteAchievementType group", e);
             throw new GroupManagerException("cannot deleteAchievementType group", e);
         }
-    }
-
-    @Override
-    @Transactional
-    public void deleteByUuid(String groupUuid) throws GroupManagerException {
-        Group group = groupDao.findByUuid(Group.class, groupUuid);
-        removeAssociation(group);
-        try {
-            groupDao.delete(group);
-            logger.info("Group was deleted by uuid");
-        } catch (Exception e) {
-            logger.error("cannot deleteAchievementType group", e);
-            throw new GroupManagerException("cannot deleteAchievementType group", e);
-        }
-
     }
 
     @Override
