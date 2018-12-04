@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
 @Entity
@@ -98,7 +97,7 @@ public class Group extends AbstractEntity {
     public Group() {
     }
 
-    @XmlTransient
+
     public Set<User> getUsers() {
         return users;
     }
@@ -107,7 +106,7 @@ public class Group extends AbstractEntity {
         this.users = users;
     }
 
-    @XmlTransient
+
     public Long getId() {
         return id;
     }

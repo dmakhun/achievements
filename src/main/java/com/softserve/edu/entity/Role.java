@@ -12,7 +12,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents bean class for Roles entity. Mapped on table roles.
@@ -76,7 +75,7 @@ public class Role extends AbstractEntity {
      *
      * @return id
      */
-    @XmlTransient
+
     public Long getId() {
         return id;
     }
