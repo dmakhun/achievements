@@ -11,12 +11,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Represents bean class for Roles entity. Mapped on table roles.
  */
-@XmlRootElement
+
 @Entity
 @Table(name = "ach_Role")
 @NamedQueries({
