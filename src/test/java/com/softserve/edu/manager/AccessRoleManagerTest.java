@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.softserve.edu.dao.RoleDao;
-import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.AccessRole;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.manager.impl.RoleManagerImplementation;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RoleManagerTest {
+public class AccessRoleManagerTest {
 
     @Mock
     private RoleDao roleDao;
@@ -28,8 +28,8 @@ public class RoleManagerTest {
     private RoleManager roleManager =
             new RoleManagerImplementation();
 
-    private Class<Role> classRole;
-    private Role role;
+    private Class<AccessRole> classRole;
+    private AccessRole accessRole;
     private int idMock = 1;
     private Long idMockLong;
     private String uuIdMock = "8a3e8480-d2d5-4b49-9c49-0ace2b718441";
@@ -37,8 +37,8 @@ public class RoleManagerTest {
 
     @Before
     public void setUp() {
-        classRole = Role.class;
-        role = new Role();
+        classRole = AccessRole.class;
+        accessRole = new AccessRole();
     }
 
     @Test
@@ -96,59 +96,59 @@ public class RoleManagerTest {
 
     @Test
     public final void testFindRoleByRolenameUser() {
-        when(roleDao.findRoleByName("ROLE_USER")).thenReturn(role);
-        Role actual = roleManager.findRoleByName("ROLE_USER");
-        assertEquals(role, actual);
+        when(roleDao.findRoleByName("ROLE_USER")).thenReturn(accessRole);
+        AccessRole actual = roleManager.findRoleByName("ROLE_USER");
+        assertEquals(accessRole, actual);
     }
 
     @Test
     public final void testFindRoleByRolenameManager() {
-        when(roleDao.findRoleByName("ROLE_MANAGER")).thenReturn(role);
-        Role actual = roleManager.findRoleByName("ROLE_MANAGER");
-        assertEquals(role, actual);
+        when(roleDao.findRoleByName("ROLE_MANAGER")).thenReturn(accessRole);
+        AccessRole actual = roleManager.findRoleByName("ROLE_MANAGER");
+        assertEquals(accessRole, actual);
     }
 
     @Test
     public final void testFindRoleByRolenameAdmin() {
-        when(roleDao.findRoleByName("ROLE_ADMIN")).thenReturn(role);
-        Role actual = roleManager.findRoleByName("ROLE_ADMIN");
-        assertEquals(role, actual);
+        when(roleDao.findRoleByName("ROLE_ADMIN")).thenReturn(accessRole);
+        AccessRole actual = roleManager.findRoleByName("ROLE_ADMIN");
+        assertEquals(accessRole, actual);
     }
 
     @Test
     public final void testFindRoleByRolenameUserNotNull() {
-        when(roleDao.findRoleByName("ROLE_USER")).thenReturn(role);
-        Role actual = roleManager.findRoleByName("ROLE_USER");
+        when(roleDao.findRoleByName("ROLE_USER")).thenReturn(accessRole);
+        AccessRole actual = roleManager.findRoleByName("ROLE_USER");
         assertNotNull(actual);
     }
 
     @Test
     public final void testFindRoleByRolenameManagerNotNull() {
-        when(roleDao.findRoleByName("ROLE_MANAGER")).thenReturn(role);
-        Role actual = roleManager.findRoleByName("ROLE_MANAGER");
+        when(roleDao.findRoleByName("ROLE_MANAGER")).thenReturn(accessRole);
+        AccessRole actual = roleManager.findRoleByName("ROLE_MANAGER");
         assertNotNull(actual);
     }
 
     @Test
     public final void testFindRoleByRolenameAdminNotNull() {
-        when(roleDao.findRoleByName("ROLE_ADMIN")).thenReturn(role);
-        Role actual = roleManager.findRoleByName("ROLE_ADMIN");
+        when(roleDao.findRoleByName("ROLE_ADMIN")).thenReturn(accessRole);
+        AccessRole actual = roleManager.findRoleByName("ROLE_ADMIN");
         assertNotNull(actual);
     }
 
     @Test
     public final void testGetById() {
-        role.setName("ROLE_ADMIN");
-        when(roleDao.findById(Role.class, idMockLong)).thenReturn(role);
-        Role actual = roleManager.findById(idMockLong);
-        verify(roleDao).findById(Role.class, idMockLong);
-        assertEquals(role, actual);
+        accessRole.setName("ROLE_ADMIN");
+        when(roleDao.findById(AccessRole.class, idMockLong)).thenReturn(accessRole);
+        AccessRole actual = roleManager.findById(idMockLong);
+        verify(roleDao).findById(AccessRole.class, idMockLong);
+        assertEquals(accessRole, actual);
     }
 
     @Test
     public final void testGetByIdNotNull() {
-        when(roleDao.findById(classRole, idMockLong)).thenReturn(role);
-        Role expected = roleManager.findById(idMockLong);
+        when(roleDao.findById(classRole, idMockLong)).thenReturn(accessRole);
+        AccessRole expected = roleManager.findById(idMockLong);
         assertNotNull(expected);
     }
 }

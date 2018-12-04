@@ -12,24 +12,20 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- * Represents bean class for Roles entity. Mapped on table roles.
- */
-
 @Entity
-@Table(name = "Role")
+@Table(name = "AccessRole")
 @NamedQueries({
-        @NamedQuery(name = Role.FIND_USERS_BY_ROLE_ID, query = Role.FIND_USERS_BY_ROLE_ID_QUERY),
-        @NamedQuery(name = Role.FIND_ROLE_BY_NAME, query = Role.FIND_ROLE_BY_NAME_QUERY),
-        @NamedQuery(name = Role.FIND_USERS_BY_ROLE_UUID, query = Role.FIND_USERS_BY_ROLE_UUID_QUERY)
+        @NamedQuery(name = AccessRole.FIND_USERS_BY_ROLE_ID, query = AccessRole.FIND_USERS_BY_ROLE_ID_QUERY),
+        @NamedQuery(name = AccessRole.FIND_ROLE_BY_NAME, query = AccessRole.FIND_ROLE_BY_NAME_QUERY),
+        @NamedQuery(name = AccessRole.FIND_USERS_BY_ROLE_UUID, query = AccessRole.FIND_USERS_BY_ROLE_UUID_QUERY)
 })
-public class Role extends AbstractEntity {
+public class AccessRole extends AbstractEntity {
 
-    public static final String FIND_USERS_BY_ROLE_ID = "Role.findUsers";
+    public static final String FIND_USERS_BY_ROLE_ID = "AccessRole.findUsers";
     public static final String FIND_USERS_BY_ROLE_ID_QUERY = "from User where role_id = ?1";
 
-    public static final String FIND_ROLE_BY_NAME = "Role.findRoleId";
-    static final String FIND_ROLE_BY_NAME_QUERY = "from Role where name like ?1";
+    public static final String FIND_ROLE_BY_NAME = "AccessRole.findRoleId";
+    static final String FIND_ROLE_BY_NAME_QUERY = "from AccessRole where name like ?1";
 
     public static final String FIND_USERS_BY_ROLE_UUID = "ROLE";
     public static final String FIND_USERS_BY_ROLE_UUID_QUERY = "from User u INNER JOIN fetch u.role r WHERE r.uuid	like ?1";
@@ -49,13 +45,13 @@ public class Role extends AbstractEntity {
     @Column(name = "name", length = 50)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "accessRole")
     private Set<User> user;
 
     /**
      * Default constructor.
      */
-    public Role() {
+    public AccessRole() {
 
     }
 
@@ -65,7 +61,7 @@ public class Role extends AbstractEntity {
      * @param name value for name field
      */
 
-    public Role(String name) {
+    public AccessRole(String name) {
         this.name = name;
     }
 

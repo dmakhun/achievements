@@ -3,7 +3,7 @@ package com.softserve.edu.dao;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 import static org.junit.Assert.assertEquals;
 
-import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.AccessRole;
 import com.softserve.edu.entity.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class AchievementDaoTest {
 
     @Before
     public void setUp() {
-        userDao.save(new User("Dmytro", "Makhun", "dmak", new Role(ROLE_MANAGER), "password",
+        userDao.save(new User("Dmytro", "Makhun", "dmak", new AccessRole(ROLE_MANAGER), "password",
                 null));
     }
 

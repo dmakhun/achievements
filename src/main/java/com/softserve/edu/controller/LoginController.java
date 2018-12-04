@@ -103,7 +103,7 @@ public class LoginController {
             }
 
             Long id = roleManager.findRoleByName("ROLE_USER").getId();
-            user.setRole(roleManager.findById(id));
+            user.setAccessRole(roleManager.findById(id));
 
             userManager.createUser(user);
 
