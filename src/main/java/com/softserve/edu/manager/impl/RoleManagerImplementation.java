@@ -1,7 +1,7 @@
 package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.RoleDao;
-import com.softserve.edu.entity.Role;
+import com.softserve.edu.entity.AccessRole;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.manager.RoleManager;
 import java.util.List;
@@ -24,14 +24,14 @@ public class RoleManagerImplementation implements RoleManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Role findRoleByName(String roleName) {
+    public AccessRole findRoleByName(String roleName) {
         return roleDao.findRoleByName(roleName);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Role findById(Long id) {
-        return roleDao.findById(Role.class, id);
+    public AccessRole findById(Long id) {
+        return roleDao.findById(AccessRole.class, id);
     }
 
 }
