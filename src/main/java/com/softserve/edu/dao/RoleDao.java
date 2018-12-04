@@ -11,22 +11,7 @@ public interface RoleDao extends GenericDao<Role> {
      *
      * @return list of users
      */
-    List<User> findUsers(int roleId);
+    List<User> findUsersById(int roleId);
 
-    /**
-     * Find users with current role name.
-     *
-     * @return list of users
-     */
-    Long findRoleId(String roleName);
-
-    /**
-     *
-     */
-    List<User> findUsersByRoleUuid(String roleUuid);
-
-    /**
-     *
-     */
     Role findRoleByName(String roleName);
 }

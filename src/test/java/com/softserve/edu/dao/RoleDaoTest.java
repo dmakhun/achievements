@@ -23,7 +23,7 @@ public class RoleDaoTest {
 
     @Test
     public void testFindUsers() {
-        List<User> users = roleDao.findUsers(1);
+        List<User> users = roleDao.findUsersById(1);
         System.out.println("Users with role id 1");
         for (User user : users) {
             System.out.println(user.getName());
@@ -33,7 +33,7 @@ public class RoleDaoTest {
 
     @Test
     public void testFindRole() {
-        long i = roleDao.findRoleId("admin");
+        long i = roleDao.findRoleByName("admin").getId();
         System.out.println("id role with name 'admin': " + i);
         assertEquals(2, i);
     }
@@ -45,15 +45,4 @@ public class RoleDaoTest {
         assertEquals("i1", role.getUuid());
         assertNotNull(role);
     }
-
-    @Test
-    public void testFindUsersByRoleUuid() {
-        List<User> users = roleDao.findUsersByRoleUuid("i1");
-        System.out.println("users with roleUuid 'i1':");
-        for (User user : users) {
-            System.out.println(user.getName());
-        }
-        assertEquals(2, users.size());
-    }
-
 }
