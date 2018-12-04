@@ -124,19 +124,14 @@ public class GroupManagerTest {
 
     @Test
     public final void testCreateStringDateDateString() throws GroupManagerException {
-        when(competenceDao.findByUuid(Competence.class, uuIdMock)).thenReturn(competence);
+        when(competenceDao.findById(Competence.class, idMockLong)).thenReturn(competence);
         //when(groupDao.save(group)).thenReturn(true);
-        groupManager.create(uuIdMock, date, date, idMockLong);
+        groupManager.create("name", date, date, idMockLong);
     }
 
     @Test
     public final void testAddUserLongLong() throws GroupManagerException {
         groupManager.addUser(idMockLong, idMockLong);
-    }
-
-    @Test
-    public final void testAddUserStringString() throws GroupManagerException {
-        groupManager.addUser(uuIdMock, uuIdMock);
     }
 
     @Test

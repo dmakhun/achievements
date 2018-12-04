@@ -14,7 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "ach_Achievement")
+@Table(name = "Achievement")
 public class Achievement extends AbstractEntity {
 
     @Id

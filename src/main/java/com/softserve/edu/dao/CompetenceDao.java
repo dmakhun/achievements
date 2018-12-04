@@ -14,11 +14,6 @@ public interface CompetenceDao extends GenericDao<Competence> {
     List<Group> findGroupsByCompetenceId(int groupId);
 
     /**
-     * Finds all groups of a specific competence
-     */
-    List<Group> findGroupsByCompetenceUuid(final String competenceUuid);
-
-    /**
      * Find competence with certain name.
      *
      * @param name of comp you need
@@ -31,11 +26,6 @@ public interface CompetenceDao extends GenericDao<Competence> {
      * Get list of competences, that user want attend to.
      */
     List<Competence> findCompetencesByUserId(final Long userId);
-
-    /**
-     * Finds the list of the competences of the specific user by user's UUID.
-     */
-    List<Competence> findCompetencesByUserUuid(final String userUuid);
 
     /**
      * Get competences with loaded users to them.

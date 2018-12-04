@@ -130,18 +130,6 @@ public class UserManagerImpl implements UserManager {
         }
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    private User findByUuid(String uuid) {
-        User user = userDao.findByUuid(User.class, uuid);
-
-        if (user == null) {
-            logger.error("User with such uuid doesn't exist.");
-        } else {
-            logger.info("User was found");
-        }
-        return user;
-    }
-
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public User findByUsername(String username) {

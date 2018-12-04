@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "ach_Role")
+@Table(name = "Role")
 @NamedQueries({
         @NamedQuery(name = Role.FIND_USERS_BY_ROLE_ID, query = Role.FIND_USERS_BY_ROLE_ID_QUERY),
         @NamedQuery(name = Role.FIND_ROLE_BY_NAME, query = Role.FIND_ROLE_BY_NAME_QUERY),

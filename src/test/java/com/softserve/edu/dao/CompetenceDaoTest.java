@@ -28,15 +28,6 @@ public class CompetenceDaoTest {
     }
 
     @Test
-    public void testFindGroupsByCompetenceUuid() {
-        List<Group> groups = competenceDao.findGroupsByCompetenceUuid("i1");
-        for (Group group : groups) {
-            System.out.println(group.getName());
-        }
-        assertEquals(2, groups.size());
-    }
-
-    @Test
     public void testFindByName() {
         assertEquals("Java", competenceDao.findByName("Java").getName());
     }
@@ -48,15 +39,6 @@ public class CompetenceDaoTest {
             System.out.println(competency.getName());
         }
         assertEquals(1, competencies.size());
-    }
-
-    @Test
-    public void testFindByUserUuid() {
-        List<Competence> competences = competenceDao.findCompetencesByUserUuid("i1");
-        for (Competence competency : competences) {
-            System.out.println(competency.getName());
-        }
-        assertEquals(2, competences.size());
     }
 
     @Test

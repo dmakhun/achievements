@@ -51,21 +51,6 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
     }
 
     @Override
-    public T findByUuid(Class<T> objectClass, String uuid) {
-        try {
-            T foundEntity = (T) entityManager
-                    .createQuery(
-                            "from " + objectClass.getName()
-                                    + " where uuid like :uuid")
-                    .setParameter("uuid", uuid).getSingleResult();
-            return foundEntity;
-        } catch (NoResultException ex) {
-            logger.warn("cannot find entity by uuid", ex);
-            return null;
-        }
-    }
-
-    @Override
     public T findEntity(String singleQuery, Object... params) {
         try {
             Query query = entityManager.createNamedQuery(singleQuery);
