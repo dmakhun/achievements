@@ -123,19 +123,6 @@ public class GroupManagerImplementation implements GroupManager {
     }
 
     @Override
-    @Transactional
-    public void addUser(String userUuid, String groupUuid)
-            throws GroupManagerException {
-        try {
-            groupDao.addUser(userUuid, groupUuid);
-            logger.info("User was added");
-        } catch (Exception e) {
-            logger.error("cannot add user to group", e);
-            throw new GroupManagerException("cannot add user to group", e);
-        }
-    }
-
-    @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<User> users(Long groupId) {
 

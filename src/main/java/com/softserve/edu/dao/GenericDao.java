@@ -44,11 +44,6 @@ public interface GenericDao<T> {
     /**
      *
      */
-    T findByUuid(Class<T> objectClass, String uuid);
-
-    /**
-     *
-     */
     T findEntity(String singleQuery, Object... params);
 
     /**

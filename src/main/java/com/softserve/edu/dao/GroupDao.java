@@ -7,7 +7,7 @@ import java.util.List;
 public interface GroupDao extends GenericDao<Group> {
 
     /**
-     * Finds all groups what will be opened,
+     * Finds all groups what will be opened
      *
      * @return list of groups
      */
@@ -28,35 +28,13 @@ public interface GroupDao extends GenericDao<Group> {
     List<User> userList(Long groupId);
 
     /**
-     * Get groups connected to given competence.
-     */
-    List<Group> findByCompetenceUuid(final String competenceUuid,
-            final boolean onlyOpened);
-
-    /**
      * Add user to group.
      */
-    void addUser(final Long userId, final Long groupId);
+    void addUser(Long userId, Long groupId);
 
-    /**
-     *
-     */
-    List<User> findUsersByGroupUuid(String groupUuid);
-
-    /**
-     *
-     */
     List<Group> findByCompetence(Long competenceId, boolean onlyOpened);
 
-    /**
-     *
-     */
     Group findGroupByName(String name);
-
-    /**
-     *
-     */
-    void addUser(String userUuid, String groupUuid);
 
 
 }

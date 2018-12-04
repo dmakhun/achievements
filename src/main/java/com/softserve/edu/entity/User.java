@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name = "ach_User")
+@Table(name = "User")
 @NamedQueries({
         @NamedQuery(name = User.FIND_USER_BY_USERNAME, query = User.FIND_USER_BY_NAME_QUERY),
         @NamedQuery(name = User.FIND_USER_BY_EMAIL, query = User.FIND_USER_BY_EMAIL_QUERY),
