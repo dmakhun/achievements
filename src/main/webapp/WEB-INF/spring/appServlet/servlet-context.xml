@@ -32,7 +32,7 @@
     <interceptors>
         <beans:bean
                 class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
-                p:paramName="language"/>
+        />
     </interceptors>
 
     <beans:bean id="localeResolver"
