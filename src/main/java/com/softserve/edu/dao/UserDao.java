@@ -13,34 +13,19 @@ public interface UserDao extends GenericDao<User> {
      * Adds user and competence to the attending table.
      *
      * @param user - user you want to attend
-     * @param competence - competence you want to attend user
+     * @param competence - competence you want to attend user to
      */
     void attendUserToCompetence(User user, Competence competence);
 
-    /**
-     * Find concrete user by his full username.
-     *
-     * @param username Username.
-     * @return User or null.
-     */
-    User findByUsername(final String username);
+    User findByUsername(String username);
 
-    /**
-     * Find concrete user by his email.
-     *
-     * @param email Email.
-     * @return User or null.
-     */
-    User findByEmail(final String email);
+    User findByEmail(String email);
 
     /**
      * Find all groups, that user is attending.
      */
     List<Group> findGroups(Long userId, boolean onlyOpened);
 
-    /**
-     *
-     */
     void removeUserToCompetence(User user, Competence competence);
 
     List<User> findByRole(String role);

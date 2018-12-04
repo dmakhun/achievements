@@ -25,7 +25,7 @@ public class RatingsController {
         List<User> users = userManager.findAllUsers();
         // get points for users and sort by points DESC
         Map<User, Long> userPointsMap = users.stream()
-                .map(user -> new AbstractMap.SimpleEntry<>(user, userManager.sumOfPoints(user)))
+                .map(user -> new AbstractMap.SimpleEntry<>(user, userManager.getTotalPoints(user)))
                 .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
                 .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue,
                         (e1, e2) -> e1, LinkedHashMap::new));

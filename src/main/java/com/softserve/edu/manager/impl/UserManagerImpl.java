@@ -97,14 +97,6 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public User updateUser(String userUuid, User user) throws UserManagerException {
-        return updateUser(userDao.findByUuid(User.class, userUuid).getId(), user.getName(),
-                user.getSurname(), user.getUsername(), user.getPassword(), user.getEmail(),
-                user.getRole().getId());
-    }
-
-    @Override
-    @Transactional
     public void updateUser(User user) throws UserManagerException {
         try {
             userDao.update(user);
@@ -117,8 +109,9 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public void deleteById(Long id) throws UserManagerException {
-        User user = userDao.findById(User.class, id);
         try {
+            User user = userDao.findById(User.class, id);
+            removeAssociations(user);
             userDao.delete(user);
         } catch (Exception e) {
             logger.error("Delete user by id", e);
@@ -137,9 +130,8 @@ public class UserManagerImpl implements UserManager {
         }
     }
 
-    @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findByUuid(String uuid) {
+    private User findByUuid(String uuid) {
         User user = userDao.findByUuid(User.class, uuid);
 
         if (user == null) {
@@ -314,24 +306,6 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public void appendCompetence(String userUuid, String competenceUuid)
-            throws UserManagerException {
-
-        User user = userDao.findByUuid(User.class, userUuid);
-        Competence competence = competenceDao.findByUuid(Competence.class, competenceUuid);
-
-        try {
-            userDao.attendUserToCompetence(user, competence);
-        } catch (Exception e) {
-            logger.error("Could not add competence to user", e);
-            throw new UserManagerException("Could not add competence to user",
-                    e);
-        }
-
-    }
-
-    @Override
-    @Transactional
     public void removeUserToCompetence(Long userId, Long competenceId)
             throws UserManagerException {
         User user = userDao.findById(User.class, userId);
@@ -345,23 +319,6 @@ public class UserManagerImpl implements UserManager {
                     "Could not remove user to competence", e);
         }
 
-    }
-
-    @Override
-    @Transactional
-    public void removeUserToCompetence(String userUuid, String competenceUuid)
-            throws UserManagerException {
-        User user = userDao.findByUuid(User.class, userUuid);
-        Competence competence = competenceDao.findByUuid(Competence.class,
-                competenceUuid);
-
-        try {
-            userDao.removeUserToCompetence(user, competence);
-        } catch (Exception e) {
-            logger.error("Could not remove user to competence", e);
-            throw new UserManagerException(
-                    "Could not remove user to competence", e);
-        }
     }
 
     @Override
@@ -385,28 +342,14 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public boolean existUserName(String username) {
+    public boolean isUsernameExists(String username) {
         return userDao.findByUsername(username) != null;
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public boolean existEmail(String email) {
+    public boolean isEmailExists(String email) {
         return userDao.findByEmail(email) != null;
-    }
-
-    @Override
-    @Transactional
-    public void deleteByUuid(String userUuid) throws UserManagerException {
-        try {
-            User user = findByUuid(userUuid);
-            removeAssociations(user);
-            userDao.delete(user);
-            logger.info("User with uuid [" + userUuid + "] was removed");
-        } catch (Exception e) {
-            logger.error("Could not deleteAchievementType user by uuid", e);
-            throw new UserManagerException("Could not deleteAchievementType user by uuid", e);
-        }
     }
 
 
@@ -426,7 +369,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public Long sumOfPoints(User user) {
+    public Long getTotalPoints(User user) {
         return userDao.findByUsername(user.getUsername()).getAchievements()
                 .stream().mapToLong(achievement -> achievement.getAchievementType().getPoints())
                 .sum();
