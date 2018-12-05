@@ -49,7 +49,7 @@ public class Competence extends AbstractEntity {
     private Date date;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "ach_UserToCompetence", joinColumns = {@JoinColumn(name = "competence_id")},
+    @JoinTable(name = "UserToCompetence", joinColumns = {@JoinColumn(name = "competence_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private Set<User> users;
 

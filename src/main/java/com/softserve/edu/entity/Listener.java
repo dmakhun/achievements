@@ -7,7 +7,7 @@ import javax.persistence.PreUpdate;
 public class Listener {
 
     @PrePersist
-    public void setUUID(AbstractEntity entity) {
+    public void setLastModifiedDatePrePersist(AbstractEntity entity) {
         entity.setLastModifiedDate(new Date());
 
     }
