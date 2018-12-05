@@ -83,7 +83,7 @@ public class User extends AbstractEntity {
     private byte[] picture;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "ach_UserToCompetence", joinColumns = {
+    @JoinTable(name = "UserToCompetence", joinColumns = {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {
             @JoinColumn(name = "competence_id")})
     private Set<Competence> competences;
@@ -91,11 +91,8 @@ public class User extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Achievement> achievements;
 
-    /**
-     * Many to many and createAchievementType table user_group
-     */
     @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "ach_UserToGroup", joinColumns = {
+    @JoinTable(name = "UserToGroup", joinColumns = {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
     private Set<Group> groups;
 
