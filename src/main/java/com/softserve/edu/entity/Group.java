@@ -71,7 +71,7 @@ public class Group extends AbstractEntity {
     private Date dateClosed;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "ach_UserToGroup", joinColumns = {
+    @JoinTable(name = "UserToGroup", joinColumns = {
             @JoinColumn(name = "group_id")}, inverseJoinColumns = {
             @JoinColumn(name = "user_id")})
     private Set<User> users;
