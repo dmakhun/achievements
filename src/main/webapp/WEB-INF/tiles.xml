@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE  tiles-definitions  PUBLIC  "-//Apache  Software  Foundation//DTD  Tiles
-Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
     <definition name="baseLayout" template="/WEB-INF/views/layout/layout.jsp">
@@ -33,7 +34,8 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
     <definition name="removeAchievementType" extends="baseLayout">
         <put-attribute name="title" value="remove Achievement Type"/>
-        <put-attribute name="body" value="/WEB-INF/views/achievementType/removeAchievementType.jsp"/>
+        <put-attribute name="body"
+                value="/WEB-INF/views/achievementType/removeAchievementType.jsp"/>
     </definition>
 
     <!-- competencies folder -->
@@ -49,7 +51,8 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
     <definition name="forDeleteOrAddCompetence" extends="baseLayout">
         <put-attribute name="title" value="for Delete Or Add Competence"/>
-        <put-attribute name="body" value="/WEB-INF/views/competencies/forDeleteOrAddCompetence.jsp"/>
+        <put-attribute name="body"
+                value="/WEB-INF/views/competencies/forDeleteOrAddCompetence.jsp"/>
     </definition>
 
     <definition name="groupsAndCompetence" extends="baseLayout">
