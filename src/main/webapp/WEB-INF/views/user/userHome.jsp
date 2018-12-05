@@ -37,7 +37,7 @@
 </div>
 <br>
 <div class="container">
-    <sec:authorize ifAnyGranted='ROLE_USER'>
+    <sec:authorize access="hasAnyRole('ROLE_USER')">
         <%@ include file="simpleUserProfile.jsp" %>
     </sec:authorize>
 </div>
