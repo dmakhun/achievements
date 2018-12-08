@@ -19,7 +19,7 @@
         <intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>
         <form-login login-page="/login" default-target-url="/"
                 login-processing-url="/j_spring_security_check"
-                    authentication-failure-url="/login?error=true"/>
+                authentication-failure-url="/login?error=true"/>
         <logout logout-success-url="/" logout-url="/j_spring_security_logout"/>
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
     </http>
@@ -33,6 +33,7 @@
         </authentication-provider>
     </authentication-manager>
     <beans:bean
-            class="com.softserve.edu.manager.impl.UserDetailsServiceImpl" id="userDetailsServiceImpl"/>
+            class="com.softserve.edu.manager.impl.UserDetailsServiceImpl"
+            id="userDetailsServiceImpl"/>
 
 </beans:beans>
