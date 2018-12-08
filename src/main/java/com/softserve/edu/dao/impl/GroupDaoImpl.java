@@ -4,7 +4,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.UserDao;
-import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.User;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,46 +14,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("groupDao")
-public class GroupDaoImpl extends GenericDaoImpl<Group> implements GroupDao {
+public class GroupDaoImpl extends GenericDaoImpl<Class> implements GroupDao {
 
     @Autowired
     private UserDao userDao;
 
-    public List<Group> findGroupsToBeOpened() {
-        return findEntityList(Group.SHOW_GROUPS_OPENED_IN_FUTURE, new Date());
+    public List<Class> findGroupsToBeOpened() {
+        return findEntityList(Class.SHOW_GROUPS_OPENED_IN_FUTURE, new Date());
 
     }
 
     @Override
-    public List<Group> findGroupsToBeOpened(Long competenceId) {
+    public List<Class> findGroupsToBeOpened(Long competenceId) {
         return findEntityList(
-                Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, new Date(),
+                Class.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, new Date(),
                 competenceId);
     }
 
     @Override
-    public List<Group> findByCompetence(Long competenceId, boolean onlyOpened) {
+    public List<Class> findByCompetence(Long competenceId, boolean onlyOpened) {
         if (onlyOpened) {
-            return findEntityList(Group.FIND_ONLY_OPENED_GROUPS,
+            return findEntityList(Class.FIND_ONLY_OPENED_GROUPS,
                     competenceId, new Date());
         }
-        return findEntityList(Group.FIND_GROUPS, competenceId);
+        return findEntityList(Class.FIND_GROUPS, competenceId);
     }
 
     @Override
     public void addUser(Long userId, Long groupId) {
         User user = userDao.findById(User.class, userId);
-        Group group = findById(Group.class, groupId);
-        group.setUsers(Stream.of(user).collect(toSet()));
+        Class aClass = findById(Class.class, groupId);
+        aClass.setUsers(Stream.of(user).collect(toSet()));
     }
 
     @Override
     public List<User> userList(Long groupId) {
-        return new ArrayList<>(findById(Group.class, groupId).getUsers());
+        return new ArrayList<>(findById(Class.class, groupId).getUsers());
     }
 
     @Override
-    public Group findGroupByName(String name) {
-        return findEntity(Group.GET_GROUP_BY_NAME, name);
+    public Class findGroupByName(String name) {
+        return findEntity(Class.GET_GROUP_BY_NAME, name);
     }
 }

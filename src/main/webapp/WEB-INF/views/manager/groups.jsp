@@ -4,13 +4,13 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <script src="<c:url value="/resources/script/jquery-2.1.0.js" />"></script>
 <script src="<c:url value="/resources/script/jquery-ui.js" />"></script>
-<script id="group-row" language="text">
+<script id="aClass-row" language="text">
 <div class="row">
-	<div class="col-md-6 group-name">{{name}}</div>
-	<div class="col-md-2 group-opened">{{start}}</div>
-	<div class="col-md-2 group-closed">{{end}}</div>
+	<div class="col-md-6 aClass-name">{{name}}</div>
+	<div class="col-md-2 aClass-opened">{{start}}</div>
+	<div class="col-md-2 aClass-closed">{{end}}</div>
 	<div class="col-md-2 text-center">
-		<div class="btn-group btn-group-lg">
+		<div class="btn-aClass btn-aClass-lg">
 			<button type="button" class="modifiable btn btn-warning">
 				<span class="glyphicon glyphicon-pencil"></span>
 			</button>
@@ -29,7 +29,7 @@
 
 </script>
 
-<script id="group-panel" language="text">
+<script id="aClass-panel" language="text">
 <div id="{{competence}}" class="panel panel-default">
 <div class="panel-heading">{{competence}}</div>
 <div class="panel-body">
@@ -58,8 +58,8 @@
 <script>
 	$(function() {
 		cancelModify = function() {
-			$(".modify-existing-group").css("display", "none");
-            $(".createAchievementType-new-group").css("display", false);
+            $(".modify-existing-aClass").css("display", "none");
+            $(".createAchievementType-new-aClass").css("display", false);
 			$("input[name=type]").val("create");
 			$("input[name=id]").val("");
 			$("input[name=group_name]").val("");
@@ -93,14 +93,14 @@
 
 		$("body").on("click", ".modifiable", function() {
 				row = $(this).parent().parent().parent();
-            $(".createAchievementType-new-group").css("display", "none");
-				$(".modify-existing-group").css("display", false);
+            $(".createAchievementType-new-aClass").css("display", "none");
+            $(".modify-existing-aClass").css("display", false);
 				$("input[name=type]").val("modify");
 				$("input[name=id]").val($(row).find("input[name=modify]").val());
-				$("input[name=group_name]").val($(row).find(".group-name").html());
+            $("input[name=group_name]").val($(row).find(".aClass-name").html());
 				$("select[name=competence]").val($(row).find("input[name=competence-id]").val());
-				$("input[name=dateStart]").val($(row).find(".group-opened").html());
-				$("input[name=dateEnd]").val($(row).find(".group-closed").html());
+            $("input[name=dateStart]").val($(row).find(".aClass-opened").html());
+            $("input[name=dateEnd]").val($(row).find(".aClass-closed").html());
 			});
 
 		$("body").on("click", "#cancel-modify", function() {
@@ -116,7 +116,7 @@
 			$("input[name=type]").val("create");
 
 			$.ajax({
-				url : "<c:url value="/manager/groups/manage/"/>",
+                url: "<c:url value="/manager/aClasses/manage/"/>",
 				type : "post",
 				data : data,
 				statusCode : {
@@ -153,7 +153,7 @@
 
                 };
 				var rowRenamer = function(id) {
-					return $("#group-row").html()
+                    return $("#aClass-row").html()
 							.replace(/{{name}}/g, $("input[name=group_name]").val())
 							.replace(/{{start}}/g, $("input[name=dateStart]").val())
 							.replace(/{{end}}/g, $("input[name=dateEnd]").val())
@@ -171,7 +171,7 @@
 							);
 						} else {
 							$("#message-box").after(
-								$("#group-panel").html()
+                                $("#aClass-panel").html()
 									.replace(/{{competence}}/g, $("select[name=competence] option:selected").text())
 									.replace(/{{row}}/g, rowRenamer(id))
 							);
@@ -191,7 +191,7 @@
 				}
 
 				$.ajax({
-					url : "<c:url value="/manager/groups/manage/"/>",
+                    url: "<c:url value="/manager/aClasses/manage/"/>",
 					type : "post",
 					data : $("form").serialize(),
 					statusCode : {
@@ -218,7 +218,7 @@
     <div id="message-box" class="alert alert-danger text-center"
          style="width: 400px; position: fixed; left: 50%; top: 50%; margin-left: -200px; z-index: 10; display: none"></div>
 
-    <c:forEach var="mapItem" items="${groups}">
+    <c:forEach var="mapItem" items="${aClasses}">
         <c:if test="${not empty mapItem.value}">
             <div id="${mapItem.key}" class="panel panel-default">
                 <div class="panel-heading">${mapItem.key}</div>
@@ -240,11 +240,11 @@
                     <hr/>
                     <c:forEach var="item" items="${mapItem.value}">
                         <div class="row">
-                            <div class="col-md-6 group-name">${item.name }</div>
-                            <div class="col-md-2 group-opened">${item.dateOpened }</div>
-                            <div class="col-md-2 group-closed">${item.dateClosed }</div>
+                            <div class="col-md-6 aClass-name">${item.name }</div>
+                            <div class="col-md-2 aClass-opened">${item.dateOpened }</div>
+                            <div class="col-md-2 aClass-closed">${item.dateClosed }</div>
                             <div class="col-md-2 text-center">
-                                <div class="btn-group btn-group-lg">
+                                <div class="btn-aClass btn-aClass-lg">
                                     <button type="button" class="modifiable btn btn-warning">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </button>
@@ -266,9 +266,9 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a href="#grouplink"></a> <span class="create-new-group">Створити
-				нову групу</span> <span class="modify-existing-group" style="display: none">Редагувати
-				групу</span> <span id="cancel-modify" class="modify-existing-group"
+            <a href="#grouplink"></a> <span class="create-new-aClass">Створити
+				нову групу</span> <span class="modify-existing-aClass" style="display: none">Редагувати
+				групу</span> <span id="cancel-modify" class="modify-existing-aClass"
                                    style="display: none; float: right"><span
                 class="glyphicon glyphicon-remove-circle"></span></span>
         </div>
@@ -278,14 +278,14 @@
                     <input type="hidden" name="type" value="create"/> <input
                         type="hidden" name="id" value=""/>
                     <div class="col-md-4">
-                        <div class="form-group">
+                        <div class="form-aClass">
                             <input class="form-control" type="text" name="group_name"
                                    placeholder="Назва групи"/>
                         </div>
                     </div>
 
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="form-aClass">
                             <select class="form-control" name="competence">
                                 <c:forEach var="item" items="${competences}">
                                     <option value="${item.id}">${item.name}</option>
@@ -295,14 +295,14 @@
                     </div>
 
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="form-aClass">
                             <input id="date-from" class="form-control" name="dateStart"
                                    placeholder="Дата старту"/>
                         </div>
                     </div>
 
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="form-aClass">
                             <input id="date-to" class="form-control" name="dateEnd"
                                    placeholder="Дата закінчення"/>
                         </div>
@@ -311,8 +311,9 @@
                     <div class="col-md-2">
                         <button id="form-submit" class="btn btn-default form-control"
                                 type="button">
-                            <span class="create-new-group">Створити</span> <span
-                                class="modify-existing-group" style="display: none">Редагувати</span>
+                            <span class="create-new-aClass">Створити</span> <span
+                                class="modify-existing-aClass"
+                                style="display: none">Редагувати</span>
                         </button>
                     </div>
                 </form>

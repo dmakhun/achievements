@@ -82,7 +82,7 @@
         <form id="add-achievement-type">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
+                    <div class="form-aClass">
                         <input class="form-control" id="achName" type="text" name="name"
                                placeholder=
                                 <spring:message code="achievement.name"/>/>
@@ -92,7 +92,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
+                    <div class="form-aClass">
                         <input class="form-control" id="achPoints" type="text" name="points"
                                placeholder=
                                 <spring:message code="achievement.points"/>/>
@@ -102,7 +102,7 @@
 
             <div class="row text-center">
                 <div class="col-md-12">
-                    <div class="form-group">
+                    <div class="form-aClass">
                         <button id="achievement-type-submitter" type="button"
                                 class="btn btn-success form-control"
                                 onclick="pass();">

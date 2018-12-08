@@ -1,8 +1,8 @@
 package com.softserve.edu.manager;
 
 import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface CompetenceManager {
     /**
      * returns all groups in a certain competence.
      */
-    List<Group> findGroups(int competenceId);
+    List<Class> findGroups(int competenceId);
 
     /**
      * @return all list of competenceies.

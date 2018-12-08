@@ -33,8 +33,9 @@
             <p><spring:message code="registration.login"/></p>
         </div>
         <div class="col-md-4">
-            <div class="form-group">
-                <input class="form-control" type="text" name="j_username" id="username" value="${username}" size="20"/>
+            <div class="form-aClass">
+                <input class="form-control" type="text" name="username" id="username"
+                       value="${username}" size="20"/>
             </div>
         </div>
     </div>
@@ -44,8 +45,9 @@
             <p><spring:message code="registration.password"/></p>
         </div>
         <div class="col-md-4">
-            <div class="form-group">
-                <input class="form-control" type="password" name="j_password" id="password" size="20"/>
+            <div class="form-aClass">
+                <input class="form-control" type="password" name="password" id="password"
+                       size="20"/>
             </div>
         </div>
     </div>

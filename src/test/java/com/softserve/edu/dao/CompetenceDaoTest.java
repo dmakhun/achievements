@@ -3,8 +3,8 @@ package com.softserve.edu.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,8 +23,8 @@ public class CompetenceDaoTest {
 
     @Test
     public void testShowGroups() {
-        List<Group> groups = competenceDao.findGroupsByCompetenceId(1);
-        assertEquals(1, groups.size());
+        List<Class> aClasses = competenceDao.findGroupsByCompetenceId(1);
+        assertEquals(1, aClasses.size());
     }
 
     @Test

@@ -34,14 +34,14 @@
 
                     <form method="get">
                         <div class="reg_section personal_info">
-                            <div class="row form-group">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-2 col-md-4">
                                     <spring:message code="myprofile.edit"/></div>
                                 <a href="editprofile"><spring:message code="myprofile.edite"/></a>
                             </div>
 
 
-                            <div class="row form-group">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-2 col-md-4"><spring:message code="myprofile.name"/></div>
 
                                 <div>
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
 
-                            <div class="row form-group">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-2 col-md-4"><spring:message code="myprofile.lastname"/></div>
                                 <div>
                                     <h4>
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
 
-                            <div class="row form-group">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-2 col-md-4"><spring:message code="myprofile.mail"/></div>
                                 <div>
                                     <h4>
