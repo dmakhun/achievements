@@ -22,7 +22,7 @@ import javax.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +50,7 @@ public class UserManagerImpl implements UserManager {
     @Autowired
     private CompetenceDao competenceDao;
     @Autowired
-    private StandardPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
 
     @Override
