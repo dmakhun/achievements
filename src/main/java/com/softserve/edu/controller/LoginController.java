@@ -45,22 +45,16 @@ public class LoginController {
     private GroupManager groupManager;
     @Autowired
     private RoleManager roleManager;
-    @Autowired
-    private UserDao userDao;
 
-    /**
-     * Simply selects the home view to render by returning its name.
-     */
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(ModelMap model, Principal pr) {
         try {
-            Authentication auth = SecurityContextHolder.getContext()
-                    .getAuthentication();
-            if (auth.getAuthorities().toString().contains("ROLE_USER")) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth.getAuthorities().toString().contains(ROLE_USER)) {
                 return "redirect:/userHome";
             }
-            List<Competence> competences = competenceManager
-                    .findAllCompetences();
+            List<Competence> competences = competenceManager.findAllCompetences();
             model.addAttribute("competences", competences);
 
             List<List<Class>> groupLists = new ArrayList<>();
@@ -84,6 +78,11 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping(value = "/logout")
+    public String logout() {
+        return "login";
+    }
+
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute("user", new User());
@@ -103,8 +102,7 @@ public class LoginController {
                 return "registration";
             }
 
-            Long id = roleManager.findRoleByName("ROLE_USER").getId();
-            user.setAccessRole(roleManager.findById(id));
+            user.setAccessRole(roleManager.findRoleByName(ROLE_USER));
 
             userManager.createUser(user);
 
@@ -114,19 +112,14 @@ public class LoginController {
 
             return "login";
         } catch (UserManagerException e) {
-            logger.error(e.getMessage());
+            logger.error("Can't create user", e);
             return "registration";
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Can't create user", e);
             return GENERALERROR;
         }
-
     }
 
-    @RequestMapping(value = "/logout")
-    public String logout() {
-        return "login";
-    }
 
     @RequestMapping(value = "/sheduleTable", method = RequestMethod.GET)
     public String sheduleTable() {
