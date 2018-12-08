@@ -8,15 +8,15 @@
         xmlns="http://www.springframework.org/schema/security">
 
 
-    <http>
+    <http use-expressions="true">
         <access-denied-handler error-page="/myerror/403"/>
 
         <csrf disabled="true"/>
 
         <intercept-url access="" pattern="/"/>
         <intercept-url access="" pattern="/index"/>
-        <intercept-url pattern="/manager/*" access="ROLE_MANAGER"/>
-        <intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/manager/*" access="hasRole('ROLE_MANAGER')"/>
+        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
         <form-login login-page="/login" default-target-url="/"
                 login-processing-url="/j_spring_security_check"
                 authentication-failure-url="/login?error=true"/>
