@@ -25,7 +25,7 @@
                                             data-toggle="dropdown"><spring:message code="menu.10tab"/> <b
                             class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<c:url value="/manager/groups"/>">Groups</a></li>
+                            <li><a href="<c:url value="/manager/aClasses"/>">Groups</a></li>
                             <li><a href="<c:url value="/manager/attendees"/>">Attendees</a></li>
                             <li><a href="<c:url value="/manager/ratings"/>">Ratings</a></li>
                         </ul>

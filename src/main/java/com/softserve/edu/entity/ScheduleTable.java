@@ -23,7 +23,7 @@ public class ScheduleTable {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
-    private Group group;
+    private Class aClass;
 
     @Column(name = "meetingType", length = 200)
     private String meetingType;
@@ -45,9 +45,9 @@ public class ScheduleTable {
     public ScheduleTable() {
     }
 
-    public ScheduleTable(Group group, String meetingType, Calendar begin,
+    public ScheduleTable(Class aClass, String meetingType, Calendar begin,
             Calendar end, String description, String location) {
-        this.group = group;
+        this.aClass = aClass;
         this.meetingType = meetingType;
         this.begin = begin;
         this.end = end;
@@ -55,12 +55,12 @@ public class ScheduleTable {
         this.location = location;
     }
 
-    public Group getGroup() {
-        return group;
+    public Class getaClass() {
+        return aClass;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setaClass(Class aClass) {
+        this.aClass = aClass;
     }
 
     public String getMeetingType() {

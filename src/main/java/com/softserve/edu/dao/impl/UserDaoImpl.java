@@ -5,8 +5,8 @@ import static java.util.stream.Collectors.toSet;
 import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,7 +30,7 @@ public class UserDaoImpl extends GenericDaoImpl<User>
     private GroupDao groupDao;
 
     @Override
-    public User findById(Class<User> userClass, long id) {
+    public User findById(java.lang.Class userClass, long id) {
         return super.findById(userClass, id);
     }
 
@@ -64,11 +64,11 @@ public class UserDaoImpl extends GenericDaoImpl<User>
     }
 
     @Override
-    public List<Group> findGroups(Long userId, boolean onlyOpened) {
+    public List<Class> findGroups(Long userId, boolean onlyOpened) {
         if (onlyOpened) {
             return groupDao.findEntityList(User.FIND_ONLY_OPENED_GROUPS, userId, new Date());
         }
-        return new ArrayList<>(findById(User.class, userId).getGroups());
+        return new ArrayList<>(findById(User.class, userId).getaClasses());
     }
 
     @Override

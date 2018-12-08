@@ -33,8 +33,8 @@
                         <br>
 
 
-                        <div class="row form-group">
-                            <div class="row form-group">
+                        <div class="row form-aClass">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-2 col-md-4">
                                     <spring:message code="editprofile.avatar"/>
                                 </div>
@@ -45,7 +45,7 @@
                             </div>
 
 
-                            <div class="row form-group">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-2 col-md-4">
                                     <spring:message code="editprofile.pass"/>
                                 </div>
@@ -56,7 +56,7 @@
                                 </div>
                             </div>
 
-                            <div class="row form-group">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-2 col-md-4">
                                     <spring:message code="editprofile.name"/>
                                 </div>
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
 
-                            <div class="row form-group">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-2 col-md-4">
                                     <spring:message code="editprofile.lastname"/>
                                 </div>
@@ -80,7 +80,7 @@
                                 </div>
                             </div>
 
-                            <div class="row form-group">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-2 col-md-4">
                                     <spring:message code="editprofile.mail"/>
                                 </div>
@@ -92,9 +92,9 @@
                                 </div>
                             </div>
 
-                            <div class="row form-group">
+                            <div class="row form-aClass">
                                 <div class="col-md-offset-6 col-md-4">
-                                    <div class="btn-group btn-group-lg">
+                                    <div class="btn-aClass btn-aClass-lg">
                                         <button class="btn btn-default" type="submit"
                                                 name="removeCompetence">
                                             <spring:message code="update"/>

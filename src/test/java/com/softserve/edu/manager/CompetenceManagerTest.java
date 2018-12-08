@@ -10,8 +10,8 @@ import static org.mockito.Mockito.when;
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.impl.CompetenceManagerImpl;
 import java.util.ArrayList;
@@ -38,21 +38,21 @@ public class CompetenceManagerTest {
     private int idMock = 1;
     private long idMockLong = 1;
     private String uuIdMock = "8a3e8480-d2d5-4b49-9c49-0ace2b718441";
-    private Group group;
+    private Class aClass;
     private AchievementType achievementType;
-    private List<Group> listGroups = new ArrayList<>(idMock);
+    private List<Class> listClasses = new ArrayList<>(idMock);
     private List<Competence> listCompetences = new ArrayList<>();
     private List<AchievementType> listAchievementTypes = new ArrayList<>();
     private Set<Competence> setCompetences = new HashSet<>();
     private Competence competence;
-    private Class<Competence> competenceClass;
+    private java.lang.Class competenceClass;
 
     @Before
     public void setUp() {
         achievementType = new AchievementType();
-        group = new Group();
+        aClass = new Class();
         competence = new Competence();
-        listGroups.add(group);
+        listClasses.add(aClass);
         listCompetences.add(competence);
         listAchievementTypes.add(achievementType);
         setCompetences.add(competence);
@@ -61,9 +61,9 @@ public class CompetenceManagerTest {
 
     @Test
     public void testGetGroups() {
-        when(competenceDao.findGroupsByCompetenceId(idMock)).thenReturn(listGroups);
-        List<Group> listActual = competenceManager.findGroups(idMock);
-        assertEquals(listGroups, listActual);
+        when(competenceDao.findGroupsByCompetenceId(idMock)).thenReturn(listClasses);
+        List<Class> listActual = competenceManager.findGroups(idMock);
+        assertEquals(listClasses, listActual);
     }
 
     @Test

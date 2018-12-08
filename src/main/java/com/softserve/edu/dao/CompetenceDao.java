@@ -1,7 +1,7 @@
 package com.softserve.edu.dao;
 
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import java.util.List;
 
 public interface CompetenceDao extends GenericDao<Competence> {
@@ -11,7 +11,7 @@ public interface CompetenceDao extends GenericDao<Competence> {
      *
      * @return list of groups
      */
-    List<Group> findGroupsByCompetenceId(int groupId);
+    List<Class> findGroupsByCompetenceId(int groupId);
 
     /**
      * Find competence with certain name.

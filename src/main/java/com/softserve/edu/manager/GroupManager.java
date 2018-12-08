@@ -1,6 +1,6 @@
 package com.softserve.edu.manager;
 
-import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import java.util.Date;
@@ -13,7 +13,7 @@ public interface GroupManager {
      *
      * @return list of future groups
      */
-    List<Group> inFuture();
+    List<Class> inFuture();
 
     /**
      * Method finds in database all groups what will be started from current time. Select only those
@@ -21,7 +21,7 @@ public interface GroupManager {
      *
      * @return list of future groups
      */
-    List<Group> inFuture(Long competenceId);
+    List<Class> inFuture(Long competenceId);
 
     /**
      * Get groups, connected to given competenceId.
@@ -29,7 +29,7 @@ public interface GroupManager {
      * @param competenceId Competence id.
      * @param onlyOpened Flag that says to get only opened groups.
      */
-    List<Group> findAllByCompetenceId(Long competenceId, boolean onlyOpened);
+    List<Class> findAllByCompetenceId(Long competenceId, boolean onlyOpened);
 
     /**
      * Create new group.
@@ -41,7 +41,7 @@ public interface GroupManager {
      * Modify existing group.
      *
      * @param groupId ID of existing group.
-     * @param name Group name.
+     * @param name Class name.
      * @param start Opening date.
      * @param end Ending date.
      * @param competenceId Competence id.
@@ -61,13 +61,13 @@ public interface GroupManager {
 
     void deleteById(Long groupId) throws GroupManagerException;
 
-    void create(Group group) throws GroupManagerException;
+    void create(Class aClass) throws GroupManagerException;
 
-    boolean validateGroup(Group group);
+    boolean validateGroup(Class aClass);
 
-    Group findGroupByGroupName(String groupName);
+    Class findGroupByGroupName(String groupName);
 
-    void removeAssociation(Group group);
+    void removeAssociation(Class aClass);
 
 
 }

@@ -1,8 +1,9 @@
 package com.softserve.edu.controller;
 
-import com.softserve.edu.dao.UserDao;
+import static com.softserve.edu.util.Constants.ROLE_USER;
+
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
@@ -62,7 +63,7 @@ public class LoginController {
                     .findAllCompetences();
             model.addAttribute("competences", competences);
 
-            List<List<Group>> groupLists = new ArrayList<>();
+            List<List<Class>> groupLists = new ArrayList<>();
             for (Competence competence : competences) {
                 groupLists.add(groupManager.inFuture(competence.getId()));
             }

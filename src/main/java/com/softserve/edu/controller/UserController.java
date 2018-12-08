@@ -5,8 +5,8 @@ import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Achievement;
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.AchievementManager;
@@ -69,22 +69,22 @@ public class UserController {
 
             User user = userManager.findByUsername(auth.getName());
 
-            List<Group> groups = userManager.findGroups(user.getId(), false);
-            model.addAttribute("groups", groups);
+            List<Class> aClasses = userManager.findGroups(user.getId(), false);
+            model.addAttribute("groups", aClasses);
             List<Achievement> achievements = achievementManager
                     .findUserAchievementsByUserId(user.getId());
 
             model.addAttribute("achievements", achievements);
 
-            List<Group> groupslist = userManager.findGroups(userManager
+            List<Class> groupslist = userManager.findGroups(userManager
                     .findByUsername(auth.getName()).getId(), true);
             List<Competence> exceptOfList = new ArrayList<>();
             List<Competence> wantToAttend = competenceManager
                     .findByUserId(userManager.findByUsername(auth.getName())
                             .getId());
 
-            for (Group group : groupslist) {
-                exceptOfList.add(group.getCompetence());
+            for (Class aClass : groupslist) {
+                exceptOfList.add(aClass.getCompetence());
             }
             exceptOfList.addAll(wantToAttend);
 

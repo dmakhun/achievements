@@ -39,7 +39,7 @@
         <br>
         <div class="row">
             <div class="col-md-offset-4 col-md-4">
-                <div class="form-group">
+                <div class="form-aClass">
                     <input class="form-control" type="text" name="name"
                            placeholder=
                            <spring:message code="achievement.name"/>/>
@@ -49,7 +49,7 @@
 
         <div class="row">
             <div class="col-md-offset-4 col-md-4">
-                <div class="form-group">
+                <div class="form-aClass">
                     <input class="form-control" type="text" name="points"
                            placeholder=
                            <spring:message code="achievement.points"/>/>
@@ -59,7 +59,7 @@
 
         <div class="row text-center">
             <div class="col-md-offset-4 col-md-4">
-                <div class="btn-group btn-group-lg">
+                <div class="btn-aClass btn-aClass-lg">
                     <button class="btn btn-success" type="submit">
                         <spring:message code="add"/>
                     </button>
