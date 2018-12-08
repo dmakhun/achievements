@@ -2,8 +2,8 @@ package com.softserve.edu.controller;
 
 import static java.util.stream.Collectors.toMap;
 
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.exception.UserManagerException;
@@ -54,9 +54,9 @@ public class ManagerController {
         try {
             // TODO pass just competence entity
             List<Competence> competenceList = competenceManager.findAllCompetences();
-            Map<String, Set<Group>> groups = competenceList.stream()
+            Map<String, Set<Class>> groups = competenceList.stream()
                     .map(competence -> new AbstractMap.SimpleEntry<>(competence.getName(),
-                            competence.getGroups())) // TODO filter just opened groups
+                            competence.getaClasses())) // TODO filter just opened groups
                     .collect(toMap(AbstractMap.SimpleEntry::getKey,
                             AbstractMap.SimpleEntry::getValue));
 
@@ -188,7 +188,7 @@ public class ManagerController {
     public String attendees(Model model) {
         try {
             List<Competence> competenceList = competenceManager.findAllCompetences();
-            Map<String, List<Group>> groups = new HashMap<>();
+            Map<String, List<Class>> groups = new HashMap<>();
             for (Competence competence : competenceList) {
                 groups.put(competence.getName(),
                         groupManager.findAllByCompetenceId(competence.getId(), true));

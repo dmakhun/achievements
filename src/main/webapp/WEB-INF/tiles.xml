@@ -56,7 +56,7 @@
     </definition>
 
     <definition name="groupsAndCompetence" extends="baseLayout">
-        <put-attribute name="title" value="groups And Competence"/>
+        <put-attribute name="title" value="aClasses And Competence"/>
         <put-attribute name="body" value="/WEB-INF/views/competencies/groupsAndCompetence.jsp"/>
     </definition>
 
@@ -76,10 +76,10 @@
         <put-attribute name="body" value="/WEB-INF/views/error/errorPage.jsp"/>
     </definition>
 
-    <!-- group folder -->
+    <!-- aClass folder -->
     <definition name="userlist" extends="baseLayout">
         <put-attribute name="title" value="user list page"/>
-        <put-attribute name="body" value="/WEB-INF/views/group/userlist.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/aClass/userlist.jsp"/>
     </definition>
 
     <!-- login folder -->
@@ -135,9 +135,9 @@
         <put-attribute name="body" value="/WEB-INF/views/manager/attendees.jsp"/>
     </definition>
 
-    <definition name="groups" extends="baseLayout">
-        <put-attribute name="title" value="groups page"/>
-        <put-attribute name="body" value="/WEB-INF/views/manager/groups.jsp"/>
+    <definition name="aClasses" extends="baseLayout">
+        <put-attribute name="title" value="aClasses page"/>
+        <put-attribute name="body" value="/WEB-INF/views/manager/aClasses.jsp"/>
     </definition>
 
     <definition name="removeManager" extends="baseLayout">

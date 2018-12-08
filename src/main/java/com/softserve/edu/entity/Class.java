@@ -21,33 +21,33 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-@Table(name = "Group")
+@Table(name = "Class")
 @NamedQueries({
-        @NamedQuery(name = Group.SHOW_GROUPS_OPENED_IN_FUTURE, query = Group.SHOW_GROUPS_OPENED_IN_FUTURE_QUERY),
-        @NamedQuery(name = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, query = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY),
-        @NamedQuery(name = Group.FIND_LIST_GROUPS_BY_COMPETENCE, query = Group.FIND_LIST_GROUPS_BY_COMPETENCE_QUERY),
-        @NamedQuery(name = Group.GET_GROUP_BY_NAME, query = Group.GET_GROUP_BY_NAME_QUERY),
-        @NamedQuery(name = Group.FIND_ONLY_OPENED_GROUPS, query = Group.FIND_ONLY_OPENED_GROUPS_QUERY),
-        @NamedQuery(name = Group.FIND_GROUPS, query = Group.FIND_GROUPS_QUERY)})
-public class Group extends AbstractEntity {
+        @NamedQuery(name = Class.SHOW_GROUPS_OPENED_IN_FUTURE, query = Class.SHOW_GROUPS_OPENED_IN_FUTURE_QUERY),
+        @NamedQuery(name = Class.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, query = Class.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY),
+        @NamedQuery(name = Class.FIND_LIST_GROUPS_BY_COMPETENCE, query = Class.FIND_LIST_GROUPS_BY_COMPETENCE_QUERY),
+        @NamedQuery(name = Class.GET_GROUP_BY_NAME, query = Class.GET_GROUP_BY_NAME_QUERY),
+        @NamedQuery(name = Class.FIND_ONLY_OPENED_GROUPS, query = Class.FIND_ONLY_OPENED_GROUPS_QUERY),
+        @NamedQuery(name = Class.FIND_GROUPS, query = Class.FIND_GROUPS_QUERY)})
+public class Class extends AbstractEntity {
 
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE = "Group.findGroupsToBeOpened";
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_QUERY = "from Group where dateOpened > ?1";
+    public static final String SHOW_GROUPS_OPENED_IN_FUTURE = "Class.findGroupsToBeOpened";
+    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_QUERY = "from Class where dateOpened > ?1";
 
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE = "Group.inFutureCompetenceId";
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY = "from Group where dateOpened > ?1 and competence_id = ?2";
+    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE = "Class.inFutureCompetenceId";
+    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY = "from Class where dateOpened > ?1 and competence_id = ?2";
 
-    public static final String FIND_LIST_GROUPS_BY_COMPETENCE = "Group.findAllByCompetenceId";
-    public static final String FIND_LIST_GROUPS_BY_COMPETENCE_QUERY = "from Group where competence_id = ?1 ";
+    public static final String FIND_LIST_GROUPS_BY_COMPETENCE = "Class.findAllByCompetenceId";
+    public static final String FIND_LIST_GROUPS_BY_COMPETENCE_QUERY = "from Class where competence_id = ?1 ";
 
-    public static final String GET_GROUP_BY_NAME = "Group.getGroupByName";
-    public static final String GET_GROUP_BY_NAME_QUERY = "from Group where name like ?1";
+    public static final String GET_GROUP_BY_NAME = "Class.getGroupByName";
+    public static final String GET_GROUP_BY_NAME_QUERY = "from Class where name like ?1";
 
-    public static final String FIND_ONLY_OPENED_GROUPS = "Group.opened";
-    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1 and g.dateClosed > ?2";
+    public static final String FIND_ONLY_OPENED_GROUPS = "Class.opened";
+    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Class g inner join fetch g.competence c WHERE c.id = ?1 and g.dateClosed > ?2";
 
-    public static final String FIND_GROUPS = "Group.all";
-    public static final String FIND_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1";
+    public static final String FIND_GROUPS = "Class.all";
+    public static final String FIND_GROUPS_QUERY = "FROM Class g inner join fetch g.competence c WHERE c.id = ?1";
 
 
     @Id
@@ -76,7 +76,7 @@ public class Group extends AbstractEntity {
             @JoinColumn(name = "user_id")})
     private Set<User> users;
 
-    public Group(Competence competence, String name, Date dateOpened, Date dateClosed,
+    public Class(Competence competence, String name, Date dateOpened, Date dateClosed,
             Set<User> users) {
         this.competence = competence;
         this.name = name;
@@ -85,7 +85,7 @@ public class Group extends AbstractEntity {
         this.users = users;
     }
 
-    public Group() {
+    public Class() {
     }
 
 
@@ -157,7 +157,7 @@ public class Group extends AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Group other = (Group) obj;
+        Class other = (Class) obj;
         if (id == null) {
             return other.id == null;
         } else {

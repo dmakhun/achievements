@@ -1,7 +1,7 @@
 package com.softserve.edu.controller;
 
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
@@ -154,9 +154,9 @@ public class CompetenceController {
         try {
             List<Competence> list = competenceManager.findAllCompetences();
             model.addAttribute("list", list);
-            List<Group> listGroups = groupManager.findAllByCompetenceId(
+            List<Class> listClasses = groupManager.findAllByCompetenceId(
                     competerceId, true);
-            model.addAttribute("list_groups", listGroups);
+            model.addAttribute("list_groups", listClasses);
 
             return "groupsAndCompetence";
         } catch (Exception e) {

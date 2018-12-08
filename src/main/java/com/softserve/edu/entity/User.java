@@ -40,7 +40,7 @@ public class User extends AbstractEntity {
     public static final String FIND_USER_BY_EMAIL_QUERY = "FROM User WHERE email LIKE ?1";
 
     public static final String FIND_ONLY_OPENED_GROUPS = "User.openedGroups";
-    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.users u WHERE u.id = ?1 and g.dateClosed > ?2";
+    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Class g inner join fetch g.users u WHERE u.id = ?1 and g.dateClosed > ?2";
 
     public static final String FIND_ALL_USERS_BY_ROLE = "User.all";
     public static final String FIND_ALL_BY_ROLE_QUERY = "FROM User u inner join fetch u.accessRole r WHERE r.id = ?1";
@@ -94,7 +94,7 @@ public class User extends AbstractEntity {
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "UserToGroup", joinColumns = {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
-    private Set<Group> groups;
+    private Set<Class> aClasses;
 
     public User() {
     }
@@ -185,12 +185,12 @@ public class User extends AbstractEntity {
     }
 
 
-    public Set<Group> getGroups() {
-        return groups;
+    public Set<Class> getaClasses() {
+        return aClasses;
     }
 
-    public void setGroups(Set<Group> groups) {
-        this.groups = groups;
+    public void setaClasses(Set<Class> aClasses) {
+        this.aClasses = aClasses;
     }
 
     @Override

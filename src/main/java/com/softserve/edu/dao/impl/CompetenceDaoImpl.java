@@ -3,8 +3,8 @@ package com.softserve.edu.dao.impl;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class CompetenceDaoImpl extends
     private UserDao userDao;
 
     @Override
-    public List<Group> findGroupsByCompetenceId(int competenceId) {
+    public List<Class> findGroupsByCompetenceId(int competenceId) {
         return groupDao.findEntityList(Competence.FIND_GROUPS_BY_COMPETENCE_ID, competenceId);
     }
 

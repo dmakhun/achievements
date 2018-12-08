@@ -9,8 +9,8 @@ import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.AccessRole;
+import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
@@ -272,7 +272,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Group> findGroups(Long userId, boolean onlyOpened) {
+    public List<Class> findGroups(Long userId, boolean onlyOpened) {
         return userDao.findGroups(userId, onlyOpened);
     }
 
@@ -314,9 +314,9 @@ public class UserManagerImpl implements UserManager {
     public Set<String> findActiveNameGroups(String username) {
         Set<String> nameGroups = new HashSet<>();
         User user = userDao.findByUsername(username);
-        List<Group> listGroup = userDao.findGroups(user.getId(), true);
-        for (Group group : listGroup) {
-            nameGroups.add(group.getName());
+        List<Class> listClass = userDao.findGroups(user.getId(), true);
+        for (Class aClass : listClass) {
+            nameGroups.add(aClass.getName());
         }
         return nameGroups;
 
@@ -344,9 +344,9 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public void removeAssociations(User user) {
-        user.getGroups().forEach(group -> group.getUsers().remove(user));
-        user.getGroups().clear();
-        user.setGroups(Collections.emptySet());
+        user.getaClasses().forEach(group -> group.getUsers().remove(user));
+        user.getaClasses().clear();
+        user.setaClasses(Collections.emptySet());
 
         user.getCompetences().forEach(competence -> competence.getUsers().remove(user));
         user.getCompetences().clear();

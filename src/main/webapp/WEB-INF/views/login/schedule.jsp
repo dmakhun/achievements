@@ -14,9 +14,9 @@
         <thead>
         <tr>
             <th scope="col"><h2>
-                <a href="<c:url value="/schedule/${group}/${prev}" />"><img
+                <a href="<c:url value="/schedule/${aClass}/${prev}" />"><img
                         src="<c:url value="/resources/images/arrowl.gif" />" border="0"></a>
-                <a href="<c:url value="/schedule/${group}/${next}" />"><img
+                <a href="<c:url value="/schedule/${aClass}/${next}" />"><img
                         src="<c:url value="/resources/images/arrowr.gif" />" border="0"></a>
             </h2></th>
             <th scope="col"><h2>

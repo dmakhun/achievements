@@ -32,7 +32,7 @@
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="btn-group">
+        <div class="btn-aClass">
             <button class="btn btn-default" onclick="location.href='<c:url value ="/admin/achievementtype/add"/>'">Add
                 Achievement type
             </button>
