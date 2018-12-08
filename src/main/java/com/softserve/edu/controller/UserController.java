@@ -32,7 +32,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,7 +59,7 @@ public class UserController {
     @Autowired
     private UserDao userDao;
     @Autowired
-    private StandardPasswordEncoder encoder;
+    private BCryptPasswordEncoder encoder;
 
     @RequestMapping(value = "/userHome", method = RequestMethod.GET)
     public String userHome(Model model, Principal principal) {
