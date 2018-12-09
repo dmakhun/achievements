@@ -41,7 +41,7 @@ public class AchievementTypeController {
             @RequestParam(value = "name", required = false) String name,
             Model model) {
         try {
-            List<AchievementType> achievementTypeList = achievementTypeManager
+            Iterable<AchievementType> achievementTypeList = achievementTypeManager
                     .achievementTypesList();
 
             model.addAttribute("achievementTypeList", achievementTypeList);
