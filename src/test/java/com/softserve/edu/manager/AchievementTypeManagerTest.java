@@ -65,15 +65,15 @@ public class AchievementTypeManagerTest {
 
     @Test
     public void testAchievementTypeListEquals() {
-        when(achievementTypeDao.findAll(AchievementType.class)).thenReturn(expectedList);
-        List<AchievementType> actualList = achievementTypeManager.achievementTypesList();
+        when(achievementTypeDao.findAll()).thenReturn(expectedList);
+        Iterable<AchievementType> actualList = achievementTypeManager.achievementTypesList();
         assertEquals(expectedList, actualList);
     }
 
     @Test
     public void testAchievementTypeListNotNull() {
-        when(achievementTypeDao.findAll(AchievementType.class)).thenReturn(expectedList);
-        List<AchievementType> actualList = achievementTypeManager.achievementTypesList();
+        when(achievementTypeDao.findAll()).thenReturn(expectedList);
+        Iterable<AchievementType> actualList = achievementTypeManager.achievementTypesList();
         assertNotNull(actualList);
     }
 }

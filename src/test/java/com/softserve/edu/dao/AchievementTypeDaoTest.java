@@ -23,10 +23,6 @@ public class AchievementTypeDaoTest {
     @Test
     public void testfindByCompetenceId() {
         List<AchievementType> achType = achievementTypeDao.findByCompetenceId(1L);
-        System.out.println("achievement types of competence with id = 1");
-        for (AchievementType anAchType : achType) {
-            System.out.println(anAchType.getName());
-        }
         assertEquals(3, achType.size());
     }
 

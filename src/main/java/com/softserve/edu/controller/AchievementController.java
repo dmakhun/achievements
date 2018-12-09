@@ -37,7 +37,7 @@ public class AchievementController {
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             Model model) {
         try {
-            List<AchievementType> achievementTypes = achievementTypeManager
+            Iterable<AchievementType> achievementTypes = achievementTypeManager
                     .achievementTypesList();
 
             model.addAttribute("achList", achievementTypes);
@@ -56,7 +56,7 @@ public class AchievementController {
             @RequestParam(value = "comment") String comment,
             @PathVariable(value = "id") Long userId, Model model) {
         try {
-            List<AchievementType> achList = achievementTypeManager
+            Iterable<AchievementType> achList = achievementTypeManager
                     .achievementTypesList();
 
             model.addAttribute("achList", achList);
@@ -76,7 +76,7 @@ public class AchievementController {
             List<Competence> competences = competenceManager
                     .findAllCompetences();
 
-            List<AchievementType> achievementTypes = achievementTypeManager
+            Iterable<AchievementType> achievementTypes = achievementTypeManager
                     .achievementTypesList();
 
             model.addAttribute("competences", competences);
