@@ -79,19 +79,6 @@ public class CompetenceController {
         }
     }
 
-    public String addCompetencePost(
-            Model model,
-            @RequestParam(value = "competenceName", required = false, defaultValue = "") String name) {
-        try {
-            competenceManager.create(name);
-
-            return "redirect:/addCompetence?status=success";
-        } catch (CompetenceManagerException e) {
-            logger.error(e.getMessage());
-            return GENERALERROR;
-        }
-    }
-
     @RequestMapping(value = "/removeCompetence", method = RequestMethod.GET)
     public String removeCompetence(
             @RequestParam(value = "status", defaultValue = "", required = false) String status,
