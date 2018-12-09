@@ -6,14 +6,15 @@ import com.softserve.edu.dao.impl.UserDaoImpl;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.impl.UserManagerImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserManagerTest {
 
     private User testUser = null;
@@ -25,14 +26,14 @@ public class UserManagerTest {
     private UserManager userManager =
             new UserManagerImpl();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         userDao = new UserDaoImpl();
     }
 
-    @Test(expected = UserManagerException.class)
+    @Test
     public void createTestNullStrings() throws Exception {
-        userManager.createUser(null);
+        Assertions.assertThrows(UserManagerException.class, () -> userManager.createUser(null));
     }
 /*
     @Test(expected = UserManagerException.class)
