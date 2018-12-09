@@ -1,6 +1,7 @@
 package com.softserve.edu.manager;
 
-import static org.junit.Assert.assertNotNull;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.softserve.edu.dao.AchievementDao;
 import com.softserve.edu.dao.AchievementTypeDao;
@@ -9,17 +10,18 @@ import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.exception.AchievementManagerException;
 import com.softserve.edu.manager.impl.AchievementManagerImpl;
 import java.util.List;
-import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 
-@RunWith(JUnitParamsRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AchievementManagerTest {
 
     @Mock
@@ -32,23 +34,24 @@ public class AchievementManagerTest {
     @InjectMocks
     private AchievementManager achievementManager = new AchievementManagerImpl();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @Parameters({"-2, 3, 'comment' "})
     public void testGiveAwardToUserNegUserID(long userID,
             long achievementTypeId, String comment) throws AchievementManagerException {
-        achievementManager.awardUser(userID, achievementTypeId, comment);
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                achievementManager.awardUser(userID, achievementTypeId, comment));
     }
 
-    @Test(expected = IllegalArgumentException.class)
     @Parameters({"3, -5, 'comment' "})
     public void testGiveAwardToUserNegAchievementTypeID(long userID,
             long achievementTypeId, String comment) throws AchievementManagerException {
-        achievementManager.awardUser(userID, achievementTypeId, comment);
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                achievementManager.awardUser(userID, achievementTypeId, comment));
     }
 
     @Test

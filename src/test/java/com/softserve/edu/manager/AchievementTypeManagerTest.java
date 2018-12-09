@@ -1,7 +1,7 @@
 package com.softserve.edu.manager;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import com.softserve.edu.dao.AchievementTypeDao;
@@ -12,15 +12,15 @@ import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.impl.AchievementTypeManagerImpl;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AchievementTypeManagerTest {
 
     @Mock
@@ -36,7 +36,7 @@ public class AchievementTypeManagerTest {
     private long IdMock = 1;
     private List<AchievementType> expectedList;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         competence = new Competence();
         expectedList = new ArrayList<>();
@@ -60,8 +60,7 @@ public class AchievementTypeManagerTest {
                 .setName("Android").setPoints(15).setCompetence(competence);
         AchievementType achievementTypeActual = achievementTypeManager.createAchievementType(
                 "Android", 15, IdMock);
-        assertEquals("failure - not equal", achievementTypeExpected,
-                achievementTypeActual);
+        assertEquals(achievementTypeExpected, achievementTypeActual, "failure - not equal");
     }
 
     @Test

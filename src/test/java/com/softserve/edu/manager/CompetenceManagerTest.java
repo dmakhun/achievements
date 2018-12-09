@@ -1,11 +1,10 @@
 package com.softserve.edu.manager;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.CompetenceDao;
@@ -18,15 +17,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CompetenceManagerTest {
 
     @InjectMocks
@@ -47,7 +47,7 @@ public class CompetenceManagerTest {
     private Competence competence;
     private java.lang.Class competenceClass;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         achievementType = new AchievementType();
         aClass = new Class();
@@ -104,10 +104,10 @@ public class CompetenceManagerTest {
         assertTrue("Not Deleted", deleted);
     }
 
-    @Test(expected = CompetenceManagerException.class)
+    @Test
     public void testDeleteByStringFalse() throws CompetenceManagerException {
-        boolean deleted = competenceManager.delete(idMockLong);
-        assertFalse("Failure - must be false", deleted);
+        Assertions.assertThrows(CompetenceManagerException.class,
+                () -> competenceManager.delete(idMockLong));
     }
 
     @Test

@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AchievementDao extends CrudRepository<Achievement, Long> {
 
-    List<Achievement> findAchievementsByUserId(long userId);
+    List<Achievement> findByUserId(long userId);
 
 }
