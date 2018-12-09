@@ -6,7 +6,7 @@ import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.AchievementTypeManager;
-import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,20 +78,19 @@ public class AchievementTypeManagerImpl implements
     public boolean deleteAchievementType(long achievementTypeId)
             throws AchievementTypeManagerException {
 
-        AchievementType achievementType = achievementTypeDao.findById(
-                AchievementType.class, achievementTypeId);
+        Optional<AchievementType> achievementType = achievementTypeDao.findById(achievementTypeId);
 
-        if (achievementType == null) {
+        if (!achievementType.isPresent()) {
             logger.error(ACHIEVEMENT_TYPE_CANT_FIND_ERROR);
             throw new AchievementTypeManagerException(ACHIEVEMENT_TYPE_CANT_FIND_ERROR);
         }
-        return deleteAchievementType(achievementType);
+        return deleteAchievementType(achievementType.get());
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<AchievementType> achievementTypesList() {
-        return achievementTypeDao.findAll(AchievementType.class);
+    public Iterable<AchievementType> achievementTypesList() {
+        return achievementTypeDao.findAll();
     }
 
 }

@@ -10,6 +10,7 @@ import com.softserve.edu.exception.AchievementManagerException;
 import com.softserve.edu.manager.AchievementManager;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,8 @@ public class AchievementManagerImpl implements AchievementManager {
     @Transactional
     public void awardUser(long userId, long achievementTypeId, String comment)
             throws AchievementManagerException {
-        AchievementType achievementType = achievementTypeDao
-                .findById(AchievementType.class, achievementTypeId);
-        if (achievementType == null) {
+        Optional<AchievementType> achievementType = achievementTypeDao.findById(achievementTypeId);
+        if (!achievementType.isPresent()) {
             throw new IllegalArgumentException("No such AchievementType id.");
         }
         User user = userDao.findById(User.class, userId);
@@ -45,7 +45,7 @@ public class AchievementManagerImpl implements AchievementManager {
             throw new IllegalArgumentException("User with such id does not exist.");
         }
 
-        Achievement achievement = new Achievement(achievementType, new Date(), comment, user);
+        Achievement achievement = new Achievement(achievementType.get(), new Date(), comment, user);
         try {
             achievementDao.save(achievement);
         } catch (Exception e) {

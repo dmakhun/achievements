@@ -3,7 +3,6 @@ package com.softserve.edu.manager;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
-import java.util.List;
 
 public interface AchievementTypeManager {
 
@@ -19,6 +18,6 @@ public interface AchievementTypeManager {
     boolean deleteAchievementType(long achievementTypeId)
             throws AchievementTypeManagerException;
 
-    List<AchievementType> achievementTypesList();
+    Iterable<AchievementType> achievementTypesList();
 
 }
