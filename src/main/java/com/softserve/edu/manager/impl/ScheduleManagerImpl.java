@@ -8,7 +8,7 @@ import com.softserve.edu.entity.Schedule;
 import com.softserve.edu.entity.ScheduleTable;
 import com.softserve.edu.manager.ScheduleManager;
 import com.softserve.edu.manager.ScheduleRowsManager;
-import com.softserve.edu.util.CsvParser;
+import com.softserve.edu.util.CsvUtils;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -92,7 +92,7 @@ public class ScheduleManagerImpl implements ScheduleManager {
         if (i < 0) {
             i = i * (-1);
         }
-        File finalFile = new File(rootPath + File.separator + "CSV"
+        File finalFile = new File(rootPath + File.separator + "CSV_FILE_NAME"
                 + File.separator + i + ".csv");
         while (finalFile.exists()) {
             i = random.nextInt();
@@ -121,7 +121,7 @@ public class ScheduleManagerImpl implements ScheduleManager {
 
     private boolean isUnique(File file) throws IOException {
         String rootPath = System.getProperty("catalina.home");
-        File[] files = new File(rootPath + File.separator + "CSV").listFiles();
+        File[] files = new File(rootPath + File.separator + "CSV_FILE_NAME").listFiles();
 
         InputStream input1 = new FileInputStream(file);
         InputStream input2 = null;
@@ -143,7 +143,7 @@ public class ScheduleManagerImpl implements ScheduleManager {
     public void fillDBfromCSV(File file) throws Exception {
         int count = 1;
         try {
-            List<Schedule> listSchedules = new CsvParser().mapToCSV(file);
+            List<Schedule> listSchedules = new CsvUtils().mapToCSV(file);
             Class generalClass = null;
             for (Object object : listSchedules) {
                 Schedule schedule = (Schedule) object;
