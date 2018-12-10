@@ -1,6 +1,6 @@
 package com.softserve.edu.manager.impl;
 
-import com.softserve.edu.dao.GroupDao;
+import com.softserve.edu.dao.ClassDao;
 import com.softserve.edu.dao.ScheduleDao;
 import com.softserve.edu.dao.impl.ScheduleGroupDaoImpl;
 import com.softserve.edu.entity.Class;
@@ -34,7 +34,7 @@ public class ScheduleManagerImpl implements ScheduleManager {
     private ScheduleDao scheduleDao;
 
     @Autowired
-    private GroupDao groupDao;
+    private ClassDao classDao;
 
     @Override
     public Map<Long, String> table(Calendar calendar, String group) {
@@ -161,11 +161,11 @@ public class ScheduleManagerImpl implements ScheduleManager {
 
                 }
 
-                Class aClass = groupDao.findGroupByName(schedule.getGroup());
+                Class aClass = classDao.findGroupByName(schedule.getGroup());
                 if (aClass == null) {
                     aClass = new Class();
                     aClass.setName(schedule.getGroup());
-                    groupDao.save(aClass);
+                    classDao.save(aClass);
 
                 }
                 generalClass = aClass;

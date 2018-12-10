@@ -2,7 +2,7 @@ package com.softserve.edu.dao.impl;
 
 import static java.util.stream.Collectors.toSet;
 
-import com.softserve.edu.dao.GroupDao;
+import com.softserve.edu.dao.ClassDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.User;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("groupDao")
-public class GroupDaoImpl extends GenericDaoImpl<Class> implements GroupDao {
+public class ClassDaoImpl extends GenericDaoImpl<Class> implements ClassDao {
 
     @Autowired
     private UserDao userDao;

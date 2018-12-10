@@ -6,12 +6,6 @@ import java.util.List;
 
 public interface CompetenceDao extends GenericDao<Competence> {
 
-    /**
-     * Returns all groups in a certain competence.
-     *
-     * @return list of groups
-     * @param competenceId
-     */
     List<Class> findGroupsByCompetenceId(int competenceId);
 
     /**
