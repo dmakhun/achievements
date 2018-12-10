@@ -174,7 +174,7 @@ public class GroupManagerImplementation implements GroupManager {
     public void removeAssociation(Class aClass) {
 
         Competence competence = aClass.getCompetence();
-        competence.getaClasses().remove(aClass);
+        competence.getClasses().remove(aClass);
 
         Set<User> users = aClass.getUsers();
         for (User u : users) {

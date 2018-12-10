@@ -8,13 +8,6 @@ public interface CompetenceDao extends GenericDao<Competence> {
 
     List<Class> findGroupsByCompetenceId(int competenceId);
 
-    /**
-     * Find competence with certain name.
-     *
-     * @param name of comp you need
-     * @return competence
-     */
-
     Competence findByName(String name);
 
     /**
