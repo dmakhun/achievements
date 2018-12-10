@@ -1,12 +1,12 @@
 package com.softserve.edu.util;
 
-import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
-import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import com.softserve.edu.entity.Schedule;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.Reader;
 import java.util.List;
 
 /**
@@ -20,18 +20,21 @@ public class CsvParser {
      * @return List<Schedule>.
      */
     public List<Schedule> mapToCSV(File serverFile) {
-        ColumnPositionMappingStrategy<Schedule> strat = new ColumnPositionMappingStrategy<Schedule>();
-        strat.setType(Schedule.class);
+        ColumnPositionMappingStrategy<Schedule> mappingStrategy = new ColumnPositionMappingStrategy<>();
+        mappingStrategy.setType(Schedule.class);
         String[] columns = new String[]{"subject", "startDateStr",
                 "startTime", "endDateStr", "endTime", "description", "location"};
-        strat.setColumnMapping(columns);
-        CSVReader csvReader = null;
+        mappingStrategy.setColumnMapping(columns);
+        Reader reader = null;
         try {
-            csvReader = new CSVReader(new FileReader(serverFile));
+            reader = new FileReader(serverFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        return new CsvToBean<Schedule>().parse(strat, csvReader);
+        return new CsvToBeanBuilder(reader).withMappingStrategy(mappingStrategy)
+                .withType(Schedule.class)
+                .build().parse();
+
     }
 }
