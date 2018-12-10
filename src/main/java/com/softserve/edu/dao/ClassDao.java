@@ -4,7 +4,7 @@ import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.User;
 import java.util.List;
 
-public interface GroupDao extends GenericDao<Class> {
+public interface ClassDao extends GenericDao<Class> {
 
     /**
      * Finds all groups what will be opened
