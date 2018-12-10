@@ -9,9 +9,6 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.List;
 
-/**
- * Util class for parsing csv.
- */
 public class CsvParser {
 
     /**
