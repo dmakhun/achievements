@@ -25,4 +25,6 @@
 .idea/*.iml
 .idea/modules
 
+*.kotlin_module
+
 
