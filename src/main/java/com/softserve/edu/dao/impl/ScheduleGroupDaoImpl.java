@@ -1,7 +1,7 @@
 package com.softserve.edu.dao.impl;
 
 import com.softserve.edu.entity.Schedule;
-import com.softserve.edu.util.ScheduleMapping;
+import com.softserve.edu.util.CsvUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class ScheduleGroupDaoImpl {
     /**
      * List of all Schedule from csv file.
      */
-    private List<Schedule> list = ScheduleMapping.mapToCSV();
+    private List<Schedule> list = CsvUtils.mapToCSV();
 
     /**
      * The default constructor.
