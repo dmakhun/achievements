@@ -8,8 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CsvParser {
+
+    private static final Logger logger = LoggerFactory.getLogger(CsvParser.class);
 
     /**
      * List of all Schedule from csv file.
@@ -26,7 +30,7 @@ public class CsvParser {
         try {
             reader = new FileReader(serverFile);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.debug("CSV File not found", e);
         }
 
         return new CsvToBeanBuilder(reader).withMappingStrategy(mappingStrategy)
