@@ -3,7 +3,6 @@ package com.softserve.edu.manager.impl;
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
-import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.CompetenceManager;
@@ -27,12 +26,6 @@ public class CompetenceManagerImpl implements CompetenceManager {
     private CompetenceDao competenceDao;
     @Autowired
     private AchievementTypeDao achievementTypeDao;
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Class> findGroups(int competenceId) {
-        return competenceDao.findGroupsByCompetenceId(competenceId);
-    }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

@@ -4,7 +4,6 @@ package com.softserve.edu.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -21,12 +20,6 @@ public class CompetenceDaoTest {
 
     @Autowired
     private CompetenceDao competenceDao;
-
-    @Test
-    public void testShowGroups() {
-        List<Class> aClasses = competenceDao.findGroupsByCompetenceId(1);
-        assertEquals(1, aClasses.size());
-    }
 
     @Test
     public void testFindByName() {
