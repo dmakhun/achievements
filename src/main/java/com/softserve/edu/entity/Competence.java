@@ -20,13 +20,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Competence")
 @NamedQueries({
-        @NamedQuery(name = Competence.FIND_GROUPS_BY_COMPETENCE_ID, query = Competence.FIND_GROUPS_BY_COMPETENCE_ID_QUERY),
         @NamedQuery(name = Competence.FIND_COMPETENCE_BY_NAME, query = Competence.FIND_COMPETENCE_BY_NAME_QUERY)
 })
 public class Competence extends AbstractEntity {
-
-    public static final String FIND_GROUPS_BY_COMPETENCE_ID = "Competence.findByCompetenceId";
-    public static final String FIND_GROUPS_BY_COMPETENCE_ID_QUERY = "from Class where competence_id = ?1";
 
     public static final String FIND_COMPETENCE_BY_NAME = "Competence.findByName";
     public static final String FIND_COMPETENCE_BY_NAME_QUERY = "from Competence where name like ?1";

@@ -1,9 +1,7 @@
 package com.softserve.edu.dao.impl;
 
-import com.softserve.edu.dao.ClassDao;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.UserDao;
-import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.User;
 import java.util.ArrayList;
@@ -15,15 +13,7 @@ import org.springframework.stereotype.Repository;
 public class CompetenceDaoImpl extends GenericDaoImpl<Competence> implements CompetenceDao {
 
     @Autowired
-    private ClassDao classDao;
-
-    @Autowired
     private UserDao userDao;
-
-    @Override
-    public List<Class> findGroupsByCompetenceId(int competenceId) {
-        return classDao.findEntityList(Competence.FIND_GROUPS_BY_COMPETENCE_ID, competenceId);
-    }
 
     @Override
     public Competence findByName(String name) {
