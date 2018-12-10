@@ -1,7 +1,7 @@
 package com.softserve.edu.dao.impl;
 
+import com.softserve.edu.dao.ClassDao;
 import com.softserve.edu.dao.CompetenceDao;
-import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
@@ -16,14 +16,14 @@ public class CompetenceDaoImpl extends
         GenericDaoImpl<Competence> implements CompetenceDao {
 
     @Autowired
-    private GroupDao groupDao;
+    private ClassDao classDao;
 
     @Autowired
     private UserDao userDao;
 
     @Override
     public List<Class> findGroupsByCompetenceId(int competenceId) {
-        return groupDao.findEntityList(Competence.FIND_GROUPS_BY_COMPETENCE_ID, competenceId);
+        return classDao.findEntityList(Competence.FIND_GROUPS_BY_COMPETENCE_ID, competenceId);
     }
 
     @Override
