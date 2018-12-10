@@ -56,7 +56,7 @@ public class ManagerController {
             List<Competence> competenceList = competenceManager.findAllCompetences();
             Map<String, Set<Class>> groups = competenceList.stream()
                     .map(competence -> new AbstractMap.SimpleEntry<>(competence.getName(),
-                            competence.getaClasses())) // TODO filter just opened groups
+                            competence.getClasses())) // TODO filter just opened groups
                     .collect(toMap(AbstractMap.SimpleEntry::getKey,
                             AbstractMap.SimpleEntry::getValue));
 
