@@ -37,13 +37,12 @@ public class CompetenceManagerTest {
     private AchievementTypeDao achievementTypeDao;
     private int idMock = 1;
     private long idMockLong = 1;
-    private String uuIdMock = "8a3e8480-d2d5-4b49-9c49-0ace2b718441";
     private Class aClass;
     private AchievementType achievementType;
     private List<Class> listClasses = new ArrayList<>(idMock);
     private List<Competence> listCompetences = new ArrayList<>();
     private List<AchievementType> listAchievementTypes = new ArrayList<>();
-    private Set<Competence> setCompetences = new HashSet<>();
+    private Set<Competence> competences = new HashSet<>();
     private Competence competence;
     private java.lang.Class competenceClass;
 
@@ -55,7 +54,7 @@ public class CompetenceManagerTest {
         listClasses.add(aClass);
         listCompetences.add(competence);
         listAchievementTypes.add(achievementType);
-        setCompetences.add(competence);
+        competences.add(competence);
         competenceClass = Competence.class;
     }
 

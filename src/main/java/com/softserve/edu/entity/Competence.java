@@ -25,7 +25,7 @@ import javax.persistence.Table;
 })
 public class Competence extends AbstractEntity {
 
-    public static final String FIND_GROUPS_BY_COMPETENCE_ID = "Competence.findGroupsByCompetenceId";
+    public static final String FIND_GROUPS_BY_COMPETENCE_ID = "Competence.findByCompetenceId";
     public static final String FIND_GROUPS_BY_COMPETENCE_ID_QUERY = "from Class where competence_id = ?1";
 
     public static final String FIND_COMPETENCE_BY_NAME = "Competence.findByName";
@@ -54,7 +54,7 @@ public class Competence extends AbstractEntity {
     private Set<User> users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
-    private Set<Class> aClasses;
+    private Set<Class> classes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
     private Set<AchievementType> achievementTypes;
@@ -68,12 +68,12 @@ public class Competence extends AbstractEntity {
     }
 
 
-    public Set<Class> getaClasses() {
-        return aClasses;
+    public Set<Class> getClasses() {
+        return classes;
     }
 
-    public void setaClasses(Set<Class> aClasses) {
-        this.aClasses = aClasses;
+    public void setClasses(Set<Class> aClasses) {
+        this.classes = aClasses;
     }
 
 

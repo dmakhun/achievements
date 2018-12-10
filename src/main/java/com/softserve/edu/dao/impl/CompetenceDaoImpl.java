@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("competenceDao")
-public class CompetenceDaoImpl extends
-        GenericDaoImpl<Competence> implements CompetenceDao {
+public class CompetenceDaoImpl extends GenericDaoImpl<Competence> implements CompetenceDao {
 
     @Autowired
     private ClassDao classDao;
