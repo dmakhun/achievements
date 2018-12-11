@@ -21,7 +21,6 @@ public class ClassDaoImpl extends GenericDaoImpl<Class> implements ClassDao {
 
     public List<Class> findGroupsToBeOpened() {
         return findEntityList(Class.SHOW_GROUPS_OPENED_IN_FUTURE, new Date());
-
     }
 
     @Override
