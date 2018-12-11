@@ -19,12 +19,12 @@ public class ClassDaoImpl extends GenericDaoImpl<Class> implements ClassDao {
     @Autowired
     private UserDao userDao;
 
-    public List<Class> findGroupsToBeOpened() {
+    public List<Class> findGroupsToBeOpenedByCompetenceId() {
         return findEntityList(Class.SHOW_GROUPS_OPENED_IN_FUTURE, new Date());
     }
 
     @Override
-    public List<Class> findGroupsToBeOpened(Long competenceId) {
+    public List<Class> findGroupsToBeOpenedByCompetenceId(Long competenceId) {
         return findEntityList(
                 Class.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, new Date(),
                 competenceId);
