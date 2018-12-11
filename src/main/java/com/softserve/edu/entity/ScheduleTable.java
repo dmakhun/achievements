@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 public class ScheduleTable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
