@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
         @NamedQuery(name = Class.FIND_GROUPS, query = Class.FIND_GROUPS_QUERY)})
 public class Class extends AbstractEntity {
 
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE = "Class.findGroupsToBeOpened";
+    public static final String SHOW_GROUPS_OPENED_IN_FUTURE = "Class.findGroupsToBeOpenedByCompetenceId";
     public static final String SHOW_GROUPS_OPENED_IN_FUTURE_QUERY = "from Class where dateOpened > ?1";
 
     public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE = "Class.inFutureCompetenceId";

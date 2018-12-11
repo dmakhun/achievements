@@ -11,14 +11,14 @@ public interface ClassDao extends GenericDao<Class> {
      *
      * @return list of groups
      */
-    List<Class> findGroupsToBeOpened();
+    List<Class> findGroupsToBeOpenedByCompetenceId();
 
     /**
      * Find all group with certain competence what will be opened.
      *
      * @return list of group
      */
-    List<Class> findGroupsToBeOpened(Long competenceId);
+    List<Class> findGroupsToBeOpenedByCompetenceId(Long competenceId);
 
     /**
      * All users in some group.
