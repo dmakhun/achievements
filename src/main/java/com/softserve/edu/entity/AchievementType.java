@@ -26,7 +26,7 @@ public class AchievementType extends AbstractEntity {
     public static final String GET_LIST_ACHIEVEMENT_TYPE_QUERY = "from AchievementType where competence_id = ?1";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
