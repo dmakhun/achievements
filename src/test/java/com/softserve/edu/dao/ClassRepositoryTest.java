@@ -3,7 +3,7 @@ package com.softserve.edu.dao;
 import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
 import java.util.Arrays;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -19,13 +19,12 @@ public class ClassRepositoryTest {
 
     @Autowired
     ClassRepository classRepository;
-
     @Autowired
     CompetenceDao competenceDao;
 
-    Long id;
+    private Long id;
 
-    @BeforeEach
+    @Test
     public void setUp() {
         Competence competence = new Competence("competence", null);
         competenceDao.save(competence);
@@ -34,6 +33,5 @@ public class ClassRepositoryTest {
         Class aClass2 = new Class(competence, "class2", null, null, null);
         classRepository.saveAll(Arrays.asList(aClass, aClass2));
     }
-
 
 }
