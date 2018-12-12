@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-@Table(name = "Class")
+@Table(name = "groups")
 @NamedQueries({
         @NamedQuery(name = Group.SHOW_GROUPS_OPENED_IN_FUTURE, query = Group.SHOW_GROUPS_OPENED_IN_FUTURE_QUERY),
         @NamedQuery(name = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, query = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY),
