@@ -9,8 +9,8 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
-import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.impl.CompetenceManagerImpl;
 import java.util.ArrayList;
@@ -37,9 +37,9 @@ public class CompetenceManagerTest {
     private AchievementTypeDao achievementTypeDao;
     private int idMock = 1;
     private long idMockLong = 1;
-    private Class aClass;
+    private Group aGroup;
     private AchievementType achievementType;
-    private List<Class> listClasses = new ArrayList<>(idMock);
+    private List<Group> listGroups = new ArrayList<>(idMock);
     private List<Competence> listCompetences = new ArrayList<>();
     private List<AchievementType> listAchievementTypes = new ArrayList<>();
     private Set<Competence> competences = new HashSet<>();
@@ -49,9 +49,9 @@ public class CompetenceManagerTest {
     @BeforeEach
     public void setUp() {
         achievementType = new AchievementType();
-        aClass = new Class();
+        aGroup = new Group();
         competence = new Competence();
-        listClasses.add(aClass);
+        listGroups.add(aGroup);
         listCompetences.add(competence);
         listAchievementTypes.add(achievementType);
         competences.add(competence);

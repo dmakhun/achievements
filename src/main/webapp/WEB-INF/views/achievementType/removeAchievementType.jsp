@@ -16,7 +16,7 @@
         <br>
         <div class="row text-center">
             <div class="col-md-offset-4 col-md-4">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <select class="selectpicker" name="AchievmentTypeList">
                         <option selected value="SelectAchievmentType"><spring:message
                                 code="select.achievmentType"/></option>
@@ -25,7 +25,7 @@
                         </c:forEach>
                     </select>
                     &nbsp
-                    <div class="btn-aClass btn-aClass-lg">
+                    <div class="btn-aGroup btn-aGroup-lg">
                         <button class="btn btn-success" type="submit"
                                 name="removeAchievmentType">
                             <spring:message code="remove"/>

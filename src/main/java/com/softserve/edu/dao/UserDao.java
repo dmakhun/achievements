@@ -1,7 +1,7 @@
 package com.softserve.edu.dao;
 
-import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public interface UserDao extends GenericDao<User> {
     /**
      * Find all groups, that user is attending.
      */
-    List<Class> findGroups(Long userId, boolean onlyOpened);
+    List<Group> findGroups(Long userId, boolean onlyOpened);
 
     void removeUserToCompetence(User user, Competence competence);
 

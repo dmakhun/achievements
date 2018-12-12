@@ -7,7 +7,7 @@
         <class>com.softserve.edu.entity.AccessRole</class>
         <class>com.softserve.edu.entity.User</class>
         <class>com.softserve.edu.entity.Competence</class>
-        <class>com.softserve.edu.entity.Class</class>
+        <class>com.softserve.edu.entity.Group</class>
         <class>com.softserve.edu.entity.AchievementType</class>
         <class>com.softserve.edu.entity.Achievement</class>
         <class>com.softserve.edu.entity.ScheduleTable</class>

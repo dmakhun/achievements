@@ -231,7 +231,7 @@
                 <button type="button" class="btn btn-default" id="next"><span
                         class="glyphicon glyphicon-arrow-right"></span></button>
             </div>
-            <span id="totalResults" class="input-aClass-addon"></span>
+            <span id="totalResults" class="input-aGroup-addon"></span>
         </div>
     </div>
 
@@ -240,7 +240,7 @@
     <sf:form id="formAddManager" modelAttribute="user">
         <div class="row">
             <div class="col-md-12">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <input class="form-control" type="text" name="name"
                            placeholder="<spring:message code="achievement.name"/>"/>
                 </div>
@@ -248,7 +248,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <input class="form-control" type="text" name="username"
                            placeholder="<spring:message code="user.username"/>"/>
                 </div>
@@ -256,7 +256,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <input class="form-control" type="password" name="password"
                            placeholder="<spring:message code="registration.password"/>"/>
                 </div>
@@ -264,7 +264,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <input class="form-control" type="text" name="surname"
                            placeholder="<spring:message code="registration.secondname"/>"/>
                 </div>
@@ -272,7 +272,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <input class="form-control" type="text" name="email"
                            placeholder=
                             <spring:message code="registration.email"/>/>
@@ -281,7 +281,7 @@
         </div>
         <div class="row text-center">
             <div class="col-md-12">
-                <div class="btn-aClass btn-aClass-lg">
+                <div class="btn-aGroup btn-aGroup-lg">
                     <button id="button-submit-form" type="button" class="btn btn-success">Submit</button>
                 </div>
             </div>
