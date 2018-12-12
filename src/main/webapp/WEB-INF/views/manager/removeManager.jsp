@@ -30,7 +30,7 @@
 
         <div class="row text-center">
             <div class="col-md-offset-3 col-md-4">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <select class="form-control" name="userlist">
                         <option selected><spring:message code="select.manager"/></option>
                         <c:forEach var="item" items="${userlist}">
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <div class="btn-aClass ">
+                <div class="btn-aGroup ">
                     <button class="btn btn-success" type="submit">
                         <spring:message code="remove"/>
                     </button>

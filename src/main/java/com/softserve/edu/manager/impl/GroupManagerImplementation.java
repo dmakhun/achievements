@@ -2,8 +2,8 @@ package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.ClassDao;
 import com.softserve.edu.dao.CompetenceDao;
-import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.manager.GroupManager;
@@ -31,19 +31,19 @@ public class GroupManagerImplementation implements GroupManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Class> inFuture() {
-        return classDao.findGroupsToBeOpenedByCompetenceId();
+    public List<Group> inFuture() {
+        return classDao.findGroupsToBeOpened();
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Class> inFuture(Long competenceId) {
-        return classDao.findGroupsToBeOpenedByCompetenceId(competenceId);
+    public List<Group> inFuture(Long competenceId) {
+        return classDao.findGroupsToBeOpened(competenceId);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Class> findAllByCompetenceId(Long competenceId, boolean onlyOpened) {
+    public List<Group> findAllByCompetenceId(Long competenceId, boolean onlyOpened) {
         return classDao.findByCompetence(competenceId, onlyOpened);
     }
 
@@ -55,20 +55,20 @@ public class GroupManagerImplementation implements GroupManager {
         Competence competence = competenceDao.findById(Competence.class,
                 competenceId);
 
-        Class aClass = new Class();
-        aClass.setName(name);
-        aClass.setDateOpened(startDate);
-        aClass.setDateClosed(endDate);
-        aClass.setCompetence(competence);
+        Group aGroup = new Group();
+        aGroup.setName(name);
+        aGroup.setDateOpened(startDate);
+        aGroup.setDateClosed(endDate);
+        aGroup.setCompetence(competence);
 
         try {
-            classDao.save(aClass);
-            logger.info("Class was saved");
+            classDao.save(aGroup);
+            logger.info("Group was saved");
         } catch (Exception e) {
-            logger.error("cannot save aClass", e);
-            throw new GroupManagerException("cannot save aClass", e);
+            logger.error("cannot save aGroup", e);
+            throw new GroupManagerException("cannot save aGroup", e);
         }
-        return aClass.getId();
+        return aGroup.getId();
     }
 
     @Override
@@ -79,34 +79,34 @@ public class GroupManagerImplementation implements GroupManager {
 
         Competence competence = competenceDao.findById(Competence.class,
                 competenceId);
-        Class aClass = classDao.findById(Class.class, groupId);
-        aClass.setName(name);
-        aClass.setDateOpened(start);
-        aClass.setDateClosed(end);
-        aClass.setCompetence(competence);
+        Group aGroup = classDao.findById(Group.class, groupId);
+        aGroup.setName(name);
+        aGroup.setDateOpened(start);
+        aGroup.setDateClosed(end);
+        aGroup.setCompetence(competence);
         try {
-            classDao.update(aClass);
-            logger.info("Class was updated");
+            classDao.update(aGroup);
+            logger.info("Group was updated");
         } catch (Exception e) {
-            logger.error("cannot updateUser aClass", e);
-            throw new GroupManagerException("cannot updateUser aClass", e);
+            logger.error("cannot updateUser aGroup", e);
+            throw new GroupManagerException("cannot updateUser aGroup", e);
         }
     }
 
     @Override
     @Transactional
-    public void create(Class aClass) throws GroupManagerException {
-        if (!validateGroup(aClass)) {
-            logger.warn("Class is not valid. Try another arguments");
+    public void create(Group aGroup) throws GroupManagerException {
+        if (!validateGroup(aGroup)) {
+            logger.warn("Group is not valid. Try another arguments");
             throw new GroupManagerException(
-                    "Class is not valid. Try another arguments");
+                    "Group is not valid. Try another arguments");
         }
         try {
-            classDao.save(aClass);
-            logger.info("Class was created");
+            classDao.save(aGroup);
+            logger.info("Group was created");
         } catch (Exception e) {
-            logger.error("Cannot createAchievementType aClass", e);
-            throw new GroupManagerException("Cannot createAchievementType aClass", e);
+            logger.error("Cannot createAchievementType aGroup", e);
+            throw new GroupManagerException("Cannot createAchievementType aGroup", e);
         }
     }
 
@@ -132,29 +132,29 @@ public class GroupManagerImplementation implements GroupManager {
     @Override
     @Transactional
     public void deleteById(Long groupId) throws GroupManagerException {
-        Class aClass = classDao.findById(Class.class, groupId);
-        removeAssociation(aClass);
+        Group aGroup = classDao.findById(Group.class, groupId);
+        removeAssociation(aGroup);
         try {
-            classDao.delete(aClass);
-            logger.info("Class was deleted by id");
+            classDao.delete(aGroup);
+            logger.info("Group was deleted by id");
         } catch (Exception e) {
-            logger.error("cannot deleteAchievementType aClass", e);
-            throw new GroupManagerException("cannot deleteAchievementType aClass", e);
+            logger.error("cannot deleteAchievementType aGroup", e);
+            throw new GroupManagerException("cannot deleteAchievementType aGroup", e);
         }
     }
 
     @Override
     @Transactional
-    public boolean validateGroup(Class aClass) {
+    public boolean validateGroup(Group aGroup) {
         boolean valid = false;
-        Class classInDB = findGroupByGroupName(aClass.getName());
-        if (classInDB != null) {
-            logger.warn("Such aClass is existed in database");
+        Group groupInDB = findGroupByGroupName(aGroup.getName());
+        if (groupInDB != null) {
+            logger.warn("Such aGroup is existed in database");
             return false;
         }
-        if (aClass.getName().length() > 3 && aClass.getName().length() < 30) {
-            if (aClass.getDateClosed().after(aClass.getDateOpened())) {
-                logger.info("Class is valid");
+        if (aGroup.getName().length() > 3 && aGroup.getName().length() < 30) {
+            if (aGroup.getDateClosed().after(aGroup.getDateOpened())) {
+                logger.info("Group is valid");
                 valid = true;
             }
         }
@@ -163,27 +163,27 @@ public class GroupManagerImplementation implements GroupManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Class findGroupByGroupName(String groupName) {
-        String singleQuery = "from Class where name like ?1";
-        Class aClass = classDao.findEntity(singleQuery, groupName);
-        return aClass;
+    public Group findGroupByGroupName(String groupName) {
+        String singleQuery = "from Group where name like ?1";
+        Group aGroup = classDao.findEntity(singleQuery, groupName);
+        return aGroup;
     }
 
     @Override
     @Transactional
-    public void removeAssociation(Class aClass) {
+    public void removeAssociation(Group aGroup) {
 
-        Competence competence = aClass.getCompetence();
-        competence.getClasses().remove(aClass);
+        Competence competence = aGroup.getCompetence();
+        competence.getGroups().remove(aGroup);
 
-        Set<User> users = aClass.getUsers();
+        Set<User> users = aGroup.getUsers();
         for (User u : users) {
-            u.getaClasses().remove(aClass);
+            u.getaGroups().remove(aGroup);
         }
         users.clear();
-        aClass.setUsers(users);
+        aGroup.setUsers(users);
 
-        logger.info("Class association was removed");
+        logger.info("Group association was removed");
     }
 
 }

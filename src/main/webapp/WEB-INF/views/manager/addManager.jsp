@@ -22,7 +22,7 @@
 
         <div class="row">
             <div class="col-md-offset-4 col-md-4">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <input class="form-control" type="text" name="username"
                            placeholder=
                             <spring:message code="user.username"/>/>
@@ -31,7 +31,7 @@
         </div>
         <div class="row">
             <div class="col-md-offset-4 col-md-4">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <input class="form-control" type="password" name="password"
                            placeholder=
                             <spring:message code="registration.password"/>/>
@@ -40,7 +40,7 @@
         </div>
         <div class="row">
             <div class="col-md-offset-4 col-md-4">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <input class="form-control" type="text" name="surname"
                            placeholder=
                             <spring:message code="registration.secondname"/>/>
@@ -49,7 +49,7 @@
         </div>
         <div class="row">
             <div class="col-md-offset-4 col-md-4">
-                <div class="form-aClass">
+                <div class="form-aGroup">
                     <input class="form-control" type="text" name="e-mail"
                            placeholder=
                             <spring:message code="registration.email"/>/>
@@ -58,7 +58,7 @@
         </div>
         <div class="row text-center">
             <div class="col-md-offset-4 col-md-4">
-                <div class="btn-aClass btn-aClass-lg">
+                <div class="btn-aGroup btn-aGroup-lg">
                     <button class="btn btn-success" type="submit">
                         Submit
                     </button>

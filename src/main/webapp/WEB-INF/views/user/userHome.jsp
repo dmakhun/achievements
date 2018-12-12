@@ -10,7 +10,7 @@
     <p>Groups</p>
     <div class="panel panel-default">
         <table class="table">
-            <c:forEach var="item" items="${aClasses}">
+            <c:forEach var="item" items="${aGroups}">
                 <tr>
                     <td>${item.name}</td>
                     <td>${item.dateOpened}</td>

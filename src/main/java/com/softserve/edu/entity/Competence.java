@@ -50,7 +50,7 @@ public class Competence extends AbstractEntity {
     private Set<User> users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
-    private Set<Class> classes;
+    private Set<Group> groups;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
     private Set<AchievementType> achievementTypes;
@@ -64,12 +64,12 @@ public class Competence extends AbstractEntity {
     }
 
 
-    public Set<Class> getClasses() {
-        return classes;
+    public Set<Group> getGroups() {
+        return groups;
     }
 
-    public void setClasses(Set<Class> aClasses) {
-        this.classes = aClasses;
+    public void setGroups(Set<Group> aGroups) {
+        this.groups = aGroups;
     }
 
 
