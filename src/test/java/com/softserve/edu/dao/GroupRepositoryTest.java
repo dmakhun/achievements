@@ -1,7 +1,7 @@
 package com.softserve.edu.dao;
 
-import com.softserve.edu.entity.Class;
 import com.softserve.edu.entity.Competence;
+import com.softserve.edu.entity.Group;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Rollback
 @ExtendWith(SpringExtension.class)
-public class ClassRepositoryTest {
+public class GroupRepositoryTest {
 
     @Autowired
     ClassRepository classRepository;
@@ -29,9 +29,9 @@ public class ClassRepositoryTest {
         Competence competence = new Competence("competence", null);
         competenceDao.save(competence);
         id = competenceDao.findByName("competence").getId();
-        Class aClass = new Class(competence, "class", null, null, null);
-        Class aClass2 = new Class(competence, "class2", null, null, null);
-        classRepository.saveAll(Arrays.asList(aClass, aClass2));
+        Group aGroup = new Group(competence, "class", null, null, null);
+        Group aGroup2 = new Group(competence, "class2", null, null, null);
+        classRepository.saveAll(Arrays.asList(aGroup, aGroup2));
     }
 
 }

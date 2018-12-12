@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading">Users of aClass</div>
+        <div class="panel-heading">Users of aGroup</div>
         <table class="table">
             <c:forEach var="item" items="${users}">
                 <tr>

@@ -1,24 +1,24 @@
 package com.softserve.edu.dao;
 
-import com.softserve.edu.entity.Class;
+import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import java.util.List;
 
-public interface ClassDao extends GenericDao<Class> {
+public interface ClassDao extends GenericDao<Group> {
 
     /**
      * Finds all groups what will be opened
      *
      * @return list of groups
      */
-    List<Class> findGroupsToBeOpenedByCompetenceId();
+    List<Group> findGroupsToBeOpened();
 
     /**
      * Find all group with certain competence what will be opened.
      *
      * @return list of group
      */
-    List<Class> findGroupsToBeOpenedByCompetenceId(Long competenceId);
+    List<Group> findGroupsToBeOpened(Long competenceId);
 
     /**
      * All users in some group.
@@ -32,9 +32,9 @@ public interface ClassDao extends GenericDao<Class> {
      */
     void addUser(Long userId, Long groupId);
 
-    List<Class> findByCompetence(Long competenceId, boolean onlyOpened);
+    List<Group> findByCompetence(Long competenceId, boolean onlyOpened);
 
-    Class findGroupByName(String name);
+    Group findGroupByName(String name);
 
 
 }

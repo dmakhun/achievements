@@ -3,7 +3,7 @@ package com.softserve.edu.manager.impl;
 import com.softserve.edu.dao.ClassDao;
 import com.softserve.edu.dao.ScheduleDao;
 import com.softserve.edu.dao.impl.ScheduleGroupDaoImpl;
-import com.softserve.edu.entity.Class;
+import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.Schedule;
 import com.softserve.edu.entity.ScheduleTable;
 import com.softserve.edu.manager.ScheduleManager;
@@ -144,14 +144,14 @@ public class ScheduleManagerImpl implements ScheduleManager {
         int count = 1;
         try {
             List<Schedule> listSchedules = new CsvUtils().mapToCSV(file);
-            Class generalClass = null;
+            Group generalGroup = null;
             for (Object object : listSchedules) {
                 Schedule schedule = (Schedule) object;
 
-                if (generalClass != null
-                        && schedule.getGroup().equals(generalClass.getName())) {
+                if (generalGroup != null
+                        && schedule.getGroup().equals(generalGroup.getName())) {
                     ScheduleTable scheduleTable = new ScheduleTable(
-                            generalClass, schedule.getMeetType(),
+                            generalGroup, schedule.getMeetType(),
                             schedule.getStartDateAndTime(),
                             schedule.getEndDateAndTime(),
                             schedule.getDescription(), schedule.getLocation());
@@ -161,15 +161,15 @@ public class ScheduleManagerImpl implements ScheduleManager {
 
                 }
 
-                Class aClass = classDao.findGroupByName(schedule.getGroup());
-                if (aClass == null) {
-                    aClass = new Class();
-                    aClass.setName(schedule.getGroup());
-                    classDao.save(aClass);
+                Group aGroup = classDao.findGroupByName(schedule.getGroup());
+                if (aGroup == null) {
+                    aGroup = new Group();
+                    aGroup.setName(schedule.getGroup());
+                    classDao.save(aGroup);
 
                 }
-                generalClass = aClass;
-                ScheduleTable scheduleTable = new ScheduleTable(aClass,
+                generalGroup = aGroup;
+                ScheduleTable scheduleTable = new ScheduleTable(aGroup,
                         schedule.getMeetType(), schedule.getStartDateAndTime(),
                         schedule.getEndDateAndTime(),
                         schedule.getDescription(), schedule.getLocation());

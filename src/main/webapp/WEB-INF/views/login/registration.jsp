@@ -69,7 +69,7 @@
 
         </div>
         <div class="col-md-4">
-            <div class="form-aClass">
+            <div class="form-aGroup">
                 <sf:input id="username" path="username" name="username" type="text"
                           cssClass="form-control"/>
             </div>
@@ -88,7 +88,7 @@
             </p>
         </div>
         <div class="col-md-4">
-            <div class="form-aClass">
+            <div class="form-aGroup">
                 <sf:input path="name" name="name" type="text"
                           cssClass="form-control"/>
             </div>
@@ -105,7 +105,7 @@
             </p>
         </div>
         <div class="col-md-4">
-            <div class="form-aClass">
+            <div class="form-aGroup">
                 <sf:input id="username" path="surname" name="surname" type="text"
                           cssClass="form-control"/>
             </div>
@@ -123,7 +123,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="form-aClass">
+            <div class="form-aGroup">
                 <sf:input id="email" path="email" name="email" type="text"
                           cssClass="form-control"/>
             </div>
@@ -140,7 +140,7 @@
             </p>
         </div>
         <div class="col-md-4">
-            <div class="form-aClass">
+            <div class="form-aGroup">
                 <sf:input id="password" path="password" name="password"
                           type="password" cssClass="form-control"/>
             </div>
@@ -154,7 +154,7 @@
             </p>
         </div>
         <div class="col-md-4">
-            <div class="form-aClass">
+            <div class="form-aGroup">
                 <input id="confirmpass" name="confirmpass" type="password"
                        class="form-control"/>
             </div>
