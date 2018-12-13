@@ -2,7 +2,7 @@ package com.softserve.edu.dao.impl;
 
 import static java.util.stream.Collectors.toSet;
 
-import com.softserve.edu.dao.ClassDao;
+import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Competence;
@@ -27,7 +27,7 @@ public class UserDaoImpl extends GenericDaoImpl<User>
     @Autowired
     private RoleDao roleDao;
     @Autowired
-    private ClassDao classDao;
+    private GroupDao groupDao;
 
     @Override
     public User findById(java.lang.Class userClass, long id) {
@@ -66,7 +66,7 @@ public class UserDaoImpl extends GenericDaoImpl<User>
     @Override
     public List<Group> findGroups(Long userId, boolean onlyOpened) {
         if (onlyOpened) {
-            return classDao.findEntityList(User.FIND_ONLY_OPENED_GROUPS, userId, new Date());
+            return groupDao.findEntityList(User.FIND_ONLY_OPENED_GROUPS, userId, new Date());
         }
         return new ArrayList<>(findById(User.class, userId).getaGroups());
     }

@@ -1,7 +1,7 @@
 package com.softserve.edu.manager.impl;
 
-import com.softserve.edu.dao.ClassDao;
 import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
@@ -24,7 +24,7 @@ public class GroupManagerImplementation implements GroupManager {
             .getLogger(GroupManagerImplementation.class);
 
     @Autowired
-    ClassDao classDao;
+    GroupDao groupDao;
 
     @Autowired
     CompetenceDao competenceDao;
@@ -32,19 +32,19 @@ public class GroupManagerImplementation implements GroupManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> inFuture() {
-        return classDao.findGroupsToBeOpened();
+        return groupDao.findGroupsToBeOpened();
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> inFuture(Long competenceId) {
-        return classDao.findGroupsToBeOpened(competenceId);
+        return groupDao.findGroupsToBeOpened(competenceId);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> findAllByCompetenceId(Long competenceId, boolean onlyOpened) {
-        return classDao.findByCompetence(competenceId, onlyOpened);
+        return groupDao.findByCompetence(competenceId, onlyOpened);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class GroupManagerImplementation implements GroupManager {
         aGroup.setCompetence(competence);
 
         try {
-            classDao.save(aGroup);
+            groupDao.save(aGroup);
             logger.info("Group was saved");
         } catch (Exception e) {
             logger.error("cannot save aGroup", e);
@@ -79,13 +79,13 @@ public class GroupManagerImplementation implements GroupManager {
 
         Competence competence = competenceDao.findById(Competence.class,
                 competenceId);
-        Group aGroup = classDao.findById(Group.class, groupId);
+        Group aGroup = groupDao.findById(Group.class, groupId);
         aGroup.setName(name);
         aGroup.setDateOpened(start);
         aGroup.setDateClosed(end);
         aGroup.setCompetence(competence);
         try {
-            classDao.update(aGroup);
+            groupDao.update(aGroup);
             logger.info("Group was updated");
         } catch (Exception e) {
             logger.error("cannot updateUser aGroup", e);
@@ -102,7 +102,7 @@ public class GroupManagerImplementation implements GroupManager {
                     "Group is not valid. Try another arguments");
         }
         try {
-            classDao.save(aGroup);
+            groupDao.save(aGroup);
             logger.info("Group was created");
         } catch (Exception e) {
             logger.error("Cannot createAchievementType aGroup", e);
@@ -114,7 +114,7 @@ public class GroupManagerImplementation implements GroupManager {
     @Transactional
     public void addUser(Long userId, Long groupId) throws GroupManagerException {
         try {
-            classDao.addUser(userId, groupId);
+            groupDao.addUser(userId, groupId);
             logger.info("User was added");
         } catch (Exception e) {
             logger.error("cannot add user to group", e);
@@ -126,16 +126,16 @@ public class GroupManagerImplementation implements GroupManager {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<User> users(Long groupId) {
 
-        return classDao.userList(groupId);
+        return groupDao.userList(groupId);
     }
 
     @Override
     @Transactional
     public void deleteById(Long groupId) throws GroupManagerException {
-        Group aGroup = classDao.findById(Group.class, groupId);
+        Group aGroup = groupDao.findById(Group.class, groupId);
         removeAssociation(aGroup);
         try {
-            classDao.delete(aGroup);
+            groupDao.delete(aGroup);
             logger.info("Group was deleted by id");
         } catch (Exception e) {
             logger.error("cannot deleteAchievementType aGroup", e);
@@ -165,7 +165,7 @@ public class GroupManagerImplementation implements GroupManager {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Group findGroupByGroupName(String groupName) {
         String singleQuery = "from Group where name like ?1";
-        Group aGroup = classDao.findEntity(singleQuery, groupName);
+        Group aGroup = groupDao.findEntity(singleQuery, groupName);
         return aGroup;
     }
 
