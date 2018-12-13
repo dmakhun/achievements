@@ -55,19 +55,6 @@ public class GroupManagerTest {
     }
 
     @Test
-    public final void testInFutureEquals() {
-        when(groupDao.findGroupsToBeOpened()).thenReturn(listGroups);
-        List<Group> listActual = groupManager.inFuture();
-        assertEquals(listGroups, listActual);
-    }
-
-    @Test
-    public final void testInFutureNotNull() {
-        List<Group> listActual = groupManager.inFuture();
-        assertNotNull(listActual);
-    }
-
-    @Test
     public final void testInFutureLongEquals() {
         when(groupDao.findGroupsToBeOpenedByCompetenceId(idMockLong)).thenReturn(listGroups);
         List<Group> listActual = groupManager.inFuture(idMockLong);
