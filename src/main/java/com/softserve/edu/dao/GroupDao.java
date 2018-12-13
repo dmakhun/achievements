@@ -13,6 +13,8 @@ public interface GroupDao extends GenericDao<Group> {
      */
     List<Group> findGroupsToBeOpenedByCompetenceId(Long competenceId);
 
+    List<Group> findByCompetenceId(Long competenceId, boolean onlyOpened);
+
     /**
      * All users in some group.
      *
@@ -25,7 +27,6 @@ public interface GroupDao extends GenericDao<Group> {
      */
     void addUser(Long userId, Long groupId);
 
-    List<Group> findByCompetence(Long competenceId, boolean onlyOpened);
 
     Group findGroupByName(String name);
 
