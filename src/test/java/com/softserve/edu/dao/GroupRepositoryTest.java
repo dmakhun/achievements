@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GroupRepositoryTest {
 
     @Autowired
-    ClassRepository classRepository;
+    GroupRepository groupRepository;
     @Autowired
     CompetenceDao competenceDao;
 
@@ -31,7 +31,7 @@ public class GroupRepositoryTest {
         id = competenceDao.findByName("competence").getId();
         Group aGroup = new Group(competence, "class", null, null, null);
         Group aGroup2 = new Group(competence, "class2", null, null, null);
-        classRepository.saveAll(Arrays.asList(aGroup, aGroup2));
+        groupRepository.saveAll(Arrays.asList(aGroup, aGroup2));
     }
 
 }
