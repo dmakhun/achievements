@@ -23,14 +23,14 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "groups")
 @NamedQueries({
-        @NamedQuery(name = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, query = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY),
+        @NamedQuery(name = Group.FIND_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_ID, query = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY),
         @NamedQuery(name = Group.FIND_LIST_GROUPS_BY_COMPETENCE, query = Group.FIND_LIST_GROUPS_BY_COMPETENCE_QUERY),
         @NamedQuery(name = Group.GET_GROUP_BY_NAME, query = Group.GET_GROUP_BY_NAME_QUERY),
-        @NamedQuery(name = Group.FIND_ONLY_OPENED_GROUPS, query = Group.FIND_ONLY_OPENED_GROUPS_QUERY),
+        @NamedQuery(name = Group.FIND_OPENED_GROUPS, query = Group.FIND_ONLY_OPENED_GROUPS_QUERY),
         @NamedQuery(name = Group.FIND_GROUPS, query = Group.FIND_GROUPS_QUERY)})
 public class Group extends AbstractEntity {
 
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE = "Group.inFutureCompetenceId";
+    public static final String FIND_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_ID = "Group.inFutureCompetenceId";
     public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY = "from Group where dateOpened > ?1 and competence_id = ?2";
 
     public static final String FIND_LIST_GROUPS_BY_COMPETENCE = "Group.findAllByCompetenceId";
@@ -39,7 +39,7 @@ public class Group extends AbstractEntity {
     public static final String GET_GROUP_BY_NAME = "Group.getGroupByName";
     public static final String GET_GROUP_BY_NAME_QUERY = "from Group where name like ?1";
 
-    public static final String FIND_ONLY_OPENED_GROUPS = "Group.opened";
+    public static final String FIND_OPENED_GROUPS = "Group.opened";
     public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1 and g.dateClosed > ?2";
 
     public static final String FIND_GROUPS = "Group.all";
