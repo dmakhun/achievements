@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-import com.softserve.edu.dao.ClassDao;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.GenericDao;
+import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
@@ -29,7 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class GroupManagerTest {
 
     @Mock
-    private ClassDao classDao;
+    private GroupDao groupDao;
     @Mock
     private CompetenceDao competenceDao;
     @Mock
@@ -56,7 +56,7 @@ public class GroupManagerTest {
 
     @Test
     public final void testInFutureEquals() {
-        when(classDao.findGroupsToBeOpened()).thenReturn(listGroups);
+        when(groupDao.findGroupsToBeOpened()).thenReturn(listGroups);
         List<Group> listActual = groupManager.inFuture();
         assertEquals(listGroups, listActual);
     }
@@ -69,49 +69,49 @@ public class GroupManagerTest {
 
     @Test
     public final void testInFutureLongEquals() {
-        when(classDao.findGroupsToBeOpened(idMockLong)).thenReturn(listGroups);
+        when(groupDao.findGroupsToBeOpened(idMockLong)).thenReturn(listGroups);
         List<Group> listActual = groupManager.inFuture(idMockLong);
         assertEquals(listGroups, listActual);
     }
 
     @Test
     public final void testInFutureLongNotNull() {
-        when(classDao.findGroupsToBeOpened(idMockLong)).thenReturn(listGroups);
+        when(groupDao.findGroupsToBeOpened(idMockLong)).thenReturn(listGroups);
         List<Group> listActual = groupManager.inFuture(idMockLong);
         assertNotNull(listActual);
     }
 
     @Test
     public final void testInFutureLongNull() {
-        when(classDao.findGroupsToBeOpened(null)).thenReturn(null);
+        when(groupDao.findGroupsToBeOpened(null)).thenReturn(null);
         List<Group> listActual = groupManager.inFuture(null);
         assertNull(listActual);
     }
 
     @Test
     public final void testFindByCompetenceEquals() {
-        when(classDao.findByCompetence(idMockLong, false)).thenReturn(listGroups);
+        when(groupDao.findByCompetence(idMockLong, false)).thenReturn(listGroups);
         List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, false);
         assertEquals(listGroups, listActual);
     }
 
     @Test
     public final void testFindByCompetenceNull() {
-        when(classDao.findByCompetence(idMockLong, false)).thenReturn(listGroups);
+        when(groupDao.findByCompetence(idMockLong, false)).thenReturn(listGroups);
         List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, false);
         assertNotNull(listActual);
     }
 
     @Test
     public final void testFindByCompetenceOnlyOpenedEquals() {
-        when(classDao.findByCompetence(idMockLong, true)).thenReturn(listGroups);
+        when(groupDao.findByCompetence(idMockLong, true)).thenReturn(listGroups);
         List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, true);
         assertEquals(listGroups, listActual);
     }
 
     @Test
     public final void testFindByCompetenceOnlyOpenedNotNull() {
-        when(classDao.findByCompetence(idMockLong, true)).thenReturn(listGroups);
+        when(groupDao.findByCompetence(idMockLong, true)).thenReturn(listGroups);
         List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, true);
         assertNotNull(listActual);
     }
@@ -119,14 +119,14 @@ public class GroupManagerTest {
     @Test
     public final void testModify() throws GroupManagerException {
         when(competenceDao.findById(Competence.class, idMockLong)).thenReturn(competence);
-        when(classDao.findById(Group.class, idMockLong)).thenReturn(aGroup);
+        when(groupDao.findById(Group.class, idMockLong)).thenReturn(aGroup);
         groupManager.modify(idMockLong, uuIdMock, date, date, idMockLong);
     }
 
     @Test
     public final void testCreateStringDateDateString() throws GroupManagerException {
         when(competenceDao.findById(Competence.class, idMockLong)).thenReturn(competence);
-        //when(classDao.save(aGroup)).thenReturn(true);
+        //when(groupDao.save(aGroup)).thenReturn(true);
         groupManager.create("name", date, date, idMockLong);
     }
 
