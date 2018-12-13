@@ -38,7 +38,7 @@ public class GroupManagerImplementation implements GroupManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Group> inFuture(Long competenceId) {
-        return groupDao.findGroupsToBeOpened(competenceId);
+        return groupDao.findGroupsToBeOpenedByCompetenceId(competenceId);
     }
 
     @Override

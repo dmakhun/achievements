@@ -18,7 +18,7 @@ public interface GroupDao extends GenericDao<Group> {
      *
      * @return list of group
      */
-    List<Group> findGroupsToBeOpened(Long competenceId);
+    List<Group> findGroupsToBeOpenedByCompetenceId(Long competenceId);
 
     /**
      * All users in some group.

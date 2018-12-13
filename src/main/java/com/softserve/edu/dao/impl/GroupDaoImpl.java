@@ -24,7 +24,7 @@ public class GroupDaoImpl extends GenericDaoImpl<Group> implements GroupDao {
     }
 
     @Override
-    public List<Group> findGroupsToBeOpened(Long competenceId) {
+    public List<Group> findGroupsToBeOpenedByCompetenceId(Long competenceId) {
         return findEntityList(
                 Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, new Date(),
                 competenceId);
