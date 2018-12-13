@@ -77,28 +77,28 @@ public class GroupManagerTest {
 
     @Test
     public final void testFindByCompetenceEquals() {
-        when(groupDao.findByCompetence(idMockLong, false)).thenReturn(listGroups);
+        when(groupDao.findByCompetenceId(idMockLong, false)).thenReturn(listGroups);
         List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, false);
         assertEquals(listGroups, listActual);
     }
 
     @Test
     public final void testFindByCompetenceNull() {
-        when(groupDao.findByCompetence(idMockLong, false)).thenReturn(listGroups);
+        when(groupDao.findByCompetenceId(idMockLong, false)).thenReturn(listGroups);
         List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, false);
         assertNotNull(listActual);
     }
 
     @Test
     public final void testFindByCompetenceOnlyOpenedEquals() {
-        when(groupDao.findByCompetence(idMockLong, true)).thenReturn(listGroups);
+        when(groupDao.findByCompetenceId(idMockLong, true)).thenReturn(listGroups);
         List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, true);
         assertEquals(listGroups, listActual);
     }
 
     @Test
     public final void testFindByCompetenceOnlyOpenedNotNull() {
-        when(groupDao.findByCompetence(idMockLong, true)).thenReturn(listGroups);
+        when(groupDao.findByCompetenceId(idMockLong, true)).thenReturn(listGroups);
         List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, true);
         assertNotNull(listActual);
     }
