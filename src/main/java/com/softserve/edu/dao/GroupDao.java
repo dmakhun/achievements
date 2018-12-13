@@ -7,13 +7,6 @@ import java.util.List;
 public interface GroupDao extends GenericDao<Group> {
 
     /**
-     * Finds all groups what will be opened
-     *
-     * @return list of groups
-     */
-    List<Group> findGroupsToBeOpened();
-
-    /**
      * Find all group with certain competence what will be opened.
      *
      * @return list of group
