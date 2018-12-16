@@ -28,7 +28,4 @@ public interface GroupDao extends GenericDao<Group> {
     void addUser(Long userId, Long groupId);
 
 
-    Group findGroupByName(String name);
-
-
 }
