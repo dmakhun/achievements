@@ -38,8 +38,8 @@ public class GroupDaoImpl extends GenericDaoImpl<Group> implements GroupDao {
     @Override
     public void addUser(Long userId, Long groupId) {
         User user = userDao.findById(User.class, userId);
-        Group aGroup = findById(Group.class, groupId);
-        aGroup.setUsers(Stream.of(user).collect(toSet()));
+        Group group = findById(Group.class, groupId);
+        group.setUsers(Stream.of(user).collect(toSet()));
     }
 
     @Override
@@ -47,8 +47,4 @@ public class GroupDaoImpl extends GenericDaoImpl<Group> implements GroupDao {
         return new ArrayList<>(findById(Group.class, groupId).getUsers());
     }
 
-    @Override
-    public Group findGroupByName(String name) {
-        return findEntity(Group.GET_GROUP_BY_NAME, name);
-    }
 }
