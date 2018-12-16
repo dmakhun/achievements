@@ -58,8 +58,6 @@ public interface GroupManager {
 
     boolean validateGroup(Group aGroup);
 
-    Group findGroupByGroupName(String groupName);
-
     void removeAssociation(Group aGroup);
 
 

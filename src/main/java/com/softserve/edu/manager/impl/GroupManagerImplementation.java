@@ -2,6 +2,7 @@ package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.GroupDao;
+import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
@@ -28,6 +29,9 @@ public class GroupManagerImplementation implements GroupManager {
 
     @Autowired
     CompetenceDao competenceDao;
+
+    @Autowired
+    GroupRepository groupRepository;
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -139,43 +143,35 @@ public class GroupManagerImplementation implements GroupManager {
 
     @Override
     @Transactional
-    public boolean validateGroup(Group aGroup) {
-        boolean valid = false;
-        Group groupInDB = findGroupByGroupName(aGroup.getName());
-        if (groupInDB != null) {
-            logger.warn("Such aGroup is existed in database");
+    public boolean validateGroup(Group group) {
+        boolean isValid = false;
+        Group existingGroup = groupRepository.findByName(group.getName());
+        if (existingGroup != null) {
+            logger.warn("Such group exists already", existingGroup.getName());
             return false;
         }
-        if (aGroup.getName().length() > 3 && aGroup.getName().length() < 30) {
-            if (aGroup.getDateClosed().after(aGroup.getDateOpened())) {
+        if (group.getName().length() > 3 && group.getName().length() < 30) {
+            if (group.getDateClosed().after(group.getDateOpened())) {
                 logger.info("Group is valid");
-                valid = true;
+                isValid = true;
             }
         }
-        return valid;
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Group findGroupByGroupName(String groupName) {
-        String singleQuery = "from Group where name like ?1";
-        Group aGroup = groupDao.findEntity(singleQuery, groupName);
-        return aGroup;
+        return isValid;
     }
 
     @Override
     @Transactional
-    public void removeAssociation(Group aGroup) {
+    public void removeAssociation(Group group) {
 
-        Competence competence = aGroup.getCompetence();
-        competence.getGroups().remove(aGroup);
+        Competence competence = group.getCompetence();
+        competence.getGroups().remove(group);
 
-        Set<User> users = aGroup.getUsers();
-        for (User u : users) {
-            u.getaGroups().remove(aGroup);
+        Set<User> users = group.getUsers();
+        for (User user : users) {
+            user.getaGroups().remove(group);
         }
         users.clear();
-        aGroup.setUsers(users);
+        group.setUsers(users);
 
         logger.info("Group association was removed");
     }
