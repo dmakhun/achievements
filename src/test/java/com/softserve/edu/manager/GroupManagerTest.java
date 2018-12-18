@@ -8,7 +8,7 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
-import com.softserve.edu.manager.impl.GroupManagerImplementation;
+import com.softserve.edu.manager.impl.GroupManagerImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ public class GroupManagerTest {
 
     @InjectMocks
     private GroupManager groupManager =
-            new GroupManagerImplementation();
+            new GroupManagerImpl();
 
     private Competence competence;
     private List<Group> listGroups;

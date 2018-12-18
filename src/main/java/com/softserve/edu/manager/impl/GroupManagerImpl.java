@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("groupManager")
-public class GroupManagerImplementation implements GroupManager {
+public class GroupManagerImpl implements GroupManager {
 
     private static final Logger logger = LoggerFactory
-            .getLogger(GroupManagerImplementation.class);
+            .getLogger(GroupManagerImpl.class);
 
     @Autowired
     GroupDao groupDao;
@@ -58,34 +58,34 @@ public class GroupManagerImplementation implements GroupManager {
 
         Competence competence = competenceDao.findById(Competence.class,
                 competenceId);
-        Group aGroup = groupDao.findById(Group.class, groupId);
-        aGroup.setName(name);
-        aGroup.setDateOpened(start);
-        aGroup.setDateClosed(end);
-        aGroup.setCompetence(competence);
+        Group group = groupRepository.findById(groupId).get();
+        group.setName(name);
+        group.setDateOpened(start);
+        group.setDateClosed(end);
+        group.setCompetence(competence);
         try {
-            groupDao.update(aGroup);
+            groupRepository.save(group);
             logger.info("Group was updated");
         } catch (Exception e) {
-            logger.error("cannot updateUser aGroup", e);
-            throw new GroupManagerException("cannot updateUser aGroup", e);
+            logger.error("cannot update a group", e);
+            throw new GroupManagerException("cannot update a group", e);
         }
     }
 
     @Override
     @Transactional
-    public void create(Group aGroup) throws GroupManagerException {
-        if (!validateGroup(aGroup)) {
+    public void create(Group group) throws GroupManagerException {
+        if (!validateGroup(group)) {
             logger.warn("Group is not valid. Try another arguments");
             throw new GroupManagerException(
                     "Group is not valid. Try another arguments");
         }
         try {
-            groupDao.save(aGroup);
+            groupRepository.save(group);
             logger.info("Group was created");
         } catch (Exception e) {
-            logger.error("Cannot createAchievementType aGroup", e);
-            throw new GroupManagerException("Cannot createAchievementType aGroup", e);
+            logger.error("Cannot create a group", e);
+            throw new GroupManagerException("Cannot create a group", e);
         }
     }
 
@@ -111,14 +111,14 @@ public class GroupManagerImplementation implements GroupManager {
     @Override
     @Transactional
     public void deleteById(Long groupId) throws GroupManagerException {
-        Group aGroup = groupDao.findById(Group.class, groupId);
-        removeAssociation(aGroup);
+        Group group = groupRepository.findById(groupId).get();
+        removeAssociation(group);
         try {
-            groupDao.delete(aGroup);
+            groupRepository.delete(group);
             logger.info("Group was deleted by id");
         } catch (Exception e) {
-            logger.error("cannot deleteAchievementType aGroup", e);
-            throw new GroupManagerException("cannot deleteAchievementType aGroup", e);
+            logger.error("cannot delete a group", e);
+            throw new GroupManagerException("cannot delete a group", e);
         }
     }
 
