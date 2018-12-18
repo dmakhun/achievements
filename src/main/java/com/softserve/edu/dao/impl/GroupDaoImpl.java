@@ -7,7 +7,6 @@ import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +17,6 @@ public class GroupDaoImpl extends GenericDaoImpl<Group> implements GroupDao {
 
     @Autowired
     private UserDao userDao;
-
-    @Override
-    public List<Group> findByCompetenceId(Long competenceId, boolean onlyOpened) {
-        if (onlyOpened) {
-            return findEntityList(Group.FIND_OPENED_GROUPS,
-                    competenceId, new Date());
-        }
-        return findEntityList(Group.FIND_GROUPS, competenceId);
-    }
 
     @Override
     public void addUser(Long userId, Long groupId) {

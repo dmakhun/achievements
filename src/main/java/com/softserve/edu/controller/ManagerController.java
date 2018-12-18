@@ -2,6 +2,7 @@ package com.softserve.edu.controller;
 
 import static java.util.stream.Collectors.toMap;
 
+import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
@@ -38,6 +39,8 @@ public class ManagerController {
     private static final String GENERAL_ERROR = "redirect:/myerror/10";
     private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
+    @Autowired
+    private GroupRepository groupRepository;
     @Autowired
     private GroupManager groupManager;
     @Autowired
@@ -191,7 +194,7 @@ public class ManagerController {
             Map<String, List<Group>> groups = new HashMap<>();
             for (Competence competence : competenceList) {
                 groups.put(competence.getName(),
-                        groupManager.findAllByCompetenceId(competence.getId(), true));
+                        groupRepository.findOpenedByCompetenceId(competence.getId()));
             }
 
             model.addAttribute("competences", competenceList);
