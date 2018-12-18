@@ -2,12 +2,12 @@ package com.softserve.edu.controller;
 
 import static com.softserve.edu.util.Constants.ROLE_USER;
 
+import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
-import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.RoleManager;
 import com.softserve.edu.manager.UserManager;
 import java.security.Principal;
@@ -42,9 +42,9 @@ public class LoginController {
     @Autowired
     private CompetenceManager competenceManager;
     @Autowired
-    private GroupManager groupManager;
-    @Autowired
     private RoleManager roleManager;
+    @Autowired
+    private GroupRepository groupRepository;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -59,7 +59,7 @@ public class LoginController {
 
             List<List<Group>> groupLists = new ArrayList<>();
             for (Competence competence : competences) {
-                groupLists.add(groupManager.inFuture(competence.getId()));
+                groupLists.add(groupRepository.findPendingByCompetenceId(competence.getId()));
             }
             model.addAttribute("groups_lists", groupLists);
 

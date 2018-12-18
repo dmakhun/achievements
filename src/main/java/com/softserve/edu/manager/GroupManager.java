@@ -9,14 +9,6 @@ import java.util.List;
 public interface GroupManager {
 
     /**
-     * Method finds in database all groups what will be started from current time. Select only those
-     * groups, that belong to given competence.
-     *
-     * @return list of future groups
-     */
-    List<Group> inFuture(Long competenceId);
-
-    /**
      * Get groups, connected to given competenceId.
      *
      * @param competenceId Competence id.

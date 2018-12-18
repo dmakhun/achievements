@@ -1,14 +1,11 @@
 package com.softserve.edu.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -60,19 +57,4 @@ public class GroupRepositoryTest {
         return new Group(competence, "groupName", startDate, endDate, null);
     }
 
-    @Test
-    public void testPendingGroups() {
-        assertEquals(1, groupDao.findGroupsToBeOpenedByCompetenceId(competenceId).size());
-    }
-
-    @Test
-    public void testPendingGroupsRepository() {
-        assertEquals(1, groupRepository.findPendingByCompetenceId(competenceId).size());
-    }
-
-    @Test
-    public void testEquals() {
-        assertEquals(groupDao.findGroupsToBeOpenedByCompetenceId(competenceId),
-                groupRepository.findPendingByCompetenceId(competenceId));
-    }
 }
