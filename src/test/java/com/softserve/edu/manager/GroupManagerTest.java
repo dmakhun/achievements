@@ -3,9 +3,7 @@ package com.softserve.edu.manager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
 
-import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
@@ -17,15 +15,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
 @ExtendWith(MockitoExtension.class)
 public class GroupManagerTest {
-
-    @Mock
-    private GroupDao groupDao;
 
     @InjectMocks
     private GroupManager groupManager =
@@ -42,34 +36,6 @@ public class GroupManagerTest {
         aGroup = new Group();
         listGroups = new ArrayList<>();
         listGroups.add(aGroup);
-    }
-
-    @Test
-    public final void testFindByCompetenceEquals() {
-        when(groupDao.findByCompetenceId(idMockLong, false)).thenReturn(listGroups);
-        List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, false);
-        assertEquals(listGroups, listActual);
-    }
-
-    @Test
-    public final void testFindByCompetenceNull() {
-        when(groupDao.findByCompetenceId(idMockLong, false)).thenReturn(listGroups);
-        List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, false);
-        assertNotNull(listActual);
-    }
-
-    @Test
-    public final void testFindByCompetenceOnlyOpenedEquals() {
-        when(groupDao.findByCompetenceId(idMockLong, true)).thenReturn(listGroups);
-        List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, true);
-        assertEquals(listGroups, listActual);
-    }
-
-    @Test
-    public final void testFindByCompetenceOnlyOpenedNotNull() {
-        when(groupDao.findByCompetenceId(idMockLong, true)).thenReturn(listGroups);
-        List<Group> listActual = groupManager.findAllByCompetenceId(idMockLong, true);
-        assertNotNull(listActual);
     }
 
     @Test

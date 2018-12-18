@@ -34,33 +34,20 @@ public class GroupManagerImplementation implements GroupManager {
     GroupRepository groupRepository;
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Group> findAllByCompetenceId(Long competenceId, boolean onlyOpened) {
-        return groupDao.findByCompetenceId(competenceId, onlyOpened);
-    }
-
-    @Override
     @Transactional
     public Long create(String name, Date startDate, Date endDate,
-            Long competenceId) throws GroupManagerException {
+            Long competenceId) {
 
         Competence competence = competenceDao.findById(Competence.class,
                 competenceId);
 
-        Group aGroup = new Group();
-        aGroup.setName(name);
-        aGroup.setDateOpened(startDate);
-        aGroup.setDateClosed(endDate);
-        aGroup.setCompetence(competence);
-
-        try {
-            groupDao.save(aGroup);
-            logger.info("Group was saved");
-        } catch (Exception e) {
-            logger.error("cannot save aGroup", e);
-            throw new GroupManagerException("cannot save aGroup", e);
-        }
-        return aGroup.getId();
+        Group group = new Group();
+        group.setName(name);
+        group.setDateOpened(startDate);
+        group.setDateClosed(endDate);
+        group.setCompetence(competence);
+        groupRepository.save(group);
+        return group.getId();
     }
 
     @Override

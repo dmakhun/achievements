@@ -9,14 +9,6 @@ import java.util.List;
 public interface GroupManager {
 
     /**
-     * Get groups, connected to given competenceId.
-     *
-     * @param competenceId Competence id.
-     * @param onlyOpened Flag that says to get only opened groups.
-     */
-    List<Group> findAllByCompetenceId(Long competenceId, boolean onlyOpened);
-
-    /**
      * Create new group.
      */
     Long create(String name, Date startDate,
