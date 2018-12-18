@@ -36,7 +36,7 @@ public class GroupRepositoryTest {
         competenceId = competenceDao.findByName("competence").getId();
         Group aGroup = createPendingGroup(competence);
         Group aGroup2 = createOpenGroup(competence);
-        groupRepository.saveAll(Arrays.asList(aGroup, createPendingGroup(competence), aGroup2));
+        groupRepository.saveAll(Arrays.asList(aGroup, createClosedGroup(competence), aGroup2));
     }
 
     private Group createPendingGroup(Competence competence) {
@@ -53,6 +53,15 @@ public class GroupRepositoryTest {
         calendar.add(Calendar.MONTH, -1);
         Date startDate = calendar.getTime();
         calendar.add(Calendar.MONTH, 3);
+        Date endDate = calendar.getTime();
+        return new Group(competence, "groupName", startDate, endDate, null);
+    }
+
+    private Group createClosedGroup(Competence competence) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -2);
+        Date startDate = calendar.getTime();
+        calendar.add(Calendar.MONTH, -1);
         Date endDate = calendar.getTime();
         return new Group(competence, "groupName", startDate, endDate, null);
     }

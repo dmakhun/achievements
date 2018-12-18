@@ -1,5 +1,6 @@
 package com.softserve.edu.controller;
 
+import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.CompetenceManagerException;
@@ -25,6 +26,8 @@ public class CompetenceController {
     private static final Logger logger = LoggerFactory
             .getLogger(CompetenceController.class);
 
+    @Autowired
+    private GroupRepository groupRepository;
     @Autowired
     CompetenceManager competenceManager;
     @Autowired
@@ -137,12 +140,11 @@ public class CompetenceController {
 
     @RequestMapping(value = "/manager/competence", method = RequestMethod.POST)
     public String getGroupsPost(
-            @RequestParam(value = "competence") Long competerceId, Model model) {
+            @RequestParam(value = "competence") Long competenceId, Model model) {
         try {
             List<Competence> list = competenceManager.findAllCompetences();
             model.addAttribute("list", list);
-            List<Group> listGroups = groupManager.findAllByCompetenceId(
-                    competerceId, true);
+            List<Group> listGroups = groupRepository.findOpenedByCompetenceId(competenceId);
             model.addAttribute("list_groups", listGroups);
 
             return "groupsAndCompetence";

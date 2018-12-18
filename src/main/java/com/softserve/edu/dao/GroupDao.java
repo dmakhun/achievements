@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface GroupDao extends GenericDao<Group> {
 
-    List<Group> findByCompetenceId(Long competenceId, boolean onlyOpened);
-
     /**
      * All users in some group.
      *
