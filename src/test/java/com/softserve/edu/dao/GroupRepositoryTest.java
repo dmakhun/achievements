@@ -1,8 +1,13 @@
 package com.softserve.edu.dao;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +27,52 @@ public class GroupRepositoryTest {
     @Autowired
     CompetenceDao competenceDao;
 
-    private Long id;
+    @Autowired
+    GroupDao groupDao;
 
-    @Test
+    private Long competenceId;
+
+    @BeforeEach
     public void setUp() {
         Competence competence = new Competence("competence", null);
         competenceDao.save(competence);
-        id = competenceDao.findByName("competence").getId();
-        Group aGroup = new Group(competence, "class", null, null, null);
-        Group aGroup2 = new Group(competence, "class2", null, null, null);
-        groupRepository.saveAll(Arrays.asList(aGroup, aGroup2));
+        competenceId = competenceDao.findByName("competence").getId();
+        Group aGroup = createPendingGroup(competence);
+        Group aGroup2 = createOpenGroup(competence);
+        groupRepository.saveAll(Arrays.asList(aGroup, createPendingGroup(competence), aGroup2));
     }
 
+    private Group createPendingGroup(Competence competence) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 1);
+        Date startDate = calendar.getTime();
+        calendar.add(Calendar.MONTH, 3);
+        Date endDate = calendar.getTime();
+        return new Group(competence, "groupName", startDate, endDate, null);
+    }
+
+    private Group createOpenGroup(Competence competence) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        Date startDate = calendar.getTime();
+        calendar.add(Calendar.MONTH, 3);
+        Date endDate = calendar.getTime();
+        return new Group(competence, "groupName", startDate, endDate, null);
+    }
+
+    @Test
+    public void testPendingGroups() {
+        assertEquals(1, groupDao.findGroupsToBeOpenedByCompetenceId(competenceId).size());
+    }
+
+    @Test
+    public void testPendingGroupsRepository() {
+        assertEquals(1, groupRepository.findPendingByCompetenceId(competenceId).size());
+    }
+
+    @Test
+    public void testEquals() {
+        assertEquals(groupDao.findGroupsToBeOpenedByCompetenceId(competenceId),
+                groupRepository.findPendingByCompetenceId(competenceId));
+    }
 }
