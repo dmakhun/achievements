@@ -1,7 +1,6 @@
 package com.softserve.edu.controller;
 
 import com.softserve.edu.dao.AchievementTypeRepository;
-import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
@@ -28,8 +27,6 @@ public class AchievementTypeController {
 
     @Autowired
     private CompetenceManager competenceManager;
-    @Autowired
-    CompetenceDao competenceDao;
     @Autowired
     private AchievementTypeRepository achievementTypeRepository;
     @Autowired

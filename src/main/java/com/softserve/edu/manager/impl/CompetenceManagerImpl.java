@@ -1,13 +1,12 @@
 package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.AchievementTypeRepository;
-import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -23,14 +22,14 @@ public class CompetenceManagerImpl implements CompetenceManager {
     private static final Logger logger = LoggerFactory.getLogger(CompetenceManagerImpl.class);
 
     @Autowired
-    private CompetenceDao competenceDao;
+    private CompetenceRepository competenceRepository;
     @Autowired
     private AchievementTypeRepository achievementTypeRepository;
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findAllCompetences() {
-        return competenceDao.findAllCompetences();
+        return (List<Competence>) competenceRepository.findAll();
     }
 
     @Override
@@ -45,7 +44,7 @@ public class CompetenceManagerImpl implements CompetenceManager {
     public Competence create(String name) throws CompetenceManagerException {
         try {
             Competence competence = new Competence(name, null);
-            competenceDao.save(competence);
+            competenceRepository.save(competence);
             logger.info("Competence created successfully");
             return competence;
         } catch (Exception e) {
@@ -60,14 +59,14 @@ public class CompetenceManagerImpl implements CompetenceManager {
     @Transactional
     public boolean delete(Long id) throws CompetenceManagerException {
 
-        Competence competence = competenceDao.findById(Competence.class, id);
+        Competence competence = competenceRepository.findById(id).get();
         if (competence == null) {
             logger.error("Competence with such ID does not exist");
             throw new CompetenceManagerException(
                     "Competence with such ID does not exist");
         }
         try {
-            competenceDao.delete(competence);
+            competenceRepository.delete(competence);
             logger.info("Competence removed successfully");
             return true;
         } catch (Exception e) {
@@ -80,21 +79,15 @@ public class CompetenceManagerImpl implements CompetenceManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findExcept(List<Competence> competencesToExclude) {
-        Set<Competence> set = new HashSet<>(competenceDao.findAll(Competence.class));
+        Set<Competence> set = (Set<Competence>) competenceRepository.findAll();
         set.removeAll(competencesToExclude);
         return new ArrayList<>(set);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Competence> findByUserId(Long userId) {
-        return competenceDao.findCompetencesByUserId(userId);
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Competence findByID(Long competenceId) {
-        return competenceDao.findById(Competence.class, competenceId);
+        return competenceRepository.findById(competenceId).get();
     }
 
     @Override
@@ -106,7 +99,7 @@ public class CompetenceManagerImpl implements CompetenceManager {
                 + ((achievementTypeRepository == null) ? 0 : achievementTypeRepository
                 .hashCode());
         result = prime * result
-                + ((competenceDao == null) ? 0 : competenceDao.hashCode());
+                + ((competenceRepository == null) ? 0 : competenceRepository.hashCode());
         return result;
     }
 
@@ -129,10 +122,10 @@ public class CompetenceManagerImpl implements CompetenceManager {
         } else if (!achievementTypeRepository.equals(other.achievementTypeRepository)) {
             return false;
         }
-        if (competenceDao == null) {
-            return other.competenceDao == null;
+        if (competenceRepository == null) {
+            return other.competenceRepository == null;
         } else {
-            return competenceDao.equals(other.competenceDao);
+            return competenceRepository.equals(other.competenceRepository);
         }
     }
 

@@ -9,7 +9,6 @@ public interface UserManager {
 
     User createUser(User user) throws UserManagerException;
 
-
     /**
      * Modify existing user.
      * <p>
