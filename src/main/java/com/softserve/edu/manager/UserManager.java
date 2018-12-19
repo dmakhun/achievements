@@ -2,7 +2,6 @@ package com.softserve.edu.manager;
 
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
-import java.util.List;
 import java.util.Set;
 
 public interface UserManager {
@@ -53,7 +52,5 @@ public interface UserManager {
     void removeAssociations(User user);
 
     Long getTotalPoints(User user);
-
-    List<User> findAllManagers();
 
 }
