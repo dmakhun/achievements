@@ -159,7 +159,7 @@ public class UserController {
             if (result.hasErrors()) {
                 return "redirect:/admin/allManagers?status=error";
             }
-            user.setAccessRole(accessRoleRepository.findByName(ROLE_MANAGER));
+            user.setRole(accessRoleRepository.findByName(ROLE_MANAGER));
             userManager.createUser(user);
             return "admin/allManagers";
         } catch (Exception e) {

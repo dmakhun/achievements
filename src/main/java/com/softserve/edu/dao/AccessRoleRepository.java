@@ -1,10 +1,10 @@
 package com.softserve.edu.dao;
 
-import com.softserve.edu.entity.AccessRole;
+import com.softserve.edu.entity.Role;
 import org.springframework.data.repository.CrudRepository;
 
-public interface AccessRoleRepository extends CrudRepository<AccessRole, Long> {
+public interface AccessRoleRepository extends CrudRepository<Role, Long> {
 
-    AccessRole findByName(String name);
+    Role findByName(String name);
 
 }
