@@ -4,10 +4,10 @@ import static com.softserve.edu.util.Constants.FIELD_MAX_LENGTH;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
 
+import com.softserve.edu.dao.AccessRoleRepository;
 import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
-import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.AccessRole;
 import com.softserve.edu.entity.Competence;
@@ -43,8 +43,6 @@ public class UserManagerImpl implements UserManager {
     private static final String PATTERN_USERNAME = "^[a-zA-Z0-9\\.\\-_]{3,50}$";
 
     @Autowired
-    private RoleDao roleDao;
-    @Autowired
     private AchievementRepository achievementRepository;
 
     @Autowired
@@ -53,6 +51,8 @@ public class UserManagerImpl implements UserManager {
     private CompetenceRepository competenceRepository;
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private AccessRoleRepository accessRoleRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -234,7 +234,7 @@ public class UserManagerImpl implements UserManager {
 
     private boolean validateRole(Long roleId) {
         if (roleId != null) {
-            AccessRole accessRole = roleDao.findById(AccessRole.class, roleId);
+            AccessRole accessRole = accessRoleRepository.findById(roleId).get();
             return accessRole != null;
         }
         return true;

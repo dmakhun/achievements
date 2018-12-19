@@ -2,6 +2,7 @@ package com.softserve.edu.controller;
 
 import static com.softserve.edu.util.Constants.ROLE_USER;
 
+import com.softserve.edu.dao.AccessRoleRepository;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
@@ -45,6 +46,8 @@ public class LoginController {
     private RoleManager roleManager;
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private AccessRoleRepository accessRoleRepository;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -102,7 +105,7 @@ public class LoginController {
                 return "registration";
             }
 
-            user.setAccessRole(roleManager.findRoleByName(ROLE_USER));
+            user.setAccessRole(accessRoleRepository.findByName(ROLE_USER));
 
             userManager.createUser(user);
 
