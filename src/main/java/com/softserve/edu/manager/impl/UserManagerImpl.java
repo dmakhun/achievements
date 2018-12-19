@@ -6,6 +6,7 @@ import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
 
 import com.softserve.edu.dao.AchievementDao;
 import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.AccessRole;
@@ -49,6 +50,9 @@ public class UserManagerImpl implements UserManager {
     private AchievementDao achievementDao;
     @Autowired
     private CompetenceDao competenceDao;
+
+    @Autowired
+    private GroupRepository groupRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -271,12 +275,6 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<Group> findGroups(Long userId, boolean onlyOpened) {
-        return userDao.findGroups(userId, onlyOpened);
-    }
-
-    @Override
     @Transactional
     public void appendCompetence(Long userId, Long competenceId)
             throws UserManagerException {
@@ -314,7 +312,7 @@ public class UserManagerImpl implements UserManager {
     public Set<String> findActiveNameGroups(String username) {
         Set<String> nameGroups = new HashSet<>();
         User user = userDao.findByUsername(username);
-        List<Group> listGroups = userDao.findGroups(user.getId(), true);
+        List<Group> listGroups = groupRepository.findOpenedByUserId(user.getId());
         for (Group aGroup : listGroups) {
             nameGroups.add(aGroup.getName());
         }

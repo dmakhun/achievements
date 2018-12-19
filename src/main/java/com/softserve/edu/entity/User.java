@@ -28,7 +28,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
         @NamedQuery(name = User.FIND_USER_BY_USERNAME, query = User.FIND_USER_BY_NAME_QUERY),
         @NamedQuery(name = User.FIND_USER_BY_EMAIL, query = User.FIND_USER_BY_EMAIL_QUERY),
-        @NamedQuery(name = User.FIND_ONLY_OPENED_GROUPS, query = User.FIND_ONLY_OPENED_GROUPS_QUERY),
         @NamedQuery(name = User.FIND_ALL_USERS_BY_ROLE, query = User.FIND_ALL_BY_ROLE_QUERY)
 })
 public class User extends AbstractEntity {
@@ -38,9 +37,6 @@ public class User extends AbstractEntity {
 
     public static final String FIND_USER_BY_EMAIL = "User.findByEmail";
     public static final String FIND_USER_BY_EMAIL_QUERY = "FROM User WHERE email LIKE ?1";
-
-    public static final String FIND_ONLY_OPENED_GROUPS = "User.openedGroups";
-    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.users u WHERE u.id = ?1 and g.dateClosed > ?2";
 
     public static final String FIND_ALL_USERS_BY_ROLE = "User.all";
     public static final String FIND_ALL_BY_ROLE_QUERY = "FROM User u inner join fetch u.accessRole r WHERE r.id = ?1";
@@ -91,7 +87,7 @@ public class User extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Achievement> achievements;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "UserToGroup", joinColumns = {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
     private Set<Group> groups;
@@ -190,7 +186,10 @@ public class User extends AbstractEntity {
     }
 
     public void setGroups(Set<Group> groups) {
-        this.groups = groups;
+        for (Group group : groups) {
+            group.getUsers().add(this);
+            this.groups = groups;
+        }
     }
 
     @Override
