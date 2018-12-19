@@ -1,5 +1,6 @@
 package com.softserve.edu.controller;
 
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 import static java.util.stream.Collectors.toMap;
 
 import com.softserve.edu.dao.GroupRepository;
@@ -226,11 +227,9 @@ public class ManagerController {
             Model model) {
         try {
 
-            List<User> managers = userManager.findAllManagers();
-
+            List<User> managers = userRepository.findByRoleName(ROLE_MANAGER);
             model.addAttribute("userlist", managers);
             model.addAttribute("status", status);
-
             return "removeManager";
         } catch (Exception e) {
             logger.error(e.getMessage());
