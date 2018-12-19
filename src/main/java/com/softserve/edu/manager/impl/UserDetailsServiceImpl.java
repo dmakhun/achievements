@@ -1,6 +1,6 @@
 package com.softserve.edu.manager.impl;
 
-import com.softserve.edu.entity.AccessRole;
+import com.softserve.edu.entity.Role;
 import com.softserve.edu.manager.UserManager;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,8 +29,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throws UsernameNotFoundException {
         com.softserve.edu.entity.User user = userManager.findByUsername(username);
         Set<GrantedAuthority> authorities = new HashSet<>();
-        AccessRole accessRole = user.getAccessRole();
-        authorities.add(new SimpleGrantedAuthority(accessRole.getName()));
+        Role role = user.getRole();
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
         return new User(user.getUsername(), user.getPassword(), true, true,
                 true, true, authorities);
     }

@@ -105,7 +105,7 @@ public class LoginController {
                 return "registration";
             }
 
-            user.setAccessRole(accessRoleRepository.findByName(ROLE_USER));
+            user.setRole(accessRoleRepository.findByName(ROLE_USER));
 
             userManager.createUser(user);
 
