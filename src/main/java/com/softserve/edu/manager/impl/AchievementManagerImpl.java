@@ -1,6 +1,6 @@
 package com.softserve.edu.manager.impl;
 
-import com.softserve.edu.dao.AchievementDao;
+import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.AchievementTypeDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Achievement;
@@ -30,7 +30,7 @@ public class AchievementManagerImpl implements AchievementManager {
     private UserDao userDao;
 
     @Autowired
-    private AchievementDao achievementDao;
+    private AchievementRepository achievementRepository;
 
     @Override
     @Transactional
@@ -47,7 +47,7 @@ public class AchievementManagerImpl implements AchievementManager {
 
         Achievement achievement = new Achievement(achievementType.get(), new Date(), comment, user);
         try {
-            achievementDao.save(achievement);
+            achievementRepository.save(achievement);
         } catch (Exception e) {
             logger.error("Could not award achievement to user", e);
             throw new AchievementManagerException("Could not award achievement to user", e);
@@ -57,6 +57,6 @@ public class AchievementManagerImpl implements AchievementManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Achievement> findUserAchievementsByUserId(Long userId) {
-        return achievementDao.findByUserId(userId);
+        return achievementRepository.findByUserId(userId);
     }
 }
