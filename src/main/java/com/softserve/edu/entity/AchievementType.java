@@ -9,21 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "AchievementType")
-@NamedQueries({
-        @NamedQuery(name = AchievementType.GET_LIST_ACHIEVEMENT_TYPE, query = AchievementType.GET_LIST_ACHIEVEMENT_TYPE_QUERY),
-})
 public class AchievementType extends AbstractEntity {
-
-    public static final String GET_LIST_ACHIEVEMENT_TYPE = "AchievementType.getList";
-    public static final String GET_LIST_ACHIEVEMENT_TYPE_QUERY = "from AchievementType where competence_id = ?1";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
