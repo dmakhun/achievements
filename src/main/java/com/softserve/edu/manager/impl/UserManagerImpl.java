@@ -344,9 +344,9 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public void removeAssociations(User user) {
-        user.getaGroups().forEach(group -> group.getUsers().remove(user));
-        user.getaGroups().clear();
-        user.setaGroups(Collections.emptySet());
+        user.getGroups().forEach(group -> group.getUsers().remove(user));
+        user.getGroups().clear();
+        user.setGroups(Collections.emptySet());
 
         user.getCompetences().forEach(competence -> competence.getUsers().remove(user));
         user.getCompetences().clear();

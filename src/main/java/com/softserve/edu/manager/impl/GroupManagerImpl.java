@@ -149,7 +149,7 @@ public class GroupManagerImpl implements GroupManager {
 
         Set<User> users = group.getUsers();
         for (User user : users) {
-            user.getaGroups().remove(group);
+            user.getGroups().remove(group);
         }
         users.clear();
         group.setUsers(users);
