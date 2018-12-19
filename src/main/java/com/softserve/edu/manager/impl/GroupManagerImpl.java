@@ -1,6 +1,6 @@
 package com.softserve.edu.manager.impl;
 
-import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Competence;
@@ -23,7 +23,7 @@ public class GroupManagerImpl implements GroupManager {
             .getLogger(GroupManagerImpl.class);
 
     @Autowired
-    CompetenceDao competenceDao;
+    CompetenceRepository competenceRepository;
 
     @Autowired
     GroupRepository groupRepository;
@@ -36,8 +36,7 @@ public class GroupManagerImpl implements GroupManager {
     public Long create(String name, Date startDate, Date endDate,
             Long competenceId) {
 
-        Competence competence = competenceDao.findById(Competence.class,
-                competenceId);
+        Competence competence = competenceRepository.findById(competenceId).get();
 
         Group group = new Group();
         group.setName(name);
@@ -54,8 +53,7 @@ public class GroupManagerImpl implements GroupManager {
             final Date end, final Long competenceId)
             throws GroupManagerException {
 
-        Competence competence = competenceDao.findById(Competence.class,
-                competenceId);
+        Competence competence = competenceRepository.findById(competenceId).get();
         Group group = groupRepository.findById(groupId).get();
         group.setName(name);
         group.setDateOpened(start);

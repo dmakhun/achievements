@@ -25,11 +25,6 @@ public interface CompetenceManager {
     List<Competence> findExcept(List<Competence> buts);
 
     /**
-     * Get list of competences, that user want attend to.
-     */
-    List<Competence> findByUserId(Long userId);
-
-    /**
      * Creates a new competence with current name.
      *
      * @param name of competence

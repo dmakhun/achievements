@@ -22,15 +22,15 @@ public class GroupRepositoryTest {
     @Autowired
     GroupRepository groupRepository;
     @Autowired
-    CompetenceDao competenceDao;
+    CompetenceRepository competenceRepository;
 
     private Long competenceId;
 
     @BeforeEach
     public void setUp() {
         Competence competence = new Competence("competence", null);
-        competenceDao.save(competence);
-        competenceId = competenceDao.findByName("competence").getId();
+        competenceRepository.save(competence);
+        competenceId = competenceRepository.findByName("competence").getId();
         Group aGroup = createPendingGroup(competence);
         Group aGroup2 = createOpenGroup(competence);
         groupRepository.saveAll(Arrays.asList(aGroup, createClosedGroup(competence), aGroup2));
