@@ -7,10 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.entity.AccessRole;
-import com.softserve.edu.entity.User;
 import com.softserve.edu.manager.impl.RoleManagerImplementation;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,14 +36,6 @@ public class AccessRoleManagerTest {
     public void setUp() {
         classRole = AccessRole.class;
         accessRole = new AccessRole();
-    }
-
-    @Test
-    public final void testFindUsers() {
-        List<User> expected = new ArrayList<>();
-        when(roleDao.findUsersById(idMock)).thenReturn(expected);
-        List<User> actualUsersList = roleManager.findUsers(idMock);
-        assertEquals(expected, actualUsersList);
     }
 
     @Test

@@ -18,17 +18,18 @@ public class AchievementRepositoryTest {
     @Autowired
     private AchievementRepository achievementRepository;
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @BeforeEach
     public void setUp() {
-        userDao.save(new User("Dmytro", "Makhun", "dmak", new AccessRole(ROLE_MANAGER), "password",
+        userRepository
+                .save(new User("Dmytro", "Makhun", "dmak", new AccessRole(ROLE_MANAGER), "password",
                 null));
     }
 
     @Test
     public void testGetAchievementsByUserId() {
-        User user = userDao.findByUsername("dmak");
+        User user = userRepository.findByUsername("dmak");
         assertEquals(0, achievementRepository.findByUserId(user.getId()).size());
     }
 }

@@ -3,8 +3,8 @@ package com.softserve.edu.controller;
 import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
+import com.softserve.edu.dao.GenericDao;
 import com.softserve.edu.dao.GroupRepository;
-import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.entity.Competence;
@@ -28,6 +28,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,6 +40,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,7 +61,8 @@ public class UserController {
     @Autowired
     private RoleManager roleManager;
     @Autowired
-    private UserDao userDao;
+    @Qualifier("genericDaoImpl")
+    private GenericDao<User> genericDao;
 
     @Autowired
     private UserRepository userRepository;
@@ -103,7 +106,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/userHome", method = RequestMethod.POST)
+    @PostMapping(value = "/userHome")
     public String attend(
             @RequestParam(value = "competence") long competenceId,
             Principal principal) {
@@ -192,11 +195,11 @@ public class UserController {
         try {
             int start = max * (paging - 1);
 
-            List<User> dynamicUsers = userDao.dynamicSearch(start,
+            List<User> dynamicUsers = genericDao.dynamicSearch(start,
                     max, criteria, pattern, additionFind, User.class);
 
-            List<User> allByCriteria = userDao.dynamicSearch(0,
-                    userDao.findByRole(ROLE_MANAGER).size(), criteria, pattern,
+            List<User> allByCriteria = genericDao.dynamicSearch(0,
+                    userRepository.findByAccessRoleName(ROLE_MANAGER).size(), criteria, pattern,
                     additionFind, User.class);
 
             model.addAttribute("userlist", dynamicUsers);
@@ -246,7 +249,7 @@ public class UserController {
                 byte[] imageInByte = file.getBytes();
                 User user = userManager.findByUsername(auth.getName());
                 user.setPicture(imageInByte);
-                userManager.updateUser(user);
+                userRepository.save(user);
             }
             return "redirect:/image";
         } catch (Exception e) {

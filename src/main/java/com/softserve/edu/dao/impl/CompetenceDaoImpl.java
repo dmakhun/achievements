@@ -1,7 +1,7 @@
 package com.softserve.edu.dao.impl;
 
 import com.softserve.edu.dao.CompetenceDao;
-import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.User;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public class CompetenceDaoImpl extends GenericDaoImpl<Competence> implements CompetenceDao {
 
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Override
     public Competence findByName(String name) {
@@ -22,7 +22,7 @@ public class CompetenceDaoImpl extends GenericDaoImpl<Competence> implements Com
 
     @Override
     public List<Competence> findCompetencesByUserId(Long userId) {
-        User user = userDao.findById(User.class, userId);
+        User user = userRepository.findById(userId).get();
         return new ArrayList<>(user.getCompetences());
     }
 

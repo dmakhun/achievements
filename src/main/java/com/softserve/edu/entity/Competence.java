@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -44,9 +42,8 @@ public class Competence extends AbstractEntity {
     @Column(name = "created")
     private Date date;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "UserToCompetence", joinColumns = {@JoinColumn(name = "competence_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    @ManyToMany(mappedBy = "competences", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE})
     private Set<User> users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
@@ -69,7 +66,7 @@ public class Competence extends AbstractEntity {
     }
 
     public void setGroups(Set<Group> aGroups) {
-        this.groups = aGroups;
+        groups = aGroups;
     }
 
 
