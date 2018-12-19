@@ -66,12 +66,7 @@ public class UserManagerImpl implements UserManager {
             logger.error(FIELDS_VALIDATION_ERROR, e);
             throw new UserManagerException(FIELDS_VALIDATION_ERROR, e);
         }
-        try {
-            userRepository.save(user);
-        } catch (Exception e) {
-            logger.error(USER_SAVE_ERROR, e);
-            throw new UserManagerException(USER_SAVE_ERROR, e);
-        }
+        userRepository.save(user);
         return user;
     }
 
@@ -114,26 +109,8 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findById(Long id) throws UserManagerException {
-        try {
-            return userRepository.findById(id).get();
-        } catch (RuntimeException e) {
-            logger.error("Could not find user by id", e);
-            throw new UserManagerException("Could not find user by id", e);
-        }
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-
     }
 
     private void validateUser(User user, boolean isExisting) throws ValidationException {
