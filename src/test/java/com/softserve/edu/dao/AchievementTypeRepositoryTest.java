@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 @ExtendWith(SpringExtension.class)
 @Transactional
-public class AchievementTypeDaoTest {
+public class AchievementTypeRepositoryTest {
 
     @Autowired
-    private AchievementTypeDao achievementTypeDao;
+    private AchievementTypeRepository achievementTypeRepository;
 
     @Test
     public void testfindByCompetenceId() {
-        List<AchievementType> achType = achievementTypeDao.findByCompetenceId(1L);
+        List<AchievementType> achType = achievementTypeRepository.findByCompetenceId(1L);
         assertEquals(3, achType.size());
     }
 

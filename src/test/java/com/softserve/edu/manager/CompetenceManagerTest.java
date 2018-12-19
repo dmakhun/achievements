@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
-import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.AchievementTypeRepository;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
@@ -34,7 +34,7 @@ public class CompetenceManagerTest {
     @Mock
     private CompetenceDao competenceDao;
     @Mock
-    private AchievementTypeDao achievementTypeDao;
+    private AchievementTypeRepository achievementTypeRepository;
     private int idMock = 1;
     private long idMockLong = 1;
     private Group aGroup;
@@ -67,7 +67,8 @@ public class CompetenceManagerTest {
 
     @Test
     public void testGetTypesOfAchievements() {
-        when(achievementTypeDao.findByCompetenceId(idMockLong)).thenReturn(listAchievementTypes);
+        when(achievementTypeRepository.findByCompetenceId(idMockLong))
+                .thenReturn(listAchievementTypes);
         List<AchievementType> listActual = competenceManager
                 .findAchievementsTypesByCompetenceId(idMockLong);
         assertEquals(listAchievementTypes, listActual);

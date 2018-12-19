@@ -1,6 +1,6 @@
 package com.softserve.edu.manager.impl;
 
-import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.AchievementTypeRepository;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
@@ -25,7 +25,7 @@ public class CompetenceManagerImpl implements CompetenceManager {
     @Autowired
     private CompetenceDao competenceDao;
     @Autowired
-    private AchievementTypeDao achievementTypeDao;
+    private AchievementTypeRepository achievementTypeRepository;
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -36,7 +36,7 @@ public class CompetenceManagerImpl implements CompetenceManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<AchievementType> findAchievementsTypesByCompetenceId(Long competenceId) {
-        return achievementTypeDao
+        return achievementTypeRepository
                 .findByCompetenceId(competenceId);
     }
 
@@ -103,7 +103,7 @@ public class CompetenceManagerImpl implements CompetenceManager {
         int result = 1;
         result = prime
                 * result
-                + ((achievementTypeDao == null) ? 0 : achievementTypeDao
+                + ((achievementTypeRepository == null) ? 0 : achievementTypeRepository
                 .hashCode());
         result = prime * result
                 + ((competenceDao == null) ? 0 : competenceDao.hashCode());
@@ -122,11 +122,11 @@ public class CompetenceManagerImpl implements CompetenceManager {
             return false;
         }
         CompetenceManagerImpl other = (CompetenceManagerImpl) obj;
-        if (achievementTypeDao == null) {
-            if (other.achievementTypeDao != null) {
+        if (achievementTypeRepository == null) {
+            if (other.achievementTypeRepository != null) {
                 return false;
             }
-        } else if (!achievementTypeDao.equals(other.achievementTypeDao)) {
+        } else if (!achievementTypeRepository.equals(other.achievementTypeRepository)) {
             return false;
         }
         if (competenceDao == null) {

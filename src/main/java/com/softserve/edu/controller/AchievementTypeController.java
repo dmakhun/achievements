@@ -1,6 +1,6 @@
 package com.softserve.edu.controller;
 
-import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.AchievementTypeRepository;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
@@ -31,7 +31,7 @@ public class AchievementTypeController {
     @Autowired
     CompetenceDao competenceDao;
     @Autowired
-    private AchievementTypeDao achievementTypeDao;
+    private AchievementTypeRepository achievementTypeRepository;
     @Autowired
     private AchievementTypeManager achievementTypeManager;
 
@@ -90,7 +90,7 @@ public class AchievementTypeController {
     public String list(@PathVariable(value = "id") Long competenceId,
             Model model) {
         try {
-            List<AchievementType> achievements = achievementTypeDao
+            List<AchievementType> achievements = achievementTypeRepository
                     .findByCompetenceId(competenceId);
 
             model.addAttribute("achievements", achievements);
