@@ -94,7 +94,7 @@ public class User extends AbstractEntity {
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "UserToGroup", joinColumns = {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
-    private Set<Group> aGroups;
+    private Set<Group> groups;
 
     public User() {
     }
@@ -185,12 +185,12 @@ public class User extends AbstractEntity {
     }
 
 
-    public Set<Group> getaGroups() {
-        return aGroups;
+    public Set<Group> getGroups() {
+        return groups;
     }
 
-    public void setaGroups(Set<Group> aGroups) {
-        this.aGroups = aGroups;
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 
     @Override
