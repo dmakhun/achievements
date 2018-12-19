@@ -1,7 +1,7 @@
 package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.GroupRepository;
-import com.softserve.edu.dao.ScheduleDao;
+import com.softserve.edu.dao.ScheduleRepository;
 import com.softserve.edu.dao.impl.ScheduleGroupDaoImpl;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.Schedule;
@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ScheduleManagerImpl implements ScheduleManager {
 
     @Autowired
-    private ScheduleDao scheduleDao;
+    private ScheduleRepository scheduleRepository;
 
     @Autowired
     private GroupRepository groupRepository;
@@ -155,7 +155,7 @@ public class ScheduleManagerImpl implements ScheduleManager {
                             schedule.getStartDateAndTime(),
                             schedule.getEndDateAndTime(),
                             schedule.getDescription(), schedule.getLocation());
-                    scheduleDao.save(scheduleTable);
+                    scheduleRepository.save(scheduleTable);
                     count++;
                     continue;
 
@@ -172,7 +172,7 @@ public class ScheduleManagerImpl implements ScheduleManager {
                         schedule.getMeetType(), schedule.getStartDateAndTime(),
                         schedule.getEndDateAndTime(),
                         schedule.getDescription(), schedule.getLocation());
-                scheduleDao.save(scheduleTable);
+                scheduleRepository.save(scheduleTable);
                 count++;
             }
         } catch (Exception e) {
