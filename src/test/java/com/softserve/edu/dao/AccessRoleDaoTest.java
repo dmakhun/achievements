@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.softserve.edu.entity.AccessRole;
-import com.softserve.edu.entity.User;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +19,6 @@ public class AccessRoleDaoTest {
 
     @Autowired
     private RoleDao roleDao;
-
-    @Test
-    public void testFindUsers() {
-        List<User> users = roleDao.findUsersById(1);
-        System.out.println("Users with role id 1");
-        for (User user : users) {
-            System.out.println(user.getName());
-        }
-        assertEquals(2, users.size());
-    }
 
     @Test
     public void testFindRole() {

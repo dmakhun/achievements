@@ -2,6 +2,7 @@ package com.softserve.edu.controller;
 
 import static java.util.stream.Collectors.toMap;
 
+import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.manager.UserManager;
 import java.util.AbstractMap;
@@ -19,10 +20,12 @@ public class RatingsController {
 
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping(value = "/manager/ratings", method = RequestMethod.GET)
     public String ratings(Model model) {
-        List<User> users = userManager.findAllUsers();
+        List<User> users = (List<User>) userRepository.findAll();
         // get points for users and sort by points DESC
         Map<User, Long> userPointsMap = users.stream()
                 .map(user -> new AbstractMap.SimpleEntry<>(user, userManager.getTotalPoints(user)))

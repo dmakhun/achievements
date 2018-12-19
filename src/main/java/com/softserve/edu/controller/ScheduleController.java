@@ -66,7 +66,7 @@ public class ScheduleController {
             Authentication auth = SecurityContextHolder.getContext()
                     .getAuthentication();
             model.addAttribute("set",
-                    userManager.findActiveNameGroups(auth.getName()));
+                    userManager.findOpenedGroupNames(auth.getName()));
             return "scheduleTable";
         } catch (Exception e) {
             logger.error(e.getMessage());

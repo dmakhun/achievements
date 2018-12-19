@@ -1,7 +1,5 @@
 package com.softserve.edu.manager.impl;
 
-import static java.util.stream.Collectors.toSet;
-
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.UserRepository;
@@ -12,7 +10,6 @@ import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.manager.GroupManager;
 import java.util.Date;
 import java.util.Set;
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,11 +93,10 @@ public class GroupManagerImpl implements GroupManager {
         try {
             User user = userRepository.findById(userId).get();
             Group group = groupRepository.findById(groupId).get();
-            group.setUsers(Stream.of(user).collect(toSet()));
-            user.setGroups(Stream.of(group).collect(toSet()));
+            user.addGroup(group);
             logger.info("User was added");
         } catch (Exception e) {
-            logger.error("cannot add user to group", e);
+            logger.error("cannot add user to group ", e);
             throw new GroupManagerException("cannot add user to group", e);
         }
     }

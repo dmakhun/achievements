@@ -2,9 +2,7 @@ package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.entity.AccessRole;
-import com.softserve.edu.entity.User;
 import com.softserve.edu.manager.RoleManager;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,12 +13,6 @@ public class RoleManagerImplementation implements RoleManager {
 
     @Autowired
     RoleDao roleDao;
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<User> findUsers(int roleId) {
-        return roleDao.findUsersById(roleId);
-    }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
