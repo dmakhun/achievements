@@ -1,7 +1,7 @@
 package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.AchievementTypeRepository;
-import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
@@ -22,13 +22,11 @@ public class AchievementTypeManagerImpl implements
             .getLogger(AchievementTypeManagerImpl.class);
     public static final String ACHIEVEMENT_TYPE_ERROR = "Could not create AchievementType";
     public static final String ACHIEVEMENT_TYPE_NO_COMPETENCE_ERROR = "Could not create AchievementType. No competence with such ID";
-    public static final String ACHIEVEMENT_TYPE_NO_COMPETENCE_UUID_ERROR = "Could not createAchievementType achievement type. No competence with such UUID";
     public static final String ACHIEVEMENT_TYPE_DELETE_ERROR = "Could not delete AchievementType";
     public static final String ACHIEVEMENT_TYPE_CANT_FIND_ERROR = "Could not find achievement type with such Id";
-    public static final String ACHIEVEMENT_TYPE_CANT_FIND_UUID_ERROR = "Could not find achievement type with such Uuid";
 
     @Autowired
-    private CompetenceDao competenceDao;
+    private CompetenceRepository competenceRepository;
 
     @Autowired
     private AchievementTypeRepository achievementTypeRepository;
@@ -52,7 +50,7 @@ public class AchievementTypeManagerImpl implements
     @Transactional
     public AchievementType createAchievementType(String name, int points, long competenceId)
             throws AchievementTypeManagerException {
-        Competence competence = competenceDao.findById(Competence.class, competenceId);
+        Competence competence = competenceRepository.findById(competenceId).get();
         if (competence == null) {
             logger.error(ACHIEVEMENT_TYPE_NO_COMPETENCE_ERROR);
             throw new AchievementTypeManagerException(ACHIEVEMENT_TYPE_NO_COMPETENCE_ERROR);

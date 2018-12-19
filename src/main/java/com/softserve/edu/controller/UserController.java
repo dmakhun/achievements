@@ -3,6 +3,7 @@ package com.softserve.edu.controller;
 import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
+import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GenericDao;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.UserRepository;
@@ -69,6 +70,8 @@ public class UserController {
     @Autowired
     private GroupRepository groupRepository;
     @Autowired
+    private CompetenceRepository competenceRepository;
+    @Autowired
     private BCryptPasswordEncoder encoder;
 
     @RequestMapping(value = "/userHome", method = RequestMethod.GET)
@@ -84,8 +87,7 @@ public class UserController {
 
             List<Group> openedGroups = groupRepository.findOpenedByUserId(user.getId());
             List<Competence> exceptOfList = new ArrayList<>();
-            List<Competence> wantToAttend = competenceManager
-                    .findByUserId(user.getId());
+            List<Competence> wantToAttend = competenceRepository.findByUsers_Id(user.getId());
 
             for (Group group : openedGroups) {
                 exceptOfList.add(group.getCompetence());

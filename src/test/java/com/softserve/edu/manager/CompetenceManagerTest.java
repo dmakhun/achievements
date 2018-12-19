@@ -1,13 +1,10 @@
 package com.softserve.edu.manager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 import com.softserve.edu.dao.AchievementTypeRepository;
-import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
@@ -32,8 +29,6 @@ public class CompetenceManagerTest {
     @InjectMocks
     private CompetenceManager competenceManager = new CompetenceManagerImpl();
     @Mock
-    private CompetenceDao competenceDao;
-    @Mock
     private AchievementTypeRepository achievementTypeRepository;
     private int idMock = 1;
     private long idMockLong = 1;
@@ -56,13 +51,6 @@ public class CompetenceManagerTest {
         listAchievementTypes.add(achievementType);
         competences.add(competence);
         competenceClass = Competence.class;
-    }
-
-    @Test
-    public void testfindAllCompetence() {
-        when(competenceDao.findAllCompetences()).thenReturn(listCompetences);
-        List<Competence> listActual = competenceManager.findAllCompetences();
-        assertEquals(listCompetences, listActual);
     }
 
     @Test
@@ -91,35 +79,9 @@ public class CompetenceManagerTest {
     }
 
     @Test
-    public void testDeleteByID() throws CompetenceManagerException {
-        when(competenceDao.findById(competenceClass, idMockLong)).thenReturn(competence);
-        boolean deleted = competenceManager.delete(idMockLong);
-        assertTrue("Not Deleted", deleted);
-    }
-
-    @Test
     public void testDeleteByStringFalse() throws CompetenceManagerException {
         Assertions.assertThrows(CompetenceManagerException.class,
                 () -> competenceManager.delete(idMockLong));
     }
 
-    @Test
-    public void testFindByUser() {
-        when(competenceDao.findCompetencesByUserId(idMockLong)).thenReturn(listCompetences);
-        List<Competence> expected = competenceManager.findByUserId(idMockLong);
-        assertEquals(expected, listCompetences);
-    }
-
-    @Test
-    public void testGetByIDNotNull() {
-        when(competenceDao.findById(competenceClass, idMockLong)).thenReturn(competence);
-        assertNotNull(competenceManager.findByID(idMockLong));
-    }
-
-    @Test
-    public void testGetByIDEquals() {
-        when(competenceDao.findById(competenceClass, idMockLong)).thenReturn(competence);
-        Competence actual = competenceManager.findByID(idMockLong);
-        assertEquals(competence, actual);
-    }
 }
