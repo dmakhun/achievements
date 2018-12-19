@@ -10,20 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Competence")
-@NamedQueries({
-        @NamedQuery(name = Competence.FIND_COMPETENCE_BY_NAME, query = Competence.FIND_COMPETENCE_BY_NAME_QUERY)
-})
 public class Competence extends AbstractEntity {
-
-    public static final String FIND_COMPETENCE_BY_NAME = "Competence.findByName";
-    public static final String FIND_COMPETENCE_BY_NAME_QUERY = "from Competence where name like ?1";
 
     /**
      * @return the id
