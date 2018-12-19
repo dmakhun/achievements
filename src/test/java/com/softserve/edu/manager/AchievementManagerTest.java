@@ -4,7 +4,7 @@ package com.softserve.edu.manager;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.softserve.edu.dao.AchievementRepository;
-import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.AchievementTypeRepository;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.exception.AchievementManagerException;
@@ -27,7 +27,7 @@ public class AchievementManagerTest {
     @Mock
     private AchievementRepository achievementRepository;
     @Mock
-    private AchievementTypeDao achievementTypeDao;
+    private AchievementTypeRepository achievementTypeRepository;
     @Mock
     private UserDao userDao;
 

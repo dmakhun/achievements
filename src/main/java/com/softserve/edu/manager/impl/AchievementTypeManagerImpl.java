@@ -1,6 +1,6 @@
 package com.softserve.edu.manager.impl;
 
-import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.AchievementTypeRepository;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
@@ -31,7 +31,7 @@ public class AchievementTypeManagerImpl implements
     private CompetenceDao competenceDao;
 
     @Autowired
-    private AchievementTypeDao achievementTypeDao;
+    private AchievementTypeRepository achievementTypeRepository;
 
     @Override
     @Transactional
@@ -39,7 +39,7 @@ public class AchievementTypeManagerImpl implements
             throws AchievementTypeManagerException {
         try {
             AchievementType achievementType = new AchievementType(competence, name, points);
-            achievementTypeDao.save(achievementType);
+            achievementTypeRepository.save(achievementType);
             logger.info("Achievement type successfully created");
             return achievementType;
         } catch (Exception e) {
@@ -64,7 +64,7 @@ public class AchievementTypeManagerImpl implements
     public boolean deleteAchievementType(AchievementType achievementType)
             throws AchievementTypeManagerException {
         try {
-            achievementTypeDao.delete(achievementType);
+            achievementTypeRepository.delete(achievementType);
             logger.info("Achievement type successfully deleted");
             return true;
         } catch (Exception e) {
@@ -78,7 +78,8 @@ public class AchievementTypeManagerImpl implements
     public boolean deleteAchievementType(long achievementTypeId)
             throws AchievementTypeManagerException {
 
-        Optional<AchievementType> achievementType = achievementTypeDao.findById(achievementTypeId);
+        Optional<AchievementType> achievementType = achievementTypeRepository
+                .findById(achievementTypeId);
 
         if (!achievementType.isPresent()) {
             logger.error(ACHIEVEMENT_TYPE_CANT_FIND_ERROR);
@@ -90,7 +91,7 @@ public class AchievementTypeManagerImpl implements
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Iterable<AchievementType> achievementTypesList() {
-        return achievementTypeDao.findAll();
+        return achievementTypeRepository.findAll();
     }
 
 }

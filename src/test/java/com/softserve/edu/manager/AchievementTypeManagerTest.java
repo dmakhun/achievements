@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-import com.softserve.edu.dao.AchievementTypeDao;
+import com.softserve.edu.dao.AchievementTypeRepository;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
@@ -26,7 +26,7 @@ public class AchievementTypeManagerTest {
     @Mock
     private CompetenceDao competenceDao;
     @Mock
-    private AchievementTypeDao achievementTypeDao;
+    private AchievementTypeRepository achievementTypeRepository;
 
     @InjectMocks
     private AchievementTypeManager achievementTypeManager =
@@ -47,7 +47,7 @@ public class AchievementTypeManagerTest {
         when(competenceDao.findById(Competence.class, IdMock)).thenReturn(competence);
         AchievementType achievementTypeExpected = new AchievementType().setName("Java")
                 .setPoints(12).setCompetence(competence);
-        achievementTypeDao.save(achievementTypeExpected);
+        achievementTypeRepository.save(achievementTypeExpected);
         AchievementType achievementTypeActual = achievementTypeManager.createAchievementType(
                 "Java", 12, IdMock);
         assertEquals(achievementTypeExpected, achievementTypeActual);
@@ -65,14 +65,14 @@ public class AchievementTypeManagerTest {
 
     @Test
     public void testAchievementTypeListEquals() {
-        when(achievementTypeDao.findAll()).thenReturn(expectedList);
+        when(achievementTypeRepository.findAll()).thenReturn(expectedList);
         Iterable<AchievementType> actualList = achievementTypeManager.achievementTypesList();
         assertEquals(expectedList, actualList);
     }
 
     @Test
     public void testAchievementTypeListNotNull() {
-        when(achievementTypeDao.findAll()).thenReturn(expectedList);
+        when(achievementTypeRepository.findAll()).thenReturn(expectedList);
         Iterable<AchievementType> actualList = achievementTypeManager.achievementTypesList();
         assertNotNull(actualList);
     }
