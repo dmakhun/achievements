@@ -2,7 +2,6 @@ package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.AchievementTypeRepository;
 import com.softserve.edu.dao.CompetenceRepository;
-import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.manager.CompetenceManager;
@@ -30,13 +29,6 @@ public class CompetenceManagerImpl implements CompetenceManager {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findAllCompetences() {
         return (List<Competence>) competenceRepository.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<AchievementType> findAchievementsTypesByCompetenceId(Long competenceId) {
-        return achievementTypeRepository
-                .findByCompetenceId(competenceId);
     }
 
     @Override
@@ -82,12 +74,6 @@ public class CompetenceManagerImpl implements CompetenceManager {
         Set<Competence> set = (Set<Competence>) competenceRepository.findAll();
         set.removeAll(competencesToExclude);
         return new ArrayList<>(set);
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Competence findByID(Long competenceId) {
-        return competenceRepository.findById(competenceId).get();
     }
 
     @Override

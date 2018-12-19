@@ -3,6 +3,7 @@ package com.softserve.edu.controller;
 import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
+import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GenericDao;
 import com.softserve.edu.dao.GroupRepository;
@@ -68,6 +69,8 @@ public class UserController {
     @Autowired
     private GroupRepository groupRepository;
     @Autowired
+    private AchievementRepository achievementRepository;
+    @Autowired
     private CompetenceRepository competenceRepository;
     @Autowired
     private RoleRepository roleRepository;
@@ -82,8 +85,7 @@ public class UserController {
             User user = userManager.findByUsername(auth.getName());
 
             List<Group> groups = groupRepository.findByUsers_Id(user.getId());
-            List<Achievement> achievements = achievementManager
-                    .findUserAchievementsByUserId(user.getId());
+            List<Achievement> achievements = achievementRepository.findByUserId(user.getId());
 
             List<Group> openedGroups = groupRepository.findOpenedByUserId(user.getId());
             List<Competence> exceptOfList = new ArrayList<>();
