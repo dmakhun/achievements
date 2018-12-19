@@ -7,11 +7,6 @@ import java.util.Set;
 
 public interface UserManager {
 
-    /**
-     * Create new user, filling in lots of data.
-     *
-     * @param user@throws UserManagerException
-     */
     User createUser(User user) throws UserManagerException;
 
 
@@ -32,37 +27,9 @@ public interface UserManager {
             String surname, String username, String password,
             String email, Long roleId) throws UserManagerException;
 
-    /**
-     * Delete user by given Id.
-     *
-     * @param id User id.
-     * @return result.
-     */
     void deleteById(Long id) throws UserManagerException;
 
-    /**
-     * Find user by his ID.
-     *
-     * @param id User id.
-     * @return User or null.
-     */
-    User findById(Long id) throws UserManagerException;
-
-    /**
-     * Find user by his full username.
-     *
-     * @param username Username.
-     * @return User or null.
-     */
     User findByUsername(String username);
-
-    /**
-     * Find user by his email.
-     *
-     * @param email Email.
-     * @return User or null.
-     */
-    User findByEmail(String email);
 
     /**
      * Attend user to specific competence.
