@@ -2,14 +2,10 @@ package com.softserve.edu.dao.impl;
 
 import static java.util.stream.Collectors.toSet;
 
-import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.RoleDao;
 import com.softserve.edu.dao.UserDao;
 import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
@@ -26,8 +22,6 @@ public class UserDaoImpl extends GenericDaoImpl<User>
 
     @Autowired
     private RoleDao roleDao;
-    @Autowired
-    private GroupDao groupDao;
 
     @Override
     public User findById(java.lang.Class userClass, long id) {
@@ -61,14 +55,6 @@ public class UserDaoImpl extends GenericDaoImpl<User>
     @Override
     public User findByEmail(String email) {
         return findEntity(User.FIND_USER_BY_EMAIL, email);
-    }
-
-    @Override
-    public List<Group> findGroups(Long userId, boolean onlyOpened) {
-        if (onlyOpened) {
-            return groupDao.findEntityList(User.FIND_ONLY_OPENED_GROUPS, userId, new Date());
-        }
-        return new ArrayList<>(findById(User.class, userId).getGroups());
     }
 
     @Override

@@ -3,7 +3,9 @@ package com.softserve.edu.controller;
 import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
+import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
@@ -58,6 +60,11 @@ public class UserController {
     private RoleManager roleManager;
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private GroupRepository groupRepository;
     @Autowired
     private BCryptPasswordEncoder encoder;
 
@@ -69,15 +76,15 @@ public class UserController {
 
             User user = userManager.findByUsername(auth.getName());
 
-            List<Group> aGroups = userManager.findGroups(user.getId(), false);
+            List<Group> aGroups = groupRepository.findByUsers_Id(user.getId());
             model.addAttribute("groups", aGroups);
             List<Achievement> achievements = achievementManager
                     .findUserAchievementsByUserId(user.getId());
 
             model.addAttribute("achievements", achievements);
 
-            List<Group> groupslist = userManager.findGroups(userManager
-                    .findByUsername(auth.getName()).getId(), true);
+            List<Group> groupslist = groupRepository.findOpenedByUserId(userManager
+                    .findByUsername(auth.getName()).getId());
             List<Competence> exceptOfList = new ArrayList<>();
             List<Competence> wantToAttend = competenceManager
                     .findByUserId(userManager.findByUsername(auth.getName())

@@ -1,21 +1,22 @@
 package com.softserve.edu.manager.impl;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.softserve.edu.dao.CompetenceDao;
-import com.softserve.edu.dao.GroupDao;
 import com.softserve.edu.dao.GroupRepository;
+import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.manager.GroupManager;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("groupManager")
@@ -25,13 +26,13 @@ public class GroupManagerImpl implements GroupManager {
             .getLogger(GroupManagerImpl.class);
 
     @Autowired
-    GroupDao groupDao;
-
-    @Autowired
     CompetenceDao competenceDao;
 
     @Autowired
     GroupRepository groupRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     @Transactional
@@ -93,32 +94,14 @@ public class GroupManagerImpl implements GroupManager {
     @Transactional
     public void addUser(Long userId, Long groupId) throws GroupManagerException {
         try {
-            groupDao.addUser(userId, groupId);
+            User user = userRepository.findById(userId).get();
+            Group group = groupRepository.findById(groupId).get();
+            group.setUsers(Stream.of(user).collect(toSet()));
+            user.setGroups(Stream.of(group).collect(toSet()));
             logger.info("User was added");
         } catch (Exception e) {
             logger.error("cannot add user to group", e);
             throw new GroupManagerException("cannot add user to group", e);
-        }
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<User> users(Long groupId) {
-
-        return groupDao.userList(groupId);
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(Long groupId) throws GroupManagerException {
-        Group group = groupRepository.findById(groupId).get();
-        removeAssociation(group);
-        try {
-            groupRepository.delete(group);
-            logger.info("Group was deleted by id");
-        } catch (Exception e) {
-            logger.error("cannot delete a group", e);
-            throw new GroupManagerException("cannot delete a group", e);
         }
     }
 
