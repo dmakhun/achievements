@@ -35,7 +35,7 @@ public class User extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    private AccessRole accessRole;
+    private Role role;
 
     @Size(min = 2, max = 15)
     @Column(name = "name", length = 255)
@@ -82,9 +82,9 @@ public class User extends AbstractEntity {
     public User() {
     }
 
-    public User(String name, String surname, String username, AccessRole accessRole,
+    public User(String name, String surname, String username, Role role,
             String password, byte[] picture) {
-        this.accessRole = accessRole;
+        this.role = role;
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -101,12 +101,12 @@ public class User extends AbstractEntity {
         this.id = id;
     }
 
-    public AccessRole getAccessRole() {
-        return accessRole;
+    public Role getRole() {
+        return role;
     }
 
-    public void setAccessRole(AccessRole accessRole) {
-        this.accessRole = accessRole;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getName() {

@@ -9,9 +9,9 @@ import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.UserRepository;
-import com.softserve.edu.entity.AccessRole;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
+import com.softserve.edu.entity.Role;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
@@ -149,7 +149,7 @@ public class UserManagerImpl implements UserManager {
             throw new ValidationException();
         }
 
-        validated = validateRole(user.getAccessRole().getId());
+        validated = validateRole(user.getRole().getId());
         if (!validated) {
             logger.error(ROLE_DOES_NOT_EXIST);
             throw new ValidationException(ROLE_DOES_NOT_EXIST);
@@ -234,8 +234,8 @@ public class UserManagerImpl implements UserManager {
 
     private boolean validateRole(Long roleId) {
         if (roleId != null) {
-            AccessRole accessRole = accessRoleRepository.findById(roleId).get();
-            return accessRole != null;
+            Role role = accessRoleRepository.findById(roleId).get();
+            return role != null;
         }
         return true;
     }
