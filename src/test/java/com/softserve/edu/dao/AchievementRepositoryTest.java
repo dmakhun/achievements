@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 @Transactional
-public class AchievementDaoTest {
+public class AchievementRepositoryTest {
 
     @Autowired
-    private AchievementDao achievementDao;
+    private AchievementRepository achievementRepository;
     @Autowired
     private UserDao userDao;
 
@@ -29,6 +29,6 @@ public class AchievementDaoTest {
     @Test
     public void testGetAchievementsByUserId() {
         User user = userDao.findByUsername("dmak");
-        assertEquals(0, achievementDao.findByUserId(user.getId()).size());
+        assertEquals(0, achievementRepository.findByUserId(user.getId()).size());
     }
 }
