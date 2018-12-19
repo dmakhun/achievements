@@ -4,7 +4,7 @@ import static com.softserve.edu.util.Constants.FIELD_MAX_LENGTH;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
 
-import com.softserve.edu.dao.AchievementDao;
+import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.CompetenceDao;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.RoleDao;
@@ -47,7 +47,7 @@ public class UserManagerImpl implements UserManager {
     @Autowired
     private RoleDao roleDao;
     @Autowired
-    private AchievementDao achievementDao;
+    private AchievementRepository achievementRepository;
     @Autowired
     private CompetenceDao competenceDao;
 
@@ -350,7 +350,7 @@ public class UserManagerImpl implements UserManager {
         user.getCompetences().clear();
         user.setCompetences(Collections.emptySet());
 
-        user.getAchievements().forEach(achievement -> achievementDao.delete(achievement));
+        user.getAchievements().forEach(achievement -> achievementRepository.delete(achievement));
         logger.info("User associations had been removed");
     }
 
