@@ -18,8 +18,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
@@ -28,21 +26,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "User")
-@NamedQueries({
-        @NamedQuery(name = User.FIND_USER_BY_USERNAME, query = User.FIND_USER_BY_NAME_QUERY),
-        @NamedQuery(name = User.FIND_USER_BY_EMAIL, query = User.FIND_USER_BY_EMAIL_QUERY),
-        @NamedQuery(name = User.FIND_ALL_USERS_BY_ROLE, query = User.FIND_ALL_BY_ROLE_QUERY)
-})
 public class User extends AbstractEntity {
-
-    public static final String FIND_USER_BY_USERNAME = "User.findByUsername";
-    public static final String FIND_USER_BY_NAME_QUERY = "FROM User WHERE username LIKE ?1";
-
-    public static final String FIND_USER_BY_EMAIL = "User.findByEmail";
-    public static final String FIND_USER_BY_EMAIL_QUERY = "FROM User WHERE email LIKE ?1";
-
-    public static final String FIND_ALL_USERS_BY_ROLE = "User.all";
-    public static final String FIND_ALL_BY_ROLE_QUERY = "FROM User u inner join fetch u.accessRole r WHERE r.id = ?1";
 
     @Id
     @Column(name = "id")
