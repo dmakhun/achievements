@@ -1,7 +1,6 @@
 package com.softserve.edu.manager.impl;
 
 import static com.softserve.edu.util.Constants.FIELD_MAX_LENGTH;
-import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
 
 import com.softserve.edu.dao.AchievementRepository;
@@ -44,7 +43,6 @@ public class UserManagerImpl implements UserManager {
 
     @Autowired
     private AchievementRepository achievementRepository;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -307,9 +305,4 @@ public class UserManagerImpl implements UserManager {
                 .sum();
     }
 
-    @Override
-    @Transactional
-    public List<User> findAllManagers() {
-        return userRepository.findByAccessRoleName(ROLE_MANAGER);
-    }
 }

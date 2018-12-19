@@ -15,7 +15,6 @@ import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.AchievementManager;
 import com.softserve.edu.manager.CompetenceManager;
-import com.softserve.edu.manager.RoleManager;
 import com.softserve.edu.manager.UserManager;
 import com.softserve.edu.util.FieldForSearchController;
 import java.io.File;
@@ -60,8 +59,6 @@ public class UserController {
     private CompetenceManager competenceManager;
     @Autowired
     private AchievementManager achievementManager;
-    @Autowired
-    private RoleManager roleManager;
     @Autowired
     @Qualifier("genericDaoImpl")
     private GenericDao<User> genericDao;
@@ -173,7 +170,7 @@ public class UserController {
             @RequestParam(value = "status", defaultValue = "", required = false) String status,
             Model model) {
         try {
-            List<User> managers = userManager.findAllManagers();
+            List<User> managers = userRepository.findByRoleName(ROLE_MANAGER);
             model.addAttribute("total", managers.size());
             model.addAttribute("user", new User());
             Map<String, String> searchBy = new FieldForSearchController<>(
@@ -204,7 +201,7 @@ public class UserController {
                     max, criteria, pattern, additionFind, User.class);
 
             List<User> allByCriteria = genericDao.dynamicSearch(0,
-                    userRepository.findByAccessRoleName(ROLE_MANAGER).size(), criteria, pattern,
+                    userRepository.findByRoleName(ROLE_MANAGER).size(), criteria, pattern,
                     additionFind, User.class);
 
             model.addAttribute("userlist", dynamicUsers);
