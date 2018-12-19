@@ -71,38 +71,34 @@ public class UserController {
     @RequestMapping(value = "/userHome", method = RequestMethod.GET)
     public String userHome(Model model, Principal principal) {
         try {
-            Authentication auth = SecurityContextHolder.getContext()
-                    .getAuthentication();
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
             User user = userManager.findByUsername(auth.getName());
 
-            List<Group> aGroups = groupRepository.findByUsers_Id(user.getId());
-            model.addAttribute("groups", aGroups);
+            List<Group> groups = groupRepository.findByUsers_Id(user.getId());
             List<Achievement> achievements = achievementManager
                     .findUserAchievementsByUserId(user.getId());
 
-            model.addAttribute("achievements", achievements);
-
-            List<Group> groupslist = groupRepository.findOpenedByUserId(userManager
-                    .findByUsername(auth.getName()).getId());
+            List<Group> openedGroups = groupRepository.findOpenedByUserId(user.getId());
             List<Competence> exceptOfList = new ArrayList<>();
             List<Competence> wantToAttend = competenceManager
-                    .findByUserId(userManager.findByUsername(auth.getName())
-                            .getId());
+                    .findByUserId(user.getId());
 
-            for (Group aGroup : groupslist) {
-                exceptOfList.add(aGroup.getCompetence());
+            for (Group group : openedGroups) {
+                exceptOfList.add(group.getCompetence());
             }
             exceptOfList.addAll(wantToAttend);
 
             List<Competence> competences = competenceManager.findExcept(exceptOfList);
 
+            model.addAttribute("groups", groups);
+            model.addAttribute("achievements", achievements);
             model.addAttribute("competences", competences);
             model.addAttribute("waiting_attend", wantToAttend);
 
             return "userHome";
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Home user page error ", e);
             return GENERAL_ERROR;
         }
     }
