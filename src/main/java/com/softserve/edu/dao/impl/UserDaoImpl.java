@@ -68,7 +68,7 @@ public class UserDaoImpl extends GenericDaoImpl<User>
         if (onlyOpened) {
             return groupDao.findEntityList(User.FIND_ONLY_OPENED_GROUPS, userId, new Date());
         }
-        return new ArrayList<>(findById(User.class, userId).getaGroups());
+        return new ArrayList<>(findById(User.class, userId).getGroups());
     }
 
     @Override
