@@ -26,9 +26,6 @@ public class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    UserDao userDao;
-
     User createUser() {
         User user = new User("Name", "Surname", "username",
                 null, "password", null);

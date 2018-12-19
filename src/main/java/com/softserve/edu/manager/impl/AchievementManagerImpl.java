@@ -2,7 +2,7 @@ package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.AchievementTypeRepository;
-import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.User;
@@ -27,7 +27,7 @@ public class AchievementManagerImpl implements AchievementManager {
     private AchievementTypeRepository achievementTypeRepository;
 
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Autowired
     private AchievementRepository achievementRepository;
@@ -41,7 +41,7 @@ public class AchievementManagerImpl implements AchievementManager {
         if (!achievementType.isPresent()) {
             throw new IllegalArgumentException("No such AchievementType id.");
         }
-        User user = userDao.findById(User.class, userId);
+        User user = userRepository.findById(userId).get();
         if (user == null) {
             throw new IllegalArgumentException("User with such id does not exist.");
         }

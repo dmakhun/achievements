@@ -1,7 +1,10 @@
 package com.softserve.edu.entity;
 
+import static java.util.Arrays.asList;
+
 import com.softserve.edu.util.FieldForSearch;
 import com.softserve.edu.validation.ValidEmail;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -78,7 +81,7 @@ public class User extends AbstractEntity {
     @Column(name = "picture")
     private byte[] picture;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "UserToCompetence", joinColumns = {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {
             @JoinColumn(name = "competence_id")})
@@ -168,7 +171,10 @@ public class User extends AbstractEntity {
     }
 
     public void setCompetences(Set<Competence> competences) {
-        this.competences = competences;
+        for (Competence competence : competences) {
+            competence.getUsers().add(this);
+            this.competences = competences;
+        }
     }
 
 
@@ -226,6 +232,21 @@ public class User extends AbstractEntity {
 
     public void setPicture(byte[] picture) {
         this.picture = picture;
+    }
+
+    public void addGroup(Group group) {
+        setGroups(new HashSet<>(asList(group)));
+        group.getUsers().add(this);
+    }
+
+    public void addCompetence(Competence competence) {
+        setCompetences(new HashSet<>(asList(competence)));
+        competence.getUsers().add(this);
+    }
+
+    public void removeCompetence(Competence competence) {
+        getCompetences().remove(competence);
+        competence.getUsers().remove(this);
     }
 
 }

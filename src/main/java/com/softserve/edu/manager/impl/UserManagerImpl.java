@@ -5,10 +5,10 @@ import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
 
 import com.softserve.edu.dao.AchievementRepository;
-import com.softserve.edu.dao.CompetenceDao;
+import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.RoleDao;
-import com.softserve.edu.dao.UserDao;
+import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.AccessRole;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
@@ -16,9 +16,9 @@ import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,14 +43,14 @@ public class UserManagerImpl implements UserManager {
     private static final String PATTERN_USERNAME = "^[a-zA-Z0-9\\.\\-_]{3,50}$";
 
     @Autowired
-    private UserDao userDao;
-    @Autowired
     private RoleDao roleDao;
     @Autowired
     private AchievementRepository achievementRepository;
-    @Autowired
-    private CompetenceDao competenceDao;
 
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CompetenceRepository competenceRepository;
     @Autowired
     private GroupRepository groupRepository;
     @Autowired
@@ -67,7 +67,7 @@ public class UserManagerImpl implements UserManager {
             throw new UserManagerException(FIELDS_VALIDATION_ERROR, e);
         }
         try {
-            userDao.save(user);
+            userRepository.save(user);
         } catch (Exception e) {
             logger.error(USER_SAVE_ERROR, e);
             throw new UserManagerException(USER_SAVE_ERROR, e);
@@ -80,7 +80,7 @@ public class UserManagerImpl implements UserManager {
     public User updateUser(Long userId, String name,
             String surname, String username, String newPassword,
             String email, Long roleId) throws UserManagerException {
-        User user = userDao.findById(User.class, userId);
+        User user = userRepository.findById(userId).get();
 
         if (user == null) {
             logger.error(USER_DOES_NOT_EXIST);
@@ -90,7 +90,7 @@ public class UserManagerImpl implements UserManager {
         try {
             validateUser(user, true);
             user.setPassword(passwordEncoder.encode(newPassword));
-            userDao.update(user);
+            userRepository.save(user);
         } catch (Exception e) {
             logger.error(USER_UPDATE_ERROR + e);
             throw new UserManagerException(e);
@@ -101,22 +101,11 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public void updateUser(User user) throws UserManagerException {
-        try {
-            userDao.update(user);
-        } catch (Exception e) {
-            logger.error(USER_UPDATE_ERROR, e);
-            throw new UserManagerException(e);
-        }
-    }
-
-    @Override
-    @Transactional
     public void deleteById(Long id) throws UserManagerException {
         try {
-            User user = userDao.findById(User.class, id);
+            User user = userRepository.findById(id).get();
             removeAssociations(user);
-            userDao.delete(user);
+            userRepository.delete(user);
         } catch (Exception e) {
             logger.error("Delete user by id", e);
             throw new UserManagerException("Delete user by id", e);
@@ -127,7 +116,7 @@ public class UserManagerImpl implements UserManager {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public User findById(Long id) throws UserManagerException {
         try {
-            return userDao.findById(User.class, id);
+            return userRepository.findById(id).get();
         } catch (RuntimeException e) {
             logger.error("Could not find user by id", e);
             throw new UserManagerException("Could not find user by id", e);
@@ -137,13 +126,13 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public User findByEmail(String email) {
-        return userDao.findByEmail(email);
+        return userRepository.findByEmail(email);
 
     }
 
@@ -176,7 +165,7 @@ public class UserManagerImpl implements UserManager {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Same logic as for username checks.
-        otherUser = findByEmail(user.getEmail());
+        otherUser = userRepository.findByEmail(user.getEmail());
         validated = validateByPattern(user, otherUser, user.getEmail(), PATTERN_EMAIL, "Email",
                 isExisting);
         if (!validated) {
@@ -276,29 +265,20 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public void appendCompetence(Long userId, Long competenceId)
-            throws UserManagerException {
-        User user = userDao.findById(User.class, userId);
-        Competence competence = competenceDao.findById(Competence.class,
-                competenceId);
-        try {
-            userDao.attendUserToCompetence(user, competence);
-        } catch (Exception e) {
-            logger.error("Could not attend competence to user", e);
-            throw new UserManagerException(
-                    "Could not attend competence to user", e);
-        }
+    public void appendCompetence(Long userId, Long competenceId) {
+        User user = userRepository.findById(userId).get();
+        Competence competence = competenceRepository.findById(competenceId).get();
+        user.addCompetence(competence);
     }
 
     @Override
     @Transactional
     public void removeUserToCompetence(Long userId, Long competenceId)
             throws UserManagerException {
-        User user = userDao.findById(User.class, userId);
-        Competence competence = competenceDao.findById(Competence.class,
-                competenceId);
+        User user = userRepository.findById(userId).get();
+        Competence competence = competenceRepository.findById(competenceId).get();
         try {
-            userDao.removeUserToCompetence(user, competence);
+            user.removeCompetence(competence);
         } catch (Exception e) {
             logger.error("Could not remove user to competence", e);
             throw new UserManagerException(
@@ -309,33 +289,22 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Set<String> findActiveNameGroups(String username) {
-        Set<String> nameGroups = new HashSet<>();
-        User user = userDao.findByUsername(username);
-        List<Group> listGroups = groupRepository.findOpenedByUserId(user.getId());
-        for (Group aGroup : listGroups) {
-            nameGroups.add(aGroup.getName());
-        }
-        return nameGroups;
-
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<User> findAllUsers() {
-        return userDao.findAll(User.class);
+    public Set<String> findOpenedGroupNames(String username) {
+        User user = userRepository.findByUsername(username);
+        List<Group> openedGroups = groupRepository.findOpenedByUserId(user.getId());
+        return openedGroups.stream().map(Group::getName).collect(Collectors.toSet());
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public boolean isUsernameExists(String username) {
-        return userDao.findByUsername(username) != null;
+        return userRepository.findByUsername(username) != null;
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public boolean isEmailExists(String email) {
-        return userDao.findByEmail(email) != null;
+        return userRepository.findByEmail(email) != null;
     }
 
 
@@ -356,7 +325,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public Long getTotalPoints(User user) {
-        return userDao.findByUsername(user.getUsername()).getAchievements()
+        return userRepository.findByUsername(user.getUsername()).getAchievements()
                 .stream().mapToLong(achievement -> achievement.getAchievementType().getPoints())
                 .sum();
     }
@@ -364,6 +333,6 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public List<User> findAllManagers() {
-        return userDao.findByRole(ROLE_MANAGER);
+        return userRepository.findByAccessRoleName(ROLE_MANAGER);
     }
 }

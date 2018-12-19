@@ -33,15 +33,6 @@ public interface UserManager {
             String email, Long roleId) throws UserManagerException;
 
     /**
-     * Modify existing user.
-     * <p>
-     * If passed parameter is null or empty, that field will be not updated.
-     *
-     * @param user New User.
-     */
-    void updateUser(User user) throws UserManagerException;
-
-    /**
      * Delete user by given Id.
      *
      * @param id User id.
@@ -87,9 +78,7 @@ public interface UserManager {
     void removeUserToCompetence(Long userId,
             Long competenceId) throws UserManagerException;
 
-    Set<String> findActiveNameGroups(String username);
-
-    List<User> findAllUsers();
+    Set<String> findOpenedGroupNames(String username);
 
     boolean isUsernameExists(String username);
 
