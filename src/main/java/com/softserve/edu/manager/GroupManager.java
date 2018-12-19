@@ -1,10 +1,8 @@
 package com.softserve.edu.manager;
 
 import com.softserve.edu.entity.Group;
-import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import java.util.Date;
-import java.util.List;
 
 public interface GroupManager {
 
@@ -30,13 +28,6 @@ public interface GroupManager {
      * Add existing user to existing group.
      */
     void addUser(Long userId, Long groupId) throws GroupManagerException;
-
-    /**
-     * Get users from given group.
-     */
-    List<User> users(Long groupId);
-
-    void deleteById(Long groupId) throws GroupManagerException;
 
     void create(Group aGroup) throws GroupManagerException;
 

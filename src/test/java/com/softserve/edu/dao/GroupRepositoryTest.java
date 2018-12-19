@@ -24,9 +24,6 @@ public class GroupRepositoryTest {
     @Autowired
     CompetenceDao competenceDao;
 
-    @Autowired
-    GroupDao groupDao;
-
     private Long competenceId;
 
     @BeforeEach
@@ -39,7 +36,7 @@ public class GroupRepositoryTest {
         groupRepository.saveAll(Arrays.asList(aGroup, createClosedGroup(competence), aGroup2));
     }
 
-    private Group createPendingGroup(Competence competence) {
+    public Group createPendingGroup(Competence competence) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, 1);
         Date startDate = calendar.getTime();
@@ -48,7 +45,7 @@ public class GroupRepositoryTest {
         return new Group(competence, "groupName", startDate, endDate, null);
     }
 
-    private Group createOpenGroup(Competence competence) {
+    public Group createOpenGroup(Competence competence) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         Date startDate = calendar.getTime();
@@ -57,7 +54,7 @@ public class GroupRepositoryTest {
         return new Group(competence, "groupName", startDate, endDate, null);
     }
 
-    private Group createClosedGroup(Competence competence) {
+    public Group createClosedGroup(Competence competence) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -2);
         Date startDate = calendar.getTime();

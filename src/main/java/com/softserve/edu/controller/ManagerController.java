@@ -3,6 +3,7 @@ package com.softserve.edu.controller;
 import static java.util.stream.Collectors.toMap;
 
 import com.softserve.edu.dao.GroupRepository;
+import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
@@ -41,6 +42,8 @@ public class ManagerController {
 
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private GroupManager groupManager;
     @Autowired
@@ -139,11 +142,7 @@ public class ManagerController {
     }
 
     private ResponseEntity<String> deleteGroup(Long groupId) {
-        try {
-            groupManager.deleteById(groupId);
-        } catch (GroupManagerException e) {
-            logger.error(e.getMessage());
-        }
+        groupRepository.deleteById(groupId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -178,7 +177,7 @@ public class ManagerController {
     public String concreteGroup(@PathVariable(value = "id") Long groupId,
             Model model) {
         try {
-            List<User> userList = groupManager.users(groupId);
+            List<User> userList = userRepository.findByGroups_Id(groupId);
             model.addAttribute("users", userList);
             return "userlist";
         } catch (Exception e) {

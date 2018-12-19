@@ -1,6 +1,5 @@
 package com.softserve.edu.manager;
 
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import java.util.List;
@@ -73,15 +72,6 @@ public interface UserManager {
      * @return User or null.
      */
     User findByEmail(String email);
-
-    /**
-     * Find all groups user attending to.
-     *
-     * @param userId User id.
-     * @param onlyOpened Select only those groups, that are opened (aka not closed) in the current
-     * moment.
-     */
-    List<Group> findGroups(Long userId, boolean onlyOpened);
 
     /**
      * Attend user to specific competence.

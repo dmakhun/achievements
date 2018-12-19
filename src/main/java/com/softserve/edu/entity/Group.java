@@ -10,11 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,17 +19,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "groups")
-@NamedQueries({
-        @NamedQuery(name = Group.FIND_OPENED_GROUPS, query = Group.FIND_ONLY_OPENED_GROUPS_QUERY),
-        @NamedQuery(name = Group.FIND_GROUPS, query = Group.FIND_GROUPS_QUERY)})
 public class Group extends AbstractEntity {
-
-    public static final String FIND_OPENED_GROUPS = "Group.opened";
-    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1 and g.dateClosed > ?2";
-
-    public static final String FIND_GROUPS = "Group.all";
-    public static final String FIND_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1";
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,10 +41,8 @@ public class Group extends AbstractEntity {
     @Temporal(value = TemporalType.DATE)
     private Date dateClosed;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "UserToGroup", joinColumns = {
-            @JoinColumn(name = "group_id")}, inverseJoinColumns = {
-            @JoinColumn(name = "user_id")})
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE})
     private Set<User> users;
 
     public Group(Competence competence, String name, Date dateOpened, Date dateClosed,
