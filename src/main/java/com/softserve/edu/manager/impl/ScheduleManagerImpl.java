@@ -2,9 +2,9 @@ package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.ScheduleRepository;
-import com.softserve.edu.dao.impl.ScheduleGroupDaoImpl;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.Schedule;
+import com.softserve.edu.entity.ScheduleGroup;
 import com.softserve.edu.entity.ScheduleTable;
 import com.softserve.edu.manager.ScheduleManager;
 import com.softserve.edu.manager.ScheduleRowsManager;
@@ -42,7 +42,7 @@ public class ScheduleManagerImpl implements ScheduleManager {
         Map<Long, String> resultMap = new LinkedHashMap<>();
         ScheduleRowsManager scheduleRowsManager = new ScheduleRowsManagerImpl(calendar);
         List<Calendar> calen = scheduleRowsManager.getWeek();
-        ScheduleGroupDaoImpl scheduleGroupDao = new ScheduleGroupDaoImpl(group);
+        ScheduleGroup scheduleGroupDao = new ScheduleGroup(group);
         List<Schedule> listScheduleForGroup = scheduleGroupDao.listScheduleForGroup;
         for (Calendar c : calen) {
             ++placeOfText;
