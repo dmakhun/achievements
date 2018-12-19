@@ -2,9 +2,8 @@ package com.softserve.edu.dao.impl;
 
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
-import com.softserve.edu.dao.AccessRoleRepository;
 import com.softserve.edu.dao.GenericDao;
-import com.softserve.edu.manager.RoleManager;
+import com.softserve.edu.dao.RoleRepository;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -24,10 +23,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
     EntityManager entityManager;
 
     @Autowired
-    private RoleManager roleManager;
-
-    @Autowired
-    private AccessRoleRepository accessRoleRepository;
+    private RoleRepository roleRepository;
 
     GenericDaoImpl() {
     }
@@ -94,8 +90,8 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
         List<T> resultList = (List<T>) entityManager
                 .createQuery(
                         "from " + objectClass.getName()
-                                + " where " + parameter + " like :pattern and accessrole="
-                                + accessRoleRepository.findByName(ROLE_MANAGER).getId())
+                                + " where " + parameter + " like :pattern and role="
+                                + roleRepository.findByName(ROLE_MANAGER).getId())
                 .setParameter("pattern", placeholder + pattern + "%")
                 .setFirstResult(startPosition)
                 .setMaxResults(maxResult)

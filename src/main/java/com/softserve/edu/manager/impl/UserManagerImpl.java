@@ -4,10 +4,10 @@ import static com.softserve.edu.util.Constants.FIELD_MAX_LENGTH;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
 
-import com.softserve.edu.dao.AccessRoleRepository;
 import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
+import com.softserve.edu.dao.RoleRepository;
 import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
@@ -52,7 +52,7 @@ public class UserManagerImpl implements UserManager {
     @Autowired
     private GroupRepository groupRepository;
     @Autowired
-    private AccessRoleRepository accessRoleRepository;
+    private RoleRepository roleRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -234,7 +234,7 @@ public class UserManagerImpl implements UserManager {
 
     private boolean validateRole(Long roleId) {
         if (roleId != null) {
-            Role role = accessRoleRepository.findById(roleId).get();
+            Role role = roleRepository.findById(roleId).get();
             return role != null;
         }
         return true;

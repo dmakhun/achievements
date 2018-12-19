@@ -3,10 +3,10 @@ package com.softserve.edu.controller;
 import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
-import com.softserve.edu.dao.AccessRoleRepository;
 import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GenericDao;
 import com.softserve.edu.dao.GroupRepository;
+import com.softserve.edu.dao.RoleRepository;
 import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Achievement;
 import com.softserve.edu.entity.Competence;
@@ -73,7 +73,7 @@ public class UserController {
     @Autowired
     private CompetenceRepository competenceRepository;
     @Autowired
-    private AccessRoleRepository accessRoleRepository;
+    private RoleRepository roleRepository;
     @Autowired
     private BCryptPasswordEncoder encoder;
 
@@ -159,7 +159,7 @@ public class UserController {
             if (result.hasErrors()) {
                 return "redirect:/admin/allManagers?status=error";
             }
-            user.setRole(accessRoleRepository.findByName(ROLE_MANAGER));
+            user.setRole(roleRepository.findByName(ROLE_MANAGER));
             userManager.createUser(user);
             return "admin/allManagers";
         } catch (Exception e) {
