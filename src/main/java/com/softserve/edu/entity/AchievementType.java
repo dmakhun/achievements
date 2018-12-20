@@ -4,9 +4,6 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -14,13 +11,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "AchievementType")
-public class AchievementType extends AbstractEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+@Table(name = "achievementtypes")
+public class AchievementType extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "competence_id")
@@ -50,15 +42,6 @@ public class AchievementType extends AbstractEntity {
         this.name = name;
         this.points = points;
         this.achievement = achievement;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 
@@ -100,66 +83,5 @@ public class AchievementType extends AbstractEntity {
         this.points = points;
 
         return this;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((achievement == null) ? 0 : achievement.hashCode());
-        result = prime * result
-                + ((competence == null) ? 0 : competence.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((points == null) ? 0 : points.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        AchievementType other = (AchievementType) obj;
-        if (achievement == null) {
-            if (other.achievement != null) {
-                return false;
-            }
-        } else if (!achievement.equals(other.achievement)) {
-            return false;
-        }
-        if (competence == null) {
-            if (other.competence != null) {
-                return false;
-            }
-        } else if (!competence.equals(other.competence)) {
-            return false;
-        }
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (points == null) {
-            return other.points == null;
-        } else {
-            return points.equals(other.points);
-        }
     }
 }

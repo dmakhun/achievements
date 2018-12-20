@@ -9,7 +9,6 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
-import com.softserve.edu.manager.RoleManager;
 import com.softserve.edu.manager.UserManager;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -42,8 +41,6 @@ public class LoginController {
     private UserManager userManager;
     @Autowired
     private CompetenceManager competenceManager;
-    @Autowired
-    private RoleManager roleManager;
     @Autowired
     private GroupRepository groupRepository;
     @Autowired
