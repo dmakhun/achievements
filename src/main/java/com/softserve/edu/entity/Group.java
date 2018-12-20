@@ -1,6 +1,7 @@
 package com.softserve.edu.entity;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -51,7 +52,7 @@ public class Group extends BaseEntity {
 
 
     public Set<User> getUsers() {
-        return users;
+        return users != null ? users : new HashSet<>();
     }
 
     public void setUsers(Set<User> users) {
