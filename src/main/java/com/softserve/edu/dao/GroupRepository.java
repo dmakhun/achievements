@@ -14,7 +14,7 @@ public interface GroupRepository extends CrudRepository<Group, Long> {
     @Query("SELECT g from Group g where g.dateClosed > current_date and g.competence.id = ?1")
     List<Group> findOpenedByCompetenceId(@Param("competenceId") Long competenceId);
 
-    @Query("SELECT g from Group g join User u where g.dateClosed > current_date and u.id = ?1")
+    @Query("SELECT g from Group g join g.users u where g.dateClosed > current_date and u.id = ?1")
     List<Group> findOpenedByUserId(@Param("userId") Long userId);
 
     Group findByName(String name);
