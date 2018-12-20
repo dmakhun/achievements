@@ -145,7 +145,6 @@ public class User extends BaseEntity {
         }
     }
 
-
     public Set<Achievement> getAchievements() {
         return achievements;
     }
@@ -156,7 +155,7 @@ public class User extends BaseEntity {
 
 
     public Set<Group> getGroups() {
-        return groups;
+        return groups != null ? groups : new HashSet<>();
     }
 
     public void setGroups(Set<Group> groups) {
@@ -176,7 +175,7 @@ public class User extends BaseEntity {
     }
 
     public void addGroup(Group group) {
-        setGroups(new HashSet<>(asList(group)));
+        getGroups().add(group);
         group.getUsers().add(this);
     }
 
