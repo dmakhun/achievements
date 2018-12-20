@@ -3,9 +3,6 @@ package com.softserve.edu.entity;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -13,17 +10,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "Schedule")
-public class ScheduleTable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+@Table(name = "schedules")
+public class ScheduleTable extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
-    private Group aGroup;
+    private Group group;
 
     @Column(name = "meetingType", length = 200)
     private String meetingType;
@@ -45,9 +37,9 @@ public class ScheduleTable {
     public ScheduleTable() {
     }
 
-    public ScheduleTable(Group aGroup, String meetingType, Calendar begin,
+    public ScheduleTable(Group group, String meetingType, Calendar begin,
             Calendar end, String description, String location) {
-        this.aGroup = aGroup;
+        this.group = group;
         this.meetingType = meetingType;
         this.begin = begin;
         this.end = end;
@@ -56,11 +48,11 @@ public class ScheduleTable {
     }
 
     public Group getaGroup() {
-        return aGroup;
+        return group;
     }
 
     public void setaGroup(Group aGroup) {
-        this.aGroup = aGroup;
+        group = aGroup;
     }
 
     public String getMeetingType() {
@@ -101,14 +93,6 @@ public class ScheduleTable {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 }
