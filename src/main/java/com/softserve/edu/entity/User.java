@@ -10,9 +10,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -25,13 +22,8 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name = "User")
-public class User extends AbstractEntity {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "users")
+public class User extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -66,7 +58,7 @@ public class User extends AbstractEntity {
     private byte[] picture;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "UserToCompetence", joinColumns = {
+    @JoinTable(name = "usertocompetence", joinColumns = {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {
             @JoinColumn(name = "competence_id")})
     private Set<Competence> competences;
@@ -75,7 +67,7 @@ public class User extends AbstractEntity {
     private Set<Achievement> achievements;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "UserToGroup", joinColumns = {
+    @JoinTable(name = "usertogroup", joinColumns = {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
     private Set<Group> groups;
 
@@ -92,14 +84,6 @@ public class User extends AbstractEntity {
         this.picture = picture;
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Role getRole() {
         return role;
@@ -179,33 +163,6 @@ public class User extends AbstractEntity {
         for (Group group : groups) {
             group.getUsers().add(this);
             this.groups = groups;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        User other = (User) obj;
-        if (id == null) {
-            return other.id == null;
-        } else {
-            return id.equals(other.id);
         }
     }
 

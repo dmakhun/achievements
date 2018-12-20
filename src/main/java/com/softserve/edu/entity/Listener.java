@@ -8,7 +8,7 @@ public class Listener {
 
     @PrePersist
     @PreUpdate
-    public void setLastModifiedDate(AbstractEntity entity) {
+    public void setLastModifiedDate(BaseEntity entity) {
         entity.setLastModifiedDate(new Date());
 
     }
