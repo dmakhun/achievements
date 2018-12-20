@@ -55,14 +55,14 @@ public class LoginController {
                 return "redirect:/userHome";
             }
             List<Competence> competences = competenceManager.findAllCompetences();
-            model.addAttribute("competences", competences);
 
             List<List<Group>> groupLists = new ArrayList<>();
             for (Competence competence : competences) {
                 groupLists.add(groupRepository.findPendingByCompetenceId(competence.getId()));
             }
-            model.addAttribute("groups_lists", groupLists);
 
+            model.addAttribute("competences", competences);
+            model.addAttribute("groups_lists", groupLists);
             return "index";
         } catch (Exception e) {
             logger.error(e.getMessage());
