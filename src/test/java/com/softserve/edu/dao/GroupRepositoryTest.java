@@ -1,11 +1,14 @@
 package com.softserve.edu.dao;
 
+import static java.util.Arrays.asList;
+
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
-import java.util.Arrays;
+import com.softserve.edu.entity.User;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -23,6 +26,8 @@ public class GroupRepositoryTest {
     GroupRepository groupRepository;
     @Autowired
     CompetenceRepository competenceRepository;
+    @Autowired
+    UserRepository userRepository;
 
     private Long competenceId;
 
@@ -33,7 +38,7 @@ public class GroupRepositoryTest {
         competenceId = competenceRepository.findByName("competence").getId();
         Group aGroup = createPendingGroup(competence);
         Group aGroup2 = createOpenGroup(competence);
-        groupRepository.saveAll(Arrays.asList(aGroup, createClosedGroup(competence), aGroup2));
+        groupRepository.saveAll(asList(aGroup, createClosedGroup(competence), aGroup2));
     }
 
     public Group createPendingGroup(Competence competence) {
@@ -61,6 +66,16 @@ public class GroupRepositoryTest {
         calendar.add(Calendar.MONTH, -1);
         Date endDate = calendar.getTime();
         return new Group(competence, "groupName", startDate, endDate, null);
+    }
+
+    @Test
+    public void testQuery() {
+        User user = new UserRepositoryTest().createUser();
+        Group group = createOpenGroup(null);
+//        user.setGroups((new HashSet<>(asList(group))));
+        user.addGroup(group);
+        userRepository.save(user);
+        groupRepository.findOpenedByUserId(user.getId());
     }
 
 }
