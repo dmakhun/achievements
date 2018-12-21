@@ -7,24 +7,24 @@ import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
 /**
  * Generates the current week.
  */
+@Service("scheduleRowsManager")
 public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
 
-    private final int year;
-    private final int month;
+    private int year;
+    private int month;
     private int day;
+
     /**
      * current date from constructor.
      */
     private Calendar calendar = Calendar.getInstance();
 
-    /**
-     * The default constructor.
-     */
-    public ScheduleRowsManagerImpl(Calendar calendar) {
+    public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);

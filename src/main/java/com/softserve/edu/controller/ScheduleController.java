@@ -3,9 +3,8 @@ package com.softserve.edu.controller;
 import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 
 import com.softserve.edu.manager.ScheduleManager;
+import com.softserve.edu.manager.ScheduleRowsManager;
 import com.softserve.edu.manager.UserManager;
-import com.softserve.edu.manager.impl.ScheduleManagerImpl;
-import com.softserve.edu.manager.impl.ScheduleRowsManagerImpl;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Map;
@@ -36,16 +35,17 @@ public class ScheduleController {
     @Autowired
     private ScheduleManager scheduleManager;
 
-    /**
-     * @return scheduleTable.jsp
-     */
+    @Autowired
+    private ScheduleRowsManager scheduleRowsManager;
+
     @RequestMapping(value = "/schedule/{group:[a-zA-Z0-9\\.\\-_]+}/{dateAdd}")
     public String schedule(@PathVariable("group") String group,
             @PathVariable("dateAdd") Integer dateAdd, Model model) {
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, 7 * dateAdd);
-            Map<Long, String> mapWeek = new ScheduleRowsManagerImpl(calendar).getWeekHead();
+            scheduleRowsManager.setCalendar(calendar);
+            Map<Long, String> mapWeek = scheduleRowsManager.getWeekHead();
             Map<Long, String> map = scheduleManager.table(calendar, group.replace('_', ' '));
 
             model.addAttribute("group", group);
@@ -85,8 +85,7 @@ public class ScheduleController {
             Model model) throws IllegalStateException {
 
         try {
-            File serverFile = new ScheduleManagerImpl()
-                    .saveFileOnServer(file);
+            File serverFile = scheduleManager.saveFileOnServer(file);
             scheduleManager.fillDBfromCSV(serverFile);
             model.addAttribute("status", "file upload successfully");
             return "addSchedule";

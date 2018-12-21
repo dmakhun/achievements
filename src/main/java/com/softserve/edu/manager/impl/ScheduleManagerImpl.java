@@ -36,11 +36,14 @@ public class ScheduleManagerImpl implements ScheduleManager {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private ScheduleRowsManager scheduleRowsManager;
+
     @Override
     public Map<Long, String> table(Calendar calendar, String group) {
         Long placeOfText = 0L;
         Map<Long, String> resultMap = new LinkedHashMap<>();
-        ScheduleRowsManager scheduleRowsManager = new ScheduleRowsManagerImpl(calendar);
+        scheduleRowsManager.setCalendar(calendar);
         List<Calendar> calen = scheduleRowsManager.getWeek();
         ScheduleGroup scheduleGroupDao = new ScheduleGroup(group);
         List<Schedule> listScheduleForGroup = scheduleGroupDao.listScheduleForGroup;
