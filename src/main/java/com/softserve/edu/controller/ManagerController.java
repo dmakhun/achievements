@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +58,11 @@ public class ManagerController {
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             Model model) {
         try {
-            // TODO pass just competence entity
+            // TODO pass just competence entity by using DTO
             List<Competence> competenceList = competenceManager.findAllCompetences();
-            Map<String, Set<Group>> groups = competenceList.stream()
+            Map<String, List<Group>> groups = competenceList.stream()
                     .map(competence -> new AbstractMap.SimpleEntry<>(competence.getName(),
-                            competence.getGroups())) // TODO filter just opened groups
+                            groupRepository.findOpenedByCompetenceId(competence.getId())))
                     .collect(toMap(AbstractMap.SimpleEntry::getKey,
                             AbstractMap.SimpleEntry::getValue));
 
