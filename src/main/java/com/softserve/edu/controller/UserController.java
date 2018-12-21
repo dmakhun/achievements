@@ -14,7 +14,6 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
-import com.softserve.edu.manager.AchievementManager;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.UserManager;
 import com.softserve.edu.util.FieldForSearchController;
@@ -59,8 +58,6 @@ public class UserController {
     @Autowired
     private CompetenceManager competenceManager;
     @Autowired
-    private AchievementManager achievementManager;
-    @Autowired
     @Qualifier("genericDaoImpl")
     private GenericDao<User> genericDao;
 
@@ -78,7 +75,7 @@ public class UserController {
     private BCryptPasswordEncoder encoder;
 
     @RequestMapping(value = "/userHome", method = RequestMethod.GET)
-    public String userHome(Model model, Principal principal) {
+    public String userHome(Model model) {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -173,14 +170,13 @@ public class UserController {
             Model model) {
         try {
             List<User> managers = userRepository.findByRoleName(ROLE_MANAGER);
-            model.addAttribute("total", managers.size());
-            model.addAttribute("user", new User());
             Map<String, String> searchBy = new FieldForSearchController<>(
                     User.class).findAnnotation();
+            model.addAttribute("total", managers.size());
+            model.addAttribute("user", new User());
             model.addAttribute("searchBy", searchBy);
             model.addAttribute("userlist", managers);
             model.addAttribute("status", status);
-
         } catch (Exception e) {
             logger.error(e.getMessage());
             return GENERAL_ERROR;
@@ -347,7 +343,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/passwordchanging", method = RequestMethod.GET)
-    public String passwordChan() {
+    public String passwordChange() {
         return "passwordchanging";
     }
 
