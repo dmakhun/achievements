@@ -16,9 +16,11 @@ import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.ValidationException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,7 +220,7 @@ public class UserManagerImpl implements UserManager {
     private boolean validatePassword(String password, boolean isExisting)
             throws ValidationException {
 
-        if (password != null && !password.isEmpty()) {
+        if (StringUtils.isNotEmpty(password)) {
             return true;
         } else {
             if (!isExisting) {
@@ -232,10 +234,10 @@ public class UserManagerImpl implements UserManager {
 
     private boolean validateRole(Long roleId) {
         if (roleId != null) {
-            Role role = roleRepository.findById(roleId).get();
-            return role != null;
+            Optional<Role> role = roleRepository.findById(roleId);
+            return role.isPresent();
         }
-        return true;
+        return false;
     }
 
     @Override
