@@ -242,19 +242,25 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public void appendCompetence(Long userId, Long competenceId) {
-        User user = userRepository.findById(userId).get();
-        Competence competence = competenceRepository.findById(competenceId).get();
-        user.addCompetence(competence);
+    public void appendCompetence(Long userId, Long competenceId) throws UserManagerException {
+        try {
+            User user = userRepository.findById(userId).get();
+            Competence competence = competenceRepository.findById(competenceId).get();
+            user.addCompetence(competence);
+        } catch (Exception e) {
+            logger.error("Could not append user to competence", e);
+            throw new UserManagerException(
+                    "Could not append user to competence", e);
+        }
     }
 
     @Override
     @Transactional
     public void removeUserToCompetence(Long userId, Long competenceId)
             throws UserManagerException {
-        User user = userRepository.findById(userId).get();
-        Competence competence = competenceRepository.findById(competenceId).get();
         try {
+            User user = userRepository.findById(userId).get();
+            Competence competence = competenceRepository.findById(competenceId).get();
             user.removeCompetence(competence);
         } catch (Exception e) {
             logger.error("Could not remove user to competence", e);

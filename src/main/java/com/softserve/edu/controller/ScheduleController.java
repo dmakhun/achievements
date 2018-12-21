@@ -63,16 +63,13 @@ public class ScheduleController {
     @RequestMapping(value = "/scheduleTable", method = RequestMethod.GET)
     public String scheduleTable(Model model) {
         try {
-            Authentication auth = SecurityContextHolder.getContext()
-                    .getAuthentication();
-            model.addAttribute("set",
-                    userManager.findOpenedGroupNames(auth.getName()));
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            model.addAttribute("set", userManager.findOpenedGroupNames(auth.getName()));
             return "scheduleTable";
         } catch (Exception e) {
             logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
-
     }
 
     @RequestMapping(value = "/addSchedule", method = RequestMethod.GET)
