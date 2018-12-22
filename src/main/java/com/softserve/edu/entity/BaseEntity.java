@@ -1,12 +1,7 @@
 package com.softserve.edu.entity;
 
-import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(Listener.class)
@@ -17,13 +12,13 @@ public abstract class BaseEntity {
     private Long id;
 
     @Column(name = "LastModifiedDate")
-    private Date lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
-    public Date getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(Date lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
