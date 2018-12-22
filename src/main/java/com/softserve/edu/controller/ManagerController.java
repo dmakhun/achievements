@@ -1,8 +1,5 @@
 package com.softserve.edu.controller;
 
-import static com.softserve.edu.util.Constants.ROLE_MANAGER;
-import static java.util.stream.Collectors.toMap;
-
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Competence;
@@ -13,14 +10,6 @@ import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.AbstractMap;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +18,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
+import static java.util.stream.Collectors.toMap;
 
 @Controller
 public class ManagerController {
@@ -104,20 +98,18 @@ public class ManagerController {
     }
 
     private ResponseEntity<String> createGroup(String groupName,
-            Long competenceId, String start, String end, Locale locale)
-            throws ParseException {
+                                               Long competenceId, String startDate, String endDate, Locale locale) {
 
         Long groupId = null;
         try {
-            ResponseEntity<String> pass = groupChecks(groupName, start, end, locale);
+            ResponseEntity<String> pass = groupChecks(groupName, startDate, endDate, locale);
             if (pass.getStatusCode() != HttpStatus.OK) {
                 return pass;
             }
 
-            Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-            Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-
-            groupId = groupManager.create(groupName, starting, ending, competenceId);
+            LocalDate dateStart = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
+            LocalDate dateEnd = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
+            groupId = groupManager.create(groupName, dateStart, dateEnd, competenceId);
         } catch (GroupManagerException e) {
             logger.error(e.getMessage());
         }
@@ -132,9 +124,9 @@ public class ManagerController {
             if (pass.getStatusCode() != HttpStatus.OK) {
                 return pass;
             }
-            Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-            Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-            groupManager.modify(groupId, name, starting, ending, competence);
+            LocalDate dateStart = LocalDate.parse(start, DateTimeFormatter.ISO_DATE);
+            LocalDate dateEnd = LocalDate.parse(end, DateTimeFormatter.ISO_DATE);
+            groupManager.modify(groupId, name, dateStart, dateEnd, competence);
         } catch (GroupManagerException e) {
             logger.error(e.getMessage());
         }
@@ -146,11 +138,11 @@ public class ManagerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private ResponseEntity<String> groupChecks(String name, String start,
-            String end, Locale locale) {
+    private ResponseEntity<String> groupChecks(String name, String startDate,
+                                               String endDate, Locale locale) {
         try {
-            Date starting = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-            Date ending = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+            LocalDate dateStart = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
+            LocalDate dateEnd = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
 
             if (name.isEmpty()) {
                 return new ResponseEntity<>(messageSource.getMessage(
@@ -158,7 +150,7 @@ public class ManagerController {
                         HttpStatus.NOT_ACCEPTABLE);
             }
 
-            if (starting.after(ending)) {
+            if (dateStart.isAfter(dateEnd)) {
                 return new ResponseEntity<>(messageSource.getMessage(
                         "groups.error.inversed", null, locale),
                         HttpStatus.NOT_ACCEPTABLE);
@@ -186,7 +178,7 @@ public class ManagerController {
         }
     }
 
-    @RequestMapping(value = "/manager/attendees", method = RequestMethod.GET)
+    @GetMapping(value = "/manager/attendees")
     public String attendees(Model model) {
         try {
             List<Competence> competenceList = competenceManager.findAllCompetences();

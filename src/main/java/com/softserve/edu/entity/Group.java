@@ -1,18 +1,9 @@
 package com.softserve.edu.entity;
 
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 
 @Entity
@@ -26,30 +17,26 @@ public class Group extends BaseEntity {
     @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "opened")
-    @Temporal(value = TemporalType.DATE)
-    private Date dateOpened;
+    private LocalDate opened;
 
-    @Column(name = "closed")
-    @Temporal(value = TemporalType.DATE)
-    private Date dateClosed;
+    private LocalDate closed;
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
             CascadeType.MERGE})
     private Set<User> users;
 
-    public Group(Competence competence, String name, Date dateOpened, Date dateClosed,
-            Set<User> users) {
+    public Group(Competence competence, String name, LocalDate opened, LocalDate closed,
+                 Set<User> users) {
         this.competence = competence;
         this.name = name;
-        this.dateOpened = dateOpened;
-        this.dateClosed = dateClosed;
+        this.opened = opened;
+        this.closed = closed;
         this.users = users;
     }
 
     public Group() {
-    }
 
+    }
 
     public Set<User> getUsers() {
         return users != null ? users : new HashSet<>();
@@ -76,20 +63,20 @@ public class Group extends BaseEntity {
         this.name = name;
     }
 
-    public Date getDateOpened() {
-        return dateOpened;
+    public LocalDate getOpened() {
+        return opened;
     }
 
-    public void setDateOpened(Date opened) {
-        dateOpened = opened;
+    public void setOpened(LocalDate opened) {
+        this.opened = opened;
     }
 
-    public Date getDateClosed() {
-        return dateClosed;
+    public LocalDate getClosed() {
+        return closed;
     }
 
-    public void setDateClosed(Date closed) {
-        dateClosed = closed;
+    public void setClosed(LocalDate closed) {
+        this.closed = closed;
     }
 
 
