@@ -8,13 +8,14 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.manager.GroupManager;
-import java.util.Date;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.Set;
 
 @Service("groupManager")
 public class GroupManagerImpl implements GroupManager {
@@ -33,15 +34,15 @@ public class GroupManagerImpl implements GroupManager {
 
     @Override
     @Transactional
-    public Long create(String name, Date startDate, Date endDate,
-            Long competenceId) {
+    public Long create(String name, LocalDate startDate, LocalDate endDate,
+                       Long competenceId) {
 
         Competence competence = competenceRepository.findById(competenceId).get();
 
         Group group = new Group();
         group.setName(name);
-        group.setDateOpened(startDate);
-        group.setDateClosed(endDate);
+        group.setOpened(startDate);
+        group.setClosed(endDate);
         group.setCompetence(competence);
         groupRepository.save(group);
         return group.getId();
@@ -49,15 +50,15 @@ public class GroupManagerImpl implements GroupManager {
 
     @Override
     @Transactional
-    public void modify(final Long groupId, final String name, final Date start,
-            final Date end, final Long competenceId)
+    public void modify(Long groupId, String name, LocalDate start,
+                       LocalDate end, Long competenceId)
             throws GroupManagerException {
 
         Competence competence = competenceRepository.findById(competenceId).get();
         Group group = groupRepository.findById(groupId).get();
         group.setName(name);
-        group.setDateOpened(start);
-        group.setDateClosed(end);
+        group.setOpened(start);
+        group.setClosed(end);
         group.setCompetence(competence);
         try {
             groupRepository.save(group);
@@ -109,7 +110,7 @@ public class GroupManagerImpl implements GroupManager {
             return false;
         }
         if (group.getName().length() > 3 && group.getName().length() < 30) {
-            if (group.getDateClosed().after(group.getDateOpened())) {
+            if (group.getClosed().isAfter(group.getOpened())) {
                 logger.info("Group is valid");
                 isValid = true;
             }

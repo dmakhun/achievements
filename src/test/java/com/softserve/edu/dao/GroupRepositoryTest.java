@@ -1,12 +1,8 @@
 package com.softserve.edu.dao;
 
-import static java.util.Arrays.asList;
-
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
-import java.util.Calendar;
-import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +11,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+
+import static java.util.Arrays.asList;
 
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 @Transactional
@@ -42,29 +42,20 @@ public class GroupRepositoryTest {
     }
 
     public Group createPendingGroup(Competence competence) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, 1);
-        Date startDate = calendar.getTime();
-        calendar.add(Calendar.MONTH, 3);
-        Date endDate = calendar.getTime();
+        LocalDate startDate = LocalDate.now().plusMonths(1);
+        LocalDate endDate = startDate.plusMonths(3);
         return new Group(competence, "groupName", startDate, endDate, null);
     }
 
     public Group createOpenGroup(Competence competence) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -1);
-        Date startDate = calendar.getTime();
-        calendar.add(Calendar.MONTH, 3);
-        Date endDate = calendar.getTime();
+        LocalDate startDate = LocalDate.now().minusMonths(1);
+        LocalDate endDate = startDate.plusMonths(4);
         return new Group(competence, "groupName", startDate, endDate, null);
     }
 
     public Group createClosedGroup(Competence competence) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -2);
-        Date startDate = calendar.getTime();
-        calendar.add(Calendar.MONTH, -1);
-        Date endDate = calendar.getTime();
+        LocalDate startDate = LocalDate.now().minusMonths(4);
+        LocalDate endDate = startDate.plusMonths(3);
         return new Group(competence, "groupName", startDate, endDate, null);
     }
 
@@ -72,7 +63,6 @@ public class GroupRepositoryTest {
     public void testQuery() {
         User user = new UserRepositoryTest().createUser();
         Group group = createOpenGroup(null);
-//        user.setGroups((new HashSet<>(asList(group))));
         user.addGroup(group);
         userRepository.save(user);
         groupRepository.findOpenedByUserId(user.getId());
