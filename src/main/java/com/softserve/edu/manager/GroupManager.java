@@ -2,15 +2,16 @@ package com.softserve.edu.manager;
 
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.GroupManagerException;
-import java.util.Date;
+
+import java.time.LocalDate;
 
 public interface GroupManager {
 
-    Long create(String name, Date startDate,
-            Date endDate, Long competenceId) throws GroupManagerException;
+    Long create(String name, LocalDate startDate,
+                LocalDate endDate, Long competenceId) throws GroupManagerException;
 
-    void modify(Long groupId, String name, Date start,
-            Date end, Long competenceId) throws GroupManagerException;
+    void modify(Long groupId, String name, LocalDate start,
+                LocalDate end, Long competenceId) throws GroupManagerException;
 
     void addUser(Long userId, Long groupId) throws GroupManagerException;
 
