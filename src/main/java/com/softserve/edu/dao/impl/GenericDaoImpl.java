@@ -90,7 +90,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
         List<T> resultList = (List<T>) entityManager
                 .createQuery(
                         "from " + objectClass.getName()
-                                + " where " + parameter + " like :pattern and role="
+                                + " where " + parameter + " like :pattern and role.id="
                                 + roleRepository.findByName(ROLE_MANAGER).getId())
                 .setParameter("pattern", placeholder + pattern + "%")
                 .setFirstResult(startPosition)
