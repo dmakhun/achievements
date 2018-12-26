@@ -85,8 +85,8 @@ public class UserController {
             List<Achievement> achievements = achievementRepository.findByUserId(user.getId());
 
             List<Group> openedGroups = groupRepository.findOpenedByUserId(user.getId());
-            List<Competence> exceptOfList = new ArrayList<>();
             List<Competence> wantToAttend = competenceRepository.findByUsers_Id(user.getId());
+            List<Competence> exceptOfList = new ArrayList<>();
 
             for (Group group : openedGroups) {
                 exceptOfList.add(group.getCompetence());

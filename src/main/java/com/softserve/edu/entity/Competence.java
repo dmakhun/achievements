@@ -41,6 +41,10 @@ public class Competence extends BaseEntity {
         this.date = date;
     }
 
+    public Competence(String name) {
+        this.name = name;
+    }
+
 
     public Set<Group> getGroups() {
         return groups;
