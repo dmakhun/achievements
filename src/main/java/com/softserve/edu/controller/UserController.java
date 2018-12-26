@@ -185,7 +185,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/managers/search/{pattern}", method = RequestMethod.GET)
-    public String allManagersSearchByCriteria(
+    public String allManagersDynamicSearch(
             @RequestParam(value = "status", defaultValue = "", required = false) String result,
             @RequestParam(value = "criteria") String criteria,
             @RequestParam(value = "volume") int max,
@@ -205,7 +205,7 @@ public class UserController {
             model.addAttribute("userlist", dynamicUsers);
             model.addAttribute("currentSize", allByCriteria.size());
 
-            return "SearchByCriteria";
+            return "dynamicSearch";
         } catch (Exception e) {
             logger.error(e.getMessage());
             return GENERAL_ERROR;
