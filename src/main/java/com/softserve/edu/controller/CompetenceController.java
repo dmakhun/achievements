@@ -1,9 +1,9 @@
 package com.softserve.edu.controller;
 
+import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
-import com.softserve.edu.exception.CompetenceManagerException;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +30,8 @@ public class CompetenceController {
 
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private CompetenceRepository competenceRepository;
     @Autowired
     CompetenceManager competenceManager;
     @Autowired
@@ -68,18 +72,11 @@ public class CompetenceController {
         }
     }
 
-    @RequestMapping(value = "/addCompetence", method = RequestMethod.POST, params = {
-            "addCompetence"})
+    @PostMapping(value = "/addCompetence", params = {"addCompetence"})
     public String addCompetence(
-            Model model,
             @RequestParam(value = "competenceName", required = false, defaultValue = "") String name) {
-        try {
-            competenceManager.create(name);
-            return "redirect:/admin/competenceAll?statusAdd=success";
-        } catch (CompetenceManagerException e) {
-            logger.error(e.getMessage());
-            return GENERALERROR;
-        }
+        competenceRepository.save(new Competence(name));
+        return "redirect:/admin/competenceAll?statusAdd=success";
     }
 
     @RequestMapping(value = "/removeCompetence", method = RequestMethod.GET)
@@ -94,19 +91,6 @@ public class CompetenceController {
 
             return GENERALERROR;
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERALERROR;
-        }
-    }
-
-    @RequestMapping(value = "/removeCompetence", method = RequestMethod.POST)
-    public String removeCompetencePost(
-            Model model,
-            @RequestParam(value = "competence", required = false, defaultValue = "") Long cid) {
-        try {
-            competenceManager.delete(cid);
-            return "redirect:/competencies/removeCompetence?status=success";
-        } catch (CompetenceManagerException e) {
             logger.error(e.getMessage());
             return GENERALERROR;
         }
@@ -160,12 +144,11 @@ public class CompetenceController {
             @RequestParam(value = "statusRemove", required = false, defaultValue = "") String statusRemove,
             @RequestParam(value = "statusAdd", required = false, defaultValue = "") String statusAdd) {
         try {
-            List<Competence> competencelist = competenceManager
-                    .findAllCompetences();
+            List<Competence> competences = competenceManager.findAllCompetences();
 
             model.addAttribute("statusRemove", statusRemove);
             model.addAttribute("statusAdd", statusAdd);
-            model.addAttribute("competencelist", competencelist);
+            model.addAttribute("competencelist", competences);
 
             return "forDeleteOrAddCompetence";
         } catch (Exception e) {
@@ -175,15 +158,16 @@ public class CompetenceController {
 
     }
 
-    @RequestMapping(value = "/admin/removeCompetence/{id}", method = RequestMethod.GET)
-    public String removeCompetenceById(
-            @PathVariable(value = "id") Long competenceId) {
-        try {
-            competenceManager.delete(competenceId);
-            return "redirect:/admin/competenceAll?statusRemove=success";
-        } catch (CompetenceManagerException e) {
-            logger.error(e.getMessage());
-            return GENERALERROR;
-        }
+    @GetMapping(value = "/admin/removeCompetence/{id}")
+    public String removeCompetenceById(@PathVariable(value = "id") Long competenceId) {
+        competenceRepository.deleteById(competenceId);
+        return "redirect:/admin/competenceAll?statusRemove=success";
+    }
+
+    @PostMapping(value = "/removeCompetence")
+    public String removeCompetencePost(
+            @RequestParam(value = "competence", required = false, defaultValue = "") Long competenceId) {
+        competenceRepository.deleteById(competenceId);
+        return "redirect:/competencies/removeCompetence?status=success";
     }
 }
