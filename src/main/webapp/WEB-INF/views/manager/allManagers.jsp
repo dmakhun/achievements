@@ -71,10 +71,10 @@
 			url : '<c:url value="/admin/managers/search/"/>'
 					+ $("#pattern").val(),
 			data : {
-				"criteria" : $("#selector").val(),
+				"parameterGet" : $("#selector").val(),
 				"volume" : $("#volume").val(),
 				"pagination" : count,
-				"additionFind" : finder
+				"isFirstChar" : finder
 			},
 			success : function(text) {
 				$(".manager-list").remove();			

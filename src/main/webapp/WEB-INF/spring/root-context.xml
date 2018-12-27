@@ -6,10 +6,11 @@
         xmlns:context="http://www.springframework.org/schema/context"
         xmlns="http://www.springframework.org/schema/beans"
         xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <import resource="security-context.xml"/>
 
@@ -64,6 +65,24 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <jpa:repositories base-package="com.softserve.edu.dao"/>
+
+    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService"/>
+
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:argument-resolvers>
+            <bean class="org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver">
+                <constructor-arg>
+                    <bean class="org.springframework.data.querydsl.binding.QuerydslBindingsFactory">
+                        <constructor-arg>
+                            <value type="org.springframework.data.querydsl.SimpleEntityPathResolver">INSTANCE</value>
+                        </constructor-arg>
+                    </bean>
+                </constructor-arg>
+                <constructor-arg ref="conversionService"/>
+            </bean>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
 
 
 </beans>

@@ -186,31 +186,31 @@ public class UserController {
 
     @RequestMapping(value = "/admin/managers/search/{pattern}", method = RequestMethod.GET)
     public String allManagersDynamicSearch(
-            @RequestParam(value = "status", defaultValue = "", required = false) String result,
-            @RequestParam(value = "criteria") String criteria,
+            @RequestParam(value = "parameterGet") String parameter,
             @RequestParam(value = "volume") int max,
             @RequestParam(value = "pagination") int paging,
-            @RequestParam(value = "additionFind") boolean additionFind,
-            @PathVariable(value = "pattern") String pattern, Model model) {
+            @RequestParam(value = "isFirstChar") boolean isFirstChar,
+            @PathVariable(value = "pattern") String pattern,
+            Model model) {
         try {
             int start = max * (paging - 1);
 
             List<User> dynamicUsers = genericDao.dynamicSearch(start,
-                    max, criteria, pattern, additionFind, User.class);
+                    max, parameter, pattern, isFirstChar, User.class);
+//            Iterable<User> dynamicUsers = userRepository.findAll(predicate);
 
-            List<User> allByCriteria = genericDao.dynamicSearch(0,
-                    userRepository.findByRoleName(ROLE_MANAGER).size(), criteria, pattern,
-                    additionFind, User.class);
+/*            List<User> allUsers = genericDao.dynamicSearch(0,
+                    userRepository.findByRoleName(ROLE_MANAGER).size(), parameter, pattern,
+                    isFirstChar, User.class);*/
 
             model.addAttribute("userlist", dynamicUsers);
-            model.addAttribute("currentSize", allByCriteria.size());
+//            model.addAttribute("currentSize", allUsers.size());
 
             return "dynamicSearch";
         } catch (Exception e) {
             logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
-
     }
 
     @RequestMapping(value = "/admin/removeManager/{id}", method = RequestMethod.GET)
