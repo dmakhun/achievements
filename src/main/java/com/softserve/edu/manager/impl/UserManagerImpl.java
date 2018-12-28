@@ -36,9 +36,8 @@ public class UserManagerImpl implements UserManager {
 
     private static final String USER_DOES_NOT_EXIST = "User does not exist.";
     private static final String PASSWORD_CANNOT_BE_EMPTY = "Password cannot be empty.";
-    private static final String USER_SAVE_ERROR = "User cannot be created.";
     private static final String FIELDS_VALIDATION_ERROR = " field didn't validate.";
-    private static final String ROLE_DOES_NOT_EXIST = "AccessRole does not exist.";
+    private static final String ROLE_DOES_NOT_EXIST = "Role does not exist.";
 
     private static final String PATTERN_EMAIL = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
     private static final String PATTERN_USERNAME = "^[a-zA-Z0-9\\.\\-_]{3,50}$";

@@ -1,7 +1,7 @@
 package com.softserve.edu.manager.impl;
 
+import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Role;
-import com.softserve.edu.manager.UserManager;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserManager userManager;
+    private UserRepository userRepository;
 
     /**
      * check user data
@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        com.softserve.edu.entity.User user = userManager.findByUsername(username);
+        com.softserve.edu.entity.User user = userRepository.findByUsername(username);
         Set<GrantedAuthority> authorities = new HashSet<>();
         Role role = user.getRole();
         authorities.add(new SimpleGrantedAuthority(role.getName()));
