@@ -2,8 +2,6 @@ package com.softserve.edu.entity;
 
 import static java.util.Arrays.asList;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.softserve.edu.util.FieldForSearch;
 import com.softserve.edu.validation.ValidEmail;
 import java.util.HashSet;
@@ -21,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.apache.commons.lang3.StringUtils;
 
 
 @Entity
@@ -190,21 +187,6 @@ public class User extends BaseEntity {
     public void removeCompetence(Competence competence) {
         getCompetences().remove(competence);
         competence.getUsers().remove(this);
-    }
-
-    public Predicate createPredicate(User user) {
-        QUser qUser = QUser.user;
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        if (StringUtils.isNotEmpty(user.getName())) {
-            booleanBuilder.or(qUser.name.contains(user.getName()));
-        }
-        if (StringUtils.isNotEmpty(user.getSurname())) {
-            booleanBuilder.or(qUser.surname.contains(user.getSurname()));
-        }
-        if (StringUtils.isNotEmpty(user.getUsername())) {
-            booleanBuilder.or(qUser.username.contains(user.getUsername()));
-        }
-        return booleanBuilder.getValue();
     }
 
 

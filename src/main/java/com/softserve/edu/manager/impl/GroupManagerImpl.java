@@ -8,20 +8,19 @@ import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.manager.GroupManager;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.Set;
-
 @Service("groupManager")
 public class GroupManagerImpl implements GroupManager {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(GroupManagerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(GroupManagerImpl.class);
 
     @Autowired
     CompetenceRepository competenceRepository;
@@ -34,8 +33,7 @@ public class GroupManagerImpl implements GroupManager {
 
     @Override
     @Transactional
-    public Long create(String name, LocalDate startDate, LocalDate endDate,
-                       Long competenceId) {
+    public Long create(String name, LocalDate startDate, LocalDate endDate, Long competenceId) {
 
         Competence competence = competenceRepository.findById(competenceId).get();
 
@@ -50,15 +48,14 @@ public class GroupManagerImpl implements GroupManager {
 
     @Override
     @Transactional
-    public void modify(Long groupId, String name, LocalDate start,
-                       LocalDate end, Long competenceId)
-            throws GroupManagerException {
+    public void modify(Long groupId, String name, LocalDate startDate,
+            LocalDate endDate, Long competenceId) throws GroupManagerException {
 
         Competence competence = competenceRepository.findById(competenceId).get();
         Group group = groupRepository.findById(groupId).get();
         group.setName(name);
-        group.setOpened(start);
-        group.setClosed(end);
+        group.setOpened(startDate);
+        group.setClosed(endDate);
         group.setCompetence(competence);
         try {
             groupRepository.save(group);
@@ -129,8 +126,7 @@ public class GroupManagerImpl implements GroupManager {
         for (User user : users) {
             user.getGroups().remove(group);
         }
-        users.clear();
-        group.setUsers(users);
+        group.setUsers(Collections.emptySet());
 
         logger.info("Group association was removed");
     }
