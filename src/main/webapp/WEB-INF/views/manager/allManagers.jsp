@@ -71,7 +71,7 @@
 			url : '<c:url value="/admin/managers/search/"/>'
 					+ $("#pattern").val(),
 			data : {
-				"parameterGet" : $("#selector").val(),
+				"parameter" : $("#selector").val(),
 				"volume" : $("#volume").val(),
 				"pagination" : count,
 				"isFirstChar" : finder

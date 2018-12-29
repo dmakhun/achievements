@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -186,25 +187,20 @@ public class UserController {
 
     @RequestMapping(value = "/admin/managers/search/{pattern}", method = RequestMethod.GET)
     public String allManagersDynamicSearch(
-            @RequestParam(value = "parameterGet") String parameter,
+            @RequestParam(value = "parameter") String parameter,
             @RequestParam(value = "volume") int max,
-            @RequestParam(value = "pagination") int paging,
+            @RequestParam(value = "pagination") int page,
             @RequestParam(value = "isFirstChar") boolean isFirstChar,
             @PathVariable(value = "pattern") String pattern,
             Model model) {
         try {
-            int start = max * (paging - 1);
-
-            List<User> dynamicUsers = genericDao.dynamicSearch(start,
-                    max, parameter, pattern, isFirstChar, User.class);
-//            Iterable<User> dynamicUsers = userRepository.findAll(predicate);
-
-/*            List<User> allUsers = genericDao.dynamicSearch(0,
-                    userRepository.findByRoleName(ROLE_MANAGER).size(), parameter, pattern,
-                    isFirstChar, User.class);*/
+            Iterable<User> dynamicUsers = userManager
+                    .dynamicSearchManagers(parameter, pattern, page, max, isFirstChar);
+            Iterable<User> allUsers = userManager.dynamicSearchManagers(parameter, pattern, 1,
+                    userRepository.findByRoleName(ROLE_MANAGER).size(), isFirstChar);
 
             model.addAttribute("userlist", dynamicUsers);
-//            model.addAttribute("currentSize", allUsers.size());
+            model.addAttribute("currentSize", Stream.of(allUsers).count());
 
             return "dynamicSearch";
         } catch (Exception e) {

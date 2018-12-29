@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -310,6 +311,15 @@ public class UserManagerImpl implements UserManager {
         return userRepository.findByUsername(user.getUsername()).getAchievements()
                 .stream().mapToLong(achievement -> achievement.getAchievementType().getPoints())
                 .sum();
+    }
+
+    @Override
+    public Iterable<User> dynamicSearchManagers(String parameter, String pattern, int offset,
+            int limit, boolean isFirstChar) {
+        pattern = isFirstChar ? "" : "%" + pattern + "%";
+        return userRepository
+                .findAll(userRepository.createPredicate(parameter, pattern), PageRequest
+                        .of(offset - 1, limit)).getContent();
     }
 
 }
