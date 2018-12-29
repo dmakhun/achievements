@@ -5,7 +5,6 @@ import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
 import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.CompetenceRepository;
-import com.softserve.edu.dao.GenericDao;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.RoleRepository;
 import com.softserve.edu.dao.UserRepository;
@@ -30,7 +29,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,9 +56,6 @@ public class UserController {
     private UserManager userManager;
     @Autowired
     private CompetenceManager competenceManager;
-    @Autowired
-    @Qualifier("genericDaoImpl")
-    private GenericDao<User> genericDao;
 
     @Autowired
     private UserRepository userRepository;
