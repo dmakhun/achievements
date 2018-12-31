@@ -44,8 +44,8 @@
         <put-attribute name="body" value="/WEB-INF/views/competencies/addCompetence.jsp"/>
     </definition>
 
-    <definition name="AllCompetencies" extends="baseLayout">
-        <put-attribute name="title" value="All Competencies"/>
+    <definition name="allCompetences" extends="baseLayout">
+        <put-attribute name="title" value="All Competences"/>
         <put-attribute name="body" value="/WEB-INF/views/competencies/allCompetences.jsp"/>
     </definition>
 

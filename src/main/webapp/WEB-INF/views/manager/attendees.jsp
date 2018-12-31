@@ -19,15 +19,15 @@
                                     <input type="hidden" name="user_id" value="${user.id}"/>
                                     <input type="hidden" name="competence_id" value="${item.id}"/>
                                     <select class="form-control" name="group_id">
-                                        <c:forEach var="aGroup"
+                                        <c:forEach var="group"
                                                    items="${competence_groups[item.name]}">
-                                            <option value="${aGroup.id}">${aGroup.name}</option>
+                                            <option value="${group.id}">${group.name}</option>
                                         </c:forEach>
                                     </select>
                                 </td>
                                 </td>
                                 <td>
-                                    <div class="btn-aGroup">
+                                    <div class="btn-group">
                                         <button class="btn btn-default" type="submit">Save</button>
                                     </div>
                                 </td>
