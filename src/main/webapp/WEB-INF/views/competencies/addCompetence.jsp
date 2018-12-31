@@ -26,13 +26,13 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-10">
-                            <div class="form-aGroup">
+                            <div class="form-group">
                                 <input class="form-control" type="text" name="competenceName" placeholder=
                                         <spring:message code="competence.name"/>/>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-aGroup">
+                            <div class="form-group">
                                 <button class="btn btn-success form-control" type="submit" name="addCompetence">
                                     <spring:message code="add"/>
                                 </button>
