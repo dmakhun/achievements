@@ -6,7 +6,7 @@
     <div class="panel-heading">Existing achievement types of
         ${competence.name} competence
         <div style="float: right">
-            <div class="btn-aGroup btn-aGroup-xs">
+            <div class="btn-group btn-group-xs">
                 <button class="btn btn-default" onclick="displayDialog('${competenceId}');">add achievement type
                 </button>
             </div>

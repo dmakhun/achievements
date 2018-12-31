@@ -22,8 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AchievementTypeController {
 
     private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger logger = LoggerFactory
-            .getLogger(AchievementTypeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AchievementTypeController.class);
 
     @Autowired
     private CompetenceManager competenceManager;
@@ -59,7 +58,7 @@ public class AchievementTypeController {
 
             model.addAttribute("competenceList", competenceList);
 
-            return "AllCompetencies";
+            return "allCompetences";
         } catch (Exception e) {
             logger.error(e.getMessage());
             return GENERALERROR;
@@ -73,8 +72,8 @@ public class AchievementTypeController {
             @RequestParam(value = "points", required = false) String points,
             @PathVariable(value = "id") int competenceId, Model model) {
         try {
-            int achPoints = Integer.parseInt(points);
-            achievementTypeManager.createAchievementType(name, achPoints, competenceId);
+            achievementTypeManager
+                    .createAchievementType(name, Integer.parseInt(points), competenceId);
             return "success";
         } catch (AchievementTypeManagerException e) {
             logger.error(e.getMessage());
