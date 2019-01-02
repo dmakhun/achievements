@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/addAchiv.css" />" type="text/css"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/custom.css" />" type="text/css"/>
     <link rel="stylesheet" href="<c:url value="/resources/css/jquery-ui.css" />" type="text/css"/>
+    <link rel="shortcut icon" href="<c:url value="/resources/favicon.ico" />" type="text/css"/>
     <script type="text/javascript" src="<c:url value="/resources/script/jquery.js" />"></script>
     <script src="<c:url value="/resources/script/bootstrap.js" />"></script>
 </head>
