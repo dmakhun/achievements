@@ -9,9 +9,8 @@
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"/>
         <put-attribute name="body" value=""/>
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
-
     </definition>
-    <definition name="jqeryLayout" template="/WEB-INF/views/layout/layout2.jsp">
+    <definition name="layout_body" template="/WEB-INF/views/layout/layout_body.jsp">
         <put-attribute name="body" value=""/>
     </definition>
 
@@ -183,13 +182,12 @@
         <put-attribute name="body" value="/WEB-INF/views/user/userProfile.jsp"/>
     </definition>
 
-    <definition name="achievementTypeList" extends="jqeryLayout">
+    <definition name="achievementTypeList" extends="layout_body">
         <put-attribute name="body" value="/WEB-INF/views/achievementType/achievementTypeList.jsp"/>
     </definition>
 
-    <definition name="dynamicSearch" extends="jqeryLayout">
+    <definition name="dynamicSearch" extends="layout_body">
         <put-attribute name="body" value="/WEB-INF/views/manager/dynamicSearch.jsp"/>
-
     </definition>
 
     <definition name="mainProfile" extends="baseLayout">
