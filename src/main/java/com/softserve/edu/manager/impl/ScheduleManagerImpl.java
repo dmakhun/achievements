@@ -80,6 +80,7 @@ public class ScheduleManagerImpl implements ScheduleManager {
     @Override
     public File saveFileOnServer(MultipartFile file) throws Exception {
         File serverFile = null;
+        File finalFile = null;
         if (file.isEmpty()) {
             throw new Exception("File is empty");
         }
@@ -95,21 +96,23 @@ public class ScheduleManagerImpl implements ScheduleManager {
         if (i < 0) {
             i = i * (-1);
         }
-        File finalFile = new File(rootPath + File.separator + "CSV_FILE_NAME"
-                + File.separator + i + ".csv");
-        while (finalFile.exists()) {
-            i = random.nextInt();
-            if (i < 0) {
-                i = i * (-1);
+        boolean isDirCreated = new File(rootPath + File.separator + "CSV").mkdir();
+        if (isDirCreated) {
+            finalFile = new File(
+                    rootPath + File.separator + "CSV" + File.separator + i + ".csv");
+            while (finalFile.exists()) {
+                i = random.nextInt();
+                if (i < 0) {
+                    i = i * (-1);
+                }
             }
         }
 
-        serverFile = new File(dir.getAbsolutePath() + File.separator + i
-                + ".csv");
-        BufferedOutputStream stream = new BufferedOutputStream(
-                new FileOutputStream(serverFile));
+        serverFile = new File(dir.getAbsolutePath() + File.separator + i + ".csv");
+        FileOutputStream fileOutputStream = new FileOutputStream(serverFile);
+        BufferedOutputStream stream = new BufferedOutputStream(fileOutputStream);
         stream.write(bytes);
-        stream.close();
+
 
         if (!isUnique(serverFile)) {
             throw new Exception("This file was added before");
@@ -117,6 +120,8 @@ public class ScheduleManagerImpl implements ScheduleManager {
         try {
             FileUtils.copyFile(serverFile, finalFile);
         } finally {
+            fileOutputStream.close();
+            stream.close();
             serverFile.delete();
         }
         return finalFile;
@@ -124,8 +129,8 @@ public class ScheduleManagerImpl implements ScheduleManager {
 
     private boolean isUnique(File file) throws IOException {
         String rootPath = System.getProperty("catalina.home");
-        File[] files = new File(rootPath + File.separator + "CSV_FILE_NAME").listFiles();
-
+        File[] files = new File(rootPath + File.separator + "CSV").listFiles();
+        boolean fileEquals = true;
         InputStream input1 = new FileInputStream(file);
         InputStream input2 = null;
 
@@ -133,11 +138,12 @@ public class ScheduleManagerImpl implements ScheduleManager {
             input2 = new FileInputStream(f);
 
             if (IOUtils.contentEquals(input1, input2)) {
-                return false;
+                input2.close();
+                fileEquals = false;
             }
         }
-
-        return true;
+        input1.close();
+        return fileEquals;
 
     }
 

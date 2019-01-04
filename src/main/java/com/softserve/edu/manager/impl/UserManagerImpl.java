@@ -16,6 +16,7 @@ import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.UserManager;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -275,7 +276,8 @@ public class UserManagerImpl implements UserManager {
     public Set<String> findOpenedGroupNames(String username) {
         User user = userRepository.findByUsername(username);
         List<Group> openedGroups = groupRepository.findOpenedByUserId(user.getId());
-        return openedGroups.stream().map(Group::getName).collect(Collectors.toSet());
+        return openedGroups.stream().filter(Objects::nonNull).map(Group::getName)
+                .collect(Collectors.toSet());
     }
 
     @Override

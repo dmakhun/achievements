@@ -14,7 +14,7 @@ public interface GroupManager {
 
     void addUser(Long userId, Long groupId) throws GroupManagerException;
 
-    void create(Group aGroup) throws GroupManagerException;
+    void create(Group group) throws GroupManagerException;
 
     boolean validateGroup(Group aGroup);
 
