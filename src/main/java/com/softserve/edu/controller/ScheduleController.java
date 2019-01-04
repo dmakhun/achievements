@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Controller serves a request to schedule.
- */
 @Controller
 public class ScheduleController {
 
@@ -84,7 +81,7 @@ public class ScheduleController {
         try {
             File serverFile = scheduleManager.saveFileOnServer(file);
             scheduleManager.fillDBfromCSV(serverFile);
-            model.addAttribute("status", "file upload successfully");
+            model.addAttribute("status", "file uploaded successfully");
             return "addSchedule";
         } catch (Exception e) {
             logger.error(e.getMessage());
