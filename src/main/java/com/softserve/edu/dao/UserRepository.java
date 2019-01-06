@@ -4,17 +4,12 @@ import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.StringExpression;
-import com.querydsl.core.types.dsl.StringPath;
 import com.softserve.edu.entity.QUser;
 import com.softserve.edu.entity.User;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
-import org.springframework.data.querydsl.binding.QuerydslBindings;
-import org.springframework.data.querydsl.binding.SingleValueBinding;
 
 public interface UserRepository extends JpaRepository<User, Long>,
         QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
@@ -27,20 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long>,
 
     List<User> findByRoleName(String roleName);
 
-    @Query(value = "SELECT * from users where ?2 like ?1 and role_id = ?3", nativeQuery = true)
-    List<User> findAllManagers(String pattern, String parameter, Long roleId);
-
-    @Override
-    default void customize(QuerydslBindings bindings, QUser user) {
-
-        bindings.bind(user.name).first(StringExpression::containsIgnoreCase);
-        bindings.bind(user.surname).first(StringExpression::containsIgnoreCase);
-        bindings.bind(user.username).first(StringExpression::containsIgnoreCase);
-        bindings.bind(String.class)
-                .first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
-    }
-
-    default Predicate createPredicate(String column, String pattern) {
+    default Predicate createManagerPredicate(String column, String pattern) {
         QUser qUser = QUser.user;
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         switch (column) {

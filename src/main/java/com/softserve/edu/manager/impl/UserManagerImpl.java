@@ -320,7 +320,7 @@ public class UserManagerImpl implements UserManager {
             int limit, boolean isFirstChar) {
         pattern = isFirstChar ? "" : "%" + pattern + "%";
         return userRepository
-                .findAll(userRepository.createPredicate(parameter, pattern), PageRequest
+                .findAll(userRepository.createManagerPredicate(parameter, pattern), PageRequest
                         .of(offset - 1, limit)).getContent();
     }
 
