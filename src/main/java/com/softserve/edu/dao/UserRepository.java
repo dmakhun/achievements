@@ -9,10 +9,9 @@ import com.softserve.edu.entity.User;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
-import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 
 public interface UserRepository extends JpaRepository<User, Long>,
-        QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
+        QuerydslPredicateExecutor<User> {
 
     List<User> findByGroups_Id(Long groupId);
 
