@@ -7,13 +7,11 @@ import com.softserve.edu.entity.User;
 import com.softserve.edu.manager.UserManager;
 import java.util.AbstractMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class RatingsController {
@@ -23,11 +21,10 @@ public class RatingsController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(value = "/manager/ratings", method = RequestMethod.GET)
+    @GetMapping(value = "/manager/ratings")
     public String ratings(Model model) {
-        List<User> users = (List<User>) userRepository.findAll();
         // get points for users and sort by points DESC
-        Map<User, Long> userPointsMap = users.stream()
+        Map<User, Long> userPointsMap = userRepository.findAll().stream()
                 .map(user -> new AbstractMap.SimpleEntry<>(user, userManager.getTotalPoints(user)))
                 .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
                 .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue,

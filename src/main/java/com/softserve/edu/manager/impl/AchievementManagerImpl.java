@@ -8,7 +8,6 @@ import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.AchievementManagerException;
 import com.softserve.edu.manager.AchievementManager;
-import java.util.Date;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,14 +38,13 @@ public class AchievementManagerImpl implements AchievementManager {
         if (!achievementType.isPresent()) {
             throw new IllegalArgumentException("No such AchievementType id.");
         }
-        User user = userRepository.findById(userId).get();
-        if (user == null) {
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent()) {
             throw new IllegalArgumentException("User with such id does not exist.");
         }
 
-        Achievement achievement = new Achievement(achievementType.get(), new Date(), comment, user);
         try {
-            achievementRepository.save(achievement);
+            achievementRepository.save(new Achievement(achievementType.get(), comment, user.get()));
         } catch (Exception e) {
             logger.error("Could not award achievement to user", e);
             throw new AchievementManagerException("Could not award achievement to user", e);

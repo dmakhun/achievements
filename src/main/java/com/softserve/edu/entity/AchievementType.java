@@ -51,7 +51,6 @@ public class AchievementType extends BaseEntity {
 
     public AchievementType setAchievement(Set<Achievement> achievement) {
         this.achievement = achievement;
-
         return this;
     }
 
@@ -61,7 +60,6 @@ public class AchievementType extends BaseEntity {
 
     public AchievementType setCompetence(Competence competence) {
         this.competence = competence;
-
         return this;
     }
 
@@ -71,7 +69,6 @@ public class AchievementType extends BaseEntity {
 
     public AchievementType setName(String name) {
         this.name = name;
-
         return this;
     }
 
@@ -81,7 +78,6 @@ public class AchievementType extends BaseEntity {
 
     public AchievementType setPoints(Integer points) {
         this.points = points;
-
         return this;
     }
 }
