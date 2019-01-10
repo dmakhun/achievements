@@ -1,14 +1,13 @@
 package com.softserve.edu.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Table(name = "achievements")
@@ -18,9 +17,9 @@ public class Achievement extends BaseEntity {
     @JoinColumn(name = "achievement_type_id")
     private AchievementType achievementType;
 
-    @Column(name = "created")
-    @Temporal(value = TemporalType.DATE)
-    private Date created;
+    @CreatedDate
+    @Column(name = "timeCreated")
+    private LocalDateTime timeCreated;
 
     @Column(name = "comment")
     private String comment;
@@ -32,23 +31,8 @@ public class Achievement extends BaseEntity {
     public Achievement() {
     }
 
-    public Achievement(Date created, String comment) {
-        this.created = created;
-        this.comment = comment;
-    }
-
-    public Achievement(AchievementType achievementType, Date created,
-            String comment) {
+    public Achievement(AchievementType achievementType, String comment, User user) {
         this.achievementType = achievementType;
-        this.created = created;
-        this.comment = comment;
-
-    }
-
-    public Achievement(AchievementType achievementType, Date created,
-            String comment, User user) {
-        this.achievementType = achievementType;
-        this.created = created;
         this.comment = comment;
         this.user = user;
     }
@@ -69,12 +53,12 @@ public class Achievement extends BaseEntity {
         this.achievementType = achievementType;
     }
 
-    public Date getCreated() {
-        return created;
+    public LocalDateTime getTimeCreated() {
+        return timeCreated;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setTimeCreated(LocalDateTime created) {
+        this.timeCreated = created;
     }
 
     public String getComment() {
