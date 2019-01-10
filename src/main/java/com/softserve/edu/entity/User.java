@@ -63,7 +63,7 @@ public class User extends BaseEntity {
             @JoinColumn(name = "competence_id")})
     private Set<Competence> competences;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Achievement> achievements;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
