@@ -19,7 +19,7 @@ public class CompetenceManagerImpl implements CompetenceManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Competence> findAllCompetences() {
-        return (List<Competence>) competenceRepository.findAll();
+        return competenceRepository.findAll();
     }
 
     @Override
