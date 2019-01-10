@@ -14,16 +14,13 @@ import javax.persistence.Table;
 @Table(name = "competences")
 public class Competence extends BaseEntity {
 
-    /**
-     * @return the name
-     */
     @Column(name = "name", length = 50)
     private String name;
 
     @Column(name = "created")
     private Date date;
 
-    @ManyToMany(mappedBy = "competences", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
+    @ManyToMany(mappedBy = "competences", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
             CascadeType.MERGE})
     private Set<User> users;
 
