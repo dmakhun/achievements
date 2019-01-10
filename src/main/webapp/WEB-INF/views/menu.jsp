@@ -18,7 +18,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <sec:authorize access="hasRole('ROLE_MANAGER')">
+                <sec:authorize access="hasAnyRole('ROLE_MANAGER')">
                     <li><a href="<c:url value="/manager/competence" />"> Quiz</a>
                     </li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle"

@@ -1,5 +1,9 @@
 package com.softserve.edu.controller;
 
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
+import static java.util.stream.Collectors.toMap;
+
+import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.Competence;
@@ -10,6 +14,14 @@ import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +29,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static com.softserve.edu.util.Constants.ROLE_MANAGER;
-import static java.util.stream.Collectors.toMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ManagerController {
@@ -44,6 +53,8 @@ public class ManagerController {
     private CompetenceManager competenceManager;
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private CompetenceRepository competenceRepository;
     @Autowired
     private MessageSource messageSource;
 
@@ -178,17 +189,18 @@ public class ManagerController {
         }
     }
 
+    @Transactional
     @GetMapping(value = "/manager/attendees")
     public String attendees(Model model) {
         try {
-            List<Competence> competenceList = competenceManager.findAllCompetences();
+            List<Competence> competences = competenceRepository.findAll();
             Map<String, List<Group>> groups = new HashMap<>();
-            for (Competence competence : competenceList) {
+            for (Competence competence : competences) {
                 groups.put(competence.getName(),
                         groupRepository.findOpenedByCompetenceId(competence.getId()));
             }
 
-            model.addAttribute("competences", competenceList);
+            model.addAttribute("competences", competences);
             model.addAttribute("competence_groups", groups);
 
             return "attendees";
