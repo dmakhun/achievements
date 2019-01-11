@@ -91,15 +91,11 @@ public class ManagerController {
             @RequestParam(value = "dateEnd") String dateEnd, Locale locale) {
         try {
             switch (type.toLowerCase()) {
-                case "createAchievementType":
-                    return createGroup(groupName, competenceId, dateStart, dateEnd,
-                            locale);
-
+                case "create":
+                    return createGroup(groupName, competenceId, dateStart, dateEnd, locale);
                 case "modify":
-                    return modifyGroup(id, groupName, competenceId, dateStart,
-                            dateEnd, locale);
-
-                case "deleteAchievementType":
+                    return modifyGroup(id, groupName, competenceId, dateStart, dateEnd, locale);
+                case "delete":
                     return deleteGroup(id);
             }
         } catch (Exception e) {
