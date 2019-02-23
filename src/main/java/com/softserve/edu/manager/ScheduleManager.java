@@ -16,8 +16,6 @@ public interface ScheduleManager {
      */
     Map<Long, String> table(Calendar calendar, String group);
 
-    File saveFileOnServer(MultipartFile file) throws Exception;
-
     File store(MultipartFile file);
 
     void fillDBfromCSV(File file) throws Exception;
