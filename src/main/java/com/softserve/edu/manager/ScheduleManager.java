@@ -18,5 +18,7 @@ public interface ScheduleManager {
 
     File saveFileOnServer(MultipartFile file) throws Exception;
 
+    File store(MultipartFile file);
+
     void fillDBfromCSV(File file) throws Exception;
 }
