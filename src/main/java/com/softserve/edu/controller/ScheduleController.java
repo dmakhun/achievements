@@ -79,7 +79,7 @@ public class ScheduleController {
             Model model) throws IllegalStateException {
 
         try {
-            File serverFile = scheduleManager.saveFileOnServer(file);
+            File serverFile = scheduleManager.store(file);
             scheduleManager.fillDBfromCSV(serverFile);
             model.addAttribute("status", "file uploaded successfully");
             return "addSchedule";
