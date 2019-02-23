@@ -10,10 +10,7 @@ import com.softserve.edu.exception.StorageException;
 import com.softserve.edu.manager.ScheduleManager;
 import com.softserve.edu.manager.ScheduleRowsManager;
 import com.softserve.edu.util.CsvUtils;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -24,9 +21,6 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,55 +80,6 @@ public class ScheduleManagerImpl implements ScheduleManager {
     }
 
     @Override
-    public File saveFileOnServer(MultipartFile file) throws Exception {
-        File serverFile = null;
-        File finalFile = null;
-        if (file.isEmpty()) {
-            throw new Exception("File is empty");
-        }
-        byte[] bytes = file.getBytes();
-        // Creating the directory to store file
-        String rootPath = System.getProperty("catalina.home");
-        File dir = new File(rootPath + File.separator + "tmpFiles");
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        Random random = new Random();
-        int i = random.nextInt();
-        if (i < 0) {
-            i = i * (-1);
-        }
-        boolean isDirCreated = new File(rootPath + File.separator + "CSV").mkdir();
-        if (isDirCreated) {
-            finalFile = new File(
-                    rootPath + File.separator + "CSV" + File.separator + i + ".csv");
-            while (finalFile.exists()) {
-                i = random.nextInt();
-                if (i < 0) {
-                    i = i * (-1);
-                }
-            }
-        }
-
-        serverFile = new File(dir.getAbsolutePath() + File.separator + i + ".csv");
-        FileOutputStream fileOutputStream = new FileOutputStream(serverFile);
-        BufferedOutputStream stream = new BufferedOutputStream(fileOutputStream);
-        stream.write(bytes);
-
-        if (!isUnique(serverFile)) {
-            throw new Exception("This file was added before");
-        }
-        try {
-            FileUtils.copyFile(serverFile, finalFile);
-        } finally {
-            fileOutputStream.close();
-            stream.close();
-            serverFile.delete();
-        }
-        return finalFile;
-    }
-
-    @Override
     public File store(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
@@ -156,26 +101,6 @@ public class ScheduleManagerImpl implements ScheduleManager {
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
-    }
-
-    private boolean isUnique(File file) throws IOException {
-        String rootPath = System.getProperty("catalina.home");
-        File[] files = new File(rootPath + File.separator + "CSV").listFiles();
-        boolean fileEquals = true;
-        InputStream input1 = new FileInputStream(file);
-        InputStream input2 = null;
-
-        for (File f : files) {
-            input2 = new FileInputStream(f);
-
-            if (IOUtils.contentEquals(input1, input2)) {
-                input2.close();
-                fileEquals = false;
-            }
-        }
-        input1.close();
-        return fileEquals;
-
     }
 
     @Override
@@ -219,5 +144,6 @@ public class ScheduleManagerImpl implements ScheduleManager {
             file.delete();
             throw new Exception("invalid value in column " + count);
         }
+
     }
 }
