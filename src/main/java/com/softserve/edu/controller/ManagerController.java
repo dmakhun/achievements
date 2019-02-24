@@ -64,8 +64,8 @@ public class ManagerController {
             Model model) {
         try {
             // TODO pass just competence entity by using DTO
-            List<Competence> competenceList = competenceManager.findAllCompetences();
-            Map<String, List<Group>> groups = competenceList.stream()
+            List<Competence> allCompetences = competenceManager.findAllCompetences();
+            Map<String, List<Group>> groups = allCompetences.stream()
                     .map(competence -> new AbstractMap.SimpleEntry<>(competence.getName(),
                             groupRepository.findOpenedByCompetenceId(competence.getId())))
                     .collect(toMap(AbstractMap.SimpleEntry::getKey,
@@ -73,7 +73,7 @@ public class ManagerController {
 
             model.addAttribute("status", status);
             model.addAttribute("groups", groups);
-            model.addAttribute("competences", competenceList);
+            model.addAttribute("competences", allCompetences);
             return "groups";
         } catch (Exception e) {
             logger.error(e.getMessage());
