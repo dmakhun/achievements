@@ -39,8 +39,8 @@ public class GroupManagerImpl implements GroupManager {
 
         Group group = new Group();
         group.setName(name);
-        group.setOpened(startDate);
-        group.setClosed(endDate);
+        group.setDateOpened(startDate);
+        group.setDateClosed(endDate);
         group.setCompetence(competence);
         groupRepository.save(group);
         return group.getId();
@@ -54,8 +54,8 @@ public class GroupManagerImpl implements GroupManager {
         Competence competence = competenceRepository.findById(competenceId).get();
         Group group = groupRepository.findById(groupId).get();
         group.setName(name);
-        group.setOpened(startDate);
-        group.setClosed(endDate);
+        group.setDateOpened(startDate);
+        group.setDateClosed(endDate);
         group.setCompetence(competence);
         try {
             groupRepository.save(group);
@@ -107,7 +107,7 @@ public class GroupManagerImpl implements GroupManager {
             return false;
         }
         if (group.getName().length() > 3 && group.getName().length() < 30) {
-            if (group.getClosed().isAfter(group.getOpened())) {
+            if (group.getDateClosed().isAfter(group.getDateOpened())) {
                 logger.info("Group is valid");
                 isValid = true;
             }

@@ -9,19 +9,9 @@ import java.util.List;
  */
 public class ScheduleGroup {
 
-    /**
-     * name of specific group.
-     */
     private String groupName;
-
-    /**
-     * list of Schedule for specific group.
-     */
     public List<Schedule> listScheduleForGroup;
-    /**
-     * List of all Schedule from csv file.
-     */
-    private List<Schedule> list = CsvUtils.mapToCSV();
+    private List<Schedule> schedules = CsvUtils.mapToCSV();
 
     /**
      * The default constructor.
@@ -41,7 +31,7 @@ public class ScheduleGroup {
      */
     private List<Schedule> listScheduleForThisGroup() {
         List<Schedule> schedules = new ArrayList<>();
-        for (Object object : list) {
+        for (Object object : this.schedules) {
             Schedule schedule = (Schedule) object;
 
             if (schedule.getGroup().equals(groupName)) {
