@@ -1,9 +1,16 @@
 package com.softserve.edu.entity;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 @Entity
@@ -17,20 +24,20 @@ public class Group extends BaseEntity {
     @Column(name = "name", length = 50)
     private String name;
 
-    private LocalDate opened;
+    private LocalDate dateOpened;
 
-    private LocalDate closed;
+    private LocalDate dateClosed;
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
             CascadeType.MERGE})
     private Set<User> users;
 
-    public Group(Competence competence, String name, LocalDate opened, LocalDate closed,
+    public Group(Competence competence, String name, LocalDate dateOpened, LocalDate dateClosed,
                  Set<User> users) {
         this.competence = competence;
         this.name = name;
-        this.opened = opened;
-        this.closed = closed;
+        this.dateOpened = dateOpened;
+        this.dateClosed = dateClosed;
         this.users = users;
     }
 
@@ -63,20 +70,20 @@ public class Group extends BaseEntity {
         this.name = name;
     }
 
-    public LocalDate getOpened() {
-        return opened;
+    public LocalDate getDateOpened() {
+        return dateOpened;
     }
 
-    public void setOpened(LocalDate opened) {
-        this.opened = opened;
+    public void setDateOpened(LocalDate opened) {
+        dateOpened = opened;
     }
 
-    public LocalDate getClosed() {
-        return closed;
+    public LocalDate getDateClosed() {
+        return dateClosed;
     }
 
-    public void setClosed(LocalDate closed) {
-        this.closed = closed;
+    public void setDateClosed(LocalDate closed) {
+        dateClosed = closed;
     }
 
 
