@@ -80,7 +80,5 @@ public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
         }
 
         return workWeekMap;
-
     }
-
 }

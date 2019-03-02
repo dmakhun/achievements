@@ -40,7 +40,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,7 +55,6 @@ public class UserController {
     private UserManager userManager;
     @Autowired
     private CompetenceManager competenceManager;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -74,7 +72,6 @@ public class UserController {
     public String userHome(Model model) {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
             User user = userManager.findByUsername(auth.getName());
 
             List<Group> groups = groupRepository.findByUsers_Id(user.getId());
@@ -103,7 +100,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/userHome")
+    @RequestMapping(value = "/userHome", method = RequestMethod.POST)
     public String attend(
             @RequestParam(value = "competence") long competenceId,
             Principal principal) {
