@@ -1,6 +1,7 @@
 package com.softserve.edu.entity;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +14,23 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "competences")
 public class Competence extends BaseEntity {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Competence that = (Competence) o;
+        return name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 
     @Column(name = "name", length = 50)
     private String name;
