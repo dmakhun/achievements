@@ -9,7 +9,7 @@
 
 <c:choose>
     <c:when test="${not empty competences}">
-        <form method="GET">
+        <form method="post">
             Acquire to competence: <select name="competence">
             <c:forEach var="item" items="${competences}">
                 <option value="${item.id}">${item.name}</option>
