@@ -19,9 +19,6 @@ public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
     private int month;
     private int day;
 
-    /**
-     * current date from constructor.
-     */
     private Calendar calendar = Calendar.getInstance();
 
     public void setCalendar(Calendar calendar) {
