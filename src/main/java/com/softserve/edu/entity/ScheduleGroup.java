@@ -13,11 +13,6 @@ public class ScheduleGroup {
     public List<Schedule> listScheduleForGroup;
     private List<Schedule> schedules = CsvUtils.mapToCSV();
 
-    /**
-     * The default constructor.
-     *
-     * @param groupName .
-     */
     public ScheduleGroup(String groupName) {
         this.groupName = groupName;
         listScheduleForGroup = listScheduleForThisGroup();
