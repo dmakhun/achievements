@@ -28,7 +28,7 @@ public interface ScheduleRowsManager {
      *
      * @return Map<Long ,   String>.
      */
-    Map<Byte, String> getWeekHead();
+    Map<Long, String> getWeekHead();
 
     void setCalendar(Calendar calendar);
 }

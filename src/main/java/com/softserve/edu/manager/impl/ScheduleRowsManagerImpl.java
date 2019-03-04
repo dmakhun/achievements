@@ -64,13 +64,13 @@ public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
     }
 
     @Override
-    public Map<Byte, String> getWeekHead() {
-        Map<Byte, String> workWeekMap = new LinkedHashMap<>();
+    public Map<Long, String> getWeekHead() {
+        Map<Long, String> workWeekMap = new LinkedHashMap<>();
         calendar = findMonday();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
-        for (byte i = 1; i <= 5; i++) {
+        for (long i = 1; i <= 5; i++) {
             calendar.set(year, month, day);
             int tempMonth = calendar.get(Calendar.MONTH) + 1;
             workWeekMap.put(i, calendar.get(Calendar.DAY_OF_MONTH) + "."
