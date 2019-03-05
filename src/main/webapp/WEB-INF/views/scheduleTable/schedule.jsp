@@ -19,26 +19,26 @@
                 <a href="<c:url value="/schedule/${group}/${next}" />"><img
                         src="<c:url value="/resources/images/arrowr.gif" />" border="0"></a>
             </h2></th>
-            <th scope="col"><h2>
+            <th scope="col"><h3>
                 <spring:message code="week.monday"/>
-                ${mapWeek[1]}
-            </h2></th>
-            <th scope="col"><h2>
+                ${workWeekDates[1]}
+            </h3></th>
+            <th scope="col"><h3>
                 <spring:message code="week.tuesday"/>
-                ${mapWeek[2]}
-            </h2></th>
-            <th scope="col"><h2>
+                ${workWeekDates[2]}
+            </h3></th>
+            <th scope="col"><h3>
                 <spring:message code="week.wednesday"/>
-                ${mapWeek[3]}
-            </h2></th>
-            <th scope="col"><h2>
+                ${workWeekDates[3]}
+            </h3></th>
+            <th scope="col"><h3>
                 <spring:message code="week.thursday"/>
-                ${mapWeek[4]}
-            </h2></th>
-            <th scope="col"><h2>
+                ${workWeekDates[4]}
+            </h3></th>
+            <th scope="col"><h3>
                 <spring:message code="week.friday"/>
-                ${mapWeek[5]}
-            </h2></th>
+                ${workWeekDates[5]}
+            </h3></th>
         </tr>
         </thead>
 

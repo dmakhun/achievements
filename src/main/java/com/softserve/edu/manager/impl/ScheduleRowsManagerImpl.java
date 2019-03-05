@@ -1,6 +1,10 @@
 package com.softserve.edu.manager.impl;
 
 import com.softserve.edu.manager.ScheduleRowsManager;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -61,21 +65,15 @@ public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
     }
 
     @Override
-    public Map<Long, String> getWeekHead() {
-        Map<Long, String> workWeekMap = new LinkedHashMap<>();
-        calendar = findMonday();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        for (long i = 1; i <= 5; i++) {
-            calendar.set(year, month, day);
-            int tempMonth = calendar.get(Calendar.MONTH) + 1;
-            workWeekMap.put(i, calendar.get(Calendar.DAY_OF_MONTH) + "."
-                    + tempMonth + "."
-                    + calendar.get(Calendar.YEAR));
-            day = day + 1;
-        }
+    public Map<Long, String> getWorkWeek(int weekNumber) {
+        LocalDate today = LocalDate.now().plusWeeks(weekNumber);
+        DayOfWeek[] week = DayOfWeek.values();
+        Map<Long, String> workWeek = new LinkedHashMap<>();
 
-        return workWeekMap;
+        for (long i = 0; i <= 5; i++) {
+            workWeek.put(i, today.with(TemporalAdjusters.previousOrSame(week[(int) i])).format(
+                    DateTimeFormatter.ISO_LOCAL_DATE));
+        }
+        return workWeek;
     }
 }
