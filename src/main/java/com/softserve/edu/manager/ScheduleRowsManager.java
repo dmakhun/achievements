@@ -23,12 +23,7 @@ public interface ScheduleRowsManager {
      */
     List<Calendar> getWeek();
 
-    /**
-     * Determines the value of the head of the week.
-     *
-     * @return Map<Long ,   String>.
-     */
-    Map<Long, String> getWeekHead();
-
     void setCalendar(Calendar calendar);
+
+    Map<Long, String> getWorkWeek(int weekNumber);
 }

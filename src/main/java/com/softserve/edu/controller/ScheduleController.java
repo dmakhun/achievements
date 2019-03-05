@@ -35,21 +35,21 @@ public class ScheduleController {
     @Autowired
     private ScheduleRowsManager scheduleRowsManager;
 
-    @RequestMapping(value = "/schedule/{group:[a-zA-Z0-9\\.\\-_]+}/{dateAdd}")
+    @RequestMapping(value = "/schedule/{group:[a-zA-Z0-9\\.\\-_]+}/{weekNumber}")
     public String schedule(@PathVariable("group") String group,
-            @PathVariable("dateAdd") Integer dateAdd, Model model) {
+            @PathVariable("weekNumber") Integer weekNumber, Model model) {
         try {
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DAY_OF_MONTH, 7 * dateAdd);
+            calendar.add(Calendar.DAY_OF_MONTH, 7 * weekNumber);
             scheduleRowsManager.setCalendar(calendar);
-            Map<Long, String> mapWeek = scheduleRowsManager.getWeekHead();
+            Map<Long, String> workWeekDates = scheduleRowsManager.getWorkWeek(weekNumber);
             Map<Long, String> map = scheduleManager.table(calendar, group.replace('_', ' '));
 
             model.addAttribute("group", group);
-            model.addAttribute("mapWeek", mapWeek);
+            model.addAttribute("workWeekDates", workWeekDates);
             model.addAttribute("map", map);
-            model.addAttribute("next", dateAdd + 1);
-            model.addAttribute("prev", dateAdd - 1);
+            model.addAttribute("next", weekNumber + 1);
+            model.addAttribute("prev", weekNumber - 1);
             return "schedule";
         } catch (Exception e) {
             logger.error(e.getMessage());
