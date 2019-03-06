@@ -1,6 +1,6 @@
 package com.softserve.edu.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -15,28 +15,11 @@ import javax.persistence.Table;
 @Table(name = "competences")
 public class Competence extends BaseEntity {
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Competence that = (Competence) o;
-        return name.equals(that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
     @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "created")
-    private Date date;
+    @Column(name = "dateCreated")
+    private LocalDate date;
 
     @ManyToMany(mappedBy = "competences", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
             CascadeType.MERGE})
@@ -51,7 +34,7 @@ public class Competence extends BaseEntity {
     public Competence() {
     }
 
-    public Competence(String name, Date date) {
+    public Competence(String name, LocalDate date) {
         this.name = name;
         this.date = date;
     }
@@ -96,12 +79,29 @@ public class Competence extends BaseEntity {
         this.name = name;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Competence that = (Competence) o;
+        return name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
 }

@@ -8,6 +8,7 @@ import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
+import java.time.LocalDate;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,8 +60,7 @@ public class CompetenceController {
             @RequestParam(value = "status", defaultValue = "", required = false) String status,
             Model model) {
         try {
-            List<Competence> competencelist = competenceManager
-                    .findAllCompetences();
+            List<Competence> competencelist = competenceManager.findAllCompetences();
 
             model.addAttribute("competencelist", competencelist);
             model.addAttribute("status", status);
@@ -75,7 +75,7 @@ public class CompetenceController {
     @PostMapping(value = "/addCompetence", params = {"addCompetence"})
     public String addCompetence(
             @RequestParam(value = "competenceName", required = false, defaultValue = "") String name) {
-        competenceRepository.save(new Competence(name));
+        competenceRepository.save(new Competence(name, LocalDate.now()));
         return "redirect:/admin/competenceAll?statusAdd=success";
     }
 
