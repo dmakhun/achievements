@@ -28,3 +28,5 @@
 *.kotlin_module
 
 out
+
+rebel.xml
