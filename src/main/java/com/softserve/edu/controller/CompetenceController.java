@@ -60,11 +60,8 @@ public class CompetenceController {
             @RequestParam(value = "status", defaultValue = "", required = false) String status,
             Model model) {
         try {
-            List<Competence> competencelist = competenceManager.findAllCompetences();
-
-            model.addAttribute("competencelist", competencelist);
+            model.addAttribute("allCompetences", competenceManager.findAllCompetences());
             model.addAttribute("status", status);
-
             return "addCompetence";
         } catch (Exception e) {
             logger.error(e.getMessage());
