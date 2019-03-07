@@ -19,7 +19,7 @@ public class Competence extends BaseEntity {
     private String name;
 
     @Column(name = "dateCreated")
-    private LocalDate date;
+    private LocalDate dateCreated;
 
     @ManyToMany(mappedBy = "competences", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
             CascadeType.MERGE})
@@ -34,9 +34,9 @@ public class Competence extends BaseEntity {
     public Competence() {
     }
 
-    public Competence(String name, LocalDate date) {
+    public Competence(String name, LocalDate dateCreated) {
         this.name = name;
-        this.date = date;
+        this.dateCreated = dateCreated;
     }
 
     public Competence(String name) {
@@ -79,12 +79,12 @@ public class Competence extends BaseEntity {
         this.name = name;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDateCreated(LocalDate date) {
+        this.dateCreated = date;
     }
 
     @Override
