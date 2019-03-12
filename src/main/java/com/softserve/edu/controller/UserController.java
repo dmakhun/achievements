@@ -187,8 +187,10 @@ public class UserController {
             Model model) {
         try {
             Iterable<User> dynamicUsers = userManager
-                    .dynamicSearchManagers(parameter, pattern, page, max, isFirstChar);
-            Iterable<User> allUsers = userManager.dynamicSearchManagers(parameter, pattern, 1,
+                    .dynamicSearchManagers(parameter, pattern, ROLE_MANAGER, page, max,
+                            isFirstChar);
+            Iterable<User> allUsers = userManager
+                    .dynamicSearchManagers(parameter, pattern, ROLE_MANAGER, 1,
                     userRepository.findByRoleName(ROLE_MANAGER).size(), isFirstChar);
 
             model.addAttribute("userlist", dynamicUsers);

@@ -1,7 +1,5 @@
 package com.softserve.edu.dao;
 
-import static com.softserve.edu.util.Constants.ROLE_MANAGER;
-
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.softserve.edu.entity.QUser;
@@ -21,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long>,
 
     List<User> findByRoleName(String roleName);
 
-    default Predicate createManagerPredicate(String column, String pattern) {
+    default Predicate createManagerPredicate(String column, String pattern, String role) {
         QUser qUser = QUser.user;
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         switch (column) {
@@ -35,7 +33,7 @@ public interface UserRepository extends JpaRepository<User, Long>,
                 booleanBuilder.or(qUser.username.like(pattern));
                 break;
         }
-        booleanBuilder.and(qUser.role.name.eq(ROLE_MANAGER));
+        booleanBuilder.and(qUser.role.name.eq(role));
         return booleanBuilder.getValue();
     }
 

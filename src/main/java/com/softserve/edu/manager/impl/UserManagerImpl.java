@@ -316,11 +316,13 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public Iterable<User> dynamicSearchManagers(String parameter, String pattern, int offset,
+    public Iterable<User> dynamicSearchManagers(String parameter, String pattern, String role,
+            int offset,
             int limit, boolean isFirstChar) {
         pattern = isFirstChar ? "" : "%" + pattern + "%";
         return userRepository
-                .findAll(userRepository.createManagerPredicate(parameter, pattern), PageRequest
+                .findAll(userRepository.createManagerPredicate(parameter, pattern, role),
+                        PageRequest
                         .of(offset - 1, limit)).getContent();
     }
 
