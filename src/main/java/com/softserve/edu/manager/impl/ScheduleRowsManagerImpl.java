@@ -65,7 +65,7 @@ public class ScheduleRowsManagerImpl implements ScheduleRowsManager {
     }
 
     @Override
-    public Map<Long, String> getWorkWeek(int weekNumber) {
+    public Map<Long, String> getWorkWeekDates(int weekNumber) {
         LocalDate today = LocalDate.now().plusWeeks(weekNumber);
         DayOfWeek[] week = DayOfWeek.values();
         Map<Long, String> workWeek = new LinkedHashMap<>();

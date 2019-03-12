@@ -42,7 +42,7 @@ public class ScheduleController {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, 7 * weekNumber);
             scheduleRowsManager.setCalendar(calendar);
-            Map<Long, String> workWeekDates = scheduleRowsManager.getWorkWeek(weekNumber);
+            Map<Long, String> workWeekDates = scheduleRowsManager.getWorkWeekDates(weekNumber);
             Map<Long, String> map = scheduleManager.table(calendar, group.replace('_', ' '));
 
             model.addAttribute("group", group);
