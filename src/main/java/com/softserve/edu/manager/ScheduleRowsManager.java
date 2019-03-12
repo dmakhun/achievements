@@ -25,5 +25,5 @@ public interface ScheduleRowsManager {
 
     void setCalendar(Calendar calendar);
 
-    Map<Long, String> getWorkWeek(int weekNumber);
+    Map<Long, String> getWorkWeekDates(int weekNumber);
 }
