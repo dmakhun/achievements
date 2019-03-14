@@ -46,10 +46,10 @@ public class ScheduleManagerImpl implements ScheduleManager {
         Long placeOfText = 0L;
         Map<Long, String> resultMap = new LinkedHashMap<>();
         scheduleRowsManager.setCalendar(calendar);
-        List<Calendar> calen = scheduleRowsManager.getWeek();
+        List<Calendar> week = scheduleRowsManager.getWeek();
         ScheduleGroup scheduleGroupDao = new ScheduleGroup(group);
         List<Schedule> listScheduleForGroup = scheduleGroupDao.listScheduleForGroup;
-        for (Calendar c : calen) {
+        for (Calendar c : week) {
             ++placeOfText;
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
