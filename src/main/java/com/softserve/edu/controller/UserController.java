@@ -20,10 +20,10 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -71,27 +71,23 @@ public class UserController {
     @RequestMapping(value = "/userHome", method = RequestMethod.GET)
     public String userHome(Model model) {
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            User user = userManager.findByUsername(auth.getName());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = userManager.findByUsername(authentication.getName());
 
             List<Group> groups = groupRepository.findByUsers_Id(user.getId());
             List<Achievement> achievements = achievementRepository.findByUserId(user.getId());
-
             List<Group> openedGroups = groupRepository.findOpenedByUserId(user.getId());
-            List<Competence> wantToAttend = competenceRepository.findByUsers_Id(user.getId());
-            List<Competence> exceptOfList = new ArrayList<>();
-
-            for (Group group : openedGroups) {
-                exceptOfList.add(group.getCompetence());
-            }
-            exceptOfList.addAll(wantToAttend);
-
-            List<Competence> competences = competenceManager.findExcept(exceptOfList);
+            List<Competence> userCompetences = competenceRepository
+                    .findByUsers_Id(user.getId());
+            List<Competence> filteredCompetences = openedGroups.stream().map(Group::getCompetence)
+                    .collect(Collectors.toList());
+            filteredCompetences.addAll(userCompetences);
+            List<Competence> competences = competenceManager.findExcept(filteredCompetences);
 
             model.addAttribute("groups", groups);
             model.addAttribute("achievements", achievements);
             model.addAttribute("competences", competences);
-            model.addAttribute("waiting_attend", wantToAttend);
+            model.addAttribute("waiting_attend", userCompetences);
 
             return "userHome";
         } catch (Exception e) {
@@ -191,7 +187,7 @@ public class UserController {
                             isFirstChar);
             Iterable<User> allUsers = userManager
                     .dynamicSearchManagers(parameter, pattern, ROLE_MANAGER, 1,
-                    userRepository.findByRoleName(ROLE_MANAGER).size(), isFirstChar);
+                            userRepository.findByRoleName(ROLE_MANAGER).size(), isFirstChar);
 
             model.addAttribute("userlist", dynamicUsers);
             model.addAttribute("currentSize", Stream.of(allUsers).count());
