@@ -16,7 +16,8 @@
                 <td>${i.count}</td>
                 <td>${competence.name}</td>
                 <fmt:parseDate value="${competence.dateCreated}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
-                <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="date" pattern="dd-mm-yyyy" />
+                <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="date"
+                                pattern="dd-MM-yyyy"/>
                 <td>${newParsedDate}</td>
             </tr>
         </c:forEach>
