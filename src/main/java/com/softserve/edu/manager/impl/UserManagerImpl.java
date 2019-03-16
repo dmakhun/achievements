@@ -176,8 +176,7 @@ public class UserManagerImpl implements UserManager {
      * called for updates.
      * @return String
      */
-    @Transactional
-    boolean genericValidation(String field, String fieldName, boolean isExisting)
+    private boolean genericValidation(String field, String fieldName, boolean isExisting)
             throws ValidationException {
         if (field != null && !field.isEmpty() && field.length() <= FIELD_MAX_LENGTH) {
             return true;
@@ -326,7 +325,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public Iterable<User> dynamicSearchManagers(String parameter, String pattern, String role,
+    public Iterable<User> dynamicSearch(String parameter, String pattern, String role,
             int offset,
             int limit, boolean isFirstChar) {
         pattern = isFirstChar ? "" : "%" + pattern + "%";
