@@ -78,20 +78,31 @@ public class UserManagerImpl implements UserManager {
             String email, Long roleId) throws UserManagerException {
         User user = userRepository.findById(userId).get();
 
-        if (user == null) {
-            logger.error(USER_DOES_NOT_EXIST);
-            throw new UserManagerException(USER_DOES_NOT_EXIST);
-        }
-
         try {
             validateUser(user, true);
-            user.setPassword(passwordEncoder.encode(newPassword));
+            if (StringUtils.isNotEmpty(name)) {
+                user.setName(name);
+            }
+            if (StringUtils.isNotEmpty(surname)) {
+                user.setSurname(surname);
+            }
+            if (StringUtils.isNotEmpty(username)) {
+                user.setUsername(username);
+            }
+            if (StringUtils.isNotEmpty(email)) {
+                user.setEmail(email);
+            }
+            if (roleId != null) {
+                user.setRole(roleRepository.findById(roleId).get());
+            }
+            if (StringUtils.isNotEmpty(newPassword)) {
+                user.setPassword(passwordEncoder.encode(newPassword));
+            }
             userRepository.save(user);
         } catch (Exception e) {
             logger.error(USER_UPDATE_ERROR + e);
             throw new UserManagerException(e);
         }
-
         return user;
     }
 
@@ -140,7 +151,6 @@ public class UserManagerImpl implements UserManager {
         if (!validated) {
             throw new ValidationException();
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Same logic as for username checks.
         otherUser = userRepository.findByEmail(user.getEmail());
@@ -323,7 +333,7 @@ public class UserManagerImpl implements UserManager {
         return userRepository
                 .findAll(userRepository.createManagerPredicate(parameter, pattern, role),
                         PageRequest
-                        .of(offset - 1, limit)).getContent();
+                                .of(offset - 1, limit)).getContent();
     }
 
 }
