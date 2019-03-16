@@ -89,8 +89,8 @@ public class CompetenceController {
     @RequestMapping(value = "/manager/competence", method = RequestMethod.GET)
     public String getGroups(Model model) {
         try {
-            List<Competence> list = competenceManager.findAllCompetences();
-            model.addAttribute("list", list);
+            List<Competence> allCompetences = competenceManager.findAllCompetences();
+            model.addAttribute("allCompetences", allCompetences);
             return "groupsAndCompetence";
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -102,10 +102,10 @@ public class CompetenceController {
     public String getGroupsPost(
             @RequestParam(value = "competence") Long competenceId, Model model) {
         try {
-            List<Competence> list = competenceManager.findAllCompetences();
-            model.addAttribute("list", list);
-            List<Group> listGroups = groupRepository.findOpenedByCompetenceId(competenceId);
-            model.addAttribute("list_groups", listGroups);
+            List<Competence> allCompetences = competenceManager.findAllCompetences();
+            List<Group> openedGroups = groupRepository.findOpenedByCompetenceId(competenceId);
+            model.addAttribute("allCompetences", allCompetences);
+            model.addAttribute("openedGroups", openedGroups);
             return "groupsAndCompetence";
         } catch (Exception e) {
             logger.error(e.getMessage());
