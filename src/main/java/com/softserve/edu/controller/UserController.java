@@ -4,13 +4,9 @@ import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
 import com.softserve.edu.dao.AchievementRepository;
-import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.RoleRepository;
 import com.softserve.edu.dao.UserRepository;
-import com.softserve.edu.entity.Achievement;
-import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
@@ -23,7 +19,6 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -62,8 +57,6 @@ public class UserController {
     @Autowired
     private AchievementRepository achievementRepository;
     @Autowired
-    private CompetenceRepository competenceRepository;
-    @Autowired
     private RoleRepository roleRepository;
     @Autowired
     private BCryptPasswordEncoder encoder;
@@ -74,20 +67,10 @@ public class UserController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = userManager.findByUsername(authentication.getName());
 
-            List<Group> groups = groupRepository.findByUsers_Id(user.getId());
-            List<Achievement> achievements = achievementRepository.findByUserId(user.getId());
-            List<Group> openedGroups = groupRepository.findOpenedByUserId(user.getId());
-            List<Competence> userCompetences = competenceRepository
-                    .findByUsers_Id(user.getId());
-            List<Competence> filteredCompetences = openedGroups.stream().map(Group::getCompetence)
-                    .collect(Collectors.toList());
-            filteredCompetences.addAll(userCompetences);
-            List<Competence> competences = competenceManager.findExcept(filteredCompetences);
-
-            model.addAttribute("groups", groups);
-            model.addAttribute("achievements", achievements);
-            model.addAttribute("competences", competences);
-            model.addAttribute("waiting_attend", userCompetences);
+            model.addAttribute("groups", groupRepository.findByUsers_Id(user.getId()));
+            model.addAttribute("achievements", achievementRepository.findByUserId(user.getId()));
+            model.addAttribute("availableCompetences", competenceManager.findAvailable(user));
+            model.addAttribute("userCompetences", groupRepository.findOpenedByUserId(user.getId()));
 
             return "userHome";
         } catch (Exception e) {
@@ -98,14 +81,12 @@ public class UserController {
 
     @RequestMapping(value = "/userHome", method = RequestMethod.POST)
     public String attend(
-            @RequestParam(value = "competence") long competenceId,
-            Principal principal) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+            @RequestParam(value = "competence") long competenceId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
-            userManager.appendCompetence(userManager.findByUsername(auth.getName()).getId(),
-                    competenceId);
-
+            userManager
+                    .appendCompetence(userManager.findByUsername(authentication.getName()).getId(),
+                            competenceId);
             return "redirect:/user/userHome";
         } catch (UserManagerException e) {
             logger.error(e.getMessage());
@@ -115,12 +96,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/removeManager", method = RequestMethod.POST)
-    public String removeManagerFromList(
-            Model model,
-            @RequestParam(value = "userlist", required = false, defaultValue = "") Long userId) {
+    public String removeManager(
+            @RequestParam(value = "userId", required = false, defaultValue = "") Long userId) {
         try {
             userManager.deleteById(userId);
-
             return "redirect:/admin/removeManager?status=success";
         } catch (UserManagerException e) {
             logger.error(e.getMessage());
@@ -139,7 +118,7 @@ public class UserController {
     @RequestMapping(value = "/admin/addManager", method = RequestMethod.POST)
     public
     @ResponseBody
-    String addManager(@Valid User user, BindingResult result, Model model) {
+    String addManager(@Valid User user, BindingResult result) {
         try {
             if (result.hasErrors()) {
                 return "redirect:/admin/allManagers?status=error";
@@ -182,15 +161,15 @@ public class UserController {
             @PathVariable(value = "pattern") String pattern,
             Model model) {
         try {
-            Iterable<User> dynamicUsers = userManager
-                    .dynamicSearchManagers(parameter, pattern, ROLE_MANAGER, page, max,
+            Iterable<User> foundManagers = userManager
+                    .dynamicSearch(parameter, pattern, ROLE_MANAGER, page, max,
                             isFirstChar);
-            Iterable<User> allUsers = userManager
-                    .dynamicSearchManagers(parameter, pattern, ROLE_MANAGER, 1,
+            Iterable<User> allManagers = userManager
+                    .dynamicSearch(parameter, pattern, ROLE_MANAGER, 1,
                             userRepository.findByRoleName(ROLE_MANAGER).size(), isFirstChar);
 
-            model.addAttribute("userlist", dynamicUsers);
-            model.addAttribute("currentSize", Stream.of(allUsers).count());
+            model.addAttribute("userlist", foundManagers);
+            model.addAttribute("currentSize", Stream.of(allManagers).count());
 
             return "dynamicSearch";
         } catch (Exception e) {
@@ -200,8 +179,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/removeManager/{id}", method = RequestMethod.GET)
-    public String removeManagerById(Model model,
-            @PathVariable(value = "id") Long userId) {
+    public String removeManagerById(@PathVariable(value = "id") Long userId) {
         try {
             userManager.deleteById(userId);
             return "redirect:/admin/allManagers?status=success";
@@ -213,9 +191,9 @@ public class UserController {
     @RequestMapping(value = "/image", method = RequestMethod.GET)
     String getImage(Model model) {
         try {
-            Authentication auth = SecurityContextHolder.getContext()
+            Authentication authentication = SecurityContextHolder.getContext()
                     .getAuthentication();
-            model.addAttribute("username", auth.getName());
+            model.addAttribute("username", authentication.getName());
 
             return "image";
         } catch (Exception e) {
@@ -225,15 +203,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/image", method = RequestMethod.POST)
-    String uploadFileHandler(@RequestParam("file") MultipartFile file,
-            Model model) {
-
+    String uploadFileHandler(@RequestParam("file") MultipartFile file) {
         try {
             if (!file.isEmpty() || file.getContentType().startsWith("image/")) {
-                Authentication auth = SecurityContextHolder.getContext()
+                Authentication authentication = SecurityContextHolder.getContext()
                         .getAuthentication();
                 byte[] imageInByte = file.getBytes();
-                User user = userManager.findByUsername(auth.getName());
+                User user = userManager.findByUsername(authentication.getName());
                 user.setPicture(imageInByte);
                 userRepository.save(user);
             }
@@ -286,9 +262,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/editprofile", method = RequestMethod.GET)
-    public String editProfile(
-
-            Model model, Principal principal) {
+    public String editProfile(Model model, Principal principal) {
         try {
             User user = userManager.findByUsername(principal.getName());
             model.addAttribute("id", user.getId());
@@ -337,7 +311,6 @@ public class UserController {
     public String passwordChanger(
             @RequestParam(value = "oldPassword", required = false, defaultValue = "") String oldPassword,
             @RequestParam(value = "newPassword", required = false, defaultValue = "") String newPassword,
-            @RequestParam(value = "confirmPassword", required = false, defaultValue = "") String confirmPassword,
             Principal principal, Model model) {
 
         try {

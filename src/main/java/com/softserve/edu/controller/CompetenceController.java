@@ -6,7 +6,6 @@ import com.softserve.edu.entity.Competence;
 import com.softserve.edu.entity.Group;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
-import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
 import java.time.LocalDate;
 import java.util.List;
@@ -37,8 +36,6 @@ public class CompetenceController {
     private CompetenceManager competenceManager;
     @Autowired
     private UserManager userManager;
-    @Autowired
-    private GroupManager groupManager;
 
     @RequestMapping(value = "/competence", method = RequestMethod.GET)
     public String groups(Model model) {

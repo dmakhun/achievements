@@ -53,6 +53,6 @@ public interface UserManager {
 
     Long getTotalPoints(User user);
 
-    Iterable<User> dynamicSearchManagers(String parameter, String pattern, String role, int offset,
+    Iterable<User> dynamicSearch(String parameter, String pattern, String role, int offset,
             int limit, boolean isFirstChar);
 }
