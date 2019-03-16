@@ -66,7 +66,7 @@
 			$("input[name=dateStart]").val("");
 			$("input[name=dateEnd]").val("");
 		};
-		
+
 		$("#date-from").datepicker({
 			defaultDate : "+1w",
 			changeMonth : true,
@@ -160,7 +160,7 @@
 							.replace(/{{id}}/g, id)
 							.replace(/{{comp_id}}/g, $("select[name=competence]").val());
 				};
-				
+
 				switch ($("input[name=type]").val()) {
 				case "create":
 					ok = function(id) {
@@ -178,8 +178,8 @@
 						}
 					};
 					break;
-					
-				case "modify":
+
+                    case "modify":
 					ok = function() {
 						var id = $("input[name=id]").val();
 						var divs = $("input[name=modify][value=" + id + "]").parent().parent().find("div");
@@ -218,10 +218,10 @@
     <div id="message-box" class="alert alert-danger text-center"
          style="width: 400px; position: fixed; left: 50%; top: 50%; margin-left: -200px; z-index: 10; display: none"></div>
 
-    <c:forEach var="mapItem" items="${groups}">
-        <c:if test="${not empty mapItem.value}">
-            <div id="${mapItem.key}" class="panel panel-default">
-                <div class="panel-heading">${mapItem.key}</div>
+    <c:forEach var="competence" items="${competences}">
+        <c:if test="${not empty competence.name}">
+            <div id="${competence.name}" class="panel panel-default">
+                <div class="panel-heading">${competence.name}</div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -238,7 +238,7 @@
                         </div>
                     </div>
                     <hr/>
-                    <c:forEach var="item" items="${mapItem.value}">
+                    <c:forEach var="item" items="${competence.groups}">
                         <div class="row">
                             <div class="col-md-6 group-name">${item.name }</div>
                             <div class="col-md-2 group-opened">${item.dateOpened }</div>

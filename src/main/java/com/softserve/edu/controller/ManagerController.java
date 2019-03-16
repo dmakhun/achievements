@@ -1,27 +1,20 @@
 package com.softserve.edu.controller;
 
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
-import static java.util.stream.Collectors.toMap;
 
 import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.UserRepository;
-import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.GroupManagerException;
 import com.softserve.edu.exception.UserManagerException;
-import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.AbstractMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ManagerController {
 
-    private static final String GENERAL_ERROR = "redirect:/myerror/10";
     private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
     @Autowired
@@ -50,8 +42,6 @@ public class ManagerController {
     @Autowired
     private GroupManager groupManager;
     @Autowired
-    private CompetenceManager competenceManager;
-    @Autowired
     private UserManager userManager;
     @Autowired
     private CompetenceRepository competenceRepository;
@@ -59,21 +49,9 @@ public class ManagerController {
     private MessageSource messageSource;
 
     @RequestMapping(value = "/manager/groups", method = RequestMethod.GET)
-    public String groups(
-            @RequestParam(value = "status", required = false, defaultValue = "") String status,
-            Model model) {
+    public String groups(Model model) {
         try {
-            // TODO pass just competence entity by using DTO
-            List<Competence> allCompetences = competenceManager.findAllCompetences();
-            Map<String, List<Group>> groups = allCompetences.stream()
-                    .map(competence -> new AbstractMap.SimpleEntry<>(competence.getName(),
-                            groupRepository.findOpenedByCompetenceId(competence.getId())))
-                    .collect(toMap(AbstractMap.SimpleEntry::getKey,
-                            AbstractMap.SimpleEntry::getValue));
-
-            model.addAttribute("status", status);
-            model.addAttribute("groups", groups);
-            model.addAttribute("competences", allCompetences);
+            model.addAttribute("competences", competenceRepository.findWithOpenedGroups());
             return "groups";
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -105,7 +83,7 @@ public class ManagerController {
     }
 
     private ResponseEntity<String> createGroup(String groupName,
-                                               Long competenceId, String startDate, String endDate, Locale locale) {
+            Long competenceId, String startDate, String endDate, Locale locale) {
 
         Long groupId = null;
         try {
@@ -124,8 +102,7 @@ public class ManagerController {
     }
 
     private ResponseEntity<String> modifyGroup(Long groupId, String name,
-            Long competence, String start, String end, Locale locale)
-            throws ParseException {
+            Long competence, String start, String end, Locale locale) {
         try {
             ResponseEntity<String> pass = groupChecks(name, start, end, locale);
             if (pass.getStatusCode() != HttpStatus.OK) {
@@ -146,7 +123,7 @@ public class ManagerController {
     }
 
     private ResponseEntity<String> groupChecks(String name, String startDate,
-                                               String endDate, Locale locale) {
+            String endDate, Locale locale) {
         try {
             LocalDate dateStart = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
             LocalDate dateEnd = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
@@ -176,8 +153,8 @@ public class ManagerController {
     public String concreteGroup(@PathVariable(value = "id") Long groupId,
             Model model) {
         try {
-            List<User> userList = userRepository.findByGroups_Id(groupId);
-            model.addAttribute("users", userList);
+            List<User> groupAttendees = userRepository.findByGroups_Id(groupId);
+            model.addAttribute("users", groupAttendees);
             return "userlist";
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -189,16 +166,7 @@ public class ManagerController {
     @GetMapping(value = "/manager/attendees")
     public String attendees(Model model) {
         try {
-            List<Competence> competences = competenceRepository.findAll();
-            Map<String, List<Group>> groups = new HashMap<>();
-            for (Competence competence : competences) {
-                groups.put(competence.getName(),
-                        groupRepository.findOpenedByCompetenceId(competence.getId()));
-            }
-
-            model.addAttribute("competences", competences);
-            model.addAttribute("competence_groups", groups);
-
+            model.addAttribute("competences", competenceRepository.findWithOpenedGroups());
             return "attendees";
         } catch (Exception e) {
             logger.error(e.getMessage());
