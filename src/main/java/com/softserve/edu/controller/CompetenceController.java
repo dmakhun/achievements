@@ -34,20 +34,17 @@ public class CompetenceController {
     @Autowired
     private CompetenceRepository competenceRepository;
     @Autowired
-    CompetenceManager competenceManager;
+    private CompetenceManager competenceManager;
     @Autowired
-    UserManager userManager;
+    private UserManager userManager;
     @Autowired
-    GroupManager groupManager;
-
+    private GroupManager groupManager;
 
     @RequestMapping(value = "/competence", method = RequestMethod.GET)
     public String groups(Model model) {
         try {
-            List<Competence> competences = competenceManager
-                    .findAllCompetences();
+            List<Competence> competences = competenceManager.findAllCompetences();
             model.addAttribute("competences", competences);
-
             return "showCompetence";
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -76,23 +73,6 @@ public class CompetenceController {
         return "redirect:/admin/competenceAll?statusAdd=success";
     }
 
-    @RequestMapping(value = "/removeCompetence", method = RequestMethod.GET)
-    public String removeCompetence(
-            @RequestParam(value = "status", defaultValue = "", required = false) String status,
-            Model model) {
-        try {
-            List<Competence> competencelist = competenceManager
-                    .findAllCompetences();
-            model.addAttribute("competencelist", competencelist);
-            model.addAttribute("status", status);
-
-            return GENERALERROR;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERALERROR;
-        }
-    }
-
     @RequestMapping(value = "/addManagerList", method = RequestMethod.POST)
     public String addManager(
             @RequestParam(value = "userlist", required = false, defaultValue = "") Long userId,
@@ -104,7 +84,6 @@ public class CompetenceController {
             logger.error(e.getMessage());
             return GENERALERROR;
         }
-
     }
 
     @RequestMapping(value = "/manager/competence", method = RequestMethod.GET)
@@ -127,7 +106,6 @@ public class CompetenceController {
             model.addAttribute("list", list);
             List<Group> listGroups = groupRepository.findOpenedByCompetenceId(competenceId);
             model.addAttribute("list_groups", listGroups);
-
             return "groupsAndCompetence";
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -142,11 +120,9 @@ public class CompetenceController {
             @RequestParam(value = "statusAdd", required = false, defaultValue = "") String statusAdd) {
         try {
             List<Competence> competences = competenceManager.findAllCompetences();
-
             model.addAttribute("statusRemove", statusRemove);
             model.addAttribute("statusAdd", statusAdd);
             model.addAttribute("competencelist", competences);
-
             return "forDeleteOrAddCompetence";
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -159,12 +135,5 @@ public class CompetenceController {
     public String removeCompetenceById(@PathVariable(value = "id") Long competenceId) {
         competenceRepository.deleteById(competenceId);
         return "redirect:/admin/competenceAll?statusRemove=success";
-    }
-
-    @PostMapping(value = "/removeCompetence")
-    public String removeCompetencePost(
-            @RequestParam(value = "competence", required = false, defaultValue = "") Long competenceId) {
-        competenceRepository.deleteById(competenceId);
-        return "redirect:/competencies/removeCompetence?status=success";
     }
 }
