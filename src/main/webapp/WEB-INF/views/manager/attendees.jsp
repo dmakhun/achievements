@@ -2,12 +2,12 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <div class="container">
-    <c:forEach var="item" items="${competences}">
-        <c:if test="${not empty item.users}">
+    <c:forEach var="competence" items="${competences}">
+        <c:if test="${not empty competence.users}">
             <div class="panel panel-default">
-                <div class="panel-heading">${item.name}</div>
+                <div class="panel-heading">${competence.name}</div>
                 <table class="table">
-                    <c:forEach var="user" items="${item.users}">
+                    <c:forEach var="user" items="${competence.users}">
                         <form method="POST">
                             <tr>
                                 <td>${user.name}</td>
@@ -17,14 +17,14 @@
                                 <td>
                                 <td>
                                     <input type="hidden" name="user_id" value="${user.id}"/>
-                                    <input type="hidden" name="competence_id" value="${item.id}"/>
+                                    <input type="hidden" name="competence_id"
+                                           value="${competence.id}"/>
                                     <select class="form-control" name="group_id">
                                         <c:forEach var="group"
-                                                   items="${competence_groups[item.name]}">
+                                                   items="${competence.groups}">
                                             <option value="${group.id}">${group.name}</option>
                                         </c:forEach>
                                     </select>
-                                </td>
                                 </td>
                                 <td>
                                     <div class="btn-group">

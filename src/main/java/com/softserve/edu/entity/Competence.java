@@ -25,7 +25,7 @@ public class Competence extends BaseEntity {
             CascadeType.MERGE})
     private Set<User> users;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "competence")
     private Set<Group> groups;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
@@ -48,8 +48,8 @@ public class Competence extends BaseEntity {
         return groups;
     }
 
-    public void setGroups(Set<Group> aGroups) {
-        groups = aGroups;
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 
 
@@ -84,7 +84,7 @@ public class Competence extends BaseEntity {
     }
 
     public void setDateCreated(LocalDate date) {
-        this.dateCreated = date;
+        dateCreated = date;
     }
 
     @Override
