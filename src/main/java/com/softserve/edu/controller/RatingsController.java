@@ -2,6 +2,7 @@ package com.softserve.edu.controller;
 
 import static java.util.stream.Collectors.toMap;
 
+import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.manager.UserManager;
@@ -20,6 +21,8 @@ public class RatingsController {
     private UserManager userManager;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AchievementRepository achievementRepository;
 
     @GetMapping(value = "/manager/ratings")
     public String ratings(Model model) {
