@@ -36,27 +36,17 @@ public class CompetenceController {
 
     @RequestMapping(value = "/competence", method = RequestMethod.GET)
     public String allCompetences(Model model) {
-        try {
-            model.addAttribute("competences", competenceManager.findAllCompetences());
-            return "showCompetence";
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERAL_ERROR;
-        }
+        model.addAttribute("competences", competenceManager.findAllCompetences());
+        return "showCompetence";
     }
 
     @RequestMapping(value = "/addCompetence", method = RequestMethod.GET)
     public String addCompetence(
             @RequestParam(value = "status", defaultValue = "", required = false) String status,
             Model model) {
-        try {
-            model.addAttribute("allCompetences", competenceManager.findAllCompetences());
-            model.addAttribute("status", status);
-            return "addCompetence";
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERAL_ERROR;
-        }
+        model.addAttribute("allCompetences", competenceManager.findAllCompetences());
+        model.addAttribute("status", status);
+        return "addCompetence";
     }
 
     @RequestMapping(value = "/addCompetence", params = {
@@ -82,27 +72,17 @@ public class CompetenceController {
 
     @RequestMapping(value = "/manager/competence", method = RequestMethod.GET)
     public String allCompetencesGroups(Model model) {
-        try {
-            model.addAttribute("allCompetences", competenceManager.findAllCompetences());
-            return "groupsAndCompetence";
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERAL_ERROR;
-        }
+        model.addAttribute("allCompetences", competenceManager.findAllCompetences());
+        return "groupsAndCompetence";
     }
 
     @RequestMapping(value = "/manager/competence", method = RequestMethod.POST)
     public String allCompetencesGroups(
             @RequestParam(value = "competence") Long competenceId, Model model) {
-        try {
-            model.addAttribute("allCompetences", competenceManager.findAllCompetences());
-            model.addAttribute("openedGroups",
-                    groupRepository.findOpenedByCompetenceId(competenceId));
-            return "groupsAndCompetence";
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERAL_ERROR;
-        }
+        model.addAttribute("allCompetences", competenceManager.findAllCompetences());
+        model.addAttribute("openedGroups",
+                groupRepository.findOpenedByCompetenceId(competenceId));
+        return "groupsAndCompetence";
     }
 
     @RequestMapping(value = "/admin/competenceAll", method = RequestMethod.GET)
@@ -110,16 +90,10 @@ public class CompetenceController {
             Model model,
             @RequestParam(value = "statusRemove", required = false, defaultValue = "") String statusRemove,
             @RequestParam(value = "statusAdd", required = false, defaultValue = "") String statusAdd) {
-        try {
-            model.addAttribute("allCompetences", competenceManager.findAllCompetences());
-            model.addAttribute("statusAdd", statusAdd);
-            model.addAttribute("statusRemove", statusRemove);
-            return "forDeleteOrAddCompetence";
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERAL_ERROR;
-        }
-
+        model.addAttribute("allCompetences", competenceManager.findAllCompetences());
+        model.addAttribute("statusAdd", statusAdd);
+        model.addAttribute("statusRemove", statusRemove);
+        return "forDeleteOrAddCompetence";
     }
 
     @GetMapping(value = "/admin/removeCompetence/{id}")
