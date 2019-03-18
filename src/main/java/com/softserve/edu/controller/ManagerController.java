@@ -3,6 +3,7 @@ package com.softserve.edu.controller;
 import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 import static com.softserve.edu.util.Constants.ROLE_MANAGER;
 
+import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.UserRepository;
@@ -13,8 +14,10 @@ import com.softserve.edu.manager.GroupManager;
 import com.softserve.edu.manager.UserManager;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,8 @@ public class ManagerController {
     private UserManager userManager;
     @Autowired
     private CompetenceRepository competenceRepository;
+    @Autowired
+    private AchievementRepository achievementRepository;
     @Autowired
     private MessageSource messageSource;
 
@@ -202,6 +207,18 @@ public class ManagerController {
             logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
+    }
+
+    @RequestMapping(value = "/manager/ratings", method = RequestMethod.GET)
+    public String ratings(Model model) {
+        List<User> users = userRepository.findAllUsers();
+        users.forEach(user -> user
+                .setPoints(achievementRepository.findTotalAchievementPointsByUserId(user.getId())
+                        .orElse(0L)));
+        users = users.stream().sorted(Comparator.comparing(User::getPoints).reversed())
+                .collect(Collectors.toList());
+        model.addAttribute("users", users);
+        return "ratings";
     }
 
 }
