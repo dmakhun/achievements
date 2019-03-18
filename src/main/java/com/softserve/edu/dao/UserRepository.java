@@ -6,10 +6,10 @@ import com.softserve.edu.entity.QUser;
 import com.softserve.edu.entity.User;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-public interface UserRepository extends JpaRepository<User, Long>,
-        QuerydslPredicateExecutor<User> {
+public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
 
     List<User> findByGroups_Id(Long groupId);
 
@@ -18,6 +18,14 @@ public interface UserRepository extends JpaRepository<User, Long>,
     User findByEmail(String email);
 
     List<User> findByRoleName(String roleName);
+
+    /**
+     * Find all regular users
+     *
+     * @return list of all non-admins, non-managers
+     */
+    @Query("from User where role.name=com.softserve.edu.util.Constants.ROLE_USER")
+    List<User> findAllUsers();
 
     default Predicate createManagerPredicate(String column, String pattern, String role) {
         QUser qUser = QUser.user;

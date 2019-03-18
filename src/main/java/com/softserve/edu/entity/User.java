@@ -71,6 +71,8 @@ public class User extends BaseEntity {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
     private Set<Group> groups;
 
+    private Long points;
+
     public User() {
     }
 
@@ -189,5 +191,11 @@ public class User extends BaseEntity {
         competence.getUsers().remove(this);
     }
 
+    public Long getPoints() {
+        return points;
+    }
 
+    public void setPoints(Long points) {
+        this.points = points;
+    }
 }

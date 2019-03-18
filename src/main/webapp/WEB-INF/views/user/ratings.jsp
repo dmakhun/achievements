@@ -23,11 +23,11 @@
                 <td><strong>Points</strong></td>
             </tr>
             </thead>
-            <c:forEach var="entry" items="${mapS}" varStatus="i">
+            <c:forEach var="user" items="${users}" varStatus="i">
                 <tr>
                     <td>${i.count}.</td>
-                    <td>${entry.key.name} ${entry.key.surname}</td>
-                    <td>${entry.value} </td>
+                    <td>${user.name} ${user.surname}</td>
+                    <td>${user.points} </td>
                 </tr>
             </c:forEach>
         </table>
