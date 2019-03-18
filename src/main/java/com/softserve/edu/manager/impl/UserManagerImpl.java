@@ -63,6 +63,7 @@ public class UserManagerImpl implements UserManager {
     public User createUser(User user) throws UserManagerException {
         try {
             validateUser(user, false);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         } catch (ValidationException e) {
             logger.error(FIELDS_VALIDATION_ERROR, e);
             throw new UserManagerException(FIELDS_VALIDATION_ERROR, e);
@@ -326,13 +327,11 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public Iterable<User> dynamicSearch(String parameter, String pattern, String role,
-            int offset,
-            int limit, boolean isFirstChar) {
+            int offset, int limit, boolean isFirstChar) {
         pattern = isFirstChar ? "" : "%" + pattern + "%";
         return userRepository
                 .findAll(userRepository.createManagerPredicate(parameter, pattern, role),
-                        PageRequest
-                                .of(offset - 1, limit)).getContent();
+                        PageRequest.of(offset - 1, limit)).getContent();
     }
 
 }
