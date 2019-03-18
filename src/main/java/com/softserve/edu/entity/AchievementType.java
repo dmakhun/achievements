@@ -25,7 +25,7 @@ public class AchievementType extends BaseEntity {
     private Integer points;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "achievementType")
-    private Set<Achievement> achievement;
+    private Set<Achievement> achievements;
 
     public AchievementType() {
     }
@@ -37,20 +37,20 @@ public class AchievementType extends BaseEntity {
     }
 
     public AchievementType(Competence competence, String name, Integer points,
-            Set<Achievement> achievement) {
+            Set<Achievement> achievements) {
         this.competence = competence;
         this.name = name;
         this.points = points;
-        this.achievement = achievement;
+        this.achievements = achievements;
     }
 
 
-    public Set<Achievement> getAchievement() {
-        return achievement;
+    public Set<Achievement> getAchievements() {
+        return achievements;
     }
 
-    public AchievementType setAchievement(Set<Achievement> achievement) {
-        this.achievement = achievement;
+    public AchievementType setAchievements(Set<Achievement> achievement) {
+        this.achievements = achievement;
         return this;
     }
 
