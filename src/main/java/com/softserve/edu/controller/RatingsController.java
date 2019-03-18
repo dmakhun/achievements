@@ -1,14 +1,11 @@
 package com.softserve.edu.controller;
 
-import static java.util.stream.Collectors.toMap;
-
 import com.softserve.edu.dao.AchievementRepository;
 import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.User;
-import com.softserve.edu.manager.UserManager;
-import java.util.AbstractMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,22 +15,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class RatingsController {
 
     @Autowired
-    private UserManager userManager;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private AchievementRepository achievementRepository;
 
     @GetMapping(value = "/manager/ratings")
     public String ratings(Model model) {
-        // get points for users and sort by points DESC
-        Map<User, Long> userPointsMap = userRepository.findAll().stream()
-                .map(user -> new AbstractMap.SimpleEntry<>(user, userManager.getTotalPoints(user)))
-                .sorted(Map.Entry.<User, Long>comparingByValue().reversed())
-                .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue,
-                        (e1, e2) -> e1, LinkedHashMap::new));
-
-        model.addAttribute("mapS", userPointsMap);
+        List<User> users = userRepository.findAllUsers();
+        users.forEach(user -> user
+                .setPoints(achievementRepository.findTotalAchievementPointsByUserId(user.getId())
+                        .orElse(0L)));
+        users = users.stream().sorted(Comparator.comparing(User::getPoints).reversed())
+                .collect(Collectors.toList());
+        model.addAttribute("users", users);
         return "ratings";
     }
+
 }
