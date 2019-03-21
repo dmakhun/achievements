@@ -1,28 +1,19 @@
 package com.softserve.edu.exception;
 
+import static com.softserve.edu.util.Constants.USER_UPDATE_ERROR;
+
 public class UserManagerException extends Exception {
 
-    private static final String USER_UPDATE_ERROR = "Could not update User.";
 
-    /**
-     * The default constructor.
-     */
     public UserManagerException() {
     }
 
-    /**
-     * @param msg - the message to add to exception.
-     */
     public UserManagerException(String msg) {
         super(msg);
     }
 
-    /**
-     * @param msg - the message to add to exception.
-     * @param e - the exception.
-     */
-    public UserManagerException(String msg, Exception e) {
-        super(msg, e);
+    public UserManagerException(String message, Exception e) {
+        super(message, e);
     }
 
     public UserManagerException(Exception e) {
