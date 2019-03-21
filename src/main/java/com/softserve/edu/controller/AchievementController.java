@@ -33,28 +33,27 @@ public class AchievementController {
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             Model model) {
         try {
-            model.addAttribute("achList", achievementTypeRepository.findAll());
+            model.addAttribute("achievements", achievementTypeRepository.findAll());
             model.addAttribute("status", status);
             return "awardUser";
         } catch (Exception e) {
-            logger.error("Can't award a user");
+            logger.error("Can't award a user: ", e);
             return GENERAL_ERROR;
         }
     }
 
     @PostMapping(value = "/manager/user/award/{id}")
-    public String awardConcreteUserPost(
+    public String awardConcreteUser(
             @RequestParam(value = "achievement_type_id") Long achievementTypeId,
             @RequestParam(value = "comment") String comment,
             @PathVariable(value = "id") Long userId, Model model) {
         try {
             achievementManager.awardUser(userId, achievementTypeId, comment);
-            model.addAttribute("achList", achievementTypeRepository.findAll());
+            model.addAttribute("achievements", achievementTypeRepository.findAll());
         } catch (Exception e) {
-            logger.error("Can't award a user");
+            logger.error("Can't award a user: ", e);
             return GENERAL_ERROR;
         }
-
         return "redirect:/manager/user/award/" + userId + "?status=success";
     }
 
@@ -65,7 +64,7 @@ public class AchievementController {
             model.addAttribute("achievementTypes", achievementTypeRepository.findAll());
             return "showAchievements";
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Can't display achievements: ", e);
             return GENERAL_ERROR;
         }
     }
