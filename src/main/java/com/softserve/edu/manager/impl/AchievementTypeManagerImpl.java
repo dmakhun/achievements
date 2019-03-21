@@ -31,7 +31,7 @@ public class AchievementTypeManagerImpl implements AchievementTypeManager {
             throws AchievementTypeManagerException {
         try {
             AchievementType achievementType = new AchievementType(competence, name, points);
-            achievementTypeRepository.save(achievementType);
+            achievementTypeRepository.save(new AchievementType(competence, name, points));
             logger.info("Achievement type successfully created");
             return achievementType;
         } catch (Exception e) {
