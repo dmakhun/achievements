@@ -17,7 +17,7 @@
     <!-- achievement folder -->
     <definition name="allAchievements" extends="baseLayout">
         <put-attribute name="title" value="all Achievements"/>
-        <put-attribute name="body" value="/WEB-INF/views/achievement/allAchievementTypes.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/achievement/allAchievements.jsp"/>
     </definition>
 
     <definition name="awardUser" extends="baseLayout">
