@@ -6,6 +6,7 @@ import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.entity.Competence;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.AchievementTypeManager;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,25 +28,19 @@ public class AchievementTypeManagerImpl implements AchievementTypeManager {
 
     @Override
     @Transactional
-    public AchievementType createAchievementType(Competence competence, String name, int points)
+    public void createAchievementType(String name, String points, long competenceId)
             throws AchievementTypeManagerException {
         try {
-            AchievementType achievementType = new AchievementType(competence, name, points);
-            achievementTypeRepository.save(new AchievementType(competence, name, points));
-            logger.info("Achievement type successfully created");
-            return achievementType;
+            Optional<Competence> competence = competenceRepository.findById(competenceId);
+            if (competence.isPresent()) {
+                AchievementType achievementType = new AchievementType(competence.get(), name,
+                        Integer.parseInt(points));
+                achievementTypeRepository.save(achievementType);
+                logger.info("Achievement type successfully created");
+            }
         } catch (Exception e) {
             logger.error(ACHIEVEMENT_TYPE_ERROR, e);
             throw new AchievementTypeManagerException(ACHIEVEMENT_TYPE_ERROR, e);
         }
     }
-
-    @Override
-    @Transactional
-    public AchievementType createAchievementType(String name, int points, long competenceId)
-            throws AchievementTypeManagerException {
-        return createAchievementType(competenceRepository.findById(competenceId).get(), name,
-                points);
-    }
-
 }
