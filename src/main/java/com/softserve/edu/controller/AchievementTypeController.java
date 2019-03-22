@@ -4,10 +4,8 @@ import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 
 import com.softserve.edu.dao.AchievementTypeRepository;
 import com.softserve.edu.dao.CompetenceRepository;
-import com.softserve.edu.entity.AchievementType;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.AchievementTypeManager;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,26 +58,21 @@ public class AchievementTypeController {
             @RequestParam(value = "points", required = false) String points,
             @PathVariable(value = "id") int competenceId) {
         try {
-            achievementTypeManager
-                    .createAchievementType(name, Integer.parseInt(points), competenceId);
+            achievementTypeManager.createAchievementType(name, points, competenceId);
             return "success";
         } catch (AchievementTypeManagerException e) {
             logger.error(e.getMessage());
             return GENERAL_ERROR;
         }
-
     }
 
     @RequestMapping(value = "/admin/achievementtype/list/{id}", method = RequestMethod.GET)
     public String list(@PathVariable(value = "id") Long competenceId,
             Model model) {
         try {
-            List<AchievementType> achievementTypes = achievementTypeRepository
-                    .findByCompetenceId(competenceId);
-
-            model.addAttribute("achievements", achievementTypes);
+            model.addAttribute("achievements", achievementTypeRepository
+                    .findByCompetenceId(competenceId));
             model.addAttribute("competenceId", competenceId);
-
             return "achievementTypeList";
         } catch (Exception e) {
             logger.error(e.getMessage());
