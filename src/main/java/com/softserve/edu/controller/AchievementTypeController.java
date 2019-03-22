@@ -1,5 +1,7 @@
 package com.softserve.edu.controller;
 
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
+
 import com.softserve.edu.dao.AchievementTypeRepository;
 import com.softserve.edu.exception.AchievementTypeManagerException;
 import com.softserve.edu.manager.AchievementTypeManager;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class AchievementTypeController {
 
-    private static final String GENERALERROR = "redirect:/myerror/10";
     private static final Logger logger = LoggerFactory.getLogger(AchievementTypeController.class);
 
     @Autowired
@@ -29,17 +30,17 @@ public class AchievementTypeController {
     @Autowired
     private AchievementTypeManager achievementTypeManager;
 
-    @GetMapping(value = "/admin/achievementtype/allAchievements")
+    @GetMapping(value = "/admin/achievementtype/allAchievementTypes")
     public String addAchievementTypeAll(
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             Model model) {
         try {
             model.addAttribute("achievementTypeList", achievementTypeRepository.findAll());
             model.addAttribute("status", status);
-            return "allAchievements";
+            return "allAchievementTypes";
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERALERROR;
+            logger.error("Could not display all achievement types: ", e);
+            return GENERAL_ERROR;
         }
     }
 
@@ -49,14 +50,14 @@ public class AchievementTypeController {
             model.addAttribute("competenceList", competenceManager.findAllCompetences());
             return "allCompetences";
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERALERROR;
+            logger.error("Could not display all competences for achievement types: ", e);
+            return GENERAL_ERROR;
         }
     }
 
     @RequestMapping(value = "/admin/achievementtype/add/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public String addAchievementTypePost(
+    public String addAchievementType(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "points", required = false) String points,
             @PathVariable(value = "id") int competenceId) {
@@ -65,7 +66,7 @@ public class AchievementTypeController {
             return "success";
         } catch (AchievementTypeManagerException e) {
             logger.error(e.getMessage());
-            return GENERALERROR;
+            return GENERAL_ERROR;
         }
 
     }
@@ -77,18 +78,17 @@ public class AchievementTypeController {
             model.addAttribute("achievements", achievementTypeRepository
                     .findByCompetenceId(competenceId));
             model.addAttribute("competenceId", competenceId);
-
             return "achievementTypeList";
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            return GENERALERROR;
+            logger.error("Could achievement types per competence: ", e);
+            return GENERAL_ERROR;
         }
     }
 
-    @GetMapping(value = "admin/removeAchievementType/{id}")
+    @RequestMapping(value = "admin/removeAchievementType/{id}", method = RequestMethod.GET)
     public String removeAchievementTypeById(@PathVariable(value = "id") Long achievementTypeId) {
         achievementTypeRepository.deleteById(achievementTypeId);
-        return "redirect:/admin/achievementtype/allAchievements?status=success";
+        return "redirect:/admin/achievementtype/allAchievementTypes?status=success";
     }
 
 }

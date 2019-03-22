@@ -1,6 +1,7 @@
 package com.softserve.edu.entity;
 
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,7 +25,7 @@ public class AchievementType extends BaseEntity {
     @Column(name = "points", length = 50)
     private Integer points;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "achievementType")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "achievementType", cascade = CascadeType.ALL)
     private Set<Achievement> achievements;
 
     public AchievementType() {
