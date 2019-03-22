@@ -6,7 +6,7 @@
 </c:if>
 
 <div class="panel panel-default">
-    <div class="panel-heading">Achievements</div>
+    <div class="panel-heading">Achievement Types</div>
     <table class="table">
         <tr>
             <th>Name</th>

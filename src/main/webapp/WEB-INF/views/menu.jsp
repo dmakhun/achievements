@@ -40,7 +40,7 @@
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
                     <li><a href="<c:url value ="/admin/competenceAll"/>">Competence</a></li>
                     <li><a
-                            href="<c:url value="/admin/achievementtype/allAchievements" />"><spring:message
+                            href="<c:url value="/admin/achievementtype/allAchievementTypes" />"><spring:message
                             code="menu.4tab1"/></a></li>
                     <li><a href="<c:url value="/admin/allManagers" />">Managers</a></li>
                     <li class="dropdown"><a href="<c:url value="/scheduleTable"/>"
