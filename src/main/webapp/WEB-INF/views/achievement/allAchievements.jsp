@@ -14,7 +14,7 @@
             <th>Competence</th>
             <th></th>
         </tr>
-        <c:forEach var="item" items="${allAchievementTypes}">
+        <c:forEach var="item" items="${achievementTypeList}">
             <tr>
                 <td><p>${item.name}</p></td>
                 <td><p>${item.points}</p></td>
