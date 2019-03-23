@@ -51,8 +51,6 @@ public interface UserManager {
 
     void removeAssociations(User user);
 
-    Long getTotalPoints(User user);
-
     Iterable<User> dynamicSearch(String parameter, String pattern, String role, int offset,
             int limit, boolean isFirstChar);
 }

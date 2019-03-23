@@ -1,6 +1,8 @@
 package com.softserve.edu.controller;
 
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 import static com.softserve.edu.util.Constants.ROLE_USER;
+import static com.softserve.edu.util.Constants.USER_CREATE_ERROR;
 
 import com.softserve.edu.dao.GroupRepository;
 import com.softserve.edu.dao.RoleRepository;
@@ -10,7 +12,6 @@ import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
 import com.softserve.edu.manager.CompetenceManager;
 import com.softserve.edu.manager.UserManager;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -33,9 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-    private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger logger = LoggerFactory
-            .getLogger(LoginController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private UserManager userManager;
@@ -48,10 +47,10 @@ public class LoginController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(ModelMap model, Principal pr) {
+    public String home(ModelMap model) {
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth.getAuthorities().toString().contains(ROLE_USER)) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication.getAuthorities().toString().contains(ROLE_USER)) {
                 return "redirect:/userHome";
             }
             List<Competence> competences = competenceManager.findAllCompetences();
@@ -66,7 +65,7 @@ public class LoginController {
             return "index";
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return GENERALERROR;
+            return GENERAL_ERROR;
         }
     }
 
@@ -112,11 +111,11 @@ public class LoginController {
 
             return "login";
         } catch (UserManagerException e) {
-            logger.error("Can't create user", e);
+            logger.error(USER_CREATE_ERROR, e);
             return "registration";
         } catch (Exception e) {
-            logger.error("Can't create user", e);
-            return GENERALERROR;
+            logger.error(USER_CREATE_ERROR, e);
+            return GENERAL_ERROR;
         }
     }
 
