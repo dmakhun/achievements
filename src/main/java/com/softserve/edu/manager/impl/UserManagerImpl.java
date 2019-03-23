@@ -175,7 +175,6 @@ public class UserManagerImpl implements UserManager {
      *
      * @param isExisting Flag that says we can ignore checks for emptiness because the method was
      * called for updates.
-     * @return String
      */
     private boolean genericValidation(String field, String fieldName, boolean isExisting)
             throws ValidationException {
@@ -194,8 +193,7 @@ public class UserManagerImpl implements UserManager {
         }
     }
 
-    @Transactional
-    boolean validateByPattern(User user, User otherUser,
+    private boolean validateByPattern(User user, User otherUser,
             String field, String pattern, String fieldName,
             boolean isExisting) throws ValidationException {
 
@@ -223,7 +221,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     /**
-     * Check  password for non-emptiness.
+     * Check password for non-emptiness.
      *
      * @param password Password.
      * @param isExisting Flag to ignore checks for isEmpty.
@@ -267,8 +265,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     @Transactional
-    public void removeUserToCompetence(Long userId, Long competenceId)
-            throws UserManagerException {
+    public void removeUserToCompetence(Long userId, Long competenceId) throws UserManagerException {
         try {
             User user = userRepository.findById(userId).get();
             Competence competence = competenceRepository.findById(competenceId).get();
@@ -316,13 +313,6 @@ public class UserManagerImpl implements UserManager {
 
         user.getAchievements().forEach(achievement -> achievementRepository.delete(achievement));
         logger.info("User associations had been removed");
-    }
-
-    @Override
-    public Long getTotalPoints(User user) {
-        return userRepository.findByUsername(user.getUsername()).getAchievements()
-                .stream().mapToLong(achievement -> achievement.getAchievementType().getPoints())
-                .sum();
     }
 
     @Override
