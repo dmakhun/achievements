@@ -3,7 +3,6 @@ package com.softserve.edu.controller;
 import static com.softserve.edu.util.Constants.GENERAL_ERROR;
 
 import com.softserve.edu.dao.AchievementTypeRepository;
-import com.softserve.edu.dao.CompetenceRepository;
 import com.softserve.edu.manager.AchievementManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +23,6 @@ public class AchievementController {
     private AchievementManager achievementManager;
     @Autowired
     private AchievementTypeRepository achievementTypeRepository;
-    @Autowired
-    private CompetenceRepository competenceRepository;
 
     @RequestMapping(value = "/manager/user/award/{id}", method = RequestMethod.GET)
     public String awardConcreteUser(
@@ -55,17 +52,4 @@ public class AchievementController {
         }
         return "redirect:/manager/user/award/" + userId + "?status=success";
     }
-
-    @RequestMapping(value = "achievements")
-    public String showAchievements(Model model) {
-        try {
-            model.addAttribute("competences", competenceRepository.findAll());
-            model.addAttribute("achievementTypes", achievementTypeRepository.findAll());
-            return "showAchievements";
-        } catch (Exception e) {
-            logger.error("Can't display achievements: ", e);
-            return GENERAL_ERROR;
-        }
-    }
-
 }
