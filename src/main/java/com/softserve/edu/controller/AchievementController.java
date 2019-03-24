@@ -10,10 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -28,7 +27,7 @@ public class AchievementController {
     @Autowired
     private CompetenceRepository competenceRepository;
 
-    @GetMapping(value = "/manager/user/award/{id}")
+    @RequestMapping(value = "/manager/user/award/{id}", method = RequestMethod.GET)
     public String awardConcreteUser(
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             Model model) {
@@ -42,7 +41,7 @@ public class AchievementController {
         }
     }
 
-    @PostMapping(value = "/manager/user/award/{id}")
+    @RequestMapping(value = "/manager/user/award/{id}", method = RequestMethod.POST)
     public String awardConcreteUser(
             @RequestParam(value = "achievement_type_id") Long achievementTypeId,
             @RequestParam(value = "comment") String comment,

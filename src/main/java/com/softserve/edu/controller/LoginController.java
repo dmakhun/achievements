@@ -119,12 +119,6 @@ public class LoginController {
         }
     }
 
-
-    @RequestMapping(value = "/sheduleTable", method = RequestMethod.GET)
-    public String sheduleTable() {
-        return "sheduleTable";
-    }
-
     @RequestMapping(value = "recovery")
     public String passwordRecovery() {
         return "recovery";
