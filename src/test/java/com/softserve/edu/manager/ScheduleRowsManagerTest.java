@@ -1,21 +1,24 @@
 package com.softserve.edu.manager;
 
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Calendar;
-
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ScheduleRowsManagerTest {
 
+    @Autowired
+    private ScheduleRowsManager scheduleRowsManager;
     @Test
     public void findMonday() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2014, 2, 20);
-        ScheduleRowsManagerImplementation srm = new ScheduleRowsManagerImplementation(calendar);
+        calendar.set(2014, Calendar.MARCH, 20);
+        scheduleRowsManager.setCalendar(calendar);
         Calendar calendarTrue = Calendar.getInstance();
-        calendarTrue.set(2014, 2, 17, 8, 0);
-        calendar = srm.findMonday();
+        calendarTrue.set(2014, Calendar.MARCH, 17, 8, 0);
+        calendar = scheduleRowsManager.findMonday();
         assertTrue(calendarTrue.get(Calendar.MONTH) == calendar
                 .get(Calendar.MONTH)
                 && calendarTrue.get(Calendar.DAY_OF_MONTH) == calendar

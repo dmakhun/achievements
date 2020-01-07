@@ -1,59 +1,29 @@
 package com.softserve.edu.entity;
 
+import static java.util.Arrays.asList;
+
 import com.softserve.edu.util.FieldForSearch;
 import com.softserve.edu.validation.ValidEmail;
-
-import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import java.util.Set;
 
-/**
- * Represents bean class for User entity. Mapped on table USERS.
- *
- * @author Edgar
- */
-@XmlRootElement
+
 @Entity
-@Table(name = "ach_User")
-@NamedQueries({
-
-        @NamedQuery(name = User.FIND_USER_BY_NAME, query = User.FIND_USER_BY_NAME_QUERY),
-        @NamedQuery(name = User.FIND_USER_BY_EMAIL, query = User.FIND_USER_BY_EMAIL_QUERY),
-        @NamedQuery(name = User.FIND_ONLY_OPENED_GROUPS, query = User.FIND_ONLY_OPENED_GROUPS_QUERY),
-        @NamedQuery(name = User.FIND_GROUPS, query = User.FIND_GROUPS_QUERY),
-        @NamedQuery(name = User.FIND_ALL_BY_ROLE, query = User.FIND_BY_ROLE_ALL)
-
-})
-public class User extends AbstractEntity {
-
-    public static final String FIND_USER_BY_NAME = "User.findByUsername";
-    public static final String FIND_USER_BY_NAME_QUERY = "FROM User WHERE username LIKE ?1";
-
-    public static final String FIND_USER_BY_EMAIL = "User.findByEmail";
-    public static final String FIND_USER_BY_EMAIL_QUERY = "FROM User WHERE email LIKE ?1";
-
-    public static final String FIND_GROUPS = "User.findGroup";
-    public static final String FIND_GROUPS_QUERY = "FROM Group g inner join fetch g.users u WHERE u.id = ?1";
-
-    public static final String FIND_ONLY_OPENED_GROUPS = "User.openedGroups";
-    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.users u WHERE u.id = ?1 and g.closed > ?2";
-
-    public static final String FIND_ALL_BY_ROLE = "User.managers";
-    public static final String FIND_BY_ROLE_ALL = "FROM User u inner join fetch u.role r WHERE r.id = ?1";
-    /**
-     * Id field. It's PK and must be generated value. Mapped on column id.
-     */
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    /**
-     * Many to one connection with role_id table.
-     */
+@Table(name = "users")
+public class User extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -64,26 +34,16 @@ public class User extends AbstractEntity {
     @FieldForSearch(nameForView = "Name")
     private String name;
 
-    /**
-     * surname field. Mapped on column surname.
-     */
-    @Size(min = 2, max = 20)
     @Column(name = "surname", length = 255)
     @FieldForSearch(nameForView = "Surname")
     private String surname;
 
-    /**
-     * Login field. . Mapped on column username.
-     */
     @Size(min = 4, max = 25)
     @Pattern(regexp = "^\\w{4,}$")
     @Column(name = "username", length = 25, unique = true)
     @FieldForSearch(nameForView = "Username")
     private String username;
 
-    /**
-     * Password field. Mapped on column password.
-     */
     @Size(min = 4, max = 30)
     @Pattern(regexp = "^\\S+$")
     @Column(name = "password", length = 80)
@@ -97,35 +57,27 @@ public class User extends AbstractEntity {
     @Column(name = "picture")
     private byte[] picture;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "ach_UserToCompetence", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "competence_id")})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "usertocompetence", joinColumns = {
+            @JoinColumn(name = "user_id")}, inverseJoinColumns = {
+            @JoinColumn(name = "competence_id")})
     private Set<Competence> competences;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Achievement> achievements;
 
-    /**
-     * Many to many and create table user_group
-     */
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "ach_UserToGroup", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "usertogroup", joinColumns = {
+            @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
     private Set<Group> groups;
+
+    private Long points;
 
     public User() {
     }
 
-    /**
-     * Parameterized constructor.
-     *
-     * @param roles    value for roles field
-     * @param name     value for name field
-     * @param surname  value for surname field
-     * @param username value for username field
-     * @param password value for password field
-     */
     public User(String name, String surname, String username, Role role,
-                String password, byte[] picture) {
-        super();
+            String password, byte[] picture) {
         this.role = role;
         this.name = name;
         this.surname = surname;
@@ -134,18 +86,6 @@ public class User extends AbstractEntity {
         this.picture = picture;
     }
 
-    /**
-     * Default constructor.
-     */
-
-    @XmlTransient
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Role getRole() {
         return role;
@@ -195,16 +135,18 @@ public class User extends AbstractEntity {
         this.email = email;
     }
 
-    @XmlTransient
+
     public Set<Competence> getCompetences() {
         return competences;
     }
 
     public void setCompetences(Set<Competence> competences) {
-        this.competences = competences;
+        for (Competence competence : competences) {
+            competence.getUsers().add(this);
+            this.competences = competences;
+        }
     }
 
-    @XmlTransient
     public Set<Achievement> getAchievements() {
         return achievements;
     }
@@ -213,41 +155,19 @@ public class User extends AbstractEntity {
         this.achievements = achievements;
     }
 
-    @XmlTransient
+
     public Set<Group> getGroups() {
-        return groups;
+        return groups != null ? groups : new HashSet<>();
     }
 
     public void setGroups(Set<Group> groups) {
-        this.groups = groups;
+        for (Group group : groups) {
+            group.getUsers().add(this);
+            this.groups = groups;
+        }
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
-
-    @XmlTransient
     public byte[] getPicture() {
         return picture;
     }
@@ -256,4 +176,26 @@ public class User extends AbstractEntity {
         this.picture = picture;
     }
 
+    public void addGroup(Group group) {
+        getGroups().add(group);
+        group.getUsers().add(this);
+    }
+
+    public void addCompetence(Competence competence) {
+        setCompetences(new HashSet<>(asList(competence)));
+        competence.getUsers().add(this);
+    }
+
+    public void removeCompetence(Competence competence) {
+        getCompetences().remove(competence);
+        competence.getUsers().remove(this);
+    }
+
+    public Long getPoints() {
+        return points;
+    }
+
+    public void setPoints(Long points) {
+        this.points = points;
+    }
 }

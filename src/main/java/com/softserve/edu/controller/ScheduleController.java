@@ -1,10 +1,15 @@
 package com.softserve.edu.controller;
 
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
+
 import com.softserve.edu.manager.ScheduleManager;
-import com.softserve.edu.manager.ScheduleManagerImplementation;
-import com.softserve.edu.manager.ScheduleRowsManagerImplementation;
+import com.softserve.edu.manager.ScheduleRowsManager;
 import com.softserve.edu.manager.UserManager;
-import org.apache.log4j.Logger;
+import java.io.File;
+import java.util.Calendar;
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,69 +21,52 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Map;
-
-/**
- * Controller serves a request to schedule.
- *
- * @author edgar.
- */
 @Controller
 public class ScheduleController {
 
-    private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger LOGGER = Logger
-            .getLogger(ScheduleController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
 
     @Autowired
-    UserManager userManager;
+    private UserManager userManager;
 
     @Autowired
-    ScheduleManager scheduleManager;
+    private ScheduleManager scheduleManager;
 
-    /**
-     * @param model
-     * @return scheduleTable.jsp
-     */
-    @RequestMapping(value = "/schedule/{group:[a-zA-Z0-9\\.\\-_]+}/{dateAdd}")
+    @Autowired
+    private ScheduleRowsManager scheduleRowsManager;
+
+    @RequestMapping(value = "/schedule/{group:[a-zA-Z0-9\\.\\-_]+}/{weekNumber}")
     public String schedule(@PathVariable("group") String group,
-                           @PathVariable("dateAdd") Integer dateAdd, Model model) {
+            @PathVariable("weekNumber") Integer weekNumber, Model model) {
         try {
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DAY_OF_MONTH, 7 * dateAdd);
-            Map<Long, String> mapWeek = new ScheduleRowsManagerImplementation(
-                    calendar).getWeekHead();
-            Map<Long, String> map = new ScheduleManagerImplementation().table(
-                    calendar, group.replace('_', ' '));
+            calendar.add(Calendar.DAY_OF_MONTH, 7 * weekNumber);
+            scheduleRowsManager.setCalendar(calendar);
+            Map<Long, String> workWeekDates = scheduleRowsManager.getWorkWeekDates(weekNumber);
+            Map<Long, String> map = scheduleManager.table(calendar, group.replace('_', ' '));
 
             model.addAttribute("group", group);
-            model.addAttribute("mapWeek", mapWeek);
+            model.addAttribute("workWeekDates", workWeekDates);
             model.addAttribute("map", map);
-            model.addAttribute("next", dateAdd + 1);
-            model.addAttribute("prev", dateAdd - 1);
+            model.addAttribute("next", weekNumber + 1);
+            model.addAttribute("prev", weekNumber - 1);
             return "schedule";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
     }
 
     @RequestMapping(value = "/scheduleTable", method = RequestMethod.GET)
     public String scheduleTable(Model model) {
         try {
-            Authentication auth = SecurityContextHolder.getContext()
-                    .getAuthentication();
-            model.addAttribute("set",
-                    userManager.findActiveNameGroups(auth.getName()));
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            model.addAttribute("set", userManager.findOpenedGroupNames(auth.getName()));
             return "scheduleTable";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
-
     }
 
     @RequestMapping(value = "/addSchedule", method = RequestMethod.GET)
@@ -88,16 +76,15 @@ public class ScheduleController {
 
     @RequestMapping(value = "/addSchedule", method = RequestMethod.POST)
     String uploadFileHandler(@RequestParam("file") MultipartFile file,
-                             Model model) throws IllegalStateException, IOException {
+            Model model) throws IllegalStateException {
 
         try {
-            File serverFile = new ScheduleManagerImplementation()
-                    .saveFileOnServer(file);
+            File serverFile = scheduleManager.store(file);
             scheduleManager.fillDBfromCSV(serverFile);
-            model.addAttribute("status", "file upload successfully");
+            model.addAttribute("status", "file uploaded successfully");
             return "addSchedule";
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             model.addAttribute("status", e.getMessage());
             return "addSchedule";
         }

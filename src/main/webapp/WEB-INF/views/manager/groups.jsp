@@ -58,15 +58,15 @@
 <script>
 	$(function() {
 		cancelModify = function() {
-			$(".modify-existing-group").css("display", "none");
-			$(".create-new-group").css("display", false);
+          $(".modify-existing-group").css("display", "none");
+          $(".createAchievementType-new-group").css("display", false);
 			$("input[name=type]").val("create");
 			$("input[name=id]").val("");
 			$("input[name=group_name]").val("");
 			$("input[name=dateStart]").val("");
 			$("input[name=dateEnd]").val("");
 		};
-		
+
 		$("#date-from").datepicker({
 			defaultDate : "+1w",
 			changeMonth : true,
@@ -89,18 +89,18 @@
 
 		$("#message-box").on("click", function() {
 			$(this).fadeOut();
-		})
+        });
 
 		$("body").on("click", ".modifiable", function() {
 				row = $(this).parent().parent().parent();
-				$(".create-new-group").css("display", "none");
-				$(".modify-existing-group").css("display", false);
+          $(".createAchievementType-new-group").css("display", "none");
+          $(".modify-existing-group").css("display", false);
 				$("input[name=type]").val("modify");
 				$("input[name=id]").val($(row).find("input[name=modify]").val());
-				$("input[name=group_name]").val($(row).find(".group-name").html());
+          $("input[name=group_name]").val($(row).find(".group-name").html());
 				$("select[name=competence]").val($(row).find("input[name=competence-id]").val());
-				$("input[name=dateStart]").val($(row).find(".group-opened").html());
-				$("input[name=dateEnd]").val($(row).find(".group-closed").html());
+          $("input[name=dateStart]").val($(row).find(".group-opened").html());
+          $("input[name=dateEnd]").val($(row).find(".group-closed").html());
 			});
 
 		$("body").on("click", "#cancel-modify", function() {
@@ -110,13 +110,13 @@
 		$("body").on("click", ".deleteable", function() {
 			var row = $(this).parent().parent().parent();
 			$("input[name=type]").val("delete");
-			$("input[name=id]").val($(row).find("input[name=delete]").val());
+            $("input[name=id]").val($(row).find("input[name=deleteAchievementType]").val());
 			var data = $("form").serialize();
 
 			$("input[name=type]").val("create");
 
 			$.ajax({
-				url : "<c:url value="/manager/groups/manage/"/>",
+              url: "<c:url value="/manager/groups/manage/"/>",
 				type : "post",
 				data : data,
 				statusCode : {
@@ -150,17 +150,17 @@
 				$(button).attr("disabled", true);
 				var ok = function () {};
 				var someError = function() {
-					
-				}
+
+                };
 				var rowRenamer = function(id) {
-					return $("#group-row").html()
+                  return $("#group-row").html()
 							.replace(/{{name}}/g, $("input[name=group_name]").val())
 							.replace(/{{start}}/g, $("input[name=dateStart]").val())
 							.replace(/{{end}}/g, $("input[name=dateEnd]").val())
 							.replace(/{{id}}/g, id)
 							.replace(/{{comp_id}}/g, $("select[name=competence]").val());
 				};
-				
+
 				switch ($("input[name=type]").val()) {
 				case "create":
 					ok = function(id) {
@@ -171,15 +171,15 @@
 							);
 						} else {
 							$("#message-box").after(
-								$("#group-panel").html()
+                                $("#group-panel").html()
 									.replace(/{{competence}}/g, $("select[name=competence] option:selected").text())
 									.replace(/{{row}}/g, rowRenamer(id))
 							);
 						}
 					};
 					break;
-					
-				case "modify":
+
+                    case "modify":
 					ok = function() {
 						var id = $("input[name=id]").val();
 						var divs = $("input[name=modify][value=" + id + "]").parent().parent().find("div");
@@ -191,7 +191,7 @@
 				}
 
 				$.ajax({
-					url : "<c:url value="/manager/groups/manage/"/>",
+                  url: "<c:url value="/manager/groups/manage/"/>",
 					type : "post",
 					data : $("form").serialize(),
 					statusCode : {
@@ -218,10 +218,10 @@
     <div id="message-box" class="alert alert-danger text-center"
          style="width: 400px; position: fixed; left: 50%; top: 50%; margin-left: -200px; z-index: 10; display: none"></div>
 
-    <c:forEach var="mapItem" items="${groups}">
-        <c:if test="${not empty mapItem.value}">
-            <div id="${mapItem.key}" class="panel panel-default">
-                <div class="panel-heading">${mapItem.key}</div>
+    <c:forEach var="competence" items="${competences}">
+        <c:if test="${not empty competence.name}">
+            <div id="${competence.name}" class="panel panel-default">
+                <div class="panel-heading">${competence.name}</div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -238,11 +238,11 @@
                         </div>
                     </div>
                     <hr/>
-                    <c:forEach var="item" items="${mapItem.value}">
+                    <c:forEach var="item" items="${competence.groups}">
                         <div class="row">
                             <div class="col-md-6 group-name">${item.name }</div>
-                            <div class="col-md-2 group-opened">${item.opened }</div>
-                            <div class="col-md-2 group-closed">${item.closed }</div>
+                            <div class="col-md-2 group-opened">${item.dateOpened }</div>
+                            <div class="col-md-2 group-closed">${item.dateClosed }</div>
                             <div class="col-md-2 text-center">
                                 <div class="btn-group btn-group-lg">
                                     <button type="button" class="modifiable btn btn-warning">
@@ -312,7 +312,8 @@
                         <button id="form-submit" class="btn btn-default form-control"
                                 type="button">
                             <span class="create-new-group">Створити</span> <span
-                                class="modify-existing-group" style="display: none">Редагувати</span>
+                                class="modify-existing-group"
+                                style="display: none">Редагувати</span>
                         </button>
                     </div>
                 </form>

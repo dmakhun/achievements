@@ -2,31 +2,15 @@ package com.softserve.edu.exception;
 
 public class GroupManagerException extends Exception {
 
-    /**
-     * GroupManagerException
-     */
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * The default constructor.
-     */
     public GroupManagerException() {
-        super();
     }
 
-    /**
-     * @param msg - the message to add to exception.
-     * @param e   - the exception.
-     */
-    public GroupManagerException(String msg, Exception e) {
-        super(msg, e);
+    public GroupManagerException(String message, Exception e) {
+        super(message, e);
     }
 
-    /**
-     * @param msg - the message to add to exception.
-     */
-    public GroupManagerException(String msg) {
-        super(msg);
+    public GroupManagerException(String message) {
+        super(message);
     }
 
 }

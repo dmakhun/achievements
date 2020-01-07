@@ -16,13 +16,13 @@
 <body>
 <div class="container">
     <section class="register">
-        <center>
+        <div style="text-align: center;">
             <h1>
                 <spring:message code="myprofile.title"/><br>
             </h1>
-            <h3>${mess}</h3>
+            <h3>${error}</h3>
             <br>
-        </center>
+        </div>
 
         <table width="100%" cellspacing="0" cellpadding="0">
             <tr>
@@ -69,6 +69,7 @@
                                 </div>
                             </div>
                         </div>
+                    </form>
             </tr>
         </table>
 
@@ -77,9 +78,9 @@
 </div>
 <br>
 <section class="about">
-    <center>
-        � 1993-2014 <a href="http://softserve.ua/">SoftServe</a>
-    </center>
+    <div style="text-align: center;">
+        <a href="https://softserveinc.com">SoftServe</a>
+    </div>
 </section>
 
 

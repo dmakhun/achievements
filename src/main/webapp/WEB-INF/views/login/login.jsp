@@ -34,7 +34,8 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <input class="form-control" type="text" name="j_username" id="username" value="${username}" size="20"/>
+                <input class="form-control" type="text" name="username" id="username"
+                       value="${username}" size="20"/>
             </div>
         </div>
     </div>
@@ -45,7 +46,8 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <input class="form-control" type="password" name="j_password" id="password" size="20"/>
+                <input class="form-control" type="password" name="password" id="password"
+                       size="20"/>
             </div>
         </div>
     </div>
@@ -67,7 +69,7 @@
         <div class="col-md-offset-5 col-md-4">
             <hr/>
             <a href="<c:url value="/registration" />"> <spring:message code="registration.registration"/></a> |
-            <a href="https://www.google.com/accounts/recovery"> <spring:message code="registration.lostPassword"/></a>
+            <a href="TODO"> <spring:message code="registration.lostPassword"/></a>
         </div>
     </div>
 </form>

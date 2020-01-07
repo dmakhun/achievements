@@ -77,18 +77,10 @@
         <error-code>503</error-code>
         <location>/myerror/503</location>
     </error-page>
-    <!-- <error-page>
-        <exception-type>java.lang.Throwable</exception-type>
-        <location>/myerror/1</location>
-    </error-page>
-    <error-page>
-        <exception-type>java.lang.Exception</exception-type>
-        <location>/myerror/2</location>
-    </error-page> -->
 
     <filter>
         <filter-name>DefaultEncodingFiltter</filter-name>
-        <filter-class>com.softserve.edu.util.DefaultEncodingFiltter</filter-class>
+        <filter-class>com.softserve.edu.util.DefaultEncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -98,20 +90,5 @@
         <filter-name>DefaultEncodingFiltter</filter-name>
         <url-pattern>/i18n-tutorial/*</url-pattern>
     </filter-mapping>
-
-    <!-- Rest servlet dedicated to work with com.softserve.edu.rest< -->
-    <servlet>
-        <servlet-name>jersey-servlet</servlet-name>
-        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-        <init-param>
-            <param-name>javax.ws.rs.Application</param-name>
-            <param-value>com.softserve.edu.rest.RestApplication</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>jersey-servlet</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
 
 </web-app>

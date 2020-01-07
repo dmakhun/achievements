@@ -17,7 +17,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Groups will be opened recently
+                Groups that will be opened soon
             </div>
             <table class="table table-hover">
                 <tr>
@@ -29,7 +29,7 @@
                     <c:forEach var="item" items="${list}">
                         <tr>
                             <td>${item.name}</td>
-                            <td>${item.opened}</td>
+                            <td>${item.dateOpened}</td>
                             <td>${item.competence.name}</td>
                         </tr>
                     </c:forEach>

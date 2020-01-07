@@ -11,11 +11,14 @@
         </thead>
 
         <tbody>
-        <c:forEach var="iteam" items="${competences}" varStatus="i">
+        <c:forEach var="competence" items="${competences}" varStatus="i">
             <tr>
                 <td>${i.count}</td>
-                <td>${iteam.name}</td>
-                <td><fmt:formatDate value="${iteam.date}" pattern="dd-mm-yyyy"/></td>
+                <td>${competence.name}</td>
+                <fmt:parseDate value="${competence.dateCreated}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+                <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="date"
+                                pattern="dd-MM-yyyy"/>
+                <td>${newParsedDate}</td>
             </tr>
         </c:forEach>
         </tbody>

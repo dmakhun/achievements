@@ -18,8 +18,9 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <sec:authorize ifAnyGranted='ROLE_MANAGER'>
-                    <li><a href="<c:url value="/manager/competence" />"> Quiz</a></li>
+                <sec:authorize access="hasAnyRole('ROLE_MANAGER')">
+                    <li><a href="<c:url value="/manager/competence" />"> Quiz</a>
+                    </li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle"
                                             data-toggle="dropdown"><spring:message code="menu.10tab"/> <b
                             class="caret"></b></a>
@@ -31,15 +32,15 @@
                     </li>
                 </sec:authorize>
 
-                <sec:authorize ifNotGranted='ROLE_ADMIN'>
+                <sec:authorize access="!hasAnyRole('ROLE_ADMIN')">
                     <li><a href="<c:url value="/competence" />"><spring:message
                             code="menu.3tab1"/></a></li>
                 </sec:authorize>
 
-                <sec:authorize ifAnyGranted='ROLE_ADMIN'>
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
                     <li><a href="<c:url value ="/admin/competenceAll"/>">Competence</a></li>
                     <li><a
-                            href="<c:url value="/admin/achievementtype/allAchievements" />"><spring:message
+                            href="<c:url value="/admin/achievementtype/allAchievementTypes" />"><spring:message
                             code="menu.4tab1"/></a></li>
                     <li><a href="<c:url value="/admin/allManagers" />">Managers</a></li>
                     <li class="dropdown"><a href="<c:url value="/scheduleTable"/>"
@@ -51,7 +52,7 @@
                         </ul>
                     </li>
                 </sec:authorize>
-                <sec:authorize ifAnyGranted='ROLE_MANAGER,ROLE_USER'>
+                <sec:authorize access="hasAnyRole('ROLE_MANAGER','ROLE_USER')">
                     <li><a href="<c:url value="/scheduleTable"/>">Schedule</a></li>
                 </sec:authorize>
                 <li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -69,7 +70,7 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <sec:authorize ifAnyGranted='ROLE_ANONYMOUS'>
+                <sec:authorize access="hasAnyRole('ROLE_ANONYMOUS')">
                     <li style="float: right;"><a href="<c:url value= "/login"/>"><spring:message
                             code="menu.2tab"/></a></li>
                     <li style="float: right;"><a
@@ -77,7 +78,7 @@
                             code="menu.3tab"/></a></li>
                 </sec:authorize>
 
-                <sec:authorize ifAnyGranted='ROLE_USER,ROLE_MANAGER,ROLE_ADMIN'>
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_MANAGER')">
                     <li style="float: right;"><a
                             href=<c:url value='/j_spring_security_logout'/>><spring:message
                             code="registration.logout"></spring:message></a></li>
