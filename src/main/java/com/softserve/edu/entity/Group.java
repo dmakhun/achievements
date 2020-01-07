@@ -1,77 +1,21 @@
 package com.softserve.edu.entity;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-/**
- * Represents bean class for Group entity.
- *
- * @author Nazar.
- */
-@XmlRootElement
+
 @Entity
-@Table(name = "ach_Group")
-@NamedQueries({
-        @NamedQuery(name = Group.SHOW_GROUPS_OPENED_IN_FUTURE, query = Group.SHOW_GROUPS_OPENED_IN_FUTURE_QUERY),
-        @NamedQuery(name = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE, query = Group.SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY),
-        @NamedQuery(name = Group.FIND_LIST_GROUPS_BY_COMPETENCE, query = Group.FIND_LIST_GROUPS_BY_COMPETENCE_QUERY),
-        @NamedQuery(name = Group.FIND_LIST_GROUPS_BY_COMPETENCE_UUID, query = Group.FIND_LIST_GROUPS_BY_COMPETENCE_UUID_QUERY),
-        @NamedQuery(name = Group.ADD_GROUP_TO_USER, query = Group.ADD_GROUP_TO_USER_QUERY),
-        @NamedQuery(name = Group.ADD_USER_TO_GROUP, query = Group.ADD_USER_TO_GROUP_QUERY),
-        @NamedQuery(name = Group.GET_USER_LIST_IN_GROUP, query = Group.GET_USER_LIST_IN_GROUP_QUERY),
-        @NamedQuery(name = Group.FIND_USER_BY_GROUP_UUID, query = Group.FIND_USER_BY_GROUP_UUID_QUERY),
-        @NamedQuery(name = Group.GET_GROUP_BY_NAME, query = Group.GET_GROUP_BY_NAME_QUERY),
-        @NamedQuery(name = Group.FIND_ONLY_OPENED_GROUPS, query = Group.FIND_ONLY_OPENED_GROUPS_QUERY),
-        @NamedQuery(name = Group.FIND_GROUPS, query = Group.FIND_GROUPS_QUERY)})
-public class Group extends AbstractEntity {
-
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE = "Group.inFuture";
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_QUERY = "from Group where opened > ?1";
-
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE = "Group.inFutureCompetenceId";
-    public static final String SHOW_GROUPS_OPENED_IN_FUTURE_BY_COMPETENCE_QUERY = "from Group where opened > ?1 and competence_id = ?2";
-
-    public static final String FIND_LIST_GROUPS_BY_COMPETENCE = "Group.findByCompetence";
-    public static final String FIND_LIST_GROUPS_BY_COMPETENCE_QUERY = "from Group where competence_id = ?1 ";
-
-    public static final String FIND_LIST_GROUPS_BY_COMPETENCE_UUID = "Group.findByCompetenceUuid";
-    public static final String FIND_LIST_GROUPS_BY_COMPETENCE_UUID_QUERY = "from Group g INNER JOIN fetch g.competence c WHERE c.uuid = ?1";
-
-    public static final String ADD_GROUP_TO_USER = "Group.addUserToUser";
-    public static final String ADD_GROUP_TO_USER_QUERY = "from User u WHERE u.uuid = ?1";
-
-    public static final String ADD_USER_TO_GROUP = "Group.addUserToGroup";
-    public static final String ADD_USER_TO_GROUP_QUERY = "from Group g WHERE g.uuid = ?1";
-
-    public static final String GET_USER_LIST_IN_GROUP = "Group.userList";
-    public static final String GET_USER_LIST_IN_GROUP_QUERY = "select user from User user inner join user.groups ach_group  where ach_group.id = ?1";
-
-    public static final String FIND_USER_BY_GROUP_UUID = "Group.findUsersByGroupUuid";
-    public static final String FIND_USER_BY_GROUP_UUID_QUERY = "from User u INNER JOIN fetch u.groups g where g.uuid = ?1";
-
-    public static final String GET_GROUP_BY_NAME = "Group.getGroupByName";
-    public static final String GET_GROUP_BY_NAME_QUERY = "from Group where name like ?1";
-
-    public static final String FIND_ONLY_OPENED_GROUPS = "Group.opened";
-    public static final String FIND_ONLY_OPENED_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1 and g.closed > ?2";
-
-    public static final String FIND_GROUPS = "Group.shit";
-    public static final String FIND_GROUPS_QUERY = "FROM Group g inner join fetch g.competence c WHERE c.id = ?1";
-
-    /**
-     * @return the group_id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
-
-    /**
-     * @return the name
-     */
+@Table(name = "groups")
+public class Group extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "competence_id")
@@ -80,48 +24,35 @@ public class Group extends AbstractEntity {
     @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "opened")
-    @Temporal(value = TemporalType.DATE)
-    private Date opened;
+    private LocalDate dateOpened;
 
-    @Column(name = "closed")
-    @Temporal(value = TemporalType.DATE)
-    private Date closed;
+    private LocalDate dateClosed;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "ach_UserToGroup", joinColumns = {@JoinColumn(name = "group_id")}, inverseJoinColumns = {
-            @JoinColumn(name = "user_id")})
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE})
     private Set<User> users;
 
-    public Group(Competence competence, String name, Date opened, Date closed, Set<User> users) {
-        super();
+    public Group(Competence competence, String name, LocalDate dateOpened, LocalDate dateClosed,
+                 Set<User> users) {
         this.competence = competence;
         this.name = name;
-        this.opened = opened;
-        this.closed = closed;
+        this.dateOpened = dateOpened;
+        this.dateClosed = dateClosed;
         this.users = users;
     }
 
     public Group() {
+
     }
 
-    @XmlTransient
     public Set<User> getUsers() {
-        return users;
+        return users != null ? users : new HashSet<>();
     }
 
     public void setUsers(Set<User> users) {
         this.users = users;
     }
 
-    @XmlTransient
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Competence getCompetence() {
         return competence;
@@ -139,45 +70,21 @@ public class Group extends AbstractEntity {
         this.name = name;
     }
 
-    public Date getOpened() {
-        return opened;
+    public LocalDate getDateOpened() {
+        return dateOpened;
     }
 
-    public void setOpened(Date opened) {
-        this.opened = opened;
+    public void setDateOpened(LocalDate opened) {
+        dateOpened = opened;
     }
 
-    public Date getClosed() {
-        return closed;
+    public LocalDate getDateClosed() {
+        return dateClosed;
     }
 
-    public void setClosed(Date closed) {
-        this.closed = closed;
+    public void setDateClosed(LocalDate closed) {
+        dateClosed = closed;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Group other = (Group) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
 
 }

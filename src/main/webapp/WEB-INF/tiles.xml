@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE  tiles-definitions  PUBLIC  "-//Apache  Software  Foundation//DTD  Tiles
-Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
     <definition name="baseLayout" template="/WEB-INF/views/layout/layout.jsp">
@@ -8,16 +9,15 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"/>
         <put-attribute name="body" value=""/>
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
-
     </definition>
-    <definition name="jqeryLayout" template="/WEB-INF/views/layout/layout2.jsp">
+    <definition name="layout_body" template="/WEB-INF/views/layout/layout_body.jsp">
         <put-attribute name="body" value=""/>
     </definition>
 
     <!-- achievement folder -->
-    <definition name="allAchievements" extends="baseLayout">
+    <definition name="allAchievementTypes" extends="baseLayout">
         <put-attribute name="title" value="all Achievements"/>
-        <put-attribute name="body" value="/WEB-INF/views/achievement/allAchievements.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/achievement/allAchievementTypes.jsp"/>
     </definition>
 
     <definition name="awardUser" extends="baseLayout">
@@ -33,7 +33,8 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
     <definition name="removeAchievementType" extends="baseLayout">
         <put-attribute name="title" value="remove Achievement Type"/>
-        <put-attribute name="body" value="/WEB-INF/views/achievementType/removeAchievementType.jsp"/>
+        <put-attribute name="body"
+                value="/WEB-INF/views/achievementType/removeAchievementType.jsp"/>
     </definition>
 
     <!-- competencies folder -->
@@ -42,18 +43,19 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
         <put-attribute name="body" value="/WEB-INF/views/competencies/addCompetence.jsp"/>
     </definition>
 
-    <definition name="AllCompetencies" extends="baseLayout">
-        <put-attribute name="title" value="All Competencies"/>
-        <put-attribute name="body" value="/WEB-INF/views/competencies/AllCompetencies.jsp"/>
+    <definition name="allCompetences" extends="baseLayout">
+        <put-attribute name="title" value="All Competences"/>
+        <put-attribute name="body" value="/WEB-INF/views/competencies/allCompetences.jsp"/>
     </definition>
 
     <definition name="forDeleteOrAddCompetence" extends="baseLayout">
         <put-attribute name="title" value="for Delete Or Add Competence"/>
-        <put-attribute name="body" value="/WEB-INF/views/competencies/forDeleteOrAddCompetence.jsp"/>
+        <put-attribute name="body"
+                value="/WEB-INF/views/competencies/forDeleteOrAddCompetence.jsp"/>
     </definition>
 
     <definition name="groupsAndCompetence" extends="baseLayout">
-        <put-attribute name="title" value="groups And Competence"/>
+        <put-attribute name="title" value="Groups And Competence"/>
         <put-attribute name="body" value="/WEB-INF/views/competencies/groupsAndCompetence.jsp"/>
     </definition>
 
@@ -67,34 +69,13 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
         <put-attribute name="body" value="/WEB-INF/views/competencies/showCompetence.jsp"/>
     </definition>
 
-    <!-- deleteJSP folder -->
-    <definition name="competence" extends="baseLayout">
-        <put-attribute name="title" value="competence page"/>
-        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/competence.jsp"/>
-    </definition>
-
-    <definition name="test" extends="baseLayout">
-        <put-attribute name="title" value="test page"/>
-        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/test.jsp"/>
-    </definition>
-
-    <definition name="topList_last" extends="baseLayout">
-        <put-attribute name="title" value="topList_last page"/>
-        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/topList_last.jsp"/>
-    </definition>
-
-    <definition name="topList" extends="baseLayout">
-        <put-attribute name="title" value="top List page"/>
-        <put-attribute name="body" value="/WEB-INF/views/deleteJSP/topList.jsp"/>
-    </definition>
-
     <!-- error folder -->
     <definition name="errorPage" extends="baseLayout">
         <put-attribute name="title" value="error page"/>
         <put-attribute name="body" value="/WEB-INF/views/error/errorPage.jsp"/>
     </definition>
 
-    <!-- group folder -->
+    <!-- Group folder -->
     <definition name="userlist" extends="baseLayout">
         <put-attribute name="title" value="user list page"/>
         <put-attribute name="body" value="/WEB-INF/views/group/userlist.jsp"/>
@@ -154,7 +135,7 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
     </definition>
 
     <definition name="groups" extends="baseLayout">
-        <put-attribute name="title" value="groups page"/>
+        <put-attribute name="title" value="Groups page"/>
         <put-attribute name="body" value="/WEB-INF/views/manager/groups.jsp"/>
     </definition>
 
@@ -201,13 +182,12 @@ Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
         <put-attribute name="body" value="/WEB-INF/views/user/userProfile.jsp"/>
     </definition>
 
-    <definition name="achievementTypeList" extends="jqeryLayout">
+    <definition name="achievementTypeList" extends="layout_body">
         <put-attribute name="body" value="/WEB-INF/views/achievementType/achievementTypeList.jsp"/>
     </definition>
 
-    <definition name="SearchByCriteria" extends="jqeryLayout">
-        <put-attribute name="body" value="/WEB-INF/views/manager/SearchByCriteria.jsp"/>
-
+    <definition name="dynamicSearch" extends="layout_body">
+        <put-attribute name="body" value="/WEB-INF/views/manager/dynamicSearch.jsp"/>
     </definition>
 
     <definition name="mainProfile" extends="baseLayout">

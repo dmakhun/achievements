@@ -1,17 +1,28 @@
 package com.softserve.edu.controller;
 
-import com.softserve.edu.dao.UserDao;
-import com.softserve.edu.entity.Achievement;
-import com.softserve.edu.entity.Competence;
-import com.softserve.edu.entity.Group;
+import static com.softserve.edu.util.Constants.GENERAL_ERROR;
+import static com.softserve.edu.util.Constants.ROLE_MANAGER;
+
+import com.softserve.edu.dao.AchievementRepository;
+import com.softserve.edu.dao.GroupRepository;
+import com.softserve.edu.dao.RoleRepository;
+import com.softserve.edu.dao.UserRepository;
 import com.softserve.edu.entity.User;
 import com.softserve.edu.exception.UserManagerException;
-import com.softserve.edu.manager.AchievementManager;
 import com.softserve.edu.manager.CompetenceManager;
-import com.softserve.edu.manager.RoleManager;
 import com.softserve.edu.manager.UserManager;
-import com.softserve.edu.util.FieldForSearchContrroller;
-import org.apache.log4j.Logger;
+import com.softserve.edu.util.FieldForSearchController;
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Files;
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
+import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,111 +30,80 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class UserController {
-    private static final String GENERALERROR = "redirect:/myerror/10";
-    private static final Logger LOGGER = Logger.getLogger(UserController.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    UserManager userManager;
+    private UserManager userManager;
     @Autowired
-    CompetenceManager competenceManager;
+    private CompetenceManager competenceManager;
     @Autowired
-    AchievementManager achievementManager;
+    private UserRepository userRepository;
     @Autowired
-    RoleManager roleManager;
+    private GroupRepository groupRepository;
     @Autowired
-    UserDao userDao;
+    private AchievementRepository achievementRepository;
     @Autowired
-    StandardPasswordEncoder encoder;
+    private RoleRepository roleRepository;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @RequestMapping(value = "/userHome", method = RequestMethod.GET)
-    public String userHome(Model model, Principal pr) {
+    public String userHome(Model model) {
         try {
-            Authentication auth = SecurityContextHolder.getContext()
-                    .getAuthentication();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = userManager.findByUsername(authentication.getName());
 
-            User user = userManager.findByUsername(auth.getName());
-
-            List<Group> groups = userManager.findGroups(user.getId(), false);
-            model.addAttribute("groups", groups);
-            List<Achievement> achievements = achievementManager
-                    .findUserAchievements(user.getId());
-
-            model.addAttribute("achievements", achievements);
-
-            List<Group> list = userManager.findGroups(userManager
-                    .findByUsername(auth.getName()).getId(), true);
-            List<Competence> buts = new ArrayList<>();
-            List<Competence> wantToAttend = competenceManager
-                    .findByUser(userManager.findByUsername(auth.getName())
-                            .getId());
-
-            for (Group group : list) {
-                buts.add(group.getCompetence());
-            }
-            buts.addAll(wantToAttend);
-
-            List<Competence> competences = competenceManager.listWithout(buts);
-
-            model.addAttribute("competences", competences);
-            model.addAttribute("waiting_attend", wantToAttend);
+            model.addAttribute("groups", groupRepository.findByUsers_Id(user.getId()));
+            model.addAttribute("achievements", achievementRepository.findByUserId(user.getId()));
+            model.addAttribute("availableCompetences", competenceManager.findAvailable(user));
+            model.addAttribute("userCompetences", groupRepository.findOpenedByUserId(user.getId()));
 
             return "userHome";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error("Home user page error ", e);
+            return GENERAL_ERROR;
         }
     }
 
     @RequestMapping(value = "/userHome", method = RequestMethod.POST)
     public String attend(
-            @RequestParam(value = "competence", required = true) Long competenceId,
-            Principal pr) {
-        Authentication auth = SecurityContextHolder.getContext()
-                .getAuthentication();
-
+            @RequestParam(value = "competence") long competenceId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
-            userManager.attendCompetence(
-                    userManager.findByUsername(auth.getName()).getId(),
-                    competenceId);
-
+            userManager
+                    .appendCompetence(userManager.findByUsername(authentication.getName()).getId(),
+                            competenceId);
             return "redirect:/user/userHome";
         } catch (UserManagerException e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
 
     }
 
     @RequestMapping(value = "/admin/removeManager", method = RequestMethod.POST)
-    public String removeManagerFromList(
-            Model model,
-            @RequestParam(value = "userlist", required = false, defaultValue = "") Long userId) {
+    public String removeManager(
+            @RequestParam(value = "userId", required = false, defaultValue = "") Long userId) {
         try {
             userManager.deleteById(userId);
-
             return "redirect:/admin/removeManager?status=success";
         } catch (UserManagerException e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
     }
 
@@ -138,18 +118,17 @@ public class UserController {
     @RequestMapping(value = "/admin/addManager", method = RequestMethod.POST)
     public
     @ResponseBody
-    String addManager(@Valid User user, BindingResult result, Model model) {
+    String addManager(@Valid User user, BindingResult result) {
         try {
             if (result.hasErrors()) {
                 return "redirect:/admin/allManagers?status=error";
             }
-            user = userManager.create(user.getName(), user.getSurname(),
-                    user.getUsername(), user.getPassword(), user.getEmail(),
-                    roleManager.findRole("ROLE_MANAGER"));
-            return user.getId().toString();
+            user.setRole(roleRepository.findByName(ROLE_MANAGER));
+            userManager.createUser(user);
+            return "admin/allManagers";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
     }
 
@@ -158,59 +137,49 @@ public class UserController {
             @RequestParam(value = "status", defaultValue = "", required = false) String status,
             Model model) {
         try {
-            List<User> managers = userManager.findAllManagers();
-            Long total = userDao.countManagers();
-            model.addAttribute("total", total);
+            List<User> managers = userRepository.findByRoleName(ROLE_MANAGER);
+            Map<String, String> searchBy = new FieldForSearchController<>(
+                    User.class).findAnnotation();
+            model.addAttribute("total", managers.size());
             model.addAttribute("user", new User());
-            Map<String, String> searchBy = new FieldForSearchContrroller<>(
-                    User.class).findAnnot();
             model.addAttribute("searchBy", searchBy);
-
             model.addAttribute("userlist", managers);
             model.addAttribute("status", status);
-
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
         return "allManagers";
     }
 
     @RequestMapping(value = "/admin/managers/search/{pattern}", method = RequestMethod.GET)
-    public String allManagersSearchByCriteria(
-            @RequestParam(value = "status", defaultValue = "", required = false) String result,
-            @RequestParam(value = "criteria") String criteria,
+    public String allManagersDynamicSearch(
+            @RequestParam(value = "parameter") String parameter,
             @RequestParam(value = "volume") int max,
-            @RequestParam(value = "pagination") int paging,
-            @RequestParam(value = "additionFind") boolean additionFind,
-            @PathVariable(value = "pattern") String pattern, Model model) {
+            @RequestParam(value = "pagination") int page,
+            @RequestParam(value = "isFirstChar") boolean isFirstChar,
+            @PathVariable(value = "pattern") String pattern,
+            Model model) {
         try {
-            int start = max * (paging - 1);
-            int end = max;
+            Iterable<User> foundManagers = userManager
+                    .dynamicSearch(parameter, pattern, ROLE_MANAGER, page, max,
+                            isFirstChar);
+            Iterable<User> allManagers = userManager
+                    .dynamicSearch(parameter, pattern, ROLE_MANAGER, 1,
+                            userRepository.findByRoleName(ROLE_MANAGER).size(), isFirstChar);
 
-            List<User> dynamicUsers = userDao.dynamicSearchTwoCriterias(start,
-                    end, criteria, pattern, additionFind,
-                    roleManager.findRole("ROLE_MANAGER"), "role", User.class);
+            model.addAttribute("userlist", foundManagers);
+            model.addAttribute("currentSize", Stream.of(allManagers).count());
 
-            List<User> allByCriteria = userDao.dynamicSearchTwoCriterias(0,
-                    userDao.countManagers().intValue(), criteria, pattern,
-                    additionFind, roleManager.findRole("ROLE_MANAGER"), "role",
-                    User.class);
-
-            model.addAttribute("userlist", dynamicUsers);
-            model.addAttribute("currentSize", allByCriteria.size());
-
-            return "SearchByCriteria";
+            return "dynamicSearch";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
-
     }
 
     @RequestMapping(value = "/admin/removeManager/{id}", method = RequestMethod.GET)
-    public String removeManagerById(Model model,
-                                    @PathVariable(value = "id") Long userId) {
+    public String removeManagerById(@PathVariable(value = "id") Long userId) {
         try {
             userManager.deleteById(userId);
             return "redirect:/admin/allManagers?status=success";
@@ -220,61 +189,58 @@ public class UserController {
     }
 
     @RequestMapping(value = "/image", method = RequestMethod.GET)
-    String dd(Model model) {
+    String getImage(Model model) {
         try {
-            Authentication auth = SecurityContextHolder.getContext()
+            Authentication authentication = SecurityContextHolder.getContext()
                     .getAuthentication();
-            model.addAttribute("username", auth.getName());
+            model.addAttribute("username", authentication.getName());
 
             return "image";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
     }
 
     @RequestMapping(value = "/image", method = RequestMethod.POST)
-    String uploadFileHandler(@RequestParam("file") MultipartFile file,
-                             Model model) {
-
+    String uploadFileHandler(@RequestParam("file") MultipartFile file) {
         try {
             if (!file.isEmpty() || file.getContentType().startsWith("image/")) {
-                Authentication auth = SecurityContextHolder.getContext()
+                Authentication authentication = SecurityContextHolder.getContext()
                         .getAuthentication();
                 byte[] imageInByte = file.getBytes();
-                User user = userManager.findByUsername(auth.getName());
+                User user = userManager.findByUsername(authentication.getName());
                 user.setPicture(imageInByte);
-                userManager.update(user);
+                userRepository.save(user);
             }
             return "redirect:/image";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
 
     }
 
     @RequestMapping(value = "/showImage/{username}")
     public ResponseEntity<byte[]> showImage(
-            @PathVariable(value = "username") String username)
-            throws IOException {
+            @PathVariable(value = "username") String username) {
         try {
             User user = userManager.findByUsername(username);
-            byte[] image = null;
+            byte[] image;
             if (user != null && user.getPicture() != null) {
                 image = user.getPicture();
             } else {
                 URL url = Thread.currentThread().getContextClassLoader()
                         .getResource("defaultPicture.png");
-                File file = new File(url.getPath().replaceAll("%20", " "));
+                File file = new File(Objects.requireNonNull(url).getPath().replaceAll("%20", " "));
                 image = Files.readAllBytes(file.toPath());
             }
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_PNG);
 
-            return new ResponseEntity<byte[]>(image, headers, HttpStatus.OK);
+            return new ResponseEntity<>(image, headers, HttpStatus.OK);
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -290,15 +256,13 @@ public class UserController {
 
             return "mainProfile";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
     }
 
     @RequestMapping(value = "/editprofile", method = RequestMethod.GET)
-    public String editProfile(
-
-            Model model, Principal principal) {
+    public String editProfile(Model model, Principal principal) {
         try {
             User user = userManager.findByUsername(principal.getName());
             model.addAttribute("id", user.getId());
@@ -309,39 +273,37 @@ public class UserController {
 
             return "userProfile";
         } catch (Exception e) {
-            LOGGER.error(e);
-            return GENERALERROR;
+            logger.error(e.getMessage());
+            return GENERAL_ERROR;
         }
     }
 
     @RequestMapping(value = "/editprofile", method = RequestMethod.POST)
     public String editProfileUpdate(@Valid User user, BindingResult result,
-                                    Model model, Principal principal) {
-
-        User currentUs = userManager.findByUsername(principal.getName());
+            Model model, Principal principal) {
+        User currentUser = userManager.findByUsername(principal.getName());
         model.addAttribute("name", user.getName());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("surname", user.getSurname());
-        model.addAttribute("username", currentUs.getUsername());
+        model.addAttribute("username", currentUser.getUsername());
 
         if (result.hasErrors()) {
-            model.addAttribute("mess", "bad fill filds");
+            model.addAttribute("error", "fields incorrectly filled out.");
             return "userProfile";
         }
         try {
-            userManager.update(currentUs.getId(), user.getName(),
+            userManager.updateUser(currentUser.getId(), user.getName(),
                     user.getSurname(), null, null, user.getEmail(), null);
             return "mainProfile";
         } catch (UserManagerException e) {
-            model.addAttribute("mess", "email already exist!!!");
-            LOGGER.error(e);
+            model.addAttribute("error", "email already exists.");
+            logger.error(e.getMessage());
             return "userProfile";
         }
-
     }
 
     @RequestMapping(value = "/passwordchanging", method = RequestMethod.GET)
-    public String passwordChan() {
+    public String passwordChange() {
         return "passwordchanging";
     }
 
@@ -349,7 +311,6 @@ public class UserController {
     public String passwordChanger(
             @RequestParam(value = "oldPassword", required = false, defaultValue = "") String oldPassword,
             @RequestParam(value = "newPassword", required = false, defaultValue = "") String newPassword,
-            @RequestParam(value = "confirmPassword", required = false, defaultValue = "") String confirmPassword,
             Principal principal, Model model) {
 
         try {
@@ -357,7 +318,7 @@ public class UserController {
 
             if (encoder.matches(oldPassword, user.getPassword())
                     && newPassword.length() >= 4) {
-                userManager.update(user.getId(), null, null, null, newPassword,
+                userManager.updateUser(user.getId(), null, null, null, newPassword,
                         null, null);
                 model.addAttribute("name", user.getName());
                 model.addAttribute("email", user.getEmail());
@@ -366,13 +327,10 @@ public class UserController {
                 return "mainProfile";
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            logger.error(e.getMessage());
             model.addAttribute("error", true);
         }
         return "passwordchanging";
 
     }
-
-    //public String rating()
-
 }

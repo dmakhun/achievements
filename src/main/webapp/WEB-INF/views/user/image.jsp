@@ -8,7 +8,7 @@
         <spring:message code="image.title"/>
         <br>
     </h1>
-    <h3>${mess}</h3>
+    <h3>${error}</h3>
     <form method="post" enctype="multipart/form-data">
         <br/>
         <spring:message code="image.file"/>

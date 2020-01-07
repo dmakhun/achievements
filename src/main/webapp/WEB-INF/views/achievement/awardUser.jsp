@@ -10,7 +10,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Achievements</div>
             <table class="table">
-                <c:forEach var="item" items="${achList}">
+                <c:forEach var="item" items="${achievements}">
 
                     <tr>
                         <form method="POST">
