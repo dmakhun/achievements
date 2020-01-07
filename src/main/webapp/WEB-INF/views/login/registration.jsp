@@ -50,7 +50,7 @@
 </script>
 
 <sf:form method="post" action="createaccount" id="details"
-         commandName="user">
+         modelAttribute="user">
 
 
     <div class="row">

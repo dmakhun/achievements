@@ -13,8 +13,8 @@
             <c:forEach var="item" items="${groups}">
                 <tr>
                     <td>${item.name}</td>
-                    <td>${item.opened}</td>
-                    <td>${item.closed}</td>
+                    <td>${item.dateOpened}</td>
+                    <td>${item.dateClosed}</td>
                 </tr>
             </c:forEach>
         </table>
@@ -37,7 +37,7 @@
 </div>
 <br>
 <div class="container">
-    <sec:authorize ifAnyGranted='ROLE_USER'>
+    <sec:authorize access="hasAnyRole('ROLE_USER')">
         <%@ include file="simpleUserProfile.jsp" %>
     </sec:authorize>
 </div>

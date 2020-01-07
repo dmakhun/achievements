@@ -6,7 +6,7 @@
     <h1>Welcome</h1>
 </center>
 
-<sec:authorize ifAnyGranted='ROLE_USER'>
+<sec:authorize access="hasAnyRole('ROLE_USER')">
     <%@ include file="simpleUserProfile.jsp" %>
 </sec:authorize>
 </body>

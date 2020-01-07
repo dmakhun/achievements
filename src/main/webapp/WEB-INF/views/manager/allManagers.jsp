@@ -71,10 +71,10 @@
 			url : '<c:url value="/admin/managers/search/"/>'
 					+ $("#pattern").val(),
 			data : {
-				"criteria" : $("#selector").val(),
+				"parameter" : $("#selector").val(),
 				"volume" : $("#volume").val(),
 				"pagination" : count,
-				"additionFind" : finder
+				"isFirstChar" : finder
 			},
 			success : function(text) {
 				$(".manager-list").remove();			
@@ -237,7 +237,7 @@
 
 </div>
 <div id="add" style="display: none">
-    <sf:form id="formAddManager" commandName="user">
+    <sf:form id="formAddManager" modelAttribute="user">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">

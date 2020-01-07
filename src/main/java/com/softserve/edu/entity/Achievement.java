@@ -1,47 +1,25 @@
 package com.softserve.edu.entity;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import java.util.Date;
+import java.time.LocalDateTime;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.springframework.data.annotation.CreatedDate;
 
-/**
- * Represents bean class for Competence entity.
- *
- * @author MyronKurus.
- */
-@XmlRootElement
 @Entity
-@Table(name = "ach_Achievement")
-@NamedQueries({
-        @NamedQuery(name = Achievement.GET_ACHIEVEMENT, query = Achievement.GET_ACHIEVEMENT_QUERY),
-        @NamedQuery(name = Achievement.GET_ACHIEVEMENT_FROM_USER, query = Achievement.GET_ACHIEVEMENT_FROM_USER_QUERY),
-        @NamedQuery(name = Achievement.GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT, query = Achievement.GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT_QUERY)
-})
-public class Achievement extends AbstractEntity {
-
-    public static final String GET_ACHIEVEMENT = "Achievement.findByAchievementTypeAndUser";
-    public static final String GET_ACHIEVEMENT_QUERY = "from Achievement where achievement_type_id = ?1 and user_id = ?2";
-
-    public static final String GET_ACHIEVEMENT_FROM_USER = "Achievement.getAchievementsByUserUuidFromUser";
-    public static final String GET_ACHIEVEMENT_FROM_USER_QUERY = "from User WHERE uuid like ?1";
-
-    public static final String GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT = "Achievement.getAchievementsByUserUuidFromAchievement";
-    public static final String GET_ACHIEVEMENT_FROM_LIST_ACHIEVEMENT_QUERY = "from Achievement WHERE user_id like ?1";
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+@Table(name = "achievements")
+public class Achievement extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "achievement_type_id")
     private AchievementType achievementType;
 
-    @Column(name = "created")
-    @Temporal(value = TemporalType.DATE)
-    private Date created;
+    @CreatedDate
+    @Column(name = "timeCreated")
+    private LocalDateTime timeCreated;
 
     @Column(name = "comment")
     private String comment;
@@ -53,20 +31,11 @@ public class Achievement extends AbstractEntity {
     public Achievement() {
     }
 
-    public Achievement(Date created, String comment) {
-        this.created = created;
-        this.comment = comment;
-    }
-
-    public Achievement(AchievementType achievementType, Date created,
-                       String comment) {
-        super();
+    public Achievement(AchievementType achievementType, String comment, User user) {
         this.achievementType = achievementType;
-        this.created = created;
         this.comment = comment;
-
+        this.user = user;
     }
-
 
     public User getUser() {
         return user;
@@ -74,15 +43,6 @@ public class Achievement extends AbstractEntity {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @XmlTransient
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public AchievementType getAchievementType() {
@@ -93,12 +53,12 @@ public class Achievement extends AbstractEntity {
         this.achievementType = achievementType;
     }
 
-    public Date getCreated() {
-        return created;
+    public LocalDateTime getTimeCreated() {
+        return timeCreated;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setTimeCreated(LocalDateTime created) {
+        this.timeCreated = created;
     }
 
     public String getComment() {

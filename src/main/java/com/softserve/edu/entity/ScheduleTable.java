@@ -1,16 +1,17 @@
 package com.softserve.edu.entity;
 
-import javax.persistence.*;
 import java.util.Calendar;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "ach_Schedule")
-public class ScheduleTable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+@Table(name = "schedules")
+public class ScheduleTable extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
@@ -33,9 +34,11 @@ public class ScheduleTable {
     @Column(name = "location", length = 50)
     private String location;
 
+    public ScheduleTable() {
+    }
+
     public ScheduleTable(Group group, String meetingType, Calendar begin,
-                         Calendar end, String description, String location) {
-        super();
+            Calendar end, String description, String location) {
         this.group = group;
         this.meetingType = meetingType;
         this.begin = begin;
@@ -44,15 +47,12 @@ public class ScheduleTable {
         this.location = location;
     }
 
-    public ScheduleTable() {
-    }
-
-    public Group getGroup() {
+    public Group getaGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setaGroup(Group aGroup) {
+        group = aGroup;
     }
 
     public String getMeetingType() {
@@ -93,14 +93,6 @@ public class ScheduleTable {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 }
