@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  achievements:
+    image: achievements
+    container_name: achievements-monolith
+    environment:
+      SPRING_DATASOURCE_DB_HOST: mysql-db-achievements
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db-achievements
+  mysql-db-achievements:
+    image: mysql:5.7
+    container_name: achievements-db
+    environment:
+      MYSQL_DATABASE: achievements
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    expose:
+      - '3306'
