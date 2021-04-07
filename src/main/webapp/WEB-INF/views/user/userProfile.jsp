@@ -112,8 +112,7 @@
 <br>
 <section class="about">
     <center>
-        � 1993-2014 <a href="http://softserve.ua/">SoftServe</a>
-
+        Training Academy
     </center>
 </section>
 

@@ -33,7 +33,7 @@
         </authentication-provider>
     </authentication-manager>
     <beans:bean
-            class="com.softserve.edu.manager.impl.UserDetailsServiceImpl"
+            class="com.edu.academy.manager.impl.UserDetailsServiceImpl"
             id="userDetailsServiceImpl"/>
 
 </beans:beans>

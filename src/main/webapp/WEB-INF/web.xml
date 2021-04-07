@@ -80,7 +80,7 @@
 
     <filter>
         <filter-name>DefaultEncodingFiltter</filter-name>
-        <filter-class>com.softserve.edu.util.DefaultEncodingFilter</filter-class>
+        <filter-class>com.edu.academy.util.DefaultEncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>

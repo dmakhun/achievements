@@ -4,13 +4,13 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <persistence-unit name="entityManager" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.softserve.edu.entity.Role</class>
-        <class>com.softserve.edu.entity.User</class>
-        <class>com.softserve.edu.entity.Competence</class>
-        <class>com.softserve.edu.entity.Group</class>
-        <class>com.softserve.edu.entity.AchievementType</class>
-        <class>com.softserve.edu.entity.Achievement</class>
-        <class>com.softserve.edu.entity.ScheduleTable</class>
+        <class>com.edu.academy.entity.Role</class>
+        <class>com.edu.academy.entity.User</class>
+        <class>com.edu.academy.entity.Competence</class>
+        <class>com.edu.academy.entity.Group</class>
+        <class>com.edu.academy.entity.AchievementType</class>
+        <class>com.edu.academy.entity.Achievement</class>
+        <class>com.edu.academy.entity.ScheduleTable</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <validation-mode>NONE</validation-mode>
     </persistence-unit>
