@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredi
      *
      * @return list of all non-admins, non-managers
      */
-    @Query("from User where role.name=com.softserve.edu.util.Constants.ROLE_USER")
+    @Query("from User where role.name=com.edu.academy.util.Constants.ROLE_USER")
     List<User> findAllUsers();
 
     default Predicate createManagerPredicate(String column, String pattern, String role) {

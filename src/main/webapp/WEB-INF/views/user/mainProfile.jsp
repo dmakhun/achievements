@@ -79,7 +79,7 @@
 <br>
 <section class="about">
     <div style="text-align: center;">
-        <a href="https://softserveinc.com">SoftServe</a>
+        Training Academy
     </div>
 </section>
 
