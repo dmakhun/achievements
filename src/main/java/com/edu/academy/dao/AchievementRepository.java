@@ -1,12 +1,12 @@
 package com.edu.academy.dao;
 
 import com.edu.academy.entity.Achievement;
-
-import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface AchievementRepository extends CrudRepository<Achievement, Long> {
 

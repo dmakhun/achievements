@@ -1,15 +1,21 @@
 package com.edu.academy.manager.impl;
 
-import com.edu.academy.exception.StorageException;
 import com.edu.academy.dao.GroupRepository;
 import com.edu.academy.dao.ScheduleRepository;
 import com.edu.academy.entity.Group;
 import com.edu.academy.entity.Schedule;
 import com.edu.academy.entity.ScheduleGroup;
 import com.edu.academy.entity.ScheduleTable;
+import com.edu.academy.exception.StorageException;
 import com.edu.academy.manager.ScheduleManager;
 import com.edu.academy.manager.ScheduleRowsManager;
 import com.edu.academy.util.CsvUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,25 +27,17 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service("scheduleManager")
 public class ScheduleManagerImpl implements ScheduleManager {
 
+    private final Path rootLocation = Paths.get(System.getProperty("catalina.home"), "CSV");
     @Autowired
     private ScheduleRepository scheduleRepository;
-
     @Autowired
     private GroupRepository groupRepository;
-
     @Autowired
     private ScheduleRowsManager scheduleRowsManager;
-
-    private Path rootLocation = Paths.get(System.getProperty("catalina.home"), "CSV");
 
     @Override
     public Map<Long, String> table(Calendar calendar, String group) {

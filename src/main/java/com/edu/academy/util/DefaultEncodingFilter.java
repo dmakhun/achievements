@@ -1,12 +1,12 @@
 package com.edu.academy.util;
 
-import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import java.io.IOException;
 
 public class DefaultEncodingFilter implements Filter {
 
@@ -22,7 +22,7 @@ public class DefaultEncodingFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp,
-            FilterChain chain) throws ServletException, IOException {
+                         FilterChain chain) throws ServletException, IOException {
         String contentType = req.getContentType();
         if (contentType != null
                 && contentType.startsWith(FILTERABLE_CONTENT_TYPE)) {

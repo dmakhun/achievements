@@ -1,6 +1,5 @@
 package com.edu.academy.entity;
 
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 
 @Entity
@@ -38,7 +38,7 @@ public class AchievementType extends BaseEntity {
     }
 
     public AchievementType(Competence competence, String name, Integer points,
-            Set<Achievement> achievements) {
+                           Set<Achievement> achievements) {
         this.competence = competence;
         this.name = name;
         this.points = points;

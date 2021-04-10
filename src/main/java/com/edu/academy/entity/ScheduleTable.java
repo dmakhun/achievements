@@ -1,6 +1,5 @@
 package com.edu.academy.entity;
 
-import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -8,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.util.Calendar;
 
 @Entity
 @Table(name = "schedules")
@@ -38,7 +38,7 @@ public class ScheduleTable extends BaseEntity {
     }
 
     public ScheduleTable(Group group, String meetingType, Calendar begin,
-            Calendar end, String description, String location) {
+                         Calendar end, String description, String location) {
         this.group = group;
         this.meetingType = meetingType;
         this.begin = begin;
