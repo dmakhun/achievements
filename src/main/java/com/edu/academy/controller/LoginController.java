@@ -1,9 +1,5 @@
 package com.edu.academy.controller;
 
-import static com.edu.academy.util.Constants.GENERAL_ERROR;
-import static com.edu.academy.util.Constants.ROLE_USER;
-import static com.edu.academy.util.Constants.USER_CREATE_ERROR;
-
 import com.edu.academy.dao.GroupRepository;
 import com.edu.academy.dao.RoleRepository;
 import com.edu.academy.entity.Competence;
@@ -12,9 +8,6 @@ import com.edu.academy.entity.User;
 import com.edu.academy.exception.UserManagerException;
 import com.edu.academy.manager.CompetenceManager;
 import com.edu.academy.manager.UserManager;
-import java.util.ArrayList;
-import java.util.List;
-import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +20,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.edu.academy.util.Constants.GENERAL_ERROR;
+import static com.edu.academy.util.Constants.ROLE_USER;
+import static com.edu.academy.util.Constants.USER_CREATE_ERROR;
 
 /**
  * Handles requests for the application home page.

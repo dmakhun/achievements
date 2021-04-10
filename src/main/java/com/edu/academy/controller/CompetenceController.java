@@ -1,14 +1,11 @@
 package com.edu.academy.controller;
 
-import static com.edu.academy.util.Constants.GENERAL_ERROR;
-
 import com.edu.academy.dao.CompetenceRepository;
 import com.edu.academy.dao.GroupRepository;
 import com.edu.academy.entity.Competence;
 import com.edu.academy.exception.UserManagerException;
 import com.edu.academy.manager.CompetenceManager;
 import com.edu.academy.manager.UserManager;
-import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDate;
+
+import static com.edu.academy.util.Constants.GENERAL_ERROR;
 
 @Controller
 public class CompetenceController {

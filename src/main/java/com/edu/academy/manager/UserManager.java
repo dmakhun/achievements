@@ -1,7 +1,7 @@
 package com.edu.academy.manager;
 
-import com.edu.academy.exception.UserManagerException;
 import com.edu.academy.entity.User;
+import com.edu.academy.exception.UserManagerException;
 
 import java.util.Set;
 
@@ -14,17 +14,17 @@ public interface UserManager {
      * <p>
      * If passed parameter is null or empty, that field will be not updated.
      *
-     * @param userId User's id, that we want to modify.
-     * @param name New name.
-     * @param surname New surname.
+     * @param userId   User's id, that we want to modify.
+     * @param name     New name.
+     * @param surname  New surname.
      * @param username New username.
      * @param password New password.
-     * @param email New email.
-     * @param roleId New role id.
+     * @param email    New email.
+     * @param roleId   New role id.
      */
     User updateUser(Long userId, String name,
-            String surname, String username, String password,
-            String email, Long roleId) throws UserManagerException;
+                    String surname, String username, String password,
+                    String email, Long roleId) throws UserManagerException;
 
     void deleteById(Long id) throws UserManagerException;
 
@@ -38,11 +38,11 @@ public interface UserManager {
     /**
      * Removes user from attending to some competence
      *
-     * @param userId - user you want to remove
+     * @param userId       - user you want to remove
      * @param competenceId - competence Id from which you want to remove user\'s attend
      */
     void removeUserToCompetence(Long userId,
-            Long competenceId) throws UserManagerException;
+                                Long competenceId) throws UserManagerException;
 
     Set<String> findOpenedGroupNames(String username);
 
@@ -53,5 +53,5 @@ public interface UserManager {
     void removeAssociations(User user);
 
     Iterable<User> dynamicSearch(String parameter, String pattern, String role, int offset,
-            int limit, boolean isFirstChar);
+                                 int limit, boolean isFirstChar);
 }

@@ -8,6 +8,6 @@ public interface AchievementManager {
      * Award user with achievement.
      */
     void awardUser(long userId, long achievementTypeId,
-            String comment) throws AchievementManagerException;
+                   String comment) throws AchievementManagerException;
 
 }

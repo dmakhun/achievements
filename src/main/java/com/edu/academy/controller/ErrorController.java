@@ -14,7 +14,7 @@ public class ErrorController {
 
     @RequestMapping(value = "/myerror/{errorCode}", method = RequestMethod.GET)
     public String myError(@PathVariable(value = "errorCode") Integer errorCode,
-            ModelMap model) {
+                          ModelMap model) {
 
         switch (errorCode) {
             case 400:

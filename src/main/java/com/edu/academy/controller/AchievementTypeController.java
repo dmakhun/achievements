@@ -1,7 +1,5 @@
 package com.edu.academy.controller;
 
-import static com.edu.academy.util.Constants.GENERAL_ERROR;
-
 import com.edu.academy.dao.AchievementTypeRepository;
 import com.edu.academy.exception.AchievementTypeManagerException;
 import com.edu.academy.manager.AchievementTypeManager;
@@ -17,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import static com.edu.academy.util.Constants.GENERAL_ERROR;
 
 @Controller
 public class AchievementTypeController {
@@ -73,7 +73,7 @@ public class AchievementTypeController {
 
     @RequestMapping(value = "/admin/achievementtype/list/{id}", method = RequestMethod.GET)
     public String list(@PathVariable(value = "id") Long competenceId,
-            Model model) {
+                       Model model) {
         try {
             model.addAttribute("achievements", achievementTypeRepository
                     .findByCompetenceId(competenceId));

@@ -1,7 +1,5 @@
 package com.edu.academy.controller;
 
-import static com.edu.academy.util.Constants.GENERAL_ERROR;
-
 import com.edu.academy.dao.AchievementTypeRepository;
 import com.edu.academy.manager.AchievementManager;
 import org.slf4j.Logger;
@@ -13,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import static com.edu.academy.util.Constants.GENERAL_ERROR;
 
 @Controller
 public class AchievementController {

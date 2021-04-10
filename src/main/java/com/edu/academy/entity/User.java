@@ -1,12 +1,8 @@
 package com.edu.academy.entity;
 
-import static java.util.Arrays.asList;
-
-import com.edu.academy.validation.ValidEmail;
 import com.edu.academy.util.FieldForSearch;
+import com.edu.academy.validation.ValidEmail;
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +16,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
+
+import static java.util.Arrays.asList;
 
 
 @Entity
@@ -78,7 +78,7 @@ public class User extends BaseEntity {
     }
 
     public User(String name, String surname, String username, Role role,
-            String password, byte[] picture) {
+                String password, byte[] picture) {
         this.role = role;
         this.name = name;
         this.surname = surname;

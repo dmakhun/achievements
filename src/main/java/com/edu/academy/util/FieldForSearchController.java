@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class FieldForSearchController<T> {
 
-    private Class<T> clazz;
-    private Map<String, String> map = new HashMap<>();
+    private final Class<T> clazz;
+    private final Map<String, String> map = new HashMap<>();
 
     public FieldForSearchController(Class<T> clazz) {
         this.clazz = clazz;

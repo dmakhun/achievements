@@ -1,13 +1,14 @@
 package com.edu.academy.entity;
 
-import java.time.LocalDateTime;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.springframework.data.annotation.CreatedDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "achievements")

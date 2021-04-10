@@ -1,21 +1,22 @@
 package com.edu.academy.manager.impl;
 
-import com.edu.academy.exception.GroupManagerException;
 import com.edu.academy.dao.CompetenceRepository;
 import com.edu.academy.dao.GroupRepository;
 import com.edu.academy.dao.UserRepository;
 import com.edu.academy.entity.Competence;
 import com.edu.academy.entity.Group;
 import com.edu.academy.entity.User;
+import com.edu.academy.exception.GroupManagerException;
 import com.edu.academy.manager.GroupManager;
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Set;
 
 @Service("groupManager")
 public class GroupManagerImpl implements GroupManager {
@@ -49,7 +50,7 @@ public class GroupManagerImpl implements GroupManager {
     @Override
     @Transactional
     public void modify(Long groupId, String name, LocalDate startDate,
-            LocalDate endDate, Long competenceId) throws GroupManagerException {
+                       LocalDate endDate, Long competenceId) throws GroupManagerException {
 
         Competence competence = competenceRepository.findById(competenceId).get();
         Group group = groupRepository.findById(groupId).get();

@@ -1,17 +1,18 @@
 package com.edu.academy.manager.impl;
 
-import com.edu.academy.exception.AchievementTypeManagerException;
 import com.edu.academy.dao.AchievementTypeRepository;
 import com.edu.academy.dao.CompetenceRepository;
 import com.edu.academy.entity.AchievementType;
 import com.edu.academy.entity.Competence;
+import com.edu.academy.exception.AchievementTypeManagerException;
 import com.edu.academy.manager.AchievementTypeManager;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service("achievementTypeManager")
 public class AchievementTypeManagerImpl implements AchievementTypeManager {

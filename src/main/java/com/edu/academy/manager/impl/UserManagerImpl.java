@@ -1,9 +1,5 @@
 package com.edu.academy.manager.impl;
 
-import static com.edu.academy.util.Constants.FIELD_MAX_LENGTH;
-import static com.edu.academy.util.Constants.USER_UPDATE_ERROR;
-
-import com.edu.academy.exception.UserManagerException;
 import com.edu.academy.dao.AchievementRepository;
 import com.edu.academy.dao.CompetenceRepository;
 import com.edu.academy.dao.GroupRepository;
@@ -13,14 +9,8 @@ import com.edu.academy.entity.Competence;
 import com.edu.academy.entity.Group;
 import com.edu.academy.entity.Role;
 import com.edu.academy.entity.User;
+import com.edu.academy.exception.UserManagerException;
 import com.edu.academy.manager.UserManager;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.validation.ValidationException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +20,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.ValidationException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.edu.academy.util.Constants.FIELD_MAX_LENGTH;
+import static com.edu.academy.util.Constants.USER_UPDATE_ERROR;
 
 @Service("userManager")
 public class UserManagerImpl implements UserManager {
@@ -75,8 +76,8 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public User updateUser(Long userId, String name,
-            String surname, String username, String newPassword,
-            String email, Long roleId) throws UserManagerException {
+                           String surname, String username, String newPassword,
+                           String email, Long roleId) throws UserManagerException {
         User user = userRepository.findById(userId).get();
 
         try {
@@ -174,7 +175,7 @@ public class UserManagerImpl implements UserManager {
      * This means, that field should meet general rules: not empty, less than 50 chars.
      *
      * @param isExisting Flag that says we can ignore checks for emptiness because the method was
-     * called for updates.
+     *                   called for updates.
      */
     private boolean genericValidation(String field, String fieldName, boolean isExisting)
             throws ValidationException {
@@ -194,8 +195,8 @@ public class UserManagerImpl implements UserManager {
     }
 
     private boolean validateByPattern(User user, User otherUser,
-            String field, String pattern, String fieldName,
-            boolean isExisting) throws ValidationException {
+                                      String field, String pattern, String fieldName,
+                                      boolean isExisting) throws ValidationException {
 
         if (field != null && field.matches(pattern)
                 && (otherUser == null || otherUser.getId().equals(user.getId()))) {
@@ -223,7 +224,7 @@ public class UserManagerImpl implements UserManager {
     /**
      * Check password for non-emptiness.
      *
-     * @param password Password.
+     * @param password   Password.
      * @param isExisting Flag to ignore checks for isEmpty.
      */
     private boolean validatePassword(String password, boolean isExisting)
@@ -317,7 +318,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public Iterable<User> dynamicSearch(String parameter, String pattern, String role,
-            int offset, int limit, boolean isFirstChar) {
+                                        int offset, int limit, boolean isFirstChar) {
         pattern = isFirstChar ? "" : "%" + pattern + "%";
         return userRepository
                 .findAll(userRepository.createManagerPredicate(parameter, pattern, role),
