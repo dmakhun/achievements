@@ -1,4 +1,4 @@
-###Web-project awarding achievements and points to participants of some academy.
+### Web-project awarding achievements and points to participants of some academy.
 
 
 Either of those can be used to launch an app:
