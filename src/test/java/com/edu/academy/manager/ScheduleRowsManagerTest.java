@@ -4,13 +4,18 @@ package com.edu.academy.manager;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Calendar;
+
+import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Disabled
 public class ScheduleRowsManagerTest {
 
     @Autowired
     private ScheduleRowsManager scheduleRowsManager;
+
     @Test
     public void findMonday() {
         Calendar calendar = Calendar.getInstance();
