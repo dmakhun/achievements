@@ -4,13 +4,15 @@ import com.edu.academy.entity.QUser;
 import com.edu.academy.entity.User;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
+@Repository
+public interface UserRepository extends CrudRepository<User, Long>, QuerydslPredicateExecutor<User> {
 
     List<User> findByGroups_Id(Long groupId);
 
