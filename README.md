@@ -1,5 +1,12 @@
-### Web-project awarding achievements and points to participants of some academy.
+## Achievements
 
+Web-project awarding achievements and points to participants of certain groups.
+
+Simple legacy project developed initially by interns. This is **non**-Spring Boot project.
+
+### Environment installation instructions
+
+For macOS, brew is shown in examples, for Linux/Windows, tools should be installed appropriately.
 
 Either of those can be used to launch an app:
 
