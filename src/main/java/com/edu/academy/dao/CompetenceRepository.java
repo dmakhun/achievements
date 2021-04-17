@@ -1,14 +1,14 @@
 package com.edu.academy.dao;
 
 import com.edu.academy.entity.Competence;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface CompetenceRepository extends CrudRepository<Competence, Long> {
+public interface CompetenceRepository extends JpaRepository<Competence, Long> {
 
     Competence findByName(String name);
 
