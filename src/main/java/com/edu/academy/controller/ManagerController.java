@@ -4,6 +4,8 @@ import com.edu.academy.dao.AchievementRepository;
 import com.edu.academy.dao.CompetenceRepository;
 import com.edu.academy.dao.GroupRepository;
 import com.edu.academy.dao.UserRepository;
+import com.edu.academy.entity.Competence;
+import com.edu.academy.entity.Group;
 import com.edu.academy.entity.User;
 import com.edu.academy.exception.GroupManagerException;
 import com.edu.academy.exception.UserManagerException;
@@ -24,13 +26,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.edu.academy.util.Constants.GENERAL_ERROR;
 import static com.edu.academy.util.Constants.ROLE_MANAGER;
+import static java.util.stream.Collectors.toMap;
 
 @Controller
 public class ManagerController {
@@ -53,9 +58,20 @@ public class ManagerController {
     private MessageSource messageSource;
 
     @RequestMapping(value = "/manager/groups", method = RequestMethod.GET)
-    public String groups(Model model) {
+    public String groups(@RequestParam(value = "status", required = false, defaultValue = "") String status,
+                         Model model) {
         try {
-            model.addAttribute("competences", competenceRepository.findWithOpenedGroups());
+            List<Competence> allCompetences = competenceRepository.findAll();
+            Map<String, List<Group>> groups = allCompetences.stream()
+                    .map(competence -> new AbstractMap.SimpleEntry<>(competence.getName(),
+                            groupRepository.findOpenedByCompetenceId(competence.getId())))
+                    .collect(toMap(AbstractMap.SimpleEntry::getKey,
+                            AbstractMap.SimpleEntry::getValue));
+
+            model.addAttribute("status", status);
+            model.addAttribute("groups", groups);
+            model.addAttribute("competences", allCompetences);
+
             return "groups";
         } catch (Exception e) {
             logger.error(e.getMessage());
