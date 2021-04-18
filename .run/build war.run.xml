@@ -1,12 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="build war" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="Package artifact" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
-      <option name="myGeneralSettings" />
-      <option name="myRunnerSettings" />
+      <option name="myGeneralSettings"/>
+      <option name="myRunnerSettings"/>
       <option name="myRunnerParameters">
         <MavenRunnerParameters>
           <option name="profiles">
-            <set />
+            <set/>
           </option>
           <option name="goals">
             <list>
