@@ -27,7 +27,7 @@
                 <configuration>
                     <ignorePackaging>true</ignorePackaging>
                     <port>8080</port>
-                    <path>/Achievements</path>
+                    <path>/achievements</path>
                 </configuration>
                 <dependencies>
                     <dependency>

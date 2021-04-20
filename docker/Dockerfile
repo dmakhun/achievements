@@ -12,4 +12,4 @@ COPY --from=build /workspace/target/*.war /usr/local/tomcat/webapps/achievements
 COPY docker/wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 EXPOSE 8080
-ENTRYPOINT ["/wait-for-it.sh", "localhost:3306", "-t", "30", "--", "catalina.sh", "run"]
+ENTRYPOINT ["/wait-for-it.sh", "localhost:3306", "-t", "20", "--", "catalina.sh", "run"]
