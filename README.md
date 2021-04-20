@@ -35,5 +35,17 @@ Either of those can be used to launch an app:
 
 After launching an app navigate to http://localhost:8080/achievements
 
+- Roles
+  - **Admin**: creates achievement types, creates new managers
+  - **Manager**: creates groups, approves participants into groups, awards achievements
+  - **User**: sends request to join a group for a particular competence
+  
+- Screenshots
+  ![Alt Text](config/screens/admin_all%20Achievements.png)
+  ![Alt Text](config/screens/admin_Delete%20Or%20Add%20Competence.png)
+  ![Alt Text](config/screens/manager_user%20list%20page.png)
+  ![Alt Text](config/screens/user_Home%20page.png)
+  ![Alt Text](config/screens/user_show%20Competence.png)
+
 Code is formatted with slightly modified default Intellij code style config, can be imported
 from `config/intellij-code-style.xml`
