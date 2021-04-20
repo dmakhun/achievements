@@ -1,6 +1,7 @@
 package com.edu.academy.entity;
 
 import com.edu.academy.util.CsvUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +10,9 @@ import java.util.List;
  */
 public class ScheduleGroup {
 
-    private String groupName;
+    private final String groupName;
+    private final List<Schedule> schedules = CsvUtils.mapToCSV();
     public List<Schedule> listScheduleForGroup;
-    private List<Schedule> schedules = CsvUtils.mapToCSV();
 
     public ScheduleGroup(String groupName) {
         this.groupName = groupName;

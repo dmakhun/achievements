@@ -1,8 +1,5 @@
 package com.edu.academy.controller;
 
-import static com.edu.academy.util.Constants.GENERAL_ERROR;
-import static com.edu.academy.util.Constants.ROLE_MANAGER;
-
 import com.edu.academy.dao.AchievementRepository;
 import com.edu.academy.dao.GroupRepository;
 import com.edu.academy.dao.RoleRepository;
@@ -12,15 +9,6 @@ import com.edu.academy.exception.UserManagerException;
 import com.edu.academy.manager.CompetenceManager;
 import com.edu.academy.manager.UserManager;
 import com.edu.academy.util.FieldForSearchController;
-import java.io.File;
-import java.net.URL;
-import java.nio.file.Files;
-import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Stream;
-import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +28,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Files;
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
+
+import static com.edu.academy.util.Constants.GENERAL_ERROR;
+import static com.edu.academy.util.Constants.ROLE_MANAGER;
 
 @Controller
 public class UserController {
@@ -280,7 +281,7 @@ public class UserController {
 
     @RequestMapping(value = "/editprofile", method = RequestMethod.POST)
     public String editProfileUpdate(@Valid User user, BindingResult result,
-            Model model, Principal principal) {
+                                    Model model, Principal principal) {
         User currentUser = userManager.findByUsername(principal.getName());
         model.addAttribute("name", user.getName());
         model.addAttribute("email", user.getEmail());

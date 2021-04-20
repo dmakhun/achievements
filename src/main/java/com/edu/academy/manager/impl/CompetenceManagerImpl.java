@@ -6,12 +6,13 @@ import com.edu.academy.entity.Competence;
 import com.edu.academy.entity.Group;
 import com.edu.academy.entity.User;
 import com.edu.academy.manager.CompetenceManager;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("competenceManager")
 public class CompetenceManagerImpl implements CompetenceManager {

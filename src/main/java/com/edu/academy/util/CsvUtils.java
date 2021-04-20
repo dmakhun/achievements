@@ -3,6 +3,8 @@ package com.edu.academy.util;
 import com.edu.academy.entity.Schedule;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,8 +12,6 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CsvUtils {
 
@@ -23,12 +23,8 @@ public class CsvUtils {
         return getBuilderForFile(new File(url.getFile()), getMappingStrategy());
     }
 
-    public List<Schedule> mapToCSV(File serverFile) {
-        return getBuilderForFile(serverFile, getMappingStrategy());
-    }
-
     private static List<Schedule> getBuilderForFile(File serverFile,
-            ColumnPositionMappingStrategy<Schedule> mappingStrategy) {
+                                                    ColumnPositionMappingStrategy<Schedule> mappingStrategy) {
         Reader reader = null;
         try {
             reader = new FileReader(serverFile);
@@ -47,5 +43,9 @@ public class CsvUtils {
                 "startTime", "endDateStr", "endTime", "description", "location"};
         mappingStrategy.setColumnMapping(columns);
         return mappingStrategy;
+    }
+
+    public List<Schedule> mapToCSV(File serverFile) {
+        return getBuilderForFile(serverFile, getMappingStrategy());
     }
 }

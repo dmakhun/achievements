@@ -4,12 +4,14 @@ import com.edu.academy.entity.QUser;
 import com.edu.academy.entity.User;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
-
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
 
     List<User> findByGroups_Id(Long groupId);
@@ -25,7 +27,7 @@ public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredi
      *
      * @return list of all non-admins, non-managers
      */
-    @Query("from User where role.name=com.softserve.edu.util.Constants.ROLE_USER")
+    @Query("from User where role.name=com.edu.academy.util.Constants.ROLE_USER")
     List<User> findAllUsers();
 
     default Predicate createManagerPredicate(String column, String pattern, String role) {

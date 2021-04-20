@@ -1,13 +1,8 @@
 package com.edu.academy.controller;
 
-import static com.edu.academy.util.Constants.GENERAL_ERROR;
-
 import com.edu.academy.manager.ScheduleManager;
 import com.edu.academy.manager.ScheduleRowsManager;
 import com.edu.academy.manager.UserManager;
-import java.io.File;
-import java.util.Calendar;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.util.Calendar;
+import java.util.Map;
+
+import static com.edu.academy.util.Constants.GENERAL_ERROR;
 
 @Controller
 public class ScheduleController {
@@ -37,7 +38,7 @@ public class ScheduleController {
 
     @RequestMapping(value = "/schedule/{group:[a-zA-Z0-9\\.\\-_]+}/{weekNumber}")
     public String schedule(@PathVariable("group") String group,
-            @PathVariable("weekNumber") Integer weekNumber, Model model) {
+                           @PathVariable("weekNumber") Integer weekNumber, Model model) {
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, 7 * weekNumber);
@@ -76,7 +77,7 @@ public class ScheduleController {
 
     @RequestMapping(value = "/addSchedule", method = RequestMethod.POST)
     String uploadFileHandler(@RequestParam("file") MultipartFile file,
-            Model model) throws IllegalStateException {
+                             Model model) throws IllegalStateException {
 
         try {
             File serverFile = scheduleManager.store(file);

@@ -10,7 +10,7 @@
 <c:choose>
     <c:when test="${not empty availableCompetences}">
         <form method="post">
-            Acquire to competence: <select name="competence">
+            Request to join a Competence: <select name="competence">
             <c:forEach var="item" items="${availableCompetences}">
                 <option value="${item.id}">${item.name}</option>
             </c:forEach>

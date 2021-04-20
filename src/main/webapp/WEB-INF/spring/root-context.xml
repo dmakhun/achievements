@@ -14,8 +14,8 @@
 
     <import resource="security-context.xml"/>
 
-    <context:component-scan base-package="com.softserve.edu.dao"/>
-    <context:component-scan base-package="com.softserve.edu.manager"/>
+    <context:component-scan base-package="com.edu.academy.dao"/>
+    <context:component-scan base-package="com.edu.academy.manager"/>
 
     <mvc:annotation-driven/>
 
@@ -64,6 +64,6 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <jpa:repositories base-package="com.softserve.edu.dao"/>
+    <jpa:repositories base-package="com.edu.academy.dao"/>
 
 </beans>
