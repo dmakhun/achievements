@@ -31,6 +31,7 @@ Either of those can be used to launch an app:
     DB_PASSWORD=<YOUR_DB_PASSWORD>
     DB_ROOT_PASSWORD=<YOUR_DB_ROOT_PASSWORD>
     ```
+  - insert test roles/users `mysql -h 127.0.0.1 -P 3306 -u <YOUR_USER> -p -D achievements < config/fillDB.sql`
   - run an app and the database by Docker compose `docker-compose -f docker/docker-compose.yml up`
 
 After launching an app navigate to http://localhost:8080/achievements
