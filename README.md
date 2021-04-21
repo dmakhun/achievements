@@ -31,17 +31,19 @@ Either of those can be used to launch an app:
     DB_PASSWORD=<YOUR_DB_PASSWORD>
     DB_ROOT_PASSWORD=<YOUR_DB_ROOT_PASSWORD>
     ```
-  - insert test roles/users `mysql -h 127.0.0.1 -P 3306 -u <YOUR_USER> -p -D achievements < config/fillDB.sql`
   - run an app and the database by Docker compose `docker-compose -f docker/docker-compose.yml up`
+  - insert test roles/users `mysql -h 127.0.0.1 -P 3306 -u <YOUR_USER> -p -D achievements < config/fillDB.sql`
 
 After launching an app navigate to http://localhost:8080/achievements
 
-- Roles
+You can login with username/password: *admin/admin*, *manager/manager*, *user/user* for an appropriate role in the project.
+
+#### Roles
   - **Admin**: creates achievement types, creates new managers
   - **Manager**: creates groups, approves participants into groups, awards achievements
   - **User**: sends request to join a group for a particular competence
   
-- Screenshots
+#### Screenshots
   ![Alt Text](config/screens/admin_all%20Achievements.png)
   ![Alt Text](config/screens/admin_Delete%20Or%20Add%20Competence.png)
   ![Alt Text](config/screens/manager_user%20list%20page.png)
