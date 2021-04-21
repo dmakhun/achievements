@@ -36,6 +36,8 @@ Either of those can be used to launch an app:
 
 After launching an app navigate to http://localhost:8080/achievements
 
+You can login with username/password: *admin/admin*, *manager/manager*, *user/user* for an appropriate role in the project.
+
 #### Roles
   - **Admin**: creates achievement types, creates new managers
   - **Manager**: creates groups, approves participants into groups, awards achievements
