@@ -31,7 +31,7 @@ import java.util.Map;
 @Service("scheduleManager")
 public class ScheduleManagerImpl implements ScheduleManager {
 
-    private final Path rootLocation = Paths.get(System.getProperty("catalina.home"), "CSV");
+    private final Path rootLocation = Paths.get(System.getProperty("user.dir"), "CSV");
     @Autowired
     private ScheduleRepository scheduleRepository;
     @Autowired
