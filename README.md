@@ -3,6 +3,7 @@
 Web-project awarding achievements and points to participants of certain groups.
 
 Simple legacy project developed initially by interns. This is **non**-Spring Boot project.
+Project compiles and runs on Java 17.
 
 ### Environment installation instructions
 
@@ -23,7 +24,7 @@ Either of those can be used to launch an app:
   - run Intellij maven run configuration `Achievements` to start an app on a Tomcat or in a command-line
     `mvn tomcat7:run`
 - Build and run on Docker (the simplest/slowest way)
-  - install Docker `brew cask install docker`
+  - install Docker `brew --cask install docker`
   - build an artifact and create a Docker image of an app `docker build -t achievements -f docker/Dockerfile .`
   - create `docker/.env` file with contents:
     ```
@@ -32,11 +33,11 @@ Either of those can be used to launch an app:
     DB_ROOT_PASSWORD=<YOUR_DB_ROOT_PASSWORD>
     ```
   - run an app and the database by Docker compose `docker-compose -f docker/docker-compose.yml up`
-  - insert test roles/users `mysql -h 127.0.0.1 -P 3306 -u <YOUR_USER> -p -D achievements < config/fillDB.sql`
+  - insert test roles/users `docker exec -i fc50aae91568 mysql -h 127.0.0.1 -P 3306 -u <YOUR_DB_USER> -p<YOUR_DB_PASSWORD> -D achievements < config/fillDB.sql`
 
 After launching an app navigate to http://localhost:8080/achievements
 
-You can login with username/password: *admin/admin*, *manager/manager*, *user/user* for an appropriate role in the project.
+You can log in with username/password: *admin/admin*, *manager/manager*, *user/user* for an appropriate role in the project.
 
 #### Roles
   - **Admin**: creates achievement types, creates new managers
