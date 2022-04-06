@@ -7,6 +7,7 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd"
         xmlns="http://www.springframework.org/schema/security">
 
+    <http pattern="/greeting" security="none"/>
 
     <http use-expressions="true">
         <access-denied-handler error-page="/myerror/403"/>
