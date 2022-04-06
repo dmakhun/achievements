@@ -78,17 +78,4 @@
         <location>/myerror/503</location>
     </error-page>
 
-    <filter>
-        <filter-name>DefaultEncodingFiltter</filter-name>
-        <filter-class>com.edu.academy.util.DefaultEncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>DefaultEncodingFiltter</filter-name>
-        <url-pattern>/i18n-tutorial/*</url-pattern>
-    </filter-mapping>
-
 </web-app>

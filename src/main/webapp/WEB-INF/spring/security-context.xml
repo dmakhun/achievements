@@ -7,23 +7,23 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd"
         xmlns="http://www.springframework.org/schema/security">
 
-    <http pattern="/greeting" security="none"/>
+    <http security="none" />
 
-    <http use-expressions="true">
-        <access-denied-handler error-page="/myerror/403"/>
+<!--    <http use-expressions="true">-->
+<!--        <access-denied-handler error-page="/myerror/403"/>-->
 
-        <csrf disabled="true"/>
+<!--        <csrf disabled="true"/>-->
 
-        <intercept-url access="" pattern="/"/>
-        <intercept-url access="" pattern="/index"/>
-        <intercept-url pattern="/manager/*" access="hasRole('ROLE_MANAGER')"/>
-        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
-        <form-login login-page="/login" default-target-url="/"
-                login-processing-url="/j_spring_security_check"
-                authentication-failure-url="/login?error=true"/>
-        <logout logout-success-url="/" logout-url="/j_spring_security_logout"/>
-        <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
-    </http>
+<!--        <intercept-url access="" pattern="/"/>-->
+<!--        <intercept-url access="" pattern="/index"/>-->
+<!--        <intercept-url pattern="/manager/*" access="hasRole('ROLE_MANAGER')"/>-->
+<!--        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>-->
+<!--        <form-login login-page="/login" default-target-url="/"-->
+<!--                login-processing-url="/j_spring_security_check"-->
+<!--                authentication-failure-url="/login?error=true"/>-->
+<!--        <logout logout-success-url="/" logout-url="/j_spring_security_logout"/>-->
+<!--        <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>-->
+<!--    </http>-->
 
     <beans:bean id="encoder"
             class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
