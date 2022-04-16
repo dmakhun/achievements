@@ -3,7 +3,7 @@
 Web-project awarding achievements and points to participants of certain groups.
 
 Simple legacy project developed initially by interns. This is **non**-Spring Boot project.
-Project compiles and runs on Java 17.
+Project compiles on Java 18, runs on Java 17.
 
 ### Environment installation instructions
 
