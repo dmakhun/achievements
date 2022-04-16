@@ -1,5 +1,5 @@
 ### STAGE 1: Build war ###
-FROM maven:3.8.4-eclipse-temurin-17-alpine AS build
+FROM maven:eclipse-temurin-18-alpine AS build
 RUN mkdir -p /workspace
 WORKDIR /workspace
 COPY pom.xml /workspace
